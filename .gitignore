@@ -7,8 +7,11 @@ target/
 .metals
 metals.sbt
 *.worksheet.sc
-/data/
 .scala-build/
+out
+
+/data/
+/checkpoints/
 
 # Devenv
 .devenv*
