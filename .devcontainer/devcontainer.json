@@ -10,13 +10,19 @@
 		// "ghcr.io/devcontainers/features/nvidia-cuda:1": {},
     "ghcr.io/devcontainers/features/nvidia-cuda:1": {
       "installCudnn": true
+    },		
+		// "ghcr.io/devcontainers/features/python:1": {},
+		"ghcr.io/devcontainers/features/java:1": {
+      // "version": "none",
+      "version": "17",
+      "installMaven": "false",
+      "installGradle": "false"
     },
-		"ghcr.io/devcontainers/features/python:1": {},
 		"ghcr.io/rocker-org/devcontainer-features/pandoc:1": {},
 		"ghcr.io/devcontainers-contrib/features/bash-command:1": {},
 		"ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {},
-		"ghcr.io/devcontainers-contrib/features/pipx-package:1": {},
-		"ghcr.io/devcontainers-contrib/features/pylint:2": {},
+		// "ghcr.io/devcontainers-contrib/features/pipx-package:1": {},
+		// "ghcr.io/devcontainers-contrib/features/pylint:2": {},
 		"ghcr.io/devcontainers-contrib/features/wget-apt-get:1": {},
 		"ghcr.io/stuartleeks/dev-container-features/shell-history:0": {},
 		"ghcr.io/eliises/devcontainer-features/bash-profile:1": {}
@@ -27,7 +33,7 @@
     "source=${localEnv:HOME}/VSCodeProjects/mvtec_ad,target=${containerWorkspaceFolder}/../mvtec_ad,type=bind,consistency=cached"
 	],
   "waitFor": "onCreateCommand",
-  "updateContentCommand": "python3 -m pip install -r requirements.txt",
+  //"updateContentCommand": "python3 -m pip install -r requirements.txt",
   "postCreateCommand": "",
   "customizations": {
     "codespaces": {
@@ -38,9 +44,12 @@
         "ms-azuretools.vscode-docker",
 				"donjayamanne.git-extension-pack",
 		    "ms-toolsai.jupyter",
-		    "ms-python.python",
+		    // "ms-python.python",
         "iliazeus.vscode-ansi",
+				"vscjava.vscode-java-pack",
+				"scalameta.metals",
         "SonarSource.sonarlint-vscode",
+				"eamodio.gitlens",
         "streetsidesoftware.code-spell-checker",
 		    "streetsidesoftware.code-spell-checker-portuguese",
 		    "streetsidesoftware.code-spell-checker-british-english"
