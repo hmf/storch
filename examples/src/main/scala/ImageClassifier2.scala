@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+ // cSpell:ignore CUDA, MNIST
+ // cSpell:ignore sonatype, progressbar, redist
+ 
  package commands
 
 //> using scala "3.3"
@@ -108,6 +111,7 @@ object ImageClassifier extends CommandsEntryPoint:
     val transforms = options.baseModel.factory.DEFAULT.transforms
 
     if options.pretrained then
+      println(s"Loading pre-trained model from: ${options.baseModel.factory.DEFAULT.url}")
       val weights = torch.hub.loadStateDictFromUrl(options.baseModel.factory.DEFAULT.url)
       // Don't load the classification head weights, as we they are specific to the imagenet classes
       // and their output size (1000) usually won't match the number of classes of our dataset.
@@ -292,7 +296,66 @@ case class PredictOptions(
 
 
 /**
- * /mnt/ssd2/hmf/VSCodeProjects/storch$ ./mill examples.runMain commands.Train --dataset-dir ./data/mnist --checkpoint-dir ../../tmp --pretrained=false
+ * ./mill examples.runMain commands.Train -h
+ * ./mill examples.runMain commands.Train --dataset-dir ./data/mnist --checkpoint-dir ../../tmp --pretrained=false
+ * ./mill examples.runMain commands.Train --dataset-dir ./data/mnist --pretrained=false
+ * ./mill examples.runMain commands.Train --dataset-dir ./data/mnist --pretrained=false --epochs 10
+ * ./mill examples.runMain commands.Train --dataset-dir /mnt/ssd2/hmf/datasets/computer_vision/kaggle_cats_and_dogs/pet_images/ --pretrained=false --checkpoint-dir ../../tmp
+ * ./mill examples.runMain commands.Train --dataset-dir /mnt/ssd2/hmf/datasets/computer_vision/kaggle_cats_and_dogs/pet_images --checkpoint-dir ~/.cache/storch/hub/checkpoints
+ * 
+ * 
+ * @see https://github.com/sbrunk/storch/discussions/41
+ * @see https://www.kaggle.com/datasets/karakaggle/kaggle-cat-vs-dog-dataset
+ * @see https://www.microsoft.com/en-us/download/details.aspx?id=54765
+ * 
+ * Notre following files from Microsoft are corrupted (use Kaggle version):
+ * - /kagglecatsanddogs_5340/pet_images/Cat/666.jpg
+ * - /kagglecatsanddogs_5340/pet_images/Cat/10404.jpg
+ * - /kagglecatsanddogs_5340/pet_images/Dog/11702.jpg
+ * 
+ * [114/114] examples.runMain 
+Using device: Device(CUDA,-1)
+SLF4J: No SLF4J providers were found.
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See https://www.slf4j.org/codes.html#noProviders for further details.
+SLF4J: Class path contains SLF4J bindings targeting slf4j-api versions 1.7.x or earlier.
+SLF4J: Ignoring binding found at [jar:file:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.1.2/logback-classic-1.1.2.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See https://www.slf4j.org/codes.html#ignoredBindings for an explanation.
+Found 2 classes: [Cat -> 0, Dog -> 1]
+Found 24959 examples
+Found 12490 examples for class Cat
+Found 12469 examples for class Dog
+Train size: 22463
+Eval size:  2496
+Model architecture: ResNet50
+Exception in thread "main" java.lang.RuntimeException: PytorchStreamReader failed reading zip archive: failed finding central directory
+Exception raised from valid at /__w/javacpp-presets/javacpp-presets/pytorch/cppbuild/linux-x86_64-gpu/pytorch/caffe2/serialize/inline_container.cc:178 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x57 (0x7f87f51ae4d7 in /home/hmf/.javacpp/cache/pytorch-2.0.1-1.5.9-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10.so)
+frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, std::string const&) + 0x64 (0x7f87f517836b in /home/hmf/.javacpp/cache/pytorch-2.0.1-1.5.9-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10.so)
+frame #2: caffe2::serialize::PyTorchStreamReader::valid(char const*, char const*) + 0x8e (0x7f85eecba99e in /home/hmf/.javacpp/cache/pytorch-2.0.1-1.5.9-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #3: caffe2::serialize::PyTorchStreamReader::init() + 0x9e (0x7f85eecbadfe in /home/hmf/.javacpp/cache/pytorch-2.0.1-1.5.9-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #4: caffe2::serialize::PyTorchStreamReader::PyTorchStreamReader(std::shared_ptr<caffe2::serialize::ReadAdapterInterface>) + 0x7f (0x7f85eecbc68f in /home/hmf/.javacpp/cache/pytorch-2.0.1-1.5.9-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #5: torch::jit::pickle_load(std::vector<char, std::allocator<char> > const&) + 0x15e (0x7f85efe1bbbe in /home/hmf/.javacpp/cache/pytorch-2.0.1-1.5.9-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #6: Java_org_bytedeco_pytorch_global_torch_pickle_1load___3B + 0xc9 (0x7f85ea5601a9 in /home/hmf/.javacpp/cache/pytorch-2.0.1-1.5.9-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libjnitorch.so)
+frame #7: [0x7f882094453a]
+
+	at org.bytedeco.pytorch.global.torch.pickle_load(Native Method)
+	at torch.ops.CreationOps.pickleLoad(CreationOps.scala:326)
+	at torch.ops.CreationOps.pickleLoad$(CreationOps.scala:37)
+	at torch.package$.pickleLoad(package.scala:32)
+	at torch.ops.CreationOps.pickleLoad(CreationOps.scala:340)
+	at torch.ops.CreationOps.pickleLoad$(CreationOps.scala:37)
+	at torch.package$.pickleLoad(package.scala:32)
+	at torch.hub$.loadStateDictFromUrl(hub.scala:40)
+	at commands.ImageClassifier$.train(ImageClassifier2.scala:114)
+	at commands.Train$.run(ImageClassifier2.scala:323)
+	at commands.Train$.run(ImageClassifier2.scala:323)
+	at caseapp.core.app.CaseApp.main(CaseApp.scala:162)
+	at caseapp.core.app.CaseApp.main(CaseApp.scala:133)
+	at commands.Train$.main(ImageClassifier2.scala:329)
+	at commands.Train.main(ImageClassifier2.scala)
+1 targets failed
+
  */
 object Train extends Command[TrainOptions]:
   override def run(options: TrainOptions, remainingArgs: RemainingArgs): Unit = train(options)
@@ -305,9 +368,50 @@ object Train extends Command[TrainOptions]:
 
 
 /**
- * /mnt/ssd2/hmf/VSCodeProjects/storch$ ./mill examples.runMain commands.Train --dataset-dir ./data/mnist --checkpoint-dir ../../tmp --pretrained=false
+ * $ ./mill examples.runMain commands.Predict --dataset-dir ./data/mnist
  */
 object Predict extends Command[PredictOptions]:
   override def run(options: PredictOptions, remainingArgs: RemainingArgs): Unit =
     val Prediction(label, confidence) = predict(options)
     println(s"Class: $label, confidence: $confidence")
+
+
+/*
+  object ResNet50 extends ResNetFactory:
+    def apply[D <: BFloat16 | Float32 | Float64: Default](numClasses: Int = 1000) =
+      ResNet(Bottleneck, Seq(3, 4, 6, 3), numClasses = numClasses)()
+    val IMAGENET1K_V1 = Weights(
+      url = weightsBaseUrl + "resnet50-0676ba61.pth",
+      transforms = Presets.ImageClassification(cropSize = 224)
+    )
+    val IMAGENET1K_V2 = Weights(
+      url = weightsBaseUrl + "resnet50-11ad3fa6.pth",
+      transforms = Presets.ImageClassification(cropSize = 224, resizeSize = 232)
+    )
+    val DEFAULT = IMAGENET1K_V2
+
+  private val weightsBaseUrl =
+    "https://github.com/sbrunk/storch/releases/download/pretrained-weights/"
+
+https://github.com/sbrunk/storch/releases/
+
+https://github.com/sbrunk/storch/tree/pretrained-weights
+https://github.com/sbrunk/storch/releases/download/pretrained-weights/resnet50-0676ba61.pth
+
+https://github.com/sbrunk/storch/releases/download/pretrained-weights/resnet50-11ad3fa6.pth
+
+https://stackoverflow.com/questions/71617570/pytorchstreamreader-failed-reading-zip-archive-failed-finding-central-directory
+
+hmf@gandalf:~/.cache/storch/hub/checkpoints$ pwd
+/home/hmf/.cache/storch/hub/checkpoints
+hmf@gandalf:~/.cache/storch/hub/checkpoints$ ls
+resnet50-11ad3fa6.pth
+hmf@gandalf:~/.cache/storch/hub/checkpoints$ ls -lh
+total 70M
+-rw-rw-r-- 1 hmf hmf 70M jul 19 10:19 resnet50-11ad3fa6.pth
+hmf@gandalf:~/.cache/storch/hub/checkpoints$ ls -lH
+total 71016
+-rw-rw-r-- 1 hmf hmf 72712658 jul 19 10:19 resnet50-11ad3fa6.pth
+
+
+*/

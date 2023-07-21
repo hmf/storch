@@ -16,12 +16,12 @@ import mill.scalalib._
 import mill.contrib.bloop.Bloop
 
 val scrImageVersion = "4.0.34"
-val pytorchVersion = "2.0.1"
-val cudaVersion = "12.1-8.9"
+val pytorchVersion = "2.0.1"   //  "1.12.1" (1.12.1-1.5.8), "2.0.1" (2.0.1-1.5.9)
+val cudaVersion =  "12.1-8.9" //  (11.8-8.6-1.5.8), "12.1-8.9" (12.1-8.9-1.5.9)
 val openblasVersion = "0.3.23"
 val mklVersion = "2023.1"
 val ScalaVersion = "3.3.0"
-val javaCppVersion = "1.5.9"
+val javaCppVersion = "1.5.9" // "1.5.8", "1.5.9"
 
 val mUnitVersion        = "1.0.0-M6" // "1.0.0-M3" https://mvnrepository.com/artifact/org.scalameta/munit
 val ivyMunit          = ivy"org.scalameta::munit::$mUnitVersion"
@@ -35,6 +35,9 @@ val enableGPU = false
 // https://github.com/scalameta/metals-vscode/issues/1403
 trait CommonSettings extends SbtModule with Bloop.Module {
   def scalaVersion = ScalaVersion
+
+  // TODO: add to scaladoc
+  // def scalacOptions = Seq("-groups", "-snippet-compiler:compile")
 
   // List((pytorch,2.0.1), (mkl,2023.1), (openblas,0.3.23))
   val javaCppPresetLibs = Seq(
@@ -51,15 +54,14 @@ trait CommonSettings extends SbtModule with Bloop.Module {
 
   def ivyDeps = Agg(
       // https://github.com/bytedeco/javacpp-presets/tree/master/pytorch
-      //ivy"org.bytedeco::pytorch:$pytorchVersion-${javaCppVersion};classifier=${javaCPPPlatform()}",
       ivy"org.bytedeco:pytorch:$pytorchVersion-${javaCppVersion};classifier=${javaCPPPlatform()}",
       ivy"org.bytedeco:pytorch-platform:$pytorchVersion-${javaCppVersion}",
       // Additional dependencies required to use CUDA, cuDNN, and NCCL
       ivy"org.bytedeco:pytorch-platform-gpu:$pytorchVersion-${javaCppVersion}",
       // Additional dependencies to use bundled CUDA, cuDNN, and NCCL
       ivy"org.bytedeco:cuda-platform-redist:$cudaVersion-${javaCppVersion}",
-      // Additional dependencies to use bundled full version of MKL
-      ivy"org.bytedeco:mkl-platform-redist:$mklVersion-${javaCppVersion}",
+      // // Additional dependencies to use bundled full version of MKL
+      // ivy"org.bytedeco:mkl-platform-redist:$mklVersion-${javaCppVersion}",
       ivy"org.typelevel::spire:0.18.0",
       ivy"org.typelevel::shapeless3-typeable:3.3.0",
       ivy"com.lihaoyi::os-lib:0.9.1",
