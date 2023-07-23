@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package commands
 
 //> using scala "3.3"
 //> using repository "sonatype-s01:snapshots"
@@ -55,7 +56,11 @@ class LeNet[D <: BFloat16 | Float32: Default] extends nn.Module {
     x
 }
 
-/** Shows how to train a simple LeNet on the MNIST dataset */
+/** 
+ * Shows how to train a simple LeNet on the MNIST dataset 
+ * cd /mnt/ssd2/hmf/VSCodeProjects/storch
+ * ./mill examples.runMain commands.LeNetApp
+*/
 object LeNetApp extends App {
   val device = if torch.cuda.isAvailable then CUDA else CPU
   println(s"Using device: $device")

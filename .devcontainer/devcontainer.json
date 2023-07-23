@@ -30,7 +30,8 @@
 	// containerWorkspaceFolder points to the git project root
 	// containerWorkspaceFolderBasename fails
 	"mounts": [
-    "source=${localEnv:HOME}/VSCodeProjects/mvtec_ad,target=${containerWorkspaceFolder}/../mvtec_ad,type=bind,consistency=cached"
+    "source=${localEnv:HOME}/VSCodeProjects/mvtec_ad,target=${containerWorkspaceFolder}/../mvtec_ad,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/VSCodeProjects/kagglecatsanddogs_3367a/PetImages,target=${containerWorkspaceFolder}/../kagglecatsanddogs_3367a/PetImages,type=bind,consistency=cached"
 	],
   "waitFor": "onCreateCommand",
   //"updateContentCommand": "python3 -m pip install -r requirements.txt",
