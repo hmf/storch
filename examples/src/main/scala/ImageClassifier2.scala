@@ -329,6 +329,17 @@ object Commands:
  * 
  * 
  * Caused by: java.lang.ExceptionInInitializerError: Exception java.lang.UnsatisfiedLinkError: /usr/local/sdkman/candidates/java/17.0.8-ms/lib/libawt_xawt.so: libXext.so.6: cannot open shared object file: No such file or directory [in thread "scala-execution-context-global-22"]
+ * -Djava.awt.headless=true
+ * 
+ * https://stackoverflow.com/questions/45531202/start-java-application-without-graphics-environment
+ * docker run -d \
+ *    -v /tmp/.X11-unix:/tmp/.X11-unix \
+ *    -v /etc/localtime:/etc/localtime \
+ *    -e DISPLAY=unix$DISPLAY \
+ *    <yourcontainer>
+ *   - https://stackoverflow.com/questions/40499412/how-to-view-gui-apps-from-inside-a-docker-container
+ *   - https://stackoverflow.com/questions/42181805/x11-forwarding-of-gui-app-in-docker-container
+ *   - 
  * 
  * https://stackoverflow.com/questions/67720077/java-openjdk-error-cannot-load-library-java-awt
  * 
