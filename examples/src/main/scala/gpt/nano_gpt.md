@@ -6,7 +6,7 @@
 1. [Google Colab code](https://colab.research.google.com/drive/1JMLa53HDuA-i7ZBmqV7ZnA3c_fvtXnx-?usp=sharing)
 1. [nanoGPT lecture](https://github.com/karpathy/ng-video-lecture)
 1. [nanoGPT repo](https://github.com/karpathy/nanoGPT)
-1. [minGPT repo](https://github.com/karpathy/minGPT)
+1. [minGPT repo (deactivated)](https://github.com/karpathy/minGPT)
 1. [my website](https://karpathy.ai)
 1. [my twitter](https://twitter.com/karpathy)
 1. [our Discord channel](https://discord.gg/3zy8kqD9Cp)
@@ -29,3 +29,12 @@
    1. [neural-machine-translation](https://github.com/topics/neural-machine-translation)
    1. [word-segmentation](https://github.com/topics/word-segmentation)
 1. [TikToken fast BPE tokeniser use by OpenAI](https://github.com/openai/tiktoken)
+
+## Notes
+
+1. [01:16:56](https://www.youtube.com/watch?v=kCc8FmEb1nY&t=4616s) note 6: "scaled" self-attention. why divide by sqrt(head_size)
+1. To improve the network:
+   1. [01:26:48](https://www.youtube.com/watch?v=kCc8FmEb1nY&t=5208s) residual connections
+   1. [01:32:51](https://www.youtube.com/watch?v=kCc8FmEb1nY&t=5571s) `layernorm` (and its relationship to our previous `batchnorm`)
+   1. [01:37:49](https://www.youtube.com/watch?v=kCc8FmEb1nY&t=5869s) scaling up the model! creating a few variables. Adding `dropout`
+   

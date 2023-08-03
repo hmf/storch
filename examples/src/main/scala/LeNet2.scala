@@ -55,7 +55,14 @@ class LeNet[D <: BFloat16 | Float32: Default] extends nn.Module {
     x
 }
 
-/** Shows how to train a simple LeNet on the MNIST dataset */
+/** 
+ * Shows how to train a simple LeNet on the MNIST dataset 
+ * 
+ * Run original code:
+ * ./mill examples.runMain LeNetApp
+ * Run this version
+ * ./mill examples.runMain commands.LeNetApp
+ */
 object LeNetApp extends App {
   val device = if torch.cuda.isAvailable then CUDA else CPU
   println(s"Using device: $device")
