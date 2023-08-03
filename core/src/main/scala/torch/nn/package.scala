@@ -16,8 +16,6 @@
 
 package torch
 
-import torch.internal.LoadCusolver
-
 /** These are the basic building blocks for graphs.
   *
   * @groupname nn_conv Convolution Layers
@@ -25,10 +23,8 @@ import torch.internal.LoadCusolver
   * @groupname nn_utilities Utilities
   */
 package object nn {
-  LoadCusolver
 
   export modules.Module
-  export modules.Default
 
   export modules.activation.Softmax
   export modules.activation.ReLU
