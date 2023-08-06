@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package commands
 
 //> using scala "3.3"
 //> using repository "sonatype-s01:snapshots"
@@ -37,7 +36,7 @@ import torch.Device.CPU
 import torch.nn.modules.HasParams
 
 // Define the model architecture
-class LeNet[D <: BFloat16 | Float32: Default] extends HasParams[D] {
+class LeNet2[D <: BFloat16 | Float32: Default] extends HasParams[D] {
 
   val conv1 = register(nn.Conv2d(1, 6, 5))
   val pool = register(nn.MaxPool2d((2, 2)))
@@ -56,11 +55,7 @@ class LeNet[D <: BFloat16 | Float32: Default] extends HasParams[D] {
     x
 }
 
-/** 
- * Shows how to train a simple LeNet on the MNIST dataset 
- * cd /mnt/ssd2/hmf/VSCodeProjects/storch
- * ./mill examples.runMain commands.LeNetApp
-*/
+/** Shows how to train a simple LeNet on the MNIST dataset */
 object LeNetApp extends App {
   val device = if torch.cuda.isAvailable then CUDA else CPU
   println(s"Using device: $device")

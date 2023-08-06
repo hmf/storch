@@ -1,8 +1,8 @@
 package gpt
 
-// cSpell: ignore gpt, hyperparameters
+// cSpell: ignore gpt, hyperparameters, logits
 // cSpell: ignore CUDA, torchvision
-// cSpell: ignore gpt, hyperparameters
+// cSpell: ignore dtype
 // cSpell: ignore stoi, itos
 // cSpell: ignore nn
 
@@ -11,6 +11,7 @@ import java.nio.file.Files
 import java.net.URL
 import java.net.URI
 
+import scala.annotation.targetName
 import scala.util.Random
 import scala.util.Using
 import scala.collection.immutable.SortedSet
@@ -19,15 +20,13 @@ import org.bytedeco.pytorch.OutputArchive
 import org.bytedeco.javacpp.PointerScope
 
 import torch.*
-import torch.nn.functional as F
-import torch.{---, Slice}
-import torch.optim.Adam
-import torch.nn.modules.Default
-// import torchvision.datasets.MNIST
 import torch.Device.CUDA
 import torch.Device.CPU
-import scala.annotation.targetName
-import org.bytedeco.mkl.global.mkl_rt.matrix_descr
+import torch.nn.functional as F
+import torch.nn.modules.Module
+import torch.nn.modules.HasParams
+import torch.{---, Slice}
+import torch.optim.Adam
 import torch.DType.float32
 
 // 
@@ -251,25 +250,8 @@ object BiGram:
   val train_data = data(º`:`n)
   val val_data = data(n`:`º)
 
-  // # data loading
-  // def get_batch(split):
-  //     # generate a small batch of data of inputs x and targets y
-  //     data = train_data if split == 'train' else val_data
-  //     ix = torch.randint(len(data) - block_size, (batch_size,))
-  //     x = torch.stack([data[i:i+block_size] for i in ix])
-  //     y = torch.stack([data[i+1:i+block_size+1] for i in ix])
-  //     x, y = x.to(device), y.to(device)
-  //     return x, y
-  
   // data loading
-  def get_batch(split: "train" | "val") = 
-  //     # generate a small batch of data of inputs x and targets y
-  //     data = train_data if split == 'train' else val_data
-  //     ix = torch.randint(len(data) - block_size, (batch_size,))
-  //     x = torch.stack([data[i:i+block_size] for i in ix])
-  //     y = torch.stack([data[i+1:i+block_size+1] for i in ix])
-  //     x, y = x.to(device), y.to(device)
-  //     return x, y
+  def get_batch(split: String) = 
     // generate a small batch of data of inputs x and targets y
     val data = if split == "train" then train_data else val_data
     // could have used .long
@@ -281,21 +263,59 @@ object BiGram:
     ( x.to(device), y.to(device) )
 
 
-  // @torch.no_grad()
-  // def estimate_loss():
-  //     out = {}
-  //     model.eval()
-  //     for split in ['train', 'val']:
-  //         losses = torch.zeros(eval_iters)
-  //         for k in range(eval_iters):
-  //             X, Y = get_batch(split)
-  //             logits, loss = model(X, Y)
-  //             losses[k] = loss.item()
-  //         out[split] = losses.mean()
-  //     model.train()
-  //     return out
+  // TODO: @torch.no_grad()
+  def estimate_loss(model: BigramLanguageModel) = 
+    val out = scala.collection.mutable.Map[String, Float]()
+    model.eval()
+    for 
+      split <- List("train", "val")
+    do
+      println(s"Estimate '$split' loss")
+      val losses: Tensor[Float32] = torch.zeros(eval_iters)
+      for 
+        k <- 0 until eval_iters
+      do
+        val (x, y) = get_batch(split)
+        val (logits, loss) = model(x, y)
+        // TODO: no assignment operator available
+        losses(k) += loss.item
+      out(split) = losses.mean.item
+    model.train()
+    out
 
-  val o = get_batch("train")
+  class BigramLanguageModel extends nn.Module: 
+
+    // TODO: add
+    // each token directly reads off the logits for the next token from a lookup table
+    //val token_embedding_table = nn.Embedding(vocab_size, vocab_size)
+
+    def apply(x: Tensor[Int64], y: Tensor[Int64]): (Tensor[Float32], Tensor[Float32]) =
+      val loss = torch.full(Seq(1), 100.0, dtype=float32)
+      val logits = torch.full(Seq(100), 100.0, dtype=float32)
+      (logits, loss)
+
+  end BigramLanguageModel
+
+  class NeuralNetwork extends nn.Module:
+    val flatten = nn.Flatten()
+    val linearReluStack = register(nn.Sequential(
+      nn.Linear(28*28, 512),
+      nn.ReLU(),
+      nn.Linear(512, 512),
+      nn.ReLU(),
+      nn.Linear(512, 10),
+    ))
+    
+    def apply(x: Tensor[Float32]) =
+      val flattened = flatten(x)
+      val logits = linearReluStack(flattened)
+      logits
+
+  // val o = get_batch("train")
+  // resnet.sala [200]
+  val model = BigramLanguageModel()
+  val loss = estimate_loss(model)
+
 
   def main(args: Array[String]): Unit =
     ()
