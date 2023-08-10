@@ -6,6 +6,7 @@
 // cSpell:ignore progressbar, progressbar, munit, munit-scalacheck, scrimage
 
 import $ivy.`org.typelevel::cats-effect:3.5.1`
+import laika.io.model.FilePath
 import mill.api.Loose
 // Laika core, EPUB and PDF
 import $ivy.`org.planet42::laika-core:0.19.3`
@@ -125,6 +126,23 @@ val scmInfo = VersionControl.github("sbrunk", "storch")
 
 
 object StorchSitePlugin {
+
+
+  val linkConfig = LinkConfig(apiLinks =
+    Seq(
+      // ApiLinks(baseUri = "http://localhost:4242/api/")
+      ApiLinks(baseUri = "https://storch.dev/api/")
+    )
+  )
+ val buildToolSelection = Selections(
+                            SelectionConfig(
+                              "build-tool",
+                              ChoiceConfig("sbt", "sbt"),
+                              ChoiceConfig("scala-cli", "Scala CLI")
+                              ).withSeparateEbooks
+                            )
+
+
 
   //scmInfo.value.fold("https://github.com/sbrunk/storch")(_.browseUrl.toString),
   val browsableLink = scmInfo.browsableRepository.getOrElse("SCMInfo Missing")
@@ -247,6 +265,9 @@ object StorchSitePlugin {
       .from(Markdown)
       .to(HTML)
       .using(GitHubFlavor)
+      .withConfigValue(linkConfig)
+      .withConfigValue(buildToolSelection)
+      //.withRawContent
       .parallel[F]
       .withTheme(tlSiteHeliumConfig.build)
       .build
@@ -404,6 +425,7 @@ hmf@gandalf:/mnt/ssd2/hmf/IdeaProjects/storch$ ./mill -i show docs.docResources
 
 
 object docs extends CommonSettings {
+
   override def moduleDeps = Seq(core, vision, examples)
 
   //override def scalaDocOptions = T{ Seq("-siteroot", "", "-no-link-warnings") }
@@ -415,6 +437,7 @@ object docs extends CommonSettings {
       super.docResources()
   }
 
+  /* TODO: remove
   override def scalaDocClasspath: T[Loose.Agg[PathRef]] = T {
     core.scalaDocClasspath() ++
       vision.scalaDocClasspath() ++
@@ -428,6 +451,9 @@ object docs extends CommonSettings {
       examples.scalaDocPluginClasspath() ++
       super.scalaDocPluginClasspath()
   }
+
+  override def docJarUseArgsFile: T[Boolean] = super.docJarUseArgsFile
+*/
 
   // ef:v0:bcafb9d8:/mnt/ssd2/hmf/IdeaProjects/storch/out/vision/compile.dest/classes
   // ref:v0:23ec7aa2:/mnt/ssd2/hmf/IdeaProjects/storch/out/core/compile.dest/classes
@@ -443,6 +469,14 @@ object docs extends CommonSettings {
       super.docSources()
   }
 
+
+//  override def docJar: T[PathRef] = T {
+//    val ref = super.docJar()
+//    // docJar ref = /mnt/ssd2/hmf/IdeaProjects/storch/out/docs/docJar.super/mill/scalalib/ScalaModule/docJar.dest/out.jar
+//    T.log.info(s"docJar ref = ${ref.path.toIO.getAbsolutePath}")
+//    ref
+//  }
+
   // where do the mdoc sources live ?
   def laikaSources = T.sources {
     super.millSourcePath
@@ -453,8 +487,8 @@ object docs extends CommonSettings {
     T.log.debug("Starting Laika task")
 
     // Destination of task
-    val target = T.dest.toIO.getAbsolutePath
-    T.log.debug(s"Destination: $target")
+    val target = T.dest
+    T.log.debug(s"Destination: ${target.toIO.getAbsolutePath}")
 
     T.log.debug(s"laikaSources: ${laikaSources()}")
 
@@ -474,20 +508,99 @@ object docs extends CommonSettings {
     //val sources = T.source
     //T.log.debug(s"sources = $sources")
 
+    // Get Jar file with API docs
+    val javadoc = docJar()
+    T.log.info(s"docJar ref = ${javadoc.path.toIO.getAbsolutePath}")
+    // Path still contains the content
+    // Extract the path by removing the Jar file name
+    val dest: os.Path = javadoc.path / os.up
+    T.log.info(s"docJar path = ${dest.toIO.getAbsolutePath}")
+    // Delete the Jar file
+    // Add the path to the laika directories
+//    val apiTarget = dest / "api"
+    val apiSource = dest / "javadoc"
+//    os.copy.over(from = apiSource, to = apiTarget)
+//    T.log.info(s"Copied from ${apiSource} to ${apiTarget}")
+
+    val siteTargetSource = target / "site_src"
+//    T.log.info(s"Make dir ${siteTargetSource}")
+//    os.makeDir.all(siteTargetSource)
+
+    val source = millSourcePath
+    T.log.info(s"Copied from ${source} to ${siteTargetSource}")
+    os.copy(from = source, to = siteTargetSource)
+
+    val siteSource = millSourcePath / os.up / "site" / "src"
+    T.log.info(s"Copied from ${siteSource} to ${siteTargetSource}")
+    val templates = os.list(siteSource)
+    T.log.info(s"?????? ${templates.mkString(",")}")
+    templates.foreach{ p =>
+      T.log.info(s"Copied from ${p} into ${siteTargetSource}")
+      os.copy.into(from = p, to = siteTargetSource)
+    }
+//    os.copy(from = siteSource, to = siteTargetSource)
+
+    val apiTarget = siteTargetSource / "api"
+    T.log.info(s"Copied from ${apiSource} to ${apiTarget}")
+    os.copy(from = apiSource, to = apiTarget)
+
+    val docsSource = FilePath.fromNioPath(millSourcePath.toNIO)
+    val apiSite = FilePath.fromNioPath(apiTarget.toNIO)
+    T.log.info(s"docsSource = $docsSource")
+    T.log.info(s"apiSite = $apiSite")
+    T.log.info(s"From: siteTargetSource = $siteTargetSource")
+    val siteTmp = target / "site"
+    T.log.info(s"To: target = $siteTmp")
+
+    os.makeDir.all(siteTmp)
+
     // docs/about.md
-    val result: IO[RenderedTreeRoot[IO]] = StorchSitePlugin.createTransformer[IO].use {
+//    val result: IO[RenderedTreeRoot[IO]] = StorchSitePlugin.createTransformer[IO].use {
+//      t =>
+//        // TODO
+//        val paths = Seq(
+//                      docsSource,
+//                      apiSite
+//                    )
+////        t.fromDirectories(paths)
+//          //t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
+//          t.fromDirectory("/mnt/ssd2/hmf/IdeaProjects/storch/out/docs/laika.dest/site_src/")
+//        //t.fromDirectory(millSourcePath.toIO.getAbsolutePath)
+//          .toDirectory(siteTmp.toIO.getAbsolutePath)
+//          .transform
+//    }
+//
+//    import cats.effect.unsafe.implicits.global
+//
+//    val syncResult: RenderedTreeRoot[IO] = result.unsafeRunSync()
+//    T.log.debug(s"syncResult: $syncResult")
+
+    import cats.effect.unsafe.implicits.global
+    val result = StorchSitePlugin.createTransformer[IO].use {
       t =>
-        // TODO
-        //t.fromDirectories()
-        t.fromDirectory(millSourcePath.toIO.getAbsolutePath)
-          .toDirectory(target)
+        t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
+          .toDirectory(siteTmp.toIO.getAbsolutePath)
+          .describe
+          .map(_.formatted)
+    }
+
+    val syncResult = result.unsafeRunSync()
+    T.log.debug(s"syncResult: $syncResult")
+
+    val result1: IO[RenderedTreeRoot[IO]] = StorchSitePlugin.createTransformer[IO].use {
+      t =>
+          t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
+          .toDirectory(siteTmp.toIO.getAbsolutePath)
           .transform
     }
 
     import cats.effect.unsafe.implicits.global
 
-    val syncResult: RenderedTreeRoot[IO] = result.unsafeRunSync()
-    T.log.debug(s"syncResult: $syncResult")
+    val syncResult1: RenderedTreeRoot[IO] = result1.unsafeRunSync()
+    T.log.debug(s"syncResult1: $syncResult")
+
+    val syncResult2 = result.unsafeRunSync()
+    T.log.debug(s"syncResult2: $syncResult2")
 
     PathRef(T.dest)
   }
@@ -534,3 +647,126 @@ Overwriting BSP connection file: /mnt/ssd2/hmf/VSCodeProjects/storch/.bsp/mill-b
 Enabled debug logging for the BSP server. If you want to disable it, you need to re-run this install command without the --debug option.
 
 */
+
+/*
+Unresolved internal reference: api/index.html using `fromDirectories`
+
+I am trying to adapt an SBt project to use Mill. I have the following set-up:
+
+1. API HTM at: /mnt/ssd2/hmf/IdeaProjects/storch/out/docs/docJar.dest/api
+2. Site markdown at: /mnt/ssd2/hmf/IdeaProjects/storch/docs
+
+I use the following transformer:
+
+```scala
+    val docsSource = FilePath.fromNioPath(millSourcePath.toNIO)
+    val apiSite = FilePath.fromNioPath(apiTarget.toNIO)
+
+    val result: IO[RenderedTreeRoot[IO]] = StorchSitePlugin.createTransformer[IO].use {
+      t =>
+        val paths = Seq(
+                      docsSource,
+                      apiSite
+                    )
+        t.fromDirectories(paths)
+          .toDirectory(target)
+          .transform
+    }
+```
+
+I am assuming that all the `from` paths are merged into a single root so that the `/api`shuld be visible. Here is (part of) the error I get:
+
+```shell
+docs.laika laika.parse.markup.DocumentParser$InvalidDocuments: One or more invalid documents:
+/README
+
+  [1]: unresolved internal reference: api/index.html
+
+
+  ^
+
+/about.md
+
+  [1]: unresolved internal reference: api/index.html
+
+
+  ^
+
+  [1]: unresolved internal reference: api/index.html
+
+
+  ^
+
+/installation.md
+
+  [1]: unresolved internal reference: api/index.html
+
+
+  ^
+
+  [1]: unresolved internal reference: api/index.html
+
+
+  ^
+```
+The first thing I realize is that I don't have a README. In the `storch/docs` path I have the `directory.conf` file with (no mention of README):
+
+```hocon
+laika.navigationOrder = [
+  about.md
+  installation.md
+  modules.md
+  examples.md
+  pre-trained-weights.md
+  faq.md
+  contributing.md
+]
+```
+
+The second thing I realize is that the `\about.md` has no link to `api/index.html`. In fact I don't see any references to an `index.html`. Looking further in the error messages I see a different error, which does not seem to be related:
+
+```shell
+  [14]: One or more errors processing directive 'select': Error reading config for selections: Not found: 'laika.selections'
+
+  @:select(build-tool)
+  ^
+
+  [54]: One or more errors processing directive 'select': Error reading config for selections: Not found: 'laika.selections'
+
+  @:select(build-tool)
+  ^
+
+  [88]: One or more errors processing directive 'select': Error reading config for selections: Not found: 'laika.selections'
+
+  @:select(build-tool)
+  ^
+
+  [147]: One or more errors processing directive 'select': Error reading config for selections: Not found: 'laika.selections'
+
+  @:select(build-tool)
+  ^
+
+  [182]: One or more errors processing directive 'select': Error reading config for selections: Not found: 'laika.selections'
+
+  @:select(build-tool)
+  ^
+
+```
+I also see the markdown source uses the following directives:
+
+@:api
+@:select(build-tool)
+@:choice(sbt)
+@:callout(info)
+@:callout(warning)
+@:@
+
+but the `about.md`does not have these directives (`/installation.md` does). However the source does use code fences tagged with `mdoc`. So my question are:
+1. Are the mdoc code fences the cause for these references?
+1. Is Laika processing these code fences? Should they not be ignored and processed as a standard code fence?
+
+TIA
+
+
+
+ */
