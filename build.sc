@@ -171,6 +171,8 @@ object StorchSitePlugin {
     //        )
     .site
     .topNavigationBar(
+      // TODO: new
+      homeLink = IconLink.internal(Root / "api" / "index.html", HeliumIcon.home),
       navLinks = Seq(
         IconLink.internal(
           Root / "api" / "index.html",
@@ -259,9 +261,12 @@ object StorchSitePlugin {
 //     .using(GitHubFlavor, SyntaxHighlighting)
 //     .io(blocker)
 //     .parallel[F]
-//     .build                                  
-  // https://github.com/typelevel/cats-effect/issues/280
+//     .build
+
+
+  // Not working: https://github.com/typelevel/Laika/discussions/485
   // https://typelevel.org/Laika/latest/02-running-laika/02-library-api.html
+  // https://github.com/typelevel/cats-effect/issues/280
   def createTransformer[F[_]: Async]: Resource[F, TreeTransformer[F]] =
     Transformer
       .from(Markdown)
@@ -274,6 +279,45 @@ object StorchSitePlugin {
       //.withTheme(tlSiteHeliumConfig.build)
       .build
 
+
+  def createTransformer(sources: String, targetHTML:String) = {
+    // https://typelevel.org/Laika/latest/02-running-laika/02-library-api.html#separate-parsing-and-rendering
+    val parser = MarkupParser
+      .of(Markdown)
+      .using(GitHubFlavor)
+      .withConfigValue(linkConfig)
+      .withConfigValue(buildToolSelection)
+      //.withRawContent
+      .parallel[IO]
+      .withTheme(tlSiteHeliumConfig.build)
+      .build
+
+    val htmlRenderer = Renderer.of(HTML).parallel[IO].build
+    val epubRenderer = Renderer.of(EPUB).parallel[IO].build
+    val pdfRenderer = Renderer.of(PDF).parallel[IO].build
+
+    val allResources = for {
+      parse <- parser
+      html <- htmlRenderer
+      epub <- epubRenderer
+      pdf <- pdfRenderer
+    } yield (parse, html, epub, pdf)
+
+    import cats.syntax.all._
+
+    val transformOp: IO[Unit] = allResources.use {
+      case (parser, htmlRenderer, epubRenderer, pdfRenderer) =>
+        parser.fromDirectory(sources).parse.flatMap {
+          tree =>
+            val htmlOp = htmlRenderer.from(tree.root).toDirectory(targetHTML).render
+            val epubOp = epubRenderer.from(tree.root).toFile("out.epub").render
+            val pdfOp = pdfRenderer.from(tree.root).toFile("out.pdf").render
+            (htmlOp, epubOp, pdfOp).parMapN { (_, _, _) => () }
+        }
+    }
+
+    transformOp
+  }
 
 }
 
@@ -523,36 +567,40 @@ object docs extends CommonSettings {
 
     val siteTargetSource = target / "site_src"
 
-    // TODO: remove file name
-    val source = millSourcePath / "README.md"
+    val source = millSourcePath
     T.log.info(s"Copied from ${source} to ${siteTargetSource}")
-//    os.copy(from = source, to = siteTargetSource)
-    // TODO: remove
-    os.makeDir.all(siteTargetSource)
-    os.copy.into(from = source, to = siteTargetSource)
+    os.copy(from = source, to = siteTargetSource)
+
+    val siteTmp = target / "site"
+    os.makeDir.all(siteTmp)
 
     val siteSource = millSourcePath / os.up / "site" / "src"
     // TODO: use?
-//    val templates = os.list(siteSource)
-//    templates.foreach{ p =>
-//      T.log.info(s"Copied from ${p} into ${siteTargetSource}")
-//      os.copy.into(from = p, to = siteTargetSource)
-//    }
+    val templates = os.list(siteSource)
+    templates.foreach{ p =>
+      if (p.toString().contains("img")) {
+        T.log.info(s"Copied from ${p} into ${siteTargetSource}")
+        os.copy.into(from = p, to = siteTargetSource)
+        // Not copied by Laika
+        T.log.info(s"Copied from ${p} into ${siteTmp}")
+        os.copy.into(from = p, to = siteTmp)
+      }
+    }
 
-    // TODO: reactivate
-//    val apiTarget = siteTargetSource / "api"
-//    T.log.info(s"Copied from ${apiSource} to ${apiTarget}")
-//    os.copy(from = apiSource, to = apiTarget)
+    val apiTarget = siteTargetSource / "api"
+    T.log.info(s"Copied from ${apiSource} to ${apiTarget}")
+    os.copy(from = apiSource, to = apiTarget)
+    // Not copied by Laika
+    os.copy(from = apiSource, to = siteTmp / "api")
 
     val docsSource = FilePath.fromNioPath(millSourcePath.toNIO)
     T.log.info(s"docsSource = $docsSource")
 //    val apiSite = FilePath.fromNioPath(apiTarget.toNIO)
 //    T.log.info(s"apiSite = $apiSite")
     T.log.info(s"From: siteTargetSource = $siteTargetSource")
-    val siteTmp = target / "site"
     T.log.info(s"To: target = $siteTmp")
 
-    os.makeDir.all(siteTmp)
+    // os.makeDir.all(siteTmp)
 
     // docs/about.md
 //    val result: IO[RenderedTreeRoot[IO]] = StorchSitePlugin.createTransformer[IO].use {
@@ -575,32 +623,42 @@ object docs extends CommonSettings {
 //    val syncResult: RenderedTreeRoot[IO] = result.unsafeRunSync()
 //    T.log.debug(s"syncResult: $syncResult")
 
+    // Example of debugging
+//    import cats.effect.unsafe.implicits.global
+//    val result = StorchSitePlugin.createTransformer[IO].use {
+//      t =>
+//        t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
+//          .toDirectory(siteTmp.toIO.getAbsolutePath)
+//          .describe
+//          .map(_.formatted)
+//    }
+//
+//    val syncResult = result.unsafeRunSync()
+//    T.log.debug(s"syncResult: $syncResult")
+
+      // Does not work: https://github.com/typelevel/Laika/discussions/485
+//
+//    val result1: IO[RenderedTreeRoot[IO]] = StorchSitePlugin.createTransformer[IO].use {
+//      t =>
+//          t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
+//          .toDirectory(siteTmp.toIO.getAbsolutePath)
+//          .transform
+//    }
+//
+//    import cats.effect.unsafe.implicits.global
+//
+//    val syncResult1: RenderedTreeRoot[IO] = result1.unsafeRunSync()
+//    T.log.debug(s"syncResult1: $syncResult1")
+//
+//    T.log.debug("allDocuments:")
+//    T.log.debug(syncResult1.allDocuments.mkString(",\n"))
+
+    val result: IO[Unit] = StorchSitePlugin.createTransformer(siteTargetSource.toIO.getAbsolutePath, siteTmp.toIO.getAbsolutePath)
     import cats.effect.unsafe.implicits.global
-    val result = StorchSitePlugin.createTransformer[IO].use {
-      t =>
-        t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
-          .toDirectory(siteTmp.toIO.getAbsolutePath)
-          .describe
-          .map(_.formatted)
-    }
 
-    val syncResult = result.unsafeRunSync()
-    T.log.debug(s"syncResult: $syncResult")
-
-    val result1: IO[RenderedTreeRoot[IO]] = StorchSitePlugin.createTransformer[IO].use {
-      t =>
-          t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
-          .toDirectory(siteTmp.toIO.getAbsolutePath)
-          .transform
-    }
-
-    import cats.effect.unsafe.implicits.global
-
-    val syncResult1: RenderedTreeRoot[IO] = result1.unsafeRunSync()
+    val syncResult1: Unit = result.unsafeRunSync()
     T.log.debug(s"syncResult1: $syncResult1")
 
-    T.log.debug("allDocuments:")
-    T.log.debug(syncResult1.allDocuments.mkString(",\n"))
 
     PathRef(T.dest)
   }
@@ -768,5 +826,101 @@ but the `about.md`does not have these directives (`/installation.md` does). Howe
 TIA
 
 
+
+ */
+
+/*
+val tlSiteHeliumConfig = Helium.defaults.site
+  .metadata(
+    title = Some("Storch"),
+    authors = developers.map(_.name),
+    language = Some("en"),
+    version = Some(version_)
+  )
+  .site
+  .layout(
+    contentWidth = px(860),
+    navigationWidth = px(275),
+    topBarHeight = px(50),
+    defaultBlockSpacing = px(10),
+    defaultLineHeight = 1.5,
+    anchorPlacement = laika.helium.config.AnchorPlacement.Right
+  )
+  //        .site
+  //        .favIcons(
+  //          Favicon.external("https://typelevel.org/img/favicon.png", "32x32", "image/png")
+  //        )
+  .site
+  .topNavigationBar(
+    // TODO: new
+    homeLink = IconLink.internal(Root / "api" / "index.html", HeliumIcon.home),
+    navLinks = Seq(
+      IconLink.internal(
+        Root / "api" / "index.html",
+        HeliumIcon.api,
+        options = Styles("svg-link")
+      ),
+      IconLink.external(
+        browsableLink,
+        HeliumIcon.github,
+        options = Styles("svg-link")
+      )
+      //            IconLink.external("https://discord.gg/XF3CXcMzqD", HeliumIcon.chat),
+      //            IconLink.external("https://twitter.com/typelevel", HeliumIcon.twitter)
+    )
+  )
+  .site
+  .landingPage(
+    logo = Some(
+      Image.internal(Root / "img" / "storch.svg", height = Some(Length(300, LengthUnit.px)))
+    ),
+    title = Some("Storch"),
+    subtitle = Some("GPU Accelerated Deep Learning for Scala 3"),
+    license = Some("Apache 2"),
+    //          titleLinks = Seq(
+    //            VersionMenu.create(unversionedLabel = "Getting Started"),
+    //            LinkGroup.create(
+    //              IconLink.external("https://github.com/abcdefg/", HeliumIcon.github),
+    //              IconLink.external("https://gitter.im/abcdefg/", HeliumIcon.chat),
+    //              IconLink.external("https://twitter.com/abcdefg/", HeliumIcon.twitter)
+    //            )
+    //          ),
+    documentationLinks = Seq(
+      TextLink.internal(Root / "about.md", "About"),
+      TextLink.internal(Root / "installation.md", "Getting Started"),
+      TextLink.internal(Root / "api" / "index.html", "API (Scaladoc)")
+    ),
+    projectLinks = Seq(
+      IconLink.external(
+        browsableLink,
+        HeliumIcon.github,
+        options = Styles("svg-link")
+      )
+    ),
+    teasers = Seq(
+      Teaser(
+        "Build Deep Learning Models in Scala",
+        """
+          |Storch provides GPU accelerated tensor operations, automatic differentiation,
+          |and a neural network API for building and training machine learning models.
+          |""".stripMargin
+      ),
+      Teaser(
+        "Get the Best of PyTorch & Scala",
+        """
+          |Storch aims to be close to the original PyTorch API, while still leveraging Scala's powerful type
+          |system for safer tensor operations.
+          |""".stripMargin
+      ),
+      Teaser(
+        "Powered by LibTorch & JavaCPP",
+        """
+          |Storch is based on <a href="https://pytorch.org/cppdocs/">LibTorch</a>, the C++ library underlying PyTorch.
+          |JVM bindings are provided by <a href="https://github.com/bytedeco/javacpp">JavaCPP</a> for seamless
+          |interop with native code & CUDA support.
+          |""".stripMargin
+      )
+    )
+  )
 
  */
