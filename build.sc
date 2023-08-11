@@ -6,11 +6,15 @@
 // cSpell:ignore progressbar, progressbar, munit, munit-scalacheck, scrimage
 
 //import $ivy.`org.typelevel::cats-effect:3.5.1`
+import mill.Target
 import mill.api.Loose
 // Laika core, EPUB and PDF
 import $ivy.`org.planet42::laika-core:0.19.3`
 import $ivy.`org.planet42::laika-io:0.19.3`
 import $ivy.`org.planet42::laika-pdf:0.19.3`
+//import $ivy.`org.planet42::laika-core:0.18.2`
+//import $ivy.`org.planet42::laika-io:0.18.2`
+//import $ivy.`org.planet42::laika-pdf:0.18.2`
 //import $ivy.`org.scalameta::mdoc:2.3.7`
 
 
@@ -53,7 +57,7 @@ import scala.concurrent.duration._
 import laika.api._
 import laika.format._
 import laika.io.implicits._
-import laika.io.model.FilePath
+//import laika.io.model.FilePath
 import laika.markdown.github.GitHubFlavor
 import laika.parse.code.SyntaxHighlighting
 import laika.io.api.TreeTransformer
@@ -336,8 +340,10 @@ trait CommonSettings extends SbtModule with Bloop.Module {
       // ivy"org.bytedeco:cuda-platform-redist:$cudaVersion-${javaCppVersion}",
       // Additional dependencies to use bundled full version of MKL
       ivy"org.bytedeco:mkl-platform-redist:$mklVersion-${javaCppVersion}",
-      ivy"org.typelevel::spire:0.18.0",
-      ivy"org.typelevel::shapeless3-typeable:3.3.0",
+      // TODO: reactivate
+      // ivy"org.typelevel::spire:0.18.0",
+      // TODO: reactivate
+      //ivy"org.typelevel::shapeless3-typeable:3.3.0",
       ivy"com.lihaoyi::os-lib:0.9.1",
       ivy"com.lihaoyi::sourcecode:0.3.0",
       ivy"dev.dirs:directories:26"
@@ -357,10 +363,18 @@ object core extends CommonSettings {
 
   // Only for site generation
   // See https://docs.scala-lang.org/scala3/guides/scaladoc/static-site.html
-//  override def scalaDocOptions = {
-//    super.scalaDocOptions()
-//    //Seq("-siteroot", "mydocs", "-no-link-warnings")
-//  }
+  //  override def scalaDocOptions = {
+  //    super.scalaDocOptions()
+  //    //Seq("-siteroot", "mydocs", "-no-link-warnings")
+  //  }
+  // TODO: reactivate/remove
+  override def ivyDeps = T {
+    super.ivyDeps() ++
+      Agg(
+        ivy"org.typelevel::shapeless3-typeable:3.3.0",
+        ivy"org.typelevel::spire:0.18.0"
+      )
+  }
 
   object test extends SbtModuleTests with TestCommonSettings
 }
@@ -425,6 +439,16 @@ hmf@gandalf:/mnt/ssd2/hmf/IdeaProjects/storch$ ./mill -i show docs.docResources
    1. Copy the results to the docs temporary folder /api folder
  */
 
+object laikaSite extends CommonSettings {
+
+  override def scalaVersion = "2.12.3"
+
+  override def ivyDeps = super.ivyDeps() ++ Agg(
+    ivy"org.planet42::laika-core:0.19.3",
+    ivy"org.planet42::laika-io:0.19.3",
+    ivy"org.planet42::laika-pdf:0.19.3"
+  )
+}
 
 object docs extends CommonSettings {
 
@@ -524,12 +548,13 @@ object docs extends CommonSettings {
     val siteTargetSource = target / "site_src"
 
     // TODO: remove file name
-    val source = millSourcePath / "README.md"
+    val source = millSourcePath
     T.log.info(s"Copied from ${source} to ${siteTargetSource}")
 //    os.copy(from = source, to = siteTargetSource)
     // TODO: remove
     os.makeDir.all(siteTargetSource)
-    os.copy.into(from = source, to = siteTargetSource)
+    os.copy.into(from = source / "README.md", to = siteTargetSource)
+    os.copy.into(from = source / "faq.md", to = siteTargetSource)
 
     val siteSource = millSourcePath / os.up / "site" / "src"
     // TODO: use?
@@ -544,9 +569,11 @@ object docs extends CommonSettings {
 //    T.log.info(s"Copied from ${apiSource} to ${apiTarget}")
 //    os.copy(from = apiSource, to = apiTarget)
 
-    val docsSource = FilePath.fromNioPath(millSourcePath.toNIO)
-    T.log.info(s"docsSource = $docsSource")
-//    val apiSite = FilePath.fromNioPath(apiTarget.toNIO)
+    // TODO: reactivate on 0.19.x
+//    val docsSource = FilePath.fromNioPath(millSourcePath.toNIO)
+//    T.log.info(s"docsSource = $docsSource")
+
+    //    val apiSite = FilePath.fromNioPath(apiTarget.toNIO)
 //    T.log.info(s"apiSite = $apiSite")
     T.log.info(s"From: siteTargetSource = $siteTargetSource")
     val siteTmp = target / "site"
@@ -578,7 +605,9 @@ object docs extends CommonSettings {
     import cats.effect.unsafe.implicits.global
     val result = StorchSitePlugin.createTransformer[IO].use {
       t =>
-        t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
+        // TODO; reactivate on 0.19.x
+        // t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
+        t.fromDirectory(siteTargetSource.toIO.getAbsolutePath)
           .toDirectory(siteTmp.toIO.getAbsolutePath)
           .describe
           .map(_.formatted)
@@ -589,7 +618,9 @@ object docs extends CommonSettings {
 
     val result1: IO[RenderedTreeRoot[IO]] = StorchSitePlugin.createTransformer[IO].use {
       t =>
-          t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
+          // TODO; reactivate on 0.19.x
+          //t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
+          t.fromDirectory(siteTargetSource.toIO.getAbsolutePath)
           .toDirectory(siteTmp.toIO.getAbsolutePath)
           .transform
     }
@@ -606,7 +637,6 @@ object docs extends CommonSettings {
   }
 
 }
-
 
 /*
 hmf@gandalf:/mnt/ssd2/hmf/VSCodeProjects/storch$ ./millw --mill-version 0.11.1 --import ivy:com.lihaoyi::mill-contrib-bloop: mill.contrib.Bloop/install
