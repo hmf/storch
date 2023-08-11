@@ -5,14 +5,15 @@
 // cSpell:ignore redist, mkl, cuda, cudann, openblas
 // cSpell:ignore progressbar, progressbar, munit, munit-scalacheck, scrimage
 
-import $ivy.`org.typelevel::cats-effect:3.5.1`
-import laika.io.model.FilePath
+//import $ivy.`org.typelevel::cats-effect:3.5.1`
 import mill.api.Loose
 // Laika core, EPUB and PDF
 import $ivy.`org.planet42::laika-core:0.19.3`
 import $ivy.`org.planet42::laika-io:0.19.3`
 import $ivy.`org.planet42::laika-pdf:0.19.3`
 //import $ivy.`org.scalameta::mdoc:2.3.7`
+
+
 
 import $ivy.`com.lihaoyi::mill-contrib-bloop:`
 // Import JavaCPP to get host OS name
@@ -52,6 +53,7 @@ import scala.concurrent.duration._
 import laika.api._
 import laika.format._
 import laika.io.implicits._
+import laika.io.model.FilePath
 import laika.markdown.github.GitHubFlavor
 import laika.parse.code.SyntaxHighlighting
 import laika.io.api.TreeTransformer
@@ -238,13 +240,13 @@ object StorchSitePlugin {
       )
     )
 
-  val transformer = Transformer.from(Markdown)
-                                  .to(HTML)
-                                  .using(
-                                    GitHubFlavor,
-                                    SyntaxHighlighting
-                                  )
-                                  .build
+//  val transformer = Transformer.from(Markdown)
+//                                  .to(HTML)
+//                                  .using(
+//                                    GitHubFlavor,
+//                                    SyntaxHighlighting
+//                                  )
+//                                  .build
 
 // https://github.com/typelevel/Laika/discussions/235   
 // https://github.com/search?q=repo%3Acom-lihaoyi%2Fmill%20cats&type=code
@@ -269,7 +271,7 @@ object StorchSitePlugin {
       .withConfigValue(buildToolSelection)
       //.withRawContent
       .parallel[F]
-      .withTheme(tlSiteHeliumConfig.build)
+      //.withTheme(tlSiteHeliumConfig.build)
       .build
 
 
@@ -517,37 +519,35 @@ object docs extends CommonSettings {
     T.log.info(s"docJar path = ${dest.toIO.getAbsolutePath}")
     // Delete the Jar file
     // Add the path to the laika directories
-//    val apiTarget = dest / "api"
     val apiSource = dest / "javadoc"
-//    os.copy.over(from = apiSource, to = apiTarget)
-//    T.log.info(s"Copied from ${apiSource} to ${apiTarget}")
 
     val siteTargetSource = target / "site_src"
-//    T.log.info(s"Make dir ${siteTargetSource}")
-//    os.makeDir.all(siteTargetSource)
 
-    val source = millSourcePath
+    // TODO: remove file name
+    val source = millSourcePath / "README.md"
     T.log.info(s"Copied from ${source} to ${siteTargetSource}")
-    os.copy(from = source, to = siteTargetSource)
+//    os.copy(from = source, to = siteTargetSource)
+    // TODO: remove
+    os.makeDir.all(siteTargetSource)
+    os.copy.into(from = source, to = siteTargetSource)
 
     val siteSource = millSourcePath / os.up / "site" / "src"
-    T.log.info(s"Copied from ${siteSource} to ${siteTargetSource}")
-    val templates = os.list(siteSource)
-    T.log.info(s"?????? ${templates.mkString(",")}")
-    templates.foreach{ p =>
-      T.log.info(s"Copied from ${p} into ${siteTargetSource}")
-      os.copy.into(from = p, to = siteTargetSource)
-    }
-//    os.copy(from = siteSource, to = siteTargetSource)
+    // TODO: use?
+//    val templates = os.list(siteSource)
+//    templates.foreach{ p =>
+//      T.log.info(s"Copied from ${p} into ${siteTargetSource}")
+//      os.copy.into(from = p, to = siteTargetSource)
+//    }
 
-    val apiTarget = siteTargetSource / "api"
-    T.log.info(s"Copied from ${apiSource} to ${apiTarget}")
-    os.copy(from = apiSource, to = apiTarget)
+    // TODO: reactivate
+//    val apiTarget = siteTargetSource / "api"
+//    T.log.info(s"Copied from ${apiSource} to ${apiTarget}")
+//    os.copy(from = apiSource, to = apiTarget)
 
     val docsSource = FilePath.fromNioPath(millSourcePath.toNIO)
-    val apiSite = FilePath.fromNioPath(apiTarget.toNIO)
     T.log.info(s"docsSource = $docsSource")
-    T.log.info(s"apiSite = $apiSite")
+//    val apiSite = FilePath.fromNioPath(apiTarget.toNIO)
+//    T.log.info(s"apiSite = $apiSite")
     T.log.info(s"From: siteTargetSource = $siteTargetSource")
     val siteTmp = target / "site"
     T.log.info(s"To: target = $siteTmp")
@@ -597,10 +597,10 @@ object docs extends CommonSettings {
     import cats.effect.unsafe.implicits.global
 
     val syncResult1: RenderedTreeRoot[IO] = result1.unsafeRunSync()
-    T.log.debug(s"syncResult1: $syncResult")
+    T.log.debug(s"syncResult1: $syncResult1")
 
-    val syncResult2 = result.unsafeRunSync()
-    T.log.debug(s"syncResult2: $syncResult2")
+    T.log.debug("allDocuments:")
+    T.log.debug(syncResult1.allDocuments.mkString(",\n"))
 
     PathRef(T.dest)
   }
