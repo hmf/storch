@@ -16,6 +16,8 @@ torch.manualSeed(0)
 ```
 
 ```scala mdoc
+import torch.*
+
 val data = Seq(0,1,2,3)
 val t1 = torch.Tensor(data)
 t1.equal(torch.arange(0,4))

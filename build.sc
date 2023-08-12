@@ -9,14 +9,13 @@
 import laika.api.builder.ParserBuilder
 import laika.io.api.TreeParser
 import laika.theme.ThemeProvider
+import mill.Target
 import mill.api.Loose
 // Laika core, EPUB and PDF
 import $ivy.`org.planet42::laika-core:0.19.3`
 import $ivy.`org.planet42::laika-io:0.19.3`
 import $ivy.`org.planet42::laika-pdf:0.19.3`
-//import $ivy.`org.scalameta::mdoc:2.3.7`
-
-
+import $ivy.`org.scalameta::mdoc:2.3.7`
 
 import $ivy.`com.lihaoyi::mill-contrib-bloop:`
 // Import JavaCPP to get host OS name
@@ -78,7 +77,6 @@ import laika.helium.config.IconLink
 import laika.helium.config.ImageLink
 import laika.rewrite.nav.{ChoiceConfig, Selections, SelectionConfig}
 import laika.rewrite.link.{ApiLinks, LinkConfig}
-
 
 // https://github.com/typelevel/sbt-typelevel
 // https://github.com/sbt/sbt
@@ -171,8 +169,7 @@ object StorchSitePlugin {
     )
     .site
     .topNavigationBar(
-//      // TODO: new
-//      homeLink = IconLink.internal(Root / "api" / "index.html", HeliumIcon.home),
+      // homeLink undefined, so use landing page
       navLinks = Seq(
         IconLink.internal(
           Root / "api" / "index.html",
@@ -232,27 +229,6 @@ object StorchSitePlugin {
       )
     )
 
-//  val transformer = Transformer.from(Markdown)
-//                                  .to(HTML)
-//                                  .using(
-//                                    GitHubFlavor,
-//                                    SyntaxHighlighting
-//                                  )
-//                                  .build
-
-// https://github.com/typelevel/Laika/discussions/235   
-// https://github.com/search?q=repo%3Acom-lihaoyi%2Fmill%20cats&type=code
-
-// def createTransformer[F[_]: Async: ContextShift]
-//                       (blocker: Blocker): Resource[F, TreeTransformer[F]] =
-//   Transformer
-//     .from(Markdown)
-//     .to(HTML)
-//     .using(GitHubFlavor, SyntaxHighlighting)
-//     .io(blocker)
-//     .parallel[F]
-//     .build
-
   // Not working: https://github.com/typelevel/Laika/discussions/485
   // https://typelevel.org/Laika/latest/02-running-laika/02-library-api.html
   // https://github.com/typelevel/cats-effect/issues/280
@@ -263,11 +239,23 @@ object StorchSitePlugin {
       .using(GitHubFlavor)
       .withConfigValue(linkConfig)
       .withConfigValue(buildToolSelection)
-      //.withRawContent
+      .withRawContent
       .parallel[F]
-      //.withTheme(tlSiteHeliumConfig.build)
+      .withTheme(tlSiteHeliumConfig.build)
       .build
 
+
+  // We want to add am HTML snippet to the bottom of the landing page
+  // A landing page an be fully defined in a landing-page.<suffix> file
+  // in the root. If the suffix is HTML and no landing page is configured,
+  // then this is the full index.html. If the suffix is Markdown and a
+  // landing  page is configured, its contents are processed and added
+  // to the end of the landing page index.html.
+  // If the suffix is HTML and a landing page is configured, then its
+  // contents are ignored because the transformer ignores all raw
+  // content. To append HTML content we need to use:
+  //   ParserBuilder.withRawContent
+  // https://github.com/typelevel/Laika/discussions/489
 
   def createTransformer(sources: String, targetHTML:String) = {
     val parserBuilder: ParserBuilder = MarkupParser
@@ -290,28 +278,30 @@ object StorchSitePlugin {
                           .parallel[IO]
                           .withTheme(tlSiteHeliumConfig.build)
                           .build
+    /* Example for generating books
     val epubRenderer = Renderer.of(EPUB).parallel[IO].build
     val pdfRenderer = Renderer.of(PDF).parallel[IO].build
 
-//    val allResources = for {
-//      parse <- parser
-//      html <- htmlRenderer
-//      epub <- epubRenderer
-//      pdf <- pdfRenderer
-//    } yield (parse, html, epub, pdf)
-//
-//    import cats.syntax.all._
-//
-//    val transformOp: IO[Unit] = allResources.use {
-//      case (parser, htmlRenderer, epubRenderer, pdfRenderer) =>
-//        parser.fromDirectory(sources).parse.flatMap {
-//          tree =>
-//            val htmlOp = htmlRenderer.from(tree.root).toDirectory(targetHTML).render
-//            val epubOp = epubRenderer.from(tree.root).toFile("out.epub").render
-//            val pdfOp = pdfRenderer.from(tree.root).toFile("out.pdf").render
-//            (htmlOp, epubOp, pdfOp).parMapN { (_, _, _) => () }
-//        }
-//    }
+    val allResources = for {
+      parse <- parser
+      html <- htmlRenderer
+      epub <- epubRenderer
+      pdf <- pdfRenderer
+    } yield (parse, html, epub, pdf)
+
+    import cats.syntax.all._
+
+    val transformOp: IO[Unit] = allResources.use {
+      case (parser, htmlRenderer, epubRenderer, pdfRenderer) =>
+        parser.fromDirectory(sources).parse.flatMap {
+          tree =>
+            val htmlOp = htmlRenderer.from(tree.root).toDirectory(targetHTML).render
+            val epubOp = epubRenderer.from(tree.root).toFile("out.epub").render
+            val pdfOp = pdfRenderer.from(tree.root).toFile("out.pdf").render
+            (htmlOp, epubOp, pdfOp).parMapN { (_, _, _) => () }
+        }
+    }
+    */
 
     val allResources = for {
       parse <- parser
@@ -330,17 +320,6 @@ object StorchSitePlugin {
     }
     transformOp
   }
-
-  // https://github.com/typelevel/Laika/blob/fc65b74006d42b122810c911d5768c4359969ae4/io/src/main/scala/laika/helium/builder/HeliumTreeProcessor.scala#L38
-  // HeliumTreeProcessor[F[_]: Sync](helium: Helium)
-  /*
-  private def addLandingPage: TreeProcessor[F] =
-      siteSettings.content.landingPage
-        .fold(noOp)(LandingPageGenerator.generate)
-
-  https://github.com/typelevel/Laika/blob/main/io/src/main/scala/laika/helium/generate/LandingPageGenerator.scala#L29
-*/
-
 
 }
 
@@ -373,7 +352,7 @@ val sonatypeSnapshots = Seq(
 // object core extends SbtModule with Bloop.Module {
 // https://github.com/scalameta/metals-vscode/issues/1403
 trait CommonSettings extends SbtModule with Bloop.Module {
-  def scalaVersion = ScalaVersion
+  override def scalaVersion = ScalaVersion
 
   // TODO: add to scaladoc
   // def scalacOptions = Seq("-groups", "-snippet-compiler:compile")
@@ -546,6 +525,8 @@ object docs extends CommonSettings {
 //    ref
 //  }
 
+  // override def scalaVersion: Target[String] = ScalaVersion
+
   // where do the mdoc sources live ?
   def laikaSources = T.sources {
     super.millSourcePath
@@ -560,10 +541,6 @@ object docs extends CommonSettings {
     T.log.debug(s"Destination: ${target.toIO.getAbsolutePath}")
 
     T.log.debug(s"laikaSources: ${laikaSources()}")
-
-    //    val cp = runClasspath().map(_.path)
-    // val dirParams = mdocSources().map(pr => Seq(s"--in", pr.path.toIO.getAbsolutePath, "--out",  dir)).iterator.flatten.toSeq
-    // Jvm.runLocal("mdoc.Main", cp, dirParams)
 
     // TODO : remove
     //    val result1 = StorchSitePlugin.transformer.transform("hello *there*")
@@ -593,6 +570,41 @@ object docs extends CommonSettings {
     val source = millSourcePath
     T.log.info(s"Copied from ${source} to ${siteTargetSource}")
     os.copy(from = source, to = siteTargetSource)
+    // TODO: use mdoc to processes and copy sources
+    val cp = runClasspath().map(_.path.toIO.getAbsolutePath).mkString(java.io.File.pathSeparator)
+    // val dirParams = mdocSources().map(pr => Seq(s"--in", pr.path.toIO.getAbsolutePath, "--out",  dir)).iterator.flatten.toSeq
+    // Jvm.runLocal("mdoc.Main", cp, dirParams)
+    // build arguments for mdoc
+    val args = List(
+                "--in", source.toIO.getAbsolutePath.toString,
+                "--out",  siteTargetSource.toIO.getAbsolutePath.toString,
+                "--classpath", cp,
+                // TODO: add modules scalacOptions
+                // -Ytasty-reader required by MDoc
+                "--scalac-options", "-Ytasty-reader",
+                "--verbose"
+                )
+    Console.println("!!!!!!")
+    Console.println(cp)
+    Console.println("?????????????????????")
+    Console.println(args.mkString(","))
+    Console.println(scalaVersion())
+    // TODO: remove/reduce cats-effects Map, print etc
+    val siteVariables = scala.collection.immutable.Map(
+                          "VERSION" -> "1.0.0",
+                          "PYTORCH_VERSION" -> pytorchVersion,
+                          "JAVACPP_VERSION" -> javaCppVersion,
+                          "OPENBLAS_VERSION" -> openblasVersion,
+                          "CUDA_VERSION" -> cudaVersion
+                        )
+    val settings = mdoc.MainSettings()
+      .withSiteVariables(siteVariables)
+      .withArgs(args)
+    // generate out/readme.md from working directory
+    val exitCode = mdoc.Main.process(settings)
+    // (optional) exit the main function with exit code 0 (success) or 1 (error)
+    if (exitCode != 0)
+      T.log.error(s"MDoc failed with exit code $exitCode")
 
     val siteTmp = target / "site"
     os.makeDir.all(siteTmp)
@@ -625,56 +637,40 @@ object docs extends CommonSettings {
 
     // os.makeDir.all(siteTmp)
 
-    // docs/about.md
-//    val result: IO[RenderedTreeRoot[IO]] = StorchSitePlugin.createTransformer[IO].use {
-//      t =>
-//        // TODO
-//        val paths = Seq(
-//                      docsSource,
-//                      apiSite
-//                    )
-////        t.fromDirectories(paths)
-//          //t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
-//          t.fromDirectory("/mnt/ssd2/hmf/IdeaProjects/storch/out/docs/laika.dest/site_src/")
-//        //t.fromDirectory(millSourcePath.toIO.getAbsolutePath)
-//          .toDirectory(siteTmp.toIO.getAbsolutePath)
-//          .transform
-//    }
-//
-//    import cats.effect.unsafe.implicits.global
-//
-//    val syncResult: RenderedTreeRoot[IO] = result.unsafeRunSync()
-//    T.log.debug(s"syncResult: $syncResult")
 
     // Example of debugging
-//    import cats.effect.unsafe.implicits.global
-//    val result = StorchSitePlugin.createTransformer[IO].use {
-//      t =>
-//        t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
-//          .toDirectory(siteTmp.toIO.getAbsolutePath)
-//          .describe
-//          .map(_.formatted)
-//    }
-//
-//    val syncResult = result.unsafeRunSync()
-//    T.log.debug(s"syncResult: $syncResult")
+    /*
+    import cats.effect.unsafe.implicits.global
+    val result = StorchSitePlugin.createTransformer[IO].use {
+      t =>
+        t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
+          .toDirectory(siteTmp.toIO.getAbsolutePath)
+          .describe
+          .map(_.formatted)
+    }
 
-      // Does not work: https://github.com/typelevel/Laika/discussions/485
-//
-//    val result1: IO[RenderedTreeRoot[IO]] = StorchSitePlugin.createTransformer[IO].use {
-//      t =>
-//          t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
-//          .toDirectory(siteTmp.toIO.getAbsolutePath)
-//          .transform
-//    }
-//
-//    import cats.effect.unsafe.implicits.global
-//
-//    val syncResult1: RenderedTreeRoot[IO] = result1.unsafeRunSync()
-//    T.log.debug(s"syncResult1: $syncResult1")
-//
-//    T.log.debug("allDocuments:")
-//    T.log.debug(syncResult1.allDocuments.mkString(",\n"))
+    val syncResult = result.unsafeRunSync()
+    T.log.debug(s"syncResult: $syncResult")
+    */
+
+    // Not working, use separate parser and renderer
+    // Does not work: https://github.com/typelevel/Laika/discussions/485
+    /*
+    val result1: IO[RenderedTreeRoot[IO]] = StorchSitePlugin.createTransformer[IO].use {
+      t =>
+          t.fromDirectory(FilePath.fromNioPath(siteTargetSource.toNIO))
+          .toDirectory(siteTmp.toIO.getAbsolutePath)
+          .transform
+    }
+
+    import cats.effect.unsafe.implicits.global
+
+    val syncResult1: RenderedTreeRoot[IO] = result1.unsafeRunSync()
+    T.log.debug(s"syncResult1: $syncResult1")
+
+    T.log.debug("allDocuments:")
+    T.log.debug(syncResult1.allDocuments.mkString(",\n"))
+    */
 
     val result: IO[Unit] = StorchSitePlugin.createTransformer(siteTargetSource.toIO.getAbsolutePath, siteTmp.toIO.getAbsolutePath)
     import cats.effect.unsafe.implicits.global
@@ -728,222 +724,3 @@ Overwriting BSP connection file: /mnt/ssd2/hmf/VSCodeProjects/storch/.bsp/mill-b
 Enabled debug logging for the BSP server. If you want to disable it, you need to re-run this install command without the --debug option.
 
 */
-
-/*
-Unresolved internal reference: api/index.html using `fromDirectories`
-
-I am trying to adapt an SBt project to use Mill. I have the following set-up:
-
-1. API HTM at: /mnt/ssd2/hmf/IdeaProjects/storch/out/docs/docJar.dest/api
-2. Site markdown at: /mnt/ssd2/hmf/IdeaProjects/storch/docs
-
-I use the following transformer:
-
-```scala
-    val docsSource = FilePath.fromNioPath(millSourcePath.toNIO)
-    val apiSite = FilePath.fromNioPath(apiTarget.toNIO)
-
-    val result: IO[RenderedTreeRoot[IO]] = StorchSitePlugin.createTransformer[IO].use {
-      t =>
-        val paths = Seq(
-                      docsSource,
-                      apiSite
-                    )
-        t.fromDirectories(paths)
-          .toDirectory(target)
-          .transform
-    }
-```
-
-I am assuming that all the `from` paths are merged into a single root so that the `/api`shuld be visible. Here is (part of) the error I get:
-
-```shell
-docs.laika laika.parse.markup.DocumentParser$InvalidDocuments: One or more invalid documents:
-/README
-
-  [1]: unresolved internal reference: api/index.html
-
-
-  ^
-
-/about.md
-
-  [1]: unresolved internal reference: api/index.html
-
-
-  ^
-
-  [1]: unresolved internal reference: api/index.html
-
-
-  ^
-
-/installation.md
-
-  [1]: unresolved internal reference: api/index.html
-
-
-  ^
-
-  [1]: unresolved internal reference: api/index.html
-
-
-  ^
-```
-The first thing I realize is that I don't have a README. In the `storch/docs` path I have the `directory.conf` file with (no mention of README):
-
-```hocon
-laika.navigationOrder = [
-  about.md
-  installation.md
-  modules.md
-  examples.md
-  pre-trained-weights.md
-  faq.md
-  contributing.md
-]
-```
-
-The second thing I realize is that the `\about.md` has no link to `api/index.html`. In fact I don't see any references to an `index.html`. Looking further in the error messages I see a different error, which does not seem to be related:
-
-```shell
-  [14]: One or more errors processing directive 'select': Error reading config for selections: Not found: 'laika.selections'
-
-  @:select(build-tool)
-  ^
-
-  [54]: One or more errors processing directive 'select': Error reading config for selections: Not found: 'laika.selections'
-
-  @:select(build-tool)
-  ^
-
-  [88]: One or more errors processing directive 'select': Error reading config for selections: Not found: 'laika.selections'
-
-  @:select(build-tool)
-  ^
-
-  [147]: One or more errors processing directive 'select': Error reading config for selections: Not found: 'laika.selections'
-
-  @:select(build-tool)
-  ^
-
-  [182]: One or more errors processing directive 'select': Error reading config for selections: Not found: 'laika.selections'
-
-  @:select(build-tool)
-  ^
-
-```
-I also see the markdown source uses the following directives:
-
-@:api
-@:select(build-tool)
-@:choice(sbt)
-@:callout(info)
-@:callout(warning)
-@:@
-
-but the `about.md`does not have these directives (`/installation.md` does). However the source does use code fences tagged with `mdoc`. So my question are:
-1. Are the mdoc code fences the cause for these references?
-1. Is Laika processing these code fences? Should they not be ignored and processed as a standard code fence?
-
-TIA
-
-
-
- */
-
-/*
-val tlSiteHeliumConfig = Helium.defaults.site
-  .metadata(
-    title = Some("Storch"),
-    authors = developers.map(_.name),
-    language = Some("en"),
-    version = Some(version_)
-  )
-  .site
-  .layout(
-    contentWidth = px(860),
-    navigationWidth = px(275),
-    topBarHeight = px(50),
-    defaultBlockSpacing = px(10),
-    defaultLineHeight = 1.5,
-    anchorPlacement = laika.helium.config.AnchorPlacement.Right
-  )
-  //        .site
-  //        .favIcons(
-  //          Favicon.external("https://typelevel.org/img/favicon.png", "32x32", "image/png")
-  //        )
-  .site
-  .topNavigationBar(
-    // TODO: new
-    homeLink = IconLink.internal(Root / "api" / "index.html", HeliumIcon.home),
-    navLinks = Seq(
-      IconLink.internal(
-        Root / "api" / "index.html",
-        HeliumIcon.api,
-        options = Styles("svg-link")
-      ),
-      IconLink.external(
-        browsableLink,
-        HeliumIcon.github,
-        options = Styles("svg-link")
-      )
-      //            IconLink.external("https://discord.gg/XF3CXcMzqD", HeliumIcon.chat),
-      //            IconLink.external("https://twitter.com/typelevel", HeliumIcon.twitter)
-    )
-  )
-  .site
-  .landingPage(
-    logo = Some(
-      Image.internal(Root / "img" / "storch.svg", height = Some(Length(300, LengthUnit.px)))
-    ),
-    title = Some("Storch"),
-    subtitle = Some("GPU Accelerated Deep Learning for Scala 3"),
-    license = Some("Apache 2"),
-    //          titleLinks = Seq(
-    //            VersionMenu.create(unversionedLabel = "Getting Started"),
-    //            LinkGroup.create(
-    //              IconLink.external("https://github.com/abcdefg/", HeliumIcon.github),
-    //              IconLink.external("https://gitter.im/abcdefg/", HeliumIcon.chat),
-    //              IconLink.external("https://twitter.com/abcdefg/", HeliumIcon.twitter)
-    //            )
-    //          ),
-    documentationLinks = Seq(
-      TextLink.internal(Root / "about.md", "About"),
-      TextLink.internal(Root / "installation.md", "Getting Started"),
-      TextLink.internal(Root / "api" / "index.html", "API (Scaladoc)")
-    ),
-    projectLinks = Seq(
-      IconLink.external(
-        browsableLink,
-        HeliumIcon.github,
-        options = Styles("svg-link")
-      )
-    ),
-    teasers = Seq(
-      Teaser(
-        "Build Deep Learning Models in Scala",
-        """
-          |Storch provides GPU accelerated tensor operations, automatic differentiation,
-          |and a neural network API for building and training machine learning models.
-          |""".stripMargin
-      ),
-      Teaser(
-        "Get the Best of PyTorch & Scala",
-        """
-          |Storch aims to be close to the original PyTorch API, while still leveraging Scala's powerful type
-          |system for safer tensor operations.
-          |""".stripMargin
-      ),
-      Teaser(
-        "Powered by LibTorch & JavaCPP",
-        """
-          |Storch is based on <a href="https://pytorch.org/cppdocs/">LibTorch</a>, the C++ library underlying PyTorch.
-          |JVM bindings are provided by <a href="https://github.com/bytedeco/javacpp">JavaCPP</a> for seamless
-          |interop with native code & CUDA support.
-          |""".stripMargin
-      )
-    )
-  )
-
- */
