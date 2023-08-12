@@ -275,7 +275,7 @@ object StorchSitePlugin {
       .using(GitHubFlavor)
       .withConfigValue(linkConfig)
       .withConfigValue(buildToolSelection)
-    //.withRawContent
+      .withRawContent
 
     // https://typelevel.org/Laika/latest/02-running-laika/02-library-api.html#separate-parsing-and-rendering
     val parser: Resource[IO, TreeParser[IO]] = parserBuilder
@@ -283,6 +283,7 @@ object StorchSitePlugin {
       .withTheme(tlSiteHeliumConfig.build)
       .build
 
+    // https://github.com/typelevel/Laika/discussions/489
     val htmlRenderer = Renderer
                           .of(HTML)
                           .withConfig(parserBuilder.config)
