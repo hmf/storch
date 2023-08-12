@@ -6,6 +6,8 @@
 // cSpell:ignore progressbar, progressbar, munit, munit-scalacheck, scrimage
 
 //import $ivy.`org.typelevel::cats-effect:3.5.1`
+import laika.api.builder.ParserBuilder
+import laika.io.api.TreeParser
 import laika.theme.ThemeProvider
 import mill.api.Loose
 // Laika core, EPUB and PDF
@@ -150,151 +152,85 @@ object StorchSitePlugin {
   //scmInfo.value.fold("https://github.com/sbrunk/storch")(_.browseUrl.toString),
   val browsableLink = scmInfo.browsableRepository.getOrElse("SCMInfo Missing")
 
-  // https://github.com/typelevel/Laika/blob/fc65b74006d42b122810c911d5768c4359969ae4/docs/src/05-extending-laika/02-creating-themes.md?plain=1#L357
-  import laika.theme.{ Theme, ThemeBuilder, ThemeProvider }
-  import laika.helium.builder
-
-  class HeliumThemeBuilder (helium: Helium) extends ThemeProvider {
-
-    def build[F[_]: Async]: Resource[F, Theme[F]] = {
-
-      import helium._
-      import laika.helium.builder
-
-      val treeProcessor = new HeliumTreeProcessor[F](helium)
-
-  }
-
   val tlSiteHeliumConfig = Helium.defaults
     .site
-    .topNavigationBar(
-      //homeLink = IconLink.internal(Root / "README.md", HeliumIcon.home),
-      // homeLink =  ButtonLink.external("http://somewhere.com/", "Button Link"),
-      //ButtonLink.external("http://somewhere.com/", "Button Link"),
-      navLinks = Seq(
-        //IconLink.internal(Root / "doc-2.md", HeliumIcon.download),
-        TextLink.external("http://somewhere.com/", "Text Link"),
-        ButtonLink.external("http://somewhere.com/", "Button Link")
-      ),
-      versionMenu = VersionMenu.create(
-        versionedLabelPrefix = "Version:",
-        unversionedLabel = "Choose Version"
-      )
-      //highContrast = true
+    .metadata(
+      title = Some("Storch"),
+      authors = developers.map(_.name),
+      language = Some("en"),
+      version = Some(version_)
     )
-    .site.landingPage(
-        logo = Some(Image(ExternalTarget("http://my-site/my-image.jpg"))),
-        title = Some("Project Name"),
-        subtitle = Some("Fancy Hyperbole Goes Here"),
-        latestReleases = Seq(
-          ReleaseInfo("Latest Stable Release", "2.3.5"),
-          ReleaseInfo("Latest Milestone Release", "2.4.0-M2")
+    .site
+    .layout(
+      contentWidth = px(860),
+      navigationWidth = px(275),
+      topBarHeight = px(50),
+      defaultBlockSpacing = px(10),
+      defaultLineHeight = 1.5,
+      anchorPlacement = laika.helium.config.AnchorPlacement.Right
+    )
+    .site
+    .topNavigationBar(
+//      // TODO: new
+//      homeLink = IconLink.internal(Root / "api" / "index.html", HeliumIcon.home),
+      navLinks = Seq(
+        IconLink.internal(
+          Root / "api" / "index.html",
+          HeliumIcon.api,
+          options = Styles("svg-link")
         ),
-        license = Some("MIT"),
-        titleLinks = Seq(
-          VersionMenu.create(unversionedLabel = "Getting Started"),
-          LinkGroup.create(
-            IconLink.external("https://github.com/abcdefg/", HeliumIcon.github),
-            IconLink.external("https://gitter.im/abcdefg/", HeliumIcon.chat),
-            IconLink.external("https://twitter.com/abcdefg/", HeliumIcon.twitter)
-          )
-        ),
-        documentationLinks = Seq(
-          TextLink.internal(Root / "doc-1.md", "Doc 1"),
-          TextLink.internal(Root / "doc-2.md", "Doc 2")
-        ),
-        projectLinks = Seq(
-          TextLink.internal(Root / "doc-1.md", "Text Link"),
-          ButtonLink.external("http://somewhere.com/", "Button Label"),
-          LinkGroup.create(
-            IconLink.internal(Root / "doc-2.md", HeliumIcon.demo),
-            IconLink.internal(Root / "doc-3.md", HeliumIcon.info)
-          )
-        ),
-        teasers = Seq(
-          Teaser("Teaser 1", "Description 1"),
-          Teaser("Teaser 2", "Description 2"),
-          Teaser("Teaser 3", "Description 3")
+        IconLink.external(
+          browsableLink,
+          HeliumIcon.github,
+          options = Styles("svg-link")
         )
       )
-//    .site
-//    .metadata(
-//      title = Some("Storch"),
-//      authors = developers.map(_.name),
-//      language = Some("en"),
-//      version = Some(version_)
-//    )
-//    .site
-//    .layout(
-//      contentWidth = px(860),
-//      navigationWidth = px(275),
-//      topBarHeight = px(50),
-//      defaultBlockSpacing = px(10),
-//      defaultLineHeight = 1.5,
-//      anchorPlacement = laika.helium.config.AnchorPlacement.Right
-//    )
-//    .site
-//    .topNavigationBar(
-////      // TODO: new
-////      homeLink = IconLink.internal(Root / "api" / "index.html", HeliumIcon.home),
-//      navLinks = Seq(
-//        IconLink.internal(
-//          Root / "api" / "index.html",
-//          HeliumIcon.api,
-//          options = Styles("svg-link")
-//        ),
-//        IconLink.external(
-//          browsableLink,
-//          HeliumIcon.github,
-//          options = Styles("svg-link")
-//        )
-//      )
-//    )
-//    .site
-//    .landingPage(
-//      logo = Some(
-//        Image.internal(Root / "img" / "storch.svg", height = Some(Length(300, LengthUnit.px)))
-//      ),
-//      title = Some("Storch"),
-//      subtitle = Some("GPU Accelerated Deep Learning for Scala 3"),
-//      license = Some("Apache 2"),
-//      documentationLinks = Seq(
-//        TextLink.internal(Root / "about.md", "About"),
-//        TextLink.internal(Root / "installation.md", "Getting Started"),
-//        TextLink.internal(Root / "api" / "index.html", "API (Scaladoc)")
-//      ),
-//      projectLinks = Seq(
-//        IconLink.external(
-//          browsableLink,
-//          HeliumIcon.github,
-//          options = Styles("svg-link")
-//        )
-//      ),
-//      teasers = Seq(
-//        Teaser(
-//          "Build Deep Learning Models in Scala",
-//          """
-//            |Storch provides GPU accelerated tensor operations, automatic differentiation,
-//            |and a neural network API for building and training machine learning models.
-//            |""".stripMargin
-//        ),
-//        Teaser(
-//          "Get the Best of PyTorch & Scala",
-//          """
-//            |Storch aims to be close to the original PyTorch API, while still leveraging Scala's powerful type
-//            |system for safer tensor operations.
-//            |""".stripMargin
-//        ),
-//        Teaser(
-//          "Powered by LibTorch & JavaCPP",
-//          """
-//            |Storch is based on <a href="https://pytorch.org/cppdocs/">LibTorch</a>, the C++ library underlying PyTorch.
-//            |JVM bindings are provided by <a href="https://github.com/bytedeco/javacpp">JavaCPP</a> for seamless
-//            |interop with native code & CUDA support.
-//            |""".stripMargin
-//        )
-//      )
-//    )
+    )
+    .site
+    .landingPage(
+      logo = Some(
+        Image.internal(Root / "img" / "storch.svg", height = Some(Length(300, LengthUnit.px)))
+      ),
+      title = Some("Storch"),
+      subtitle = Some("GPU Accelerated Deep Learning for Scala 3"),
+      license = Some("Apache 2"),
+      documentationLinks = Seq(
+        TextLink.internal(Root / "about.md", "About"),
+        TextLink.internal(Root / "installation.md", "Getting Started"),
+        TextLink.internal(Root / "api" / "index.html", "API (Scaladoc)")
+      ),
+      projectLinks = Seq(
+        IconLink.external(
+          browsableLink,
+          HeliumIcon.github,
+          options = Styles("svg-link")
+        )
+      ),
+      teasers = Seq(
+        Teaser(
+          "Build Deep Learning Models in Scala",
+          """
+            |Storch provides GPU accelerated tensor operations, automatic differentiation,
+            |and a neural network API for building and training machine learning models.
+            |""".stripMargin
+        ),
+        Teaser(
+          "Get the Best of PyTorch & Scala",
+          """
+            |Storch aims to be close to the original PyTorch API, while still leveraging Scala's powerful type
+            |system for safer tensor operations.
+            |""".stripMargin
+        ),
+        Teaser(
+          "Powered by LibTorch & JavaCPP",
+          """
+            |Storch is based on <a href="https://pytorch.org/cppdocs/">LibTorch</a>, the C++ library underlying PyTorch.
+            |JVM bindings are provided by <a href="https://github.com/bytedeco/javacpp">JavaCPP</a> for seamless
+            |interop with native code & CUDA support.
+            |""".stripMargin
+        )
+      )
+    )
 
 //  val transformer = Transformer.from(Markdown)
 //                                  .to(HTML)
@@ -334,18 +270,25 @@ object StorchSitePlugin {
 
 
   def createTransformer(sources: String, targetHTML:String) = {
-    // https://typelevel.org/Laika/latest/02-running-laika/02-library-api.html#separate-parsing-and-rendering
-    val parser = MarkupParser
+    val parserBuilder: ParserBuilder = MarkupParser
       .of(Markdown)
       .using(GitHubFlavor)
       .withConfigValue(linkConfig)
       .withConfigValue(buildToolSelection)
-      //.withRawContent
+    //.withRawContent
+
+    // https://typelevel.org/Laika/latest/02-running-laika/02-library-api.html#separate-parsing-and-rendering
+    val parser: Resource[IO, TreeParser[IO]] = parserBuilder
       .parallel[IO]
       .withTheme(tlSiteHeliumConfig.build)
       .build
 
-    val htmlRenderer = Renderer.of(HTML).parallel[IO].build
+    val htmlRenderer = Renderer
+                          .of(HTML)
+                          .withConfig(parserBuilder.config)
+                          .parallel[IO]
+                          .withTheme(tlSiteHeliumConfig.build)
+                          .build
     val epubRenderer = Renderer.of(EPUB).parallel[IO].build
     val pdfRenderer = Renderer.of(PDF).parallel[IO].build
 
