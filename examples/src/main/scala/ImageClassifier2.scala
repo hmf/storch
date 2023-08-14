@@ -17,7 +17,7 @@
  // cSpell:ignore CUDA, MNIST
  // cSpell:ignore sonatype, progressbar, redist
  
- package commands
+package commands
 
 //> using scala "3.3"
 //> using repository "sonatype-s01:snapshots"

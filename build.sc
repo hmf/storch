@@ -11,11 +11,14 @@ import laika.io.api.TreeParser
 import laika.theme.ThemeProvider
 import mill.Target
 import mill.api.Loose
+import mill.util.Jvm
+
+import scala.Console
 // Laika core, EPUB and PDF
 import $ivy.`org.planet42::laika-core:0.19.3`
 import $ivy.`org.planet42::laika-io:0.19.3`
 import $ivy.`org.planet42::laika-pdf:0.19.3`
-import $ivy.`org.scalameta::mdoc:2.3.7`
+//import $ivy.`org.scalameta::mdoc:2.3.7`
 
 import $ivy.`com.lihaoyi::mill-contrib-bloop:`
 // Import JavaCPP to get host OS name
@@ -474,7 +477,45 @@ hmf@gandalf:/mnt/ssd2/hmf/IdeaProjects/storch$ ./mill -i show docs.docResources
 
 object docs extends CommonSettings {
 
+  override def scalaVersion = T{ ScalaVersion }
+
   override def moduleDeps = Seq(core, vision, examples)
+
+  def scalaMdocVersion : T[String] = T("2.3.7")
+  //def scalaMdocDep: T[Dep] = T(ivy"org.scalameta::mdoc:${scalaMdocVersion()}")
+  //def scalaMdocDep: T[Dep] = T(ivy"org.scalameta:mdoc_3:${scalaMdocVersion()}")
+  // https://github.com/scalameta/mdoc/issues/702
+  // MDoc has its own dependencies on the Scala compiler and uses those
+  // To use a later version of Scala 3, we need to download that version of the compiler
+  def scalaMdocDep = T.task {
+    Agg(
+      ivy"org.scalameta::mdoc:${scalaMdocVersion()}"
+        .exclude("org.scala-lang" -> "scala3-compiler_3")
+        .exclude("org.scala-lang" -> "scala3-library_3"),
+      ivy"org.scala-lang::scala3-compiler:${scalaVersion()}"
+    ).map(Lib.depToBoundDep(_, scalaVersion()))
+  }
+
+  def mDocLibs = T{ resolveDeps(scalaMdocDep )}
+
+  val separator = java.io.File.pathSeparatorChar
+  // def toArgument(p: Agg[os.Path]) = p.map( s => s"\"$s\"").mkString(s"$separator")
+  def toArgument(p: Agg[os.Path]) = p.mkString(s"$separator")
+  def toArg(p: Set[os.Path]) = p.mkString(s"$separator")
+  def toArgumentDebug(p: Agg[os.Path]) = p.mkString(s"\n")
+
+//  // Only downloads source code
+//  // resolveDeps(mdocDep, sources = true)
+//  def mDocLibs = T {
+//    resolveDeps(mdocDep)
+//  }
+
+  def watchedMDocsDestination: T[Option[Path]] = T(None)
+
+  // (commonDeps ++ envDeps).map(Lib.depToBoundDep(_, mill.main.BuildInfo.scalaVersion, "")),
+  override def ivyDeps = T {
+    super.ivyDeps()
+  }
 
   //override def scalaDocOptions = T{ Seq("-siteroot", "", "-no-link-warnings") }
 
@@ -527,6 +568,83 @@ object docs extends CommonSettings {
 
   // override def scalaVersion: Target[String] = ScalaVersion
 
+
+  // Jvm.runLocal
+  /*
+    Jvm.runSubprocess(
+        finalMainClass(),
+        runClasspath().map(_.path),
+        forkArgs(),
+        forkEnv(),
+        args().value,
+        workingDir = forkWorkingDir(),
+        useCpPassingJar = runUseArgsFile()
+      )
+
+
+   */
+
+  //override def runMain(mainClass: String, args: String*): Command[Unit] = super.runMain(mainClass, args:_*)
+
+  // TODO: https://github.com/com-lihaoyi/mill/issues/2694
+  // https://github.com/com-lihaoyi/mill/issues/2694#issuecomment-1677127114
+//  def anonTask(fileName: String): Task[String] = T.task {
+//    fileName + "Anon"
+//  }
+  def anonTask: Task[String => String] = T.task {
+    s:String => s + "Anon"
+  }
+
+  def noTask(fileName: String): String = {
+    fileName + "Anon"
+  }
+
+  //def helloFileData = T { anonTask("hello.txt")() }
+//  def helloFileData = T { anonTask("hello.txt") }
+//
+//  def printFileData(fileName: String) = T.command {
+//    Console.println(anonTask(fileName)())
+//  }
+
+  def printFileData0(fileName: String) = T.command {
+    val dir = T.dest.toString()
+    Console.println(dir)
+    // Target#apply() call cannot use `value dir` defined within the T{...} block
+    // Console.println(anonTask(dir)())
+    //  Target.ctx() / T.ctx() / T.* APIs can only be used with a T{...} block
+    //Console.println(anonTask(T.dest.toString())())
+  }
+
+  def printFileData1 = T {
+    val dir = T.dest.toString()
+    Console.println(dir)
+    // Target#apply() call cannot use `value dir` defined within the T{...} block
+    // Console.println(anonTask(dir)())
+    //  Target.ctx() / T.ctx() / T.* APIs can only be used with a T{...} block
+    // Console.println(anonTask(T.dest.toString())())
+  }
+
+
+  def mdocLocal(
+                 sources: Seq[os.Path],
+                 destination: os.Path,
+                 siteVariables: scala.collection.immutable.Map[String, String]
+               )  = T.task {
+
+    val cp = runClasspath().map(_.path)
+    val dir = destination.toIO.getAbsolutePath
+    val dirParams = sources.map(pr => Seq(s"--in", pr.toIO.getAbsolutePath, "--out",  dir)).iterator.flatten
+    val vars = siteVariables.map{ case (k,v) => s"--site.$k $v" }
+    val params = (dirParams ++ vars).toSeq.appended("--verbose")
+    Console.println("-------------------")
+    Console.println(params.mkString(";\n"))
+
+    Jvm.runLocal("mdoc.Main", cp, params)
+
+    PathRef(T.dest)
+  }
+
+  // TODO: remove?
   // where do the mdoc sources live ?
   def laikaSources = T.sources {
     super.millSourcePath
@@ -568,27 +686,32 @@ object docs extends CommonSettings {
     val siteTargetSource = target / "site_src"
 
     val source = millSourcePath
-    T.log.info(s"Copied from ${source} to ${siteTargetSource}")
-    os.copy(from = source, to = siteTargetSource)
+    T.log.info(s"Copied from ${millSourcePath} to ${siteTargetSource}")
+    // os.copy(from = source, to = siteTargetSource)
     // TODO: use mdoc to processes and copy sources
-    val cp = runClasspath().map(_.path.toIO.getAbsolutePath).mkString(java.io.File.pathSeparator)
+    // val cp = runClasspath().map(_.path.toIO.getAbsolutePath).mkString(java.io.File.pathSeparator)
     // val dirParams = mdocSources().map(pr => Seq(s"--in", pr.path.toIO.getAbsolutePath, "--out",  dir)).iterator.flatten.toSeq
     // Jvm.runLocal("mdoc.Main", cp, dirParams)
     // build arguments for mdoc
-    val args = List(
-                "--in", source.toIO.getAbsolutePath.toString,
-                "--out",  siteTargetSource.toIO.getAbsolutePath.toString,
-                "--classpath", cp,
-                // TODO: add modules scalacOptions
-                // -Ytasty-reader required by MDoc
-                "--scalac-options", "-Ytasty-reader",
-                "--verbose"
-                )
-    Console.println("!!!!!!")
-    Console.println(cp)
-    Console.println("?????????????????????")
-    Console.println(args.mkString(","))
-    Console.println(scalaVersion())
+//    val args = List(
+//                "--in", source.toIO.getAbsolutePath.toString,
+//                "--out",  siteTargetSource.toIO.getAbsolutePath.toString,
+//                "--classpath", cp,
+//                // TODO: add modules scalacOptions
+//                // -Ytasty-reader required by MDoc
+/*
+error: error while loading package, Missing dependency 'Add -Ytasty-reader to scalac options to parse the TASTy in /mnt/ssd2/hmf/IdeaProjects/storch/out/core/compile.dest/classes/torch/package.class', required by /mnt/ssd2/hmf/IdeaProjects/storch/out/core/compile.dest/classes/torch/package.class
+error: error while loading Tensor, Missing dependency 'Add -Ytasty-reader to scalac options to parse the TASTy in /mnt/ssd2/hmf/IdeaProjects/storch/out/core/compile.dest/classes/torch/Tensor.class', required by /mnt/ssd2/hmf/IdeaProjects/storch/out/core/compile.dest/classes/torch/Tensor.class
+error: about.md:15:1: object manualSeed is not a member of package torch
+*/
+                //"--scalac-options", "-Ytasty-reader",
+//               "--verbose"
+//                )
+//    Console.println("!!!!!!")
+//    Console.println(cp)
+//    Console.println("?????????????????????")
+//    Console.println(args.mkString(","))
+//    Console.println(scalaVersion())
     // TODO: remove/reduce cats-effects Map, print etc
     val siteVariables = scala.collection.immutable.Map(
                           "VERSION" -> "1.0.0",
@@ -597,14 +720,107 @@ object docs extends CommonSettings {
                           "OPENBLAS_VERSION" -> openblasVersion,
                           "CUDA_VERSION" -> cudaVersion
                         )
-    val settings = mdoc.MainSettings()
-      .withSiteVariables(siteVariables)
-      .withArgs(args)
-    // generate out/readme.md from working directory
-    val exitCode = mdoc.Main.process(settings)
-    // (optional) exit the main function with exit code 0 (success) or 1 (error)
-    if (exitCode != 0)
-      T.log.error(s"MDoc failed with exit code $exitCode")
+    // TODO: remove
+//    val settings = mdoc.MainSettings()
+//      .withSiteVariables(siteVariables)
+//      .withArgs(args)
+//    // generate out/readme.md from working directory
+//    val exitCode = mdoc.Main.process(settings)
+//    // (optional) exit the main function with exit code 0 (success) or 1 (error)
+//    if (exitCode != 0)
+//      T.log.error(s"MDoc failed with exit code $exitCode")
+    Console.println(s"Calling mdoc-local ??????? ${millSourcePath.toString()}")
+//    val y0 = anonTask(millSourcePath.toString())()
+//    val y1 = anonTask(siteTargetSource.toString())()
+//    val y2 = anonTask(target.toString())()
+//    val y3 = anonTask(T.dest.toString())()
+//    val y4 = anonTask(T.dest.toString())
+//    val z1 = y4()
+
+//    val x = mdocLocal(
+//        sources = Seq(millSourcePath),
+//        destination = siteTargetSource,
+//        siteVariables = siteVariables
+//      )()
+//    Console.println(s"x = $x")
+
+    val mdocSources = Seq(source)
+    //val cp = runClasspath().map(_.path)
+    val cp = compileClasspath().map(_.path)
+    val rp = mDocLibs().map(_.path)
+    val dir = siteTargetSource.toIO.getAbsolutePath
+    val dirParams = mdocSources.map(pr => Seq(s"--in", pr.toIO.getAbsolutePath, "--out", dir)).iterator.flatten
+    val vars = siteVariables.map { case (k, v) => s"--site.$k=$v" }
+    val docClasspath = toArgument(cp)
+
+/*
+--classpath /mnt/ssd2/hmf/IdeaProjects/storch/core/compile-resources:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/pytorch/2.0.1-1.5.10-SNAPSHOT/pytorch-2.0.1-1.5.10-20230809.075234-42-linux-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/pytorch-platform/2.0.1-1.5.10-SNAPSHOT/pytorch-platform-2.0.1-1.5.10-20230809.013234-22.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl-platform-redist/2023.1-1.5.10-SNAPSHOT/mkl-platform-redist-2023.1-1.5.10-20230718.125906-19.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/spire_3/0.18.0/spire_3-0.18.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/shapeless3-typeable_3/3.3.0/shapeless3-typeable_3-3.3.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lihaoyi/os-lib_3/0.9.1/os-lib_3-0.9.1.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lihaoyi/sourcecode_3/0.3.0/sourcecode_3-0.3.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/dirs/directories/26/directories-26.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.3.0/scala3-library_3-3.3.0.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp-platform/1.5.10-SNAPSHOT/javacpp-platform-1.5.10-20230809.075208-129.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas-platform/0.3.23-1.5.10-SNAPSHOT/openblas-platform-0.3.23-1.5.10-20230809.075226-28.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/pytorch/2.0.1-1.5.10-SNAPSHOT/pytorch-2.0.1-1.5.10-20230809.075234-42.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/pytorch/2.0.1-1.5.10-SNAPSHOT/pytorch-2.0.1-1.5.10-20230809.075234-42-macosx-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/pytorch/2.0.1-1.5.10-SNAPSHOT/pytorch-2.0.1-1.5.10-20230809.075234-42-windows-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl-platform/2023.1-1.5.10-SNAPSHOT/mkl-platform-2023.1-1.5.10-20230718.130143-27.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23-linux-x86_64-redist.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23-macosx-x86_64-redist.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23-windows-x86_64-redist.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/spire-macros_3/0.18.0/spire-macros_3-0.18.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/spire-platform_3/0.18.0/spire-platform_3-0.18.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/spire-util_3/0.18.0/spire-util_3-0.18.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/algebra_3/2.8.0/algebra_3-2.8.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lihaoyi/geny_3/1.0.0/geny_3-1.0.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.10/scala-library-2.13.10.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-android-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-android-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-ios-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-ios-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-linux-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-linux-ppc64le.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-linux-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-macosx-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-macosx-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-windows-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-android-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-android-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-ios-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-ios-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-linux-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-linux-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-linux-ppc64le.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-macosx-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-macosx-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-windows-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23-linux-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23-macosx-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23-windows-x86_64.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-kernel_3/2.8.0/cats-kernel_3-2.8.0.jar:/mnt/ssd2/hmf/IdeaProjects/storch/out/core/compile.dest/classes:/mnt/ssd2/hmf/IdeaProjects/storch/vision/compile-resources:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/sksamuel/scrimage/scrimage-core/4.0.34/scrimage-core-4.0.34.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/sksamuel/scrimage/scrimage-webp/4.0.34/scrimage-webp-4.0.34.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twelvemonkeys/imageio/imageio-core/3.9.4/imageio-core-3.9.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twelvemonkeys/imageio/imageio-jpeg/3.9.4/imageio-jpeg-3.9.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/drewnoakes/metadata-extractor/2.18.0/metadata-extractor-2.18.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/zh79325/open-gif/1.0.4/open-gif-1.0.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/ar/com/hjg/pngj/2.1.0/pngj-2.1.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twelvemonkeys/common/common-lang/3.9.4/common-lang-3.9.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twelvemonkeys/common/common-io/3.9.4/common-io-3.9.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twelvemonkeys/common/common-image/3.9.4/common-image-3.9.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twelvemonkeys/imageio/imageio-metadata/3.9.4/imageio-metadata-3.9.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/adobe/xmp/xmpcore/6.1.11/xmpcore-6.1.11.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-core/1.1.2/logback-core-1.1.2.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.1.2/logback-classic-1.1.2.jar:/mnt/ssd2/hmf/IdeaProjects/storch/out/vision/compile.dest/classes:/mnt/ssd2/hmf/IdeaProjects/storch/examples/compile-resources:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/me/tongfei/progressbar/0.9.5/progressbar-0.9.5.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/alexarchambault/case-app_3/2.1.0-M24/case-app_3-2.1.0-M24.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_3/1.0.4/scala-parallel-collections_3-1.0.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jline/jline/3.21.0/jline-3.21.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/alexarchambault/case-app-annotations_3/2.1.0-M24/case-app-annotations_3-2.1.0-M24.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/alexarchambault/case-app-util_3/2.1.0-M24/case-app-util_3-2.1.0-M24.jar:/mnt/ssd2/hmf/IdeaProjects/storch/out/examples/compile.dest/classes:/mnt/ssd2/hmf/IdeaProjects/storch/docs/compile-resources
+
+    val docClasspath = "/mnt/ssd2/hmf/IdeaProjects/storch/core/compile-resources:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/pytorch/2.0.1-1.5.10-SNAPSHOT/pytorch-2.0.1-1.5.10-20230809.075234-42-linux-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/pytorch-platform/2.0.1-1.5.10-SNAPSHOT/pytorch-platform-2.0.1-1.5.10-20230809.013234-22.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl-platform-redist/2023.1-1.5.10-SNAPSHOT/mkl-platform-redist-2023.1-1.5.10-20230718.125906-19.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/spire_3/0.18.0/spire_3-0.18.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/shapeless3-typeable_3/3.3.0/shapeless3-typeable_3-3.3.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lihaoyi/os-lib_3/0.9.1/os-lib_3-0.9.1.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lihaoyi/sourcecode_3/0.3.0/sourcecode_3-0.3.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/dirs/directories/26/directories-26.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.3.0/scala3-library_3-3.3.0.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp-platform/1.5.10-SNAPSHOT/javacpp-platform-1.5.10-20230809.075208-129.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas-platform/0.3.23-1.5.10-SNAPSHOT/openblas-platform-0.3.23-1.5.10-20230809.075226-28.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/pytorch/2.0.1-1.5.10-SNAPSHOT/pytorch-2.0.1-1.5.10-20230809.075234-42.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/pytorch/2.0.1-1.5.10-SNAPSHOT/pytorch-2.0.1-1.5.10-20230809.075234-42-macosx-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/pytorch/2.0.1-1.5.10-SNAPSHOT/pytorch-2.0.1-1.5.10-20230809.075234-42-windows-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl-platform/2023.1-1.5.10-SNAPSHOT/mkl-platform-2023.1-1.5.10-20230718.130143-27.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23-linux-x86_64-redist.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23-macosx-x86_64-redist.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23-windows-x86_64-redist.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/spire-macros_3/0.18.0/spire-macros_3-0.18.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/spire-platform_3/0.18.0/spire-platform_3-0.18.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/spire-util_3/0.18.0/spire-util_3-0.18.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/algebra_3/2.8.0/algebra_3-2.8.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lihaoyi/geny_3/1.0.0/geny_3-1.0.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.10/scala-library-2.13.10.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-android-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-android-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-ios-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-ios-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-linux-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-linux-ppc64le.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-linux-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-macosx-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-macosx-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/javacpp/1.5.10-SNAPSHOT/javacpp-1.5.10-20230808.202332-93-windows-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-android-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-android-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-ios-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-ios-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-linux-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-linux-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-linux-ppc64le.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-macosx-arm64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-macosx-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/openblas/0.3.23-1.5.10-SNAPSHOT/openblas-0.3.23-1.5.10-20230608.114324-11-windows-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23-linux-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23-macosx-x86_64.jar:/home/hmf/.cache/coursier/v1/https/oss.sonatype.org/content/repositories/snapshots/org/bytedeco/mkl/2023.1-1.5.10-SNAPSHOT/mkl-2023.1-1.5.10-20230718.130152-23-windows-x86_64.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-kernel_3/2.8.0/cats-kernel_3-2.8.0.jar:/mnt/ssd2/hmf/IdeaProjects/storch/out/core/compile.dest/classes:/mnt/ssd2/hmf/IdeaProjects/storch/vision/compile-resources:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/sksamuel/scrimage/scrimage-core/4.0.34/scrimage-core-4.0.34.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/sksamuel/scrimage/scrimage-webp/4.0.34/scrimage-webp-4.0.34.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twelvemonkeys/imageio/imageio-core/3.9.4/imageio-core-3.9.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twelvemonkeys/imageio/imageio-jpeg/3.9.4/imageio-jpeg-3.9.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/drewnoakes/metadata-extractor/2.18.0/metadata-extractor-2.18.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/zh79325/open-gif/1.0.4/open-gif-1.0.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/ar/com/hjg/pngj/2.1.0/pngj-2.1.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/slf4j-api/2.0.6/slf4j-api-2.0.6.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twelvemonkeys/common/common-lang/3.9.4/common-lang-3.9.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twelvemonkeys/common/common-io/3.9.4/common-io-3.9.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twelvemonkeys/common/common-image/3.9.4/common-image-3.9.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twelvemonkeys/imageio/imageio-metadata/3.9.4/imageio-metadata-3.9.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/adobe/xmp/xmpcore/6.1.11/xmpcore-6.1.11.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-core/1.1.2/logback-core-1.1.2.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.1.2/logback-classic-1.1.2.jar:/mnt/ssd2/hmf/IdeaProjects/storch/out/vision/compile.dest/classes:/mnt/ssd2/hmf/IdeaProjects/storch/examples/compile-resources:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/me/tongfei/progressbar/0.9.5/progressbar-0.9.5.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/alexarchambault/case-app_3/2.1.0-M24/case-app_3-2.1.0-M24.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_3/1.0.4/scala-parallel-collections_3-1.0.4.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jline/jline/3.21.0/jline-3.21.0.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/alexarchambault/case-app-annotations_3/2.1.0-M24/case-app-annotations_3-2.1.0-M24.jar:/home/hmf/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/alexarchambault/case-app-util_3/2.1.0-M24/case-app-util_3-2.1.0-M24.jar:/mnt/ssd2/hmf/IdeaProjects/storch/out/examples/compile.dest/classes:/mnt/ssd2/hmf/IdeaProjects/storch/docs/compile-resources"
+*/
+    Console.println("000000000000000000000000")
+    Console.println(docClasspath)
+    Console.println("111111111111111111111111")
+//    val params = (dirParams ++ vars).toSeq
+//    val params = dirParams.toSeq.appended("--site.PYTORCH_VERSION=2.0.1")
+    val params = Seq("--classpath", s"$docClasspath") ++
+                (dirParams ++ vars).toSeq
+                .appended("--verbose")
+//                .appended( s"--classpath $docClasspath")
+    Console.println("-------------------")
+    Console.println(params.mkString(";\n"))
+
+    // TODO; using Scala 2
+    //Jvm.runLocal("mdoc.Main", cp, params.appended("--verbose"))
+    //Jvm.runLocal("mdoc.Main", cp, params)
+/*
+* @param mainClass The main class to run
+   * @param classPath The classpath
+   * @param JvmArgs Arguments given to the forked JVM
+   * @param envArgs Environment variables used when starting the forked JVM
+   * @param workingDir The working directory to be used by the forked JVM
+   * @param background `true` if the forked JVM should be spawned in background
+   * @param useCpPassingJar When `false`, the `-cp` parameter is used to pass the classpath
+   *                        to the forked JVM.
+   *                        When `true`, a temporary empty JAR is created
+   *                        which contains a `Class-Path` manifest entry containing the actual classpath.
+   *                        This might help with long classpaths on OS'es (like Windows)
+   *                        which only supports limited command-line length
+   *
+def runSubprocess(
+                   mainClass: String,
+                   classPath: Agg[os.Path],
+                   jvmArgs: Seq[String] = Seq.empty,
+                   envArgs: Map[String, String] = Map.empty,
+                   mainArgs: Seq[String] = Seq.empty,
+                   workingDir: os.Path = null,
+                   background: Boolean = false,
+                   useCpPassingJar: Boolean = false
+                 )(implicit ctx: Ctx): Unit = {
+
+* Jvm.runSubprocess(
+  mainClass,
+  runClasspath().map(_.path),
+  forkArgs(),
+  forkEnv(),
+  args,
+  workingDir = forkWorkingDir(),
+  useCpPassingJar = runUseArgsFile()
+)
+
+ */
+
+    // https://github.com/scalameta/mdoc/issues/702
+    // https://github.com/hmf/mdocMill
+    Jvm.runSubprocess(
+      mainClass =  "mdoc.Main",
+      classPath = rp,
+      jvmArgs=forkArgs(),
+      envArgs=forkEnv(),
+      mainArgs=params,
+//      workingDir = forkWorkingDir(),
+//      useCpPassingJar = runUseArgsFile()
+    )
 
     val siteTmp = target / "site"
     os.makeDir.all(siteTmp)
