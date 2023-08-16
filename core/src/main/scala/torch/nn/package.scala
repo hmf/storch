@@ -37,4 +37,5 @@ package object nn {
   export modules.normalization.GroupNorm
   export modules.pooling.AdaptiveAvgPool2d
   export modules.pooling.MaxPool2d
+  export modules.embed.Embedding
 }

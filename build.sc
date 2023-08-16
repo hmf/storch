@@ -441,6 +441,7 @@ object examples extends CommonSettings {
 object docs extends CommonSettings {
 
   override def scalaVersion = T{ ScalaVersion }
+  override def scalacOptions = T{ super.scalacOptions() ++  Seq("-groups") }
 
   override def moduleDeps = Seq(core, vision, examples)
 
