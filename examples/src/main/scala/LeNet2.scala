@@ -15,12 +15,13 @@
  */
 
 //> using scala "3.3"
+//> using repository "sonatype:snapshots"
 //> using repository "sonatype-s01:snapshots"
-//> using lib "dev.storch::vision:0.0-795485b-SNAPSHOT"
+//> using lib "dev.storch::vision:0.0-bbdc238-SNAPSHOT"
 // replace with pytorch-platform-gpu if you have a CUDA capable GPU
-//> using lib "org.bytedeco:pytorch-platform:2.0.1-1.5.9"
+//> using lib "org.bytedeco:pytorch-platform:2.0.1-1.5.10-SNAPSHOT"
 // enable for CUDA support
-////> using lib "org.bytedeco:cuda-platform-redist:12.1-8.9-1.5.9"
+////> using lib "org.bytedeco:cuda-platform-redist:12.1-8.9-1.5.10-SNAPSHOT"
 
 import torch.*
 import torch.nn.functional as F
@@ -36,7 +37,7 @@ import torch.Device.CPU
 import torch.nn.modules.HasParams
 
 // Define the model architecture
-class LeNet[D <: BFloat16 | Float32: Default] extends HasParams[D] {
+class LeNet2[D <: BFloat16 | Float32: Default] extends HasParams[D] {
 
   val conv1 = register(nn.Conv2d(1, 6, 5))
   val pool = register(nn.MaxPool2d((2, 2)))
@@ -61,12 +62,12 @@ class LeNet[D <: BFloat16 | Float32: Default] extends HasParams[D] {
  * Run original code:
  * ./mill examples.runMain LeNetApp
  * Run this version
- * ./mill examples.runMain commands.LeNetApp
+ * ./mill examples.runMain LeNetApp2
  */
 object LeNetApp2 extends App {
   val device = if torch.cuda.isAvailable then CUDA else CPU
   println(s"Using device: $device")
-  val model = LeNet().to(device)
+  val model = LeNet2().to(device)
 
   // prepare data
   val dataPath = Paths.get("data/mnist")
