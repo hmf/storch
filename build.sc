@@ -55,6 +55,8 @@ import scala.concurrent.duration._
 // import cats.effect.{ IO, IOApp, ExitCode }
 // import cats.effect.{ Async, Resource }
 
+import cats._, cats.data._, cats.implicits._
+
 import laika.api._
 import laika.format._
 import laika.io.implicits._
@@ -586,44 +588,69 @@ object docs extends CommonSettings {
 
   //override def runMain(mainClass: String, args: String*): Command[Unit] = super.runMain(mainClass, args:_*)
 
-  // TODO: https://github.com/com-lihaoyi/mill/issues/2694
-  // https://github.com/com-lihaoyi/mill/issues/2694#issuecomment-1677127114
-//  def anonTask(fileName: String): Task[String] = T.task {
-//    fileName + "Anon"
-//  }
-  def anonTask: Task[String => String] = T.task {
+  /*
+    NOTE on issue using anonymous tasks
+    Issue: https://github.com/com-lihaoyi/mill/issues/2694
+    Answer: https://github.com/com-lihaoyi/mill/issues/2694#issuecomment-1677127114
+    Example code: https://mill-build.com/mill/example/tasks/3-anonymous-tasks.html
+
+    def anonTask(fileName: String): Task[String] = T.task {
+      fileName + "Anon"
+    }
+    def helloFileData = T { anonTask("hello.txt")() }
+    def printFileData(fileName: String) = T.command {
+      Console.println(anonTask(fileName)())
+    }
+
+    Workaround:
+  */
+ def anonTask: Task[String => String] = T.task {
     s:String => s + "Anon"
   }
 
-  def noTask(fileName: String): String = {
+  /*
+  [error]  found   : String("hello.txt")
+  [error]  required: mill.define.Applicative.ApplyHandler[mill.define.Task]
+  [error]   def helloFileData = T { anonTask()("hello.txt") }
+   */
+  //def helloFileData = T { anonTask()("hello.txt") }
+  /*
+  [error] /mnt/ssd2/hmf/IdeaProjects/storch/build.sc:602:36: no arguments allowed for nullary method apply: ()(implicit handler: mill.define.Applicative.ApplyHandler[mill.define.Task]): String => String in trait Applyable
+  [error]   def helloFileData = T { anonTask("hello.txt") }
+   */
+  // https://github.com/com-lihaoyi/mill/blob/main/docs/modules/ROOT/pages/Mill_Design_Principles.adoc
+  def anonTask0(fileName: String): Task[String] = T.task {
     fileName + "Anon"
   }
+  def helloFileDataO = T { anonTask0("hello.txt") }
+  def helloFileData = T { anonTask.map(f => f("String-")) }
 
-  //def helloFileData = T { anonTask("hello.txt")() }
-//  def helloFileData = T { anonTask("hello.txt") }
-//
-//  def printFileData(fileName: String) = T.command {
-//    Console.println(anonTask(fileName)())
-//  }
 
-  def printFileData0(fileName: String) = T.command {
-    val dir = T.dest.toString()
-    Console.println(dir)
-    // Target#apply() call cannot use `value dir` defined within the T{...} block
-    // Console.println(anonTask(dir)())
+  def printFileData(fileName: String): Command[String] = T.command {
+    val dest = T.dest.toString() + s"/$fileName"
+
+    // Won't work
+    // Target#apply() call cannot use `value newDest` defined within the T{...} block
+    // val newDest = anonTask0(dest)
+    // val result1 = newDest()
+    // val result1 = newDest.apply()
+    // Console.println(result1)
+
+    // Won't work
     //  Target.ctx() / T.ctx() / T.* APIs can only be used with a T{...} block
-    //Console.println(anonTask(T.dest.toString())())
-  }
+    // val newDest0 = anonTask0( T.dest.toString() )
+    // Console.println( newDest0() )
 
-  def printFileData1 = T {
-    val dir = T.dest.toString()
-    Console.println(dir)
-    // Target#apply() call cannot use `value dir` defined within the T{...} block
-    // Console.println(anonTask(dir)())
-    //  Target.ctx() / T.ctx() / T.* APIs can only be used with a T{...} block
-    // Console.println(anonTask(T.dest.toString())())
-  }
+    // Workaround
+    // Fails
+    // val newDest0 = anonTask.map( f => f(T.dest.toString()) )
+    // Console.println( newDest0() )
+    val result0 = anonTask.apply()
+    Console.println( result0(T.dest.toString()) )
+    Console.println( result0( dest ) )
 
+    dest
+  }
 
   def mdocLocal(
                  sources: Seq[os.Path],
