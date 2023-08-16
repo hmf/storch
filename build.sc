@@ -66,7 +66,6 @@ import laika.parse.code.SyntaxHighlighting
 import laika.io.api.TreeTransformer
 import laika.io.model.RenderedTreeRoot
 
-
 import cats.effect.{ Async, Resource }
 
 import laika.helium.config._
@@ -241,7 +240,7 @@ object StorchSitePlugin {
     Transformer
       .from(Markdown)
       .to(HTML)
-      .using(GitHubFlavor)
+      .using(GitHubFlavor, SyntaxHighlighting)
       .withConfigValue(linkConfig)
       .withConfigValue(buildToolSelection)
       .withRawContent
@@ -265,7 +264,7 @@ object StorchSitePlugin {
   def createTransformer(sources: String, targetHTML:String) = {
     val parserBuilder: ParserBuilder = MarkupParser
       .of(Markdown)
-      .using(GitHubFlavor)
+      .using(GitHubFlavor, SyntaxHighlighting)
       .withConfigValue(linkConfig)
       .withConfigValue(buildToolSelection)
       .withRawContent
@@ -406,20 +405,12 @@ trait TestCommonSettings extends TestModule {
 
 object core extends CommonSettings {
 
-  // Only for site generation
-  // See https://docs.scala-lang.org/scala3/guides/scaladoc/static-site.html
-//  override def scalaDocOptions = {
-//    super.scalaDocOptions()
-//    //Seq("-siteroot", "mydocs", "-no-link-warnings")
-//  }
-
   object test extends SbtModuleTests with TestCommonSettings
 }
 
 object vision extends SbtModule with CommonSettings {
    override def moduleDeps = Seq(core)
 
-  // def ivyDeps = super.ivyDeps() ++ Agg(
   override def ivyDeps = super[CommonSettings].ivyDeps() ++ Agg(
       ivy"com.sksamuel.scrimage:scrimage-core:$scrImageVersion",
       ivy"com.sksamuel.scrimage:scrimage-webp:$scrImageVersion",
@@ -442,41 +433,11 @@ object examples extends CommonSettings {
 }
 
 
-
-// https://mill-build.com/mill/Scala_Module_Config.html#_scaladoc_config
-/*
-
-docs.docJar
-docs.docJarUseArgsFile
-docs.docResources
-docs.docSources
-docs.javadocOptions
-docs.scalaDocClasspath
-docs.scalaDocOptions
-docs.scalaDocPluginClasspath
-docs.scalaDocPluginIvyDeps
-
-hmf@gandalf:/mnt/ssd2/hmf/IdeaProjects/storch$ ./mill -i show docs.docJar
-[build.sc] [41/49] compile
-[info] compiling 1 Scala source to /mnt/ssd2/hmf/IdeaProjects/storch/out/mill-build/compile.dest/classes ...
-[info] done compiling
-[1/1] show > [43/43] docs.docJar
-"ref:v0:75c9e461:/mnt/ssd2/hmf/IdeaProjects/storch/out/docs/docJar.dest/out.jar"
-hmf@gandalf:/mnt/ssd2/hmf/IdeaProjects/storch$ ./mill -i show docs.docResources
-[1/1] show > [1/1] docs.docResources
-[
-  "ref:v0:c984eca8:/mnt/ssd2/hmf/IdeaProjects/storch/docs/docs"
-]
-
-"unresolved internal reference: api/index.html"
-
-1. Add other module sources to "docs.docResources"
-1. Set "scalaDocOptions" to:
-   1. just generate the API
-   1. Copy the results to the docs temporary folder /api folder
+/**
+ * Generates all documentation:
+ * - API Scaladoc
+ * - Laika HTML from Markdown source
  */
-
-
 object docs extends CommonSettings {
 
   override def scalaVersion = T{ ScalaVersion }
@@ -730,11 +691,14 @@ object docs extends CommonSettings {
       // see https://github.com/typelevel/Laika/discussions/485#discussioncomment-6693405
       val templates = os.list(siteSource)
       templates.foreach { p =>
-        if (p.toString().contains("img")) {
-          T.log.info(s"Copied from ${p} into ${siteTargetSource}")
+        if (
+            (!p.toString().contains("default.template.html")) &&
+            (!p.toString().contains("landing.template.html"))
+          ) {
+          T.log.info(s"\tCopied from ${p} into ${siteTargetSource}")
           os.copy.into(from = p, to = siteTargetSource)
           // Not copied by Laika
-          T.log.info(s"Copied from ${p} into ${siteTmp}")
+          T.log.info(s"\tCopied from ${p} into ${siteTmp}")
           os.copy.into(from = p, to = siteTmp)
         }
       }
@@ -750,7 +714,6 @@ object docs extends CommonSettings {
       T.log.info(s"siteTargetSource = $siteTargetSource")
       T.log.info(s"target = $siteTmp")
       // os.makeDir.all(siteTmp)
-
 
       // Example of debugging
       /*
@@ -807,6 +770,44 @@ object docs extends CommonSettings {
   def laikaLocal: T[PathRef] = T {
     val site = laikaBase.apply()
     site(true)
+  }
+
+  // TODO: https://github.com/typelevel/Laika/discussions/492
+  // Local browsing
+
+  /*
+  https://github.com/typelevel/Laika/blob/dd872237fb552c8f8b4119a3c02ab2e55bad96fb/sbt/src/main/scala/laika/sbt/LaikaPlugin.scala#L135
+  laikaPreview
+  laikaPreviewConfig
+  startPreviewServer
+
+  https://github.com/typelevel/Laika/blob/dd872237fb552c8f8b4119a3c02ab2e55bad96fb/sbt/src/main/scala/laika/sbt/Tasks.scala#L249
+  startPreviewServer
+
+  val (_, cancel) = buildPreviewServer.value.allocated.unsafeRunSync()
+
+  streams.value.log.info(
+    s"Preview server started on port ${laikaPreviewConfig.value.port}. Press return/enter to exit."
+  )
+
+  try {
+    System.in.read
+  }
+  finally {
+    streams.value.log.info(s"Shutting down preview server...")
+    cancel.unsafeRunSync()
+  }
+
+  buildPreviewServer
+  ServerConfig
+
+  import laika.sbt (not available)
+  import laika.preview (not available)
+  */
+
+  // TODO: with watch
+  def laikaServe = {
+
   }
 
 }
