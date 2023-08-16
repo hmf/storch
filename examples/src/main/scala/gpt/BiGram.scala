@@ -283,11 +283,10 @@ object BiGram:
     model.train()
     out
 
-  class BigramLanguageModel extends nn.Module: 
+  class BigramLanguageModel(vocabSize: Long) extends nn.Module: 
 
-    // TODO: add
     // each token directly reads off the logits for the next token from a lookup table
-    //val token_embedding_table = nn.Embedding(vocab_size, vocab_size)
+    val token_embedding_table = nn.Embedding(vocabSize, vocabSize)
 
     def apply(x: Tensor[Int64], y: Tensor[Int64]): (Tensor[Float32], Tensor[Float32]) =
       val loss = torch.full(Seq(1), 100.0, dtype=float32)
@@ -313,7 +312,7 @@ object BiGram:
 
   // val o = get_batch("train")
   // resnet.sala [200]
-  val model = BigramLanguageModel()
+  val model = BigramLanguageModel(vocabSize = vocabSize)
   val loss = estimate_loss(model)
 
 

@@ -81,6 +81,7 @@ import laika.helium.config.IconLink
 import laika.helium.config.ImageLink
 import laika.rewrite.nav.{ChoiceConfig, Selections, SelectionConfig}
 import laika.rewrite.link.{ApiLinks, LinkConfig}
+import laika.helium.config.{ ThemeNavigationSection, TextLink }
 
 // https://github.com/typelevel/sbt-typelevel
 // https://github.com/sbt/sbt
@@ -231,7 +232,17 @@ object StorchSitePlugin {
             |""".stripMargin
         )
       )
+    ).site.mainNavigation(
+        depth = 1,
+        includePageSections = true,
+        appendLinks = Seq(
+          ThemeNavigationSection("Related Projects",
+            TextLink.external("https://pytorch.org/", "PyTorch"),
+            TextLink.external("https://github.com/bytedeco/javacpp", "JavaCPP")
+          )
+        )
     )
+
 
   // Not working: https://github.com/typelevel/Laika/discussions/485
   // https://typelevel.org/Laika/latest/02-running-laika/02-library-api.html

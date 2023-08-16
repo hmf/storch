@@ -22,8 +22,6 @@ package embed
 import org.bytedeco.pytorch
 import org.bytedeco.pytorch.{EmbeddingImpl, EmbeddingOptions}
 
-// https://docs.scala-lang.org/overviews/scaladoc/for-library-authors.html
-// https://github.com/lampepfl/dotty/issues/14212
 // format: off
 /** A simple lookup table that stores embeddings of a fixed dictionary and size.
  * 
