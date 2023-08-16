@@ -232,9 +232,10 @@ object StorchSitePlugin {
             |""".stripMargin
         )
       )
-    ).site.mainNavigation(
-        depth = 1,
-        includePageSections = true,
+    )
+    .site.mainNavigation(
+        depth = 2,
+        includePageSections = false,
         appendLinks = Seq(
           ThemeNavigationSection("Related Projects",
             TextLink.external("https://pytorch.org/", "PyTorch"),
