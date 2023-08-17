@@ -179,7 +179,7 @@ transparent inline def opB[T](a:Option[T], b:Option[T])(using num: scala.math.Nu
         case Some(b_) => a_ + b_
 
 /** 
- * ./mill examples.runMain gpt.BigGram
+ * ./mill examples.runMain gpt.BiGram
  * 
  * @see https://www.youtube.com/watch?v=kCc8FmEb1nY
  * @see https://github.com/karpathy/ng-video-lecture/blob/master/bigram.py
@@ -233,8 +233,8 @@ object BiGram:
   // here are all the unique characters that occur in this text
   val chars = SortedSet(text:_*)
   println(s"chars = ${chars.mkString(", ")}")
-  val vocabSize = chars.size
-  println(s"vocabSize = $vocabSize")
+  val vocab_size = chars.size
+  println(s"vocab_size = $vocab_size")
 
   // create a mapping from characters to integers
   val stoi = chars.zipWithIndex.map((ch, i) => ch -> i).toMap
@@ -262,7 +262,95 @@ object BiGram:
     val y = torch.stack(stacks_y)
     ( x.to(device), y.to(device) )
 
+  val (xb, yb) = get_batch("train")
+  println("inputs:")
+  println(xb.shape)
+  println(xb)
+  println("targets:")
+  println(yb.shape)
+  println(yb)
+  println("----")
 
+
+  for b <- 0 until batch_size // batch dimension
+  do
+    for t <- 0 until block_size // time dimension
+    do
+      val context = xb(b, º`:`t+1)
+      val target = yb(b,t)
+      println(s"when input is ${context.toSeq.mkString("[",", ","]")} the target: ${target.item}")
+
+  println(xb) // our input to the transformer
+
+  class BigramLanguageModel(vocabSize: Int) extends nn.Module: 
+
+    // each token directly reads off the logits for the next token from a lookup table
+    val token_embedding_table = nn.Embedding(vocabSize, vocabSize)
+
+    def forward(idx: Tensor[Int64], targets: Option[Tensor[Float32]] = None) =
+
+      // idx and targets are both (B,T) tensor of integers
+      val logits = token_embedding_table( idx ) // (B,T,C)
+
+      if targets.isEmpty
+      then
+        (logits, torch.Tensor(0.0f))
+      else
+        val shape = logits.shape
+        val (b,t,c) = (shape(0), shape(1), shape(2))
+        val logitsV = logits.view(b*t, c)
+        val targetsV = targets.get.view(b*t)
+        println(logitsV.size)
+        println(targetsV.size)
+        val loss = F.binaryCrossEntropyWithLogits(logitsV, targetsV)
+        //val loss = F.crossEntropy(logitsV, targetsV)
+        (logits, loss)
+
+
+/*
+    def generate(self, idx, max_new_tokens):
+        # idx is (B, T) array of indices in the current context
+        for _ in range(max_new_tokens):
+            # get the predictions
+            logits, loss = self(idx)
+            # focus only on the last time step
+            logits = logits[:, -1, :] # becomes (B, C)
+            # apply softmax to get probabilities
+            probs = F.softmax(logits, dim=-1) # (B, C)
+            # sample from the distribution
+            idx_next = torch.multinomial(probs, num_samples=1) # (B, 1)
+            # append sampled index to the running sequence
+            idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
+        return idx    
+*/
+    def generate(idx: Tensor[Int64], max_new_tokens: Int) =
+      // idx is (B, T) array of indices in the current context
+      for _ <- 0 until max_new_tokens
+      do
+        // get the predictions
+        val logits, loss = apply(idx)
+        // focus only on the last time step
+        //val logits_t = logits(Slice(), -1, Slice()) // becomes (B, C)
+        ???
+      ???
+
+    def apply(x: Tensor[Int64], y: Tensor[Int64]) =
+      forward(x, Some(y.to(dtype = DType.float32)) )
+
+    def apply(x: Tensor[Int64]) =
+      forward(x, None )
+
+
+  end BigramLanguageModel
+
+  val m = BigramLanguageModel(vocab_size)
+  val (logits, loss) = m(xb, yb)
+  print(logits.shape)
+  print(loss)    
+
+
+
+  // https://pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html
   // TODO: @torch.no_grad()
   def estimate_loss(model: BigramLanguageModel) = 
     val out = scala.collection.mutable.Map[String, Float]()
@@ -283,69 +371,39 @@ object BiGram:
     model.train()
     out
 
-  class BigramLanguageModel(vocabSize: Long) extends nn.Module: 
-
-    // each token directly reads off the logits for the next token from a lookup table
-    val token_embedding_table = nn.Embedding(vocabSize, vocabSize)
-/*
- def forward(self, idx, targets=None):
-
-        # idx and targets are both (B,T) tensor of integers
-        logits = self.token_embedding_table(idx) # (B,T,C)
-
-        if targets is None:
-            loss = None
-        else:
-            B, T, C = logits.shape
-            logits = logits.view(B*T, C)
-            targets = targets.view(B*T)
-            loss = F.cross_entropy(logits, targets)
-
-        return logits, loss
-*/
-    def forward(idx: Tensor[torch.Int64]) =
-      val targets = ???
-
-      // idx and targets are both (B,T) tensor of integers
-      val logits = token_embedding_table( idx ) // (B,T,C)
-
-      ???
-
-    def apply(x: Tensor[Int64], y: Tensor[Int64]): (Tensor[Float32], Tensor[Float32]) =
-      val loss = torch.full(Seq(1), 100.0, dtype=float32)
-      val logits = torch.full(Seq(100), 100.0, dtype=float32)
-      (logits, loss)
-
-
-    
-
-  end BigramLanguageModel
-
-  class NeuralNetwork extends nn.Module:
-    val flatten = nn.Flatten()
-    val linearReluStack = register(nn.Sequential(
-      nn.Linear(28*28, 512),
-      nn.ReLU(),
-      nn.Linear(512, 512),
-      nn.ReLU(),
-      nn.Linear(512, 10),
-    ))
-    
-    def apply(x: Tensor[Float32]) =
-      val flattened = flatten(x)
-      val logits = linearReluStack(flattened)
-      logits
-
-  // val o = get_batch("train")
-  // resnet.sala [200]
-  val model = BigramLanguageModel(vocabSize = vocabSize)
-  val loss = estimate_loss(model)
-
 
   def main(args: Array[String]): Unit =
     ()
 
 end BiGram
+
+// 
+//   class NeuralNetwork extends nn.Module:
+//     val flatten = nn.Flatten()
+//     val linearReluStack = register(nn.Sequential(
+//       nn.Linear(28*28, 512),
+//       nn.ReLU(),
+//       nn.Linear(512, 512),
+//       nn.ReLU(),
+//       nn.Linear(512, 10),
+//     ))
+//     
+//     def apply(x: Tensor[Float32]) =
+//       val flattened = flatten(x)
+//       val logits = linearReluStack(flattened)
+//       logits
+// 
+  // val o = get_batch("train")
+  // resnet.sala [200]
+  // val model = BigramLanguageModel(vocabSize = vocabSize)
+  // val loss = estimate_loss(model)
+
+//   class BiGram():
+// 
+//     def main(args: Array[String]): Unit =
+//       ()
+// 
+//   end BiGram
 
 
 
