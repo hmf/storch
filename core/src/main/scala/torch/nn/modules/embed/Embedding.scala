@@ -120,6 +120,6 @@ final class Embedding[D <: DType: Default](
 
   override val nativeModule: EmbeddingImpl = EmbeddingImpl(options)
 
-  def apply(t: Tensor[D]): Tensor[D] = Tensor(nativeModule.forward(t.native))
+  def apply(t: Tensor[Int64]): Tensor[D] = Tensor(nativeModule.forward(t.native))
 
   override def toString = getClass().getSimpleName()

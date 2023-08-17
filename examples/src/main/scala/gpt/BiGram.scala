@@ -287,11 +287,37 @@ object BiGram:
 
     // each token directly reads off the logits for the next token from a lookup table
     val token_embedding_table = nn.Embedding(vocabSize, vocabSize)
+/*
+ def forward(self, idx, targets=None):
+
+        # idx and targets are both (B,T) tensor of integers
+        logits = self.token_embedding_table(idx) # (B,T,C)
+
+        if targets is None:
+            loss = None
+        else:
+            B, T, C = logits.shape
+            logits = logits.view(B*T, C)
+            targets = targets.view(B*T)
+            loss = F.cross_entropy(logits, targets)
+
+        return logits, loss
+*/
+    def forward(idx: Tensor[torch.Int64]) =
+      val targets = ???
+
+      // idx and targets are both (B,T) tensor of integers
+      val logits = token_embedding_table( idx ) // (B,T,C)
+
+      ???
 
     def apply(x: Tensor[Int64], y: Tensor[Int64]): (Tensor[Float32], Tensor[Float32]) =
       val loss = torch.full(Seq(1), 100.0, dtype=float32)
       val logits = torch.full(Seq(100), 100.0, dtype=float32)
       (logits, loss)
+
+
+    
 
   end BigramLanguageModel
 
