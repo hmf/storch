@@ -302,28 +302,12 @@ object BiGram:
       else
         val shape = logits.shape
         val (b,t,c) = (shape(0), shape(1), shape(2))
-        val logitsV = logits.view(b*t, c)  // batch size x number of classes b*t = 32*8 = 256
-        val targetsV = targets.get.view(b*t) // 256
+        val logitsV = logits.view(b*t, c)  // batch size x number of classes
+        val targetsV = targets.get.view(b*t) 
         val loss = F.crossEntropy(logitsV, targetsV)
         (logitsV, loss)
 
 
-/*
-    def generate(self, idx, max_new_tokens):
-        # idx is (B, T) array of indices in the current context
-        for _ in range(max_new_tokens):
-            # get the predictions
-            logits, loss = self(idx)
-            # focus only on the last time step
-            logits = logits[:, -1, :] # becomes (B, C)
-            # apply softmax to get probabilities
-            probs = F.softmax(logits, dim=-1) # (B, C)
-            # sample from the distribution
-            idx_next = torch.multinomial(probs, num_samples=1) # (B, 1)
-            # append sampled index to the running sequence
-            idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
-        return idx    
-*/
     def generate(idx: Tensor[Int64], max_new_tokens: Int) =
       var idx_ = idx.copy_(idx)
       // idx is (B, T) array of indices in the current context
@@ -342,7 +326,6 @@ object BiGram:
       idx_
 
     def apply(x: Tensor[Int64], y: Tensor[Int64]) =
-      //forward(x, Some(y.to(dtype = DType.float32)) )
       forward(x, Some(y) )
 
     def apply(x: Tensor[Int64]) =
@@ -369,17 +352,39 @@ object BiGram:
   loss2.backward()
   
   val m = BigramLanguageModel(vocab_size)
-  val (logits, loss) = m(xb, yb)
+  val (logits3, loss3) = m(xb, yb)
   println(s"batch_size * block_size = ${batch_size * block_size}")
-  println(s"logits.shape = ${logits.shape}")
-  println(s"loss=${loss.item}")    
+  println(s"logits.shape = ${logits3.shape}")
+  println(s"loss=${loss3.item}")    
   
-  val next = m.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=100)(0)
-  val decoded = decode(next.toSeq)
-  val d = decode(Seq(0))
-  println(s"decode:'$decoded'")
+  val next1 = m.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=100)(0)
+  val decoded1 = decode(next1.toSeq)
+  println(s"decode:'$decoded1'")
 
 
+  // create a PyTorch optimizer
+  val optimizer = torch.optim.AdamW(m.parameters, lr=1e-3)
+
+  //val batch_size = 32
+  var loss4: Tensor[Float32] = _
+  // loss=4.5633 -> 4.4979854 for 100000 steps
+  for steps <- 0 until 100000 // increase number of steps for good results... 
+  do      
+    // sample a batch of data
+    val (xb, yb) = get_batch("train")
+
+    // evaluate the loss
+    val (logits, loss) = m(xb, yb)
+    loss4 = loss
+    optimizer.zeroGrad(setToNone=true)
+    loss.backward()
+    optimizer.step()
+
+  println(loss4.item)
+
+  val next2 = m.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  val decoded2 = decode(next2.toSeq)
+  println(s"decode:'$decoded2'")
 
   // https://pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html
   // TODO: @torch.no_grad()
