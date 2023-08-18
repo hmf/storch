@@ -237,10 +237,10 @@ object BiGram:
   println(s"vocab_size = $vocab_size")
 
   // create a mapping from characters to integers
-  val stoi = chars.zipWithIndex.map((ch, i) => ch -> i).toMap
+  val stoi = chars.zipWithIndex.map((ch, i) => ch -> i.toLong).toMap
   val itos = stoi.map((ch,i) => i -> ch)
   def encode(s: String) = s.map( c => stoi(c) )
-  def decode(s: Seq[Int]) = s.map( i => itos(i) ).mkString
+  def decode(s: Seq[Long]) = s.map( i => itos(i) ).mkString
 
   println(s""""BiGram!" = "${decode(encode("BiGram!"))}"""")
 
@@ -329,24 +329,17 @@ object BiGram:
       // idx is (B, T) array of indices in the current context
       for i <- 0 until max_new_tokens
       do
-        println(i)
         // get the predictions
         val (logits_t, loss) = apply(idx)
-        println(s"\t${logits_t.shape}")
         // focus only on the last time step
         val logits = logits_t(Slice(), -1, Slice()) // becomes (B, C)
-        println(s"\t${logits.shape}")
         // apply softmax to get probabilities
         val probs = F.softmax(logits, dim = -1L) // (B, C)
-        println(s"\t${probs.shape}")
         // sample from the distribution
         val idx_next = torch.multinomial(probs, numSamples=1) // (B, 1)
-        println(s"\t${idx_next.shape}")
-        println(s"next = \t${idx_next.item}")
         // append sampled index to the running sequence
         idx_ = torch.cat(Seq(idx_, idx_next), dim=1) // (B, T+1)
-        println(s"\t$idx_")
-      ???
+      idx_
 
     def apply(x: Tensor[Int64], y: Tensor[Int64]) =
       //forward(x, Some(y.to(dtype = DType.float32)) )
@@ -370,14 +363,17 @@ object BiGram:
   val loss1 = F.crossEntropy(input1, target1)
   loss1.backward()
   println(loss1)
-
+  
   val m = BigramLanguageModel(vocab_size)
   val (logits, loss) = m(xb, yb)
   println(s"batch_size * block_size = ${batch_size * block_size}")
   println(s"logits.shape = ${logits.shape}")
   println(s"loss=${loss.item}")    
   
-  val next = m.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=100)
+  val next = m.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=100)(0)
+  val decoded = decode(next.toSeq)
+  val d = decode(Seq(0))
+  println(s"decode:'$decoded'")
 
 
 
