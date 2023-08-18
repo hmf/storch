@@ -392,9 +392,9 @@ trait CommonSettings extends SbtModule with Bloop.Module {
       // https://github.com/bytedeco/javacpp-presets/tree/master/pytorch
       ivy"org.bytedeco:pytorch:$pytorchVersion-${javaCppVersion};classifier=${javaCPPPlatform()}",
       ivy"org.bytedeco:pytorch-platform:$pytorchVersion-${javaCppVersion}",
-      // // Additional dependencies required to use CUDA, cuDNN, and NCCL
+      // Additional dependencies required to use CUDA, cuDNN, and NCCL
       // ivy"org.bytedeco:pytorch-platform-gpu:$pytorchVersion-${javaCppVersion}",
-      // // Additional dependencies to use bundled CUDA, cuDNN, and NCCL
+      // Additional dependencies to use bundled CUDA, cuDNN, and NCCL
       // ivy"org.bytedeco:cuda-platform-redist:$cudaVersion-${javaCppVersion}",
       // Additional dependencies to use bundled full version of MKL
       ivy"org.bytedeco:mkl-platform-redist:$mklVersion-${javaCppVersion}",

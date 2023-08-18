@@ -5,6 +5,7 @@ package gpt
 // cSpell: ignore dtype
 // cSpell: ignore stoi, itos
 // cSpell: ignore nn, probs
+// cSpell: ignore xbow, xprev
 
 import java.nio.file.Paths
 import java.nio.file.Files
@@ -180,6 +181,36 @@ transparent inline def opB[T](a:Option[T], b:Option[T])(using num: scala.math.Nu
 
 /** 
  * ./mill examples.runMain gpt.BiGram
+ * 
+ * $ prime-select query
+ * $ sudo prime-select intel
+ * $ sudo prime-select nvidia
+ * The "on-demand" mode requires explicit switching. See below.
+ * $ sudo prime-select nvidia
+ * 
+ * Vulkan: 
+ *   export __NV_PRIME_RENDER_OFFLOAD=1
+ * OpenGL:
+ *   export __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia
+ * 
+ * ~$ glxinfo | grep vendor
+ * server glx vendor string: SGI
+ * client glx vendor string: Mesa Project and SGI
+ * OpenGL vendor string: Intel
+ * 
+ * ~$ export __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia
+ * ~$ glxinfo | grep vendor
+ * server glx vendor string: NVIDIA Corporation
+ * client glx vendor string: NVIDIA Corporation
+ * OpenGL vendor string: NVIDIA Corporation
+ * 
+ * VSCodeProjects/storch$ __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia glxgears -info
+ * Running synchronized to the vertical refresh.  The framerate should be
+ * approximately the same as the monitor refresh rate.
+ * GL_RENDERER   = Quadro P1000/PCIe/SSE2
+ * GL_VERSION    = 4.6.0 NVIDIA 535.86.10
+ * GL_VENDOR     = NVIDIA Corporation
+ * GL_EXTENSIONS = GL_AMD_multi_draw_indirect GL_AMD_seamless_cubemap_per_texture ...
  * 
  * @see https://www.youtube.com/watch?v=kCc8FmEb1nY
  * @see https://github.com/karpathy/ng-video-lecture/blob/master/bigram.py
@@ -367,8 +398,9 @@ object BiGram:
 
   //val batch_size = 32
   var loss4: Tensor[Float32] = _
+  // loss=4.5633 -> 4.5606503 for 100 steps
   // loss=4.5633 -> 4.4979854 for 100000 steps
-  for steps <- 0 until 100000 // increase number of steps for good results... 
+  for steps <- 0 until 100 // increase number of steps for good results... 
   do      
     // sample a batch of data
     val (xb, yb) = get_batch("train")
@@ -385,6 +417,41 @@ object BiGram:
   val next2 = m.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
   val decoded2 = decode(next2.toSeq)
   println(s"decode:'$decoded2'")
+
+  // The mathematical trick in self-attention
+  // toy example illustrating how matrix multiplication can be used for a "weighted aggregation"
+  torch.manualSeed(42)
+  val a0 = torch.tril(torch.ones(Seq(3, 3)))
+  // If we use only a0, we have the sums
+  val a = a0 / torch.sum(a0, 1, keepdim=true)
+  val b = torch.randint(0,10,Seq(3,2)).float
+  val c = a `@` b
+  print("a=")
+  println(a)
+  println("--")
+  print("b=")
+  println(b)
+  println("--")
+  print("c=")
+  println(c)  
+
+  // consider the following toy example:
+
+  torch.manualSeed(1337)
+  val (b0,t0,c0) = (4,8,2) // batch, time, channels
+  val x = torch.randn(Seq(b0, t0, c0))
+  println(x.shape)
+
+  // We want x[b,t] = mean_{i<=t} x[b,i]
+  val xbow = torch.zeros(Seq(b0, t0, c0))
+  for b <- 0 until b0
+  do
+    for t <- 0 until t0
+    do
+      val xprev = x(b,º`:`t+1) // (t,C)
+      xbow(b,t) += torch.mean(xprev, 0)  
+
+  println(xbow)
 
   // https://pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html
   // TODO: @torch.no_grad()
