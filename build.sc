@@ -435,6 +435,7 @@ object vision extends SbtModule with CommonSettings {
 object examples extends CommonSettings {
   override def moduleDeps = Seq(vision)
   override def forkArgs = Seq("-Djava.awt.headless=true")
+  override def scalacOptions = Seq("-explain")
   override def ivyDeps = super.ivyDeps() ++ Agg(
     ivy"me.tongfei:progressbar:0.9.5",
     ivy"com.github.alexarchambault::case-app:2.1.0-M24",

@@ -1,10 +1,10 @@
 package gpt
 
-// cSpell: ignore gpt, hyperparameters, logits
+// cSpell: ignore gpt, hyperparameters, logits, softmax
 // cSpell: ignore CUDA, torchvision
 // cSpell: ignore dtype
 // cSpell: ignore stoi, itos
-// cSpell: ignore nn
+// cSpell: ignore nn, probs
 
 import java.nio.file.Paths
 import java.nio.file.Files
@@ -250,6 +250,8 @@ object BiGram:
   val train_data = data(º`:`n)
   val val_data = data(n`:`º)
 
+  torch.manualSeed(1337)
+
   // data loading
   def get_batch(split: String) = 
     // generate a small batch of data of inputs x and targets y
@@ -282,12 +284,14 @@ object BiGram:
 
   println(xb) // our input to the transformer
 
+  torch.manualSeed(1337)
+  
   class BigramLanguageModel(vocabSize: Int) extends nn.Module: 
 
     // each token directly reads off the logits for the next token from a lookup table
     val token_embedding_table = nn.Embedding(vocabSize, vocabSize)
 
-    def forward(idx: Tensor[Int64], targets: Option[Tensor[Float32]] = None) =
+    def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
 
       // idx and targets are both (B,T) tensor of integers
       val logits = token_embedding_table( idx ) // (B,T,C)
@@ -298,13 +302,10 @@ object BiGram:
       else
         val shape = logits.shape
         val (b,t,c) = (shape(0), shape(1), shape(2))
-        val logitsV = logits.view(b*t, c)
-        val targetsV = targets.get.view(b*t)
-        println(logitsV.size)
-        println(targetsV.size)
-        val loss = F.binaryCrossEntropyWithLogits(logitsV, targetsV)
-        //val loss = F.crossEntropy(logitsV, targetsV)
-        (logits, loss)
+        val logitsV = logits.view(b*t, c)  // batch size x number of classes b*t = 32*8 = 256
+        val targetsV = targets.get.view(b*t) // 256
+        val loss = F.crossEntropy(logitsV, targetsV)
+        (logitsV, loss)
 
 
 /*
@@ -324,18 +325,32 @@ object BiGram:
         return idx    
 */
     def generate(idx: Tensor[Int64], max_new_tokens: Int) =
+      var idx_ = idx.copy_(idx)
       // idx is (B, T) array of indices in the current context
-      for _ <- 0 until max_new_tokens
+      for i <- 0 until max_new_tokens
       do
+        println(i)
         // get the predictions
-        val logits, loss = apply(idx)
+        val (logits_t, loss) = apply(idx)
+        println(s"\t${logits_t.shape}")
         // focus only on the last time step
-        //val logits_t = logits(Slice(), -1, Slice()) // becomes (B, C)
-        ???
+        val logits = logits_t(Slice(), -1, Slice()) // becomes (B, C)
+        println(s"\t${logits.shape}")
+        // apply softmax to get probabilities
+        val probs = F.softmax(logits, dim = -1L) // (B, C)
+        println(s"\t${probs.shape}")
+        // sample from the distribution
+        val idx_next = torch.multinomial(probs, numSamples=1) // (B, 1)
+        println(s"\t${idx_next.shape}")
+        println(s"next = \t${idx_next.item}")
+        // append sampled index to the running sequence
+        idx_ = torch.cat(Seq(idx_, idx_next), dim=1) // (B, T+1)
+        println(s"\t$idx_")
       ???
 
     def apply(x: Tensor[Int64], y: Tensor[Int64]) =
-      forward(x, Some(y.to(dtype = DType.float32)) )
+      //forward(x, Some(y.to(dtype = DType.float32)) )
+      forward(x, Some(y) )
 
     def apply(x: Tensor[Int64]) =
       forward(x, None )
@@ -343,10 +358,26 @@ object BiGram:
 
   end BigramLanguageModel
 
+  val input0 = torch.randn(Seq(3, 5), requiresGrad=true)
+  val target0 = torch.randint(0, 5, Seq(3), dtype=torch.int64)
+  val loss0 = F.crossEntropy(input0, target0)
+  loss0.backward()
+  println(loss0)
+
+  // Example of target with class probabilities
+  val input1 = torch.randn(Seq(3, 5), requiresGrad=true)
+  val target1 = F.softmax( input=torch.randn(Seq(3, 5)), dim=1L)
+  val loss1 = F.crossEntropy(input1, target1)
+  loss1.backward()
+  println(loss1)
+
   val m = BigramLanguageModel(vocab_size)
   val (logits, loss) = m(xb, yb)
-  print(logits.shape)
-  print(loss)    
+  println(s"batch_size * block_size = ${batch_size * block_size}")
+  println(s"logits.shape = ${logits.shape}")
+  println(s"loss=${loss.item}")    
+  
+  val next = m.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=100)
 
 
 

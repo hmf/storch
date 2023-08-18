@@ -268,7 +268,7 @@ object ImageClassifier extends CommandsEntryPoint:
       transforms.batchTransforms(transforms.transforms(image)).unsqueeze(dim = 0)
     val prediction = model(transformedImage)
     val TensorTuple(confidence, index) =
-      torch.nn.functional.softmax(prediction, dim = 1)().max(dim = 1)
+      torch.nn.functional.softmax(prediction, dim = 1).max(dim = 1)
     val predictedLabel = classes(index.item.toInt)
     Prediction(predictedLabel, confidence.item)
 

@@ -124,11 +124,11 @@ private[torch] trait Loss {
    */
   def crossEntropy[
       I <: BFloat16 | Float32 | Float64,
-      O <: BFloat16 | Float16 | Float32 | Float64
+      O <: NumericRealNN
   ](
       input: Tensor[I],
       target: Tensor[O]
-  ): Tensor[O] =
+  ): Tensor[I] =
     Tensor(
       torchNative.cross_entropy(
         input.native,

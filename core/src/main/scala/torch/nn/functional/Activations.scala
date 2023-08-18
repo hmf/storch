@@ -37,7 +37,7 @@ private[torch] trait Activations {
     * @group nn_activation
     */
   def logSoftmax[In <: DType, Out <: DType](input: Tensor[In], dim: Long)(
-      dtype: Out = input.dtype
+      using dtype: Out = input.dtype
   ): Tensor[Out] =
     val nativeDType =
       if dtype == input.dtype then ScalarTypeOptional() else ScalarTypeOptional(dtype.toScalarType)
@@ -64,7 +64,7 @@ private[torch] trait Activations {
     * @group nn_activation
     */
   def softmax[In <: DType, Out <: DType](input: Tensor[In], dim: Long)(
-      dtype: Out = input.dtype
+      using dtype: Out = input.dtype
   ): Tensor[Out] =
     val nativeDType =
       if dtype == input.dtype then ScalarTypeOptional() else ScalarTypeOptional(dtype.toScalarType)

@@ -40,11 +40,12 @@ private[torch] trait RandomSamplingOps {
 
   /* Returns a tensor where each row contains `numSamples` indices sampled from the multinomial probability distribution located in the corresponding row of tensor `input`. */
 // TODO Demote Float to Int
+// TODO: Use of Tensor[IntNN] because it is not compatible with an Int64. Why? Invariance of Tensor?
   def multinomial[D <: FloatNN](
       input: Tensor[D],
       numSamples: Long,
       replacement: Boolean = false
-  ): Tensor[D] =
+  ): Tensor[Int64] = // Tensor[D] =
     // TODO Handle Optional Generators properly
     val generator = new org.bytedeco.pytorch.GeneratorOptional()
     Tensor(torchNative.multinomial(input.native, numSamples, replacement, generator))
