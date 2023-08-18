@@ -451,7 +451,14 @@ object BiGram:
       val xprev = x(b,º`:`t+1) // (t,C)
       xbow(b,t) += torch.mean(xprev, 0)  
 
-  println(xbow)
+  // version 2: using matrix multiply for a weighted aggregation
+  val wei0 = torch.tril(torch.ones(Seq(t0, t0)))
+  println(s"wei0.shape = ${wei0.shape}")
+  val wei = wei0 / wei0.sum(1, keepdim=true) // TODO
+  // val wei = wei0 / wei0.sum(1)
+  println(wei.shape)
+  val xbow2 = wei `@` x // (T, T) @ (B, T, C) (PyTorch broadcast)---> (B, T, T) @ (B, T, C) ----> (B, T, C)
+  println(torch.allclose(xbow, xbow2))
 
   // https://pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html
   // TODO: @torch.no_grad()

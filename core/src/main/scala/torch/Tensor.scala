@@ -492,6 +492,23 @@ sealed abstract class Tensor[D <: DType]( /* private[torch]  */ val native: pyto
 
   /** Returns the sum of all elements of this tensor. */
   def sum: Tensor[Sum[D]] = Tensor(native.sum())
+  def sum[D2 <: DType | Derive](
+      dim: Int | Seq[Int] = Seq.empty,
+      keepdim: Boolean = false,
+      dtype: D2 = derive
+  ): Tensor[DTypeOrDeriveFromTensor[D, D2]] =
+    val derivedDType = dtype match
+      case _: Derive => this.dtype
+      case d: DType  => d
+    Tensor(
+      torchNative.sum(
+        native,
+        dim.toArray,
+        keepdim,
+        new ScalarTypeOptional(derivedDType.toScalarType)
+      )
+    )
+
 
   /** Expects `input` to be \<= 2-D tensor and transposes dimensions 0 and 1.
     *
