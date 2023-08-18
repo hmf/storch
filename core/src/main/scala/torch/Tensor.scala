@@ -68,6 +68,8 @@ import org.bytedeco.pytorch.SymIntOptional
 import org.bytedeco.pytorch.ScalarTypeOptional
 import scala.annotation.implicitNotFound
 
+import torch.nn.functional as F
+
 case class TensorTuple[D <: DType](
     values: Tensor[D],
     indices: Tensor[Int64]
@@ -474,6 +476,11 @@ sealed abstract class Tensor[D <: DType]( /* private[torch]  */ val native: pyto
   def reshape(shape: Int*): Tensor[D] = Tensor(native.reshape(shape.map(_.toLong)*))
 
   def shape: Seq[Int] = size
+
+  def softmax[Out <: FloatNN | Derive](
+      dim: Long,
+      dtype: Out = derive
+  ): Tensor[DTypeOrDeriveFromTensor[D, Out]] = F.softmax(input = this, dim = dim, dtype = dtype)
 
   def square = Tensor(native.square())
 

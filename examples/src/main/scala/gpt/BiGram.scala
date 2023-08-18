@@ -363,6 +363,10 @@ object BiGram:
   val loss1 = F.crossEntropy(input1, target1)
   loss1.backward()
   println(loss1)
+
+  val target2 = torch.randn(Seq(3, 5)).softmax(dim=1L)
+  val loss2 = F.crossEntropy(input1, target2)
+  loss2.backward()
   
   val m = BigramLanguageModel(vocab_size)
   val (logits, loss) = m(xb, yb)
