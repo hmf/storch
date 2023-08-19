@@ -387,6 +387,22 @@ sealed abstract class Tensor[D <: DType]( /* private[torch]  */ val native: pyto
 
   def `@`[D2 <: DType](u: Tensor[D2]): Tensor[Promoted[D, D2]] = matmul(u)
 
+
+  /** Fills elements of self tensor with value where mask is `true`. The shape of mask must be 
+    * [broadcastable](https://pytorch.org/docs/stable/notes/broadcasting.html#broadcasting-semantics) with the shape 
+    * of the underlying tensor.
+    * 
+    *
+    * @param mask
+    *   the boolean mask
+    * @param value
+    *   the value to fill in with
+    * @return
+    */
+  def masked_fill[S <: ScalaType](mask: Tensor[Bool], value: S): Tensor[Promoted[D, ScalaToDType[S]]] =
+    Tensor(native.masked_fill(mask.native, toScalar(value)))
+
+
   /** Returns the maximum value of all elements in the ``input`` tensor. */
   def max(): Tensor[Int64] = Tensor(native.max())
 

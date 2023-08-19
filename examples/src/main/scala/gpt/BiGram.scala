@@ -439,8 +439,8 @@ object BiGram:
 
   torch.manualSeed(1337)
   val (b0,t0,c0) = (4,8,2) // batch, time, channels
-  val x = torch.randn(Seq(b0, t0, c0))
-  println(x.shape)
+  val x0 = torch.randn(Seq(b0, t0, c0))
+  println(x0.shape)
 
   // We want x[b,t] = mean_{i<=t} x[b,i]
   val xbow = torch.zeros(Seq(b0, t0, c0))
@@ -448,36 +448,24 @@ object BiGram:
   do
     for t <- 0 until t0
     do
-      val xprev = x(b,º`:`t+1) // (t,C)
-      // xbow(b,t) += torch.mean(xprev, dim=0)  
+      val xprev = x0(b,º`:`t+1) // (t,C)
       val c = torch.mean(xprev, dim=0) 
-      println(s"c.shape = ${c.shape}")
-      println(s"c = ${c}")
-      println(s"torch.mean(input=xprev, dim=0, false) = ${torch.mean(input=xprev, dim=0, false)}")
-      // xbow(Seq(b,t)) = c
-      // xbow(Seq(b,t)) = torch.mean(input=xprev, dim=0, true, float32)
       xbow(Seq(b,t)) = torch.mean(input=xprev, dim=0, false)
-      // xbow(Seq(b,t)) = torch.mean(input=xprev, dim=0)
-      // xbow(Seq(b,t)) = torch.mean(xprev, dim=0)  
-      // xbow(Seq(b,t)) = torch.mean(xprev, 0)  
 
   // version 2: using matrix multiply for a weighted aggregation
   val wei0 = torch.tril(torch.ones(Seq(t0, t0)))
   println(s"wei0.shape = ${wei0.shape}")
-  val wei = wei0 / wei0.sum(1, keepdim=true) // TODO
-  // val wei = wei0 / wei0.sum(1)
-  println(wei.shape)
-  val xbow2 = wei `@` x // (T, T) @ (B, T, C) (PyTorch broadcast)---> (B, T, T) @ (B, T, C) ----> (B, T, C)
+  val wei1 = wei0 / wei0.sum(1, keepdim=true)
+  val xbow2 = wei1 `@` x0 // (T, T) @ (B, T, C) (PyTorch broadcast)---> (B, T, T) @ (B, T, C) ----> (B, T, C)
   println(torch.allclose(xbow, xbow2))
 
-
   // version 3: use Softmax
-  // tril = torch.tril(torch.ones(T, T))
-  // wei = torch.zeros((T,T))
-  // wei = wei.masked_fill(tril == 0, float('-inf'))
-  // wei = F.softmax(wei, dim=-1)
-  // xbow3 = wei @ x
-  // torch.allclose(xbow, xbow3)
+  val tril1 = torch.tril(torch.ones(Seq(t0, t0)))
+  val zeros1 = torch.zeros(Seq(t0,t0))
+  val mask2 = zeros1.masked_fill(tril1 == 0, Float.NegativeInfinity)
+  val wei2 = F.softmax(mask2, dim= -1)
+  val xbow3 = wei2 `@` x0
+  println(torch.allclose(xbow, xbow3))
 
 
   // https://pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html
