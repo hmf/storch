@@ -449,7 +449,17 @@ object BiGram:
     for t <- 0 until t0
     do
       val xprev = x(b,º`:`t+1) // (t,C)
-      xbow(b,t) += torch.mean(xprev, 0)  
+      // xbow(b,t) += torch.mean(xprev, dim=0)  
+      val c = torch.mean(xprev, dim=0) 
+      println(s"c.shape = ${c.shape}")
+      println(s"c = ${c}")
+      println(s"torch.mean(input=xprev, dim=0, false) = ${torch.mean(input=xprev, dim=0, false)}")
+      // xbow(Seq(b,t)) = c
+      // xbow(Seq(b,t)) = torch.mean(input=xprev, dim=0, true, float32)
+      xbow(Seq(b,t)) = torch.mean(input=xprev, dim=0, false)
+      // xbow(Seq(b,t)) = torch.mean(input=xprev, dim=0)
+      // xbow(Seq(b,t)) = torch.mean(xprev, dim=0)  
+      // xbow(Seq(b,t)) = torch.mean(xprev, 0)  
 
   // version 2: using matrix multiply for a weighted aggregation
   val wei0 = torch.tril(torch.ones(Seq(t0, t0)))
@@ -459,6 +469,16 @@ object BiGram:
   println(wei.shape)
   val xbow2 = wei `@` x // (T, T) @ (B, T, C) (PyTorch broadcast)---> (B, T, T) @ (B, T, C) ----> (B, T, C)
   println(torch.allclose(xbow, xbow2))
+
+
+  // version 3: use Softmax
+  // tril = torch.tril(torch.ones(T, T))
+  // wei = torch.zeros((T,T))
+  // wei = wei.masked_fill(tril == 0, float('-inf'))
+  // wei = F.softmax(wei, dim=-1)
+  // xbow3 = wei @ x
+  // torch.allclose(xbow, xbow3)
+
 
   // https://pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html
   // TODO: @torch.no_grad()
