@@ -391,13 +391,13 @@ sealed abstract class Tensor[D <: DType]( /* private[torch]  */ val native: pyto
   /** Fills elements of self tensor with value where mask is `true`. The shape of mask must be 
     * [broadcastable](https://pytorch.org/docs/stable/notes/broadcasting.html#broadcasting-semantics) with the shape 
     * of the underlying tensor.
-    * 
     *
     * @param mask
     *   the boolean mask
     * @param value
     *   the value to fill in with
     * @return
+    *   Tensor with masked elements set to `value`
     */
   def masked_fill[S <: ScalaType](mask: Tensor[Bool], value: S): Tensor[Promoted[D, ScalaToDType[S]]] =
     Tensor(native.masked_fill(mask.native, toScalar(value)))
