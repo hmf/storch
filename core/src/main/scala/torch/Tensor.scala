@@ -399,7 +399,7 @@ sealed abstract class Tensor[D <: DType]( /* private[torch]  */ val native: pyto
     * @return
     *   Tensor with masked elements set to `value`
     */
-  def masked_fill[S <: ScalaType](mask: Tensor[Bool], value: S): Tensor[Promoted[D, ScalaToDType[S]]] =
+  def maskedFill[S <: ScalaType](mask: Tensor[Bool], value: S): Tensor[Promoted[D, ScalaToDType[S]]] =
     Tensor(native.masked_fill(mask.native, toScalar(value)))
 
 

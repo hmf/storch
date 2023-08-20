@@ -317,6 +317,13 @@ object BiGram:
 
   torch.manualSeed(1337)
   
+  // trait BigramLanguageModel extends nn.Module:
+  //   def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None): (Tensor[Float32], Tensor[Float32])
+  //   def generate(idx: Tensor[Int64], max_new_tokens: Int): Tensor[Int64]
+  //   def apply(x: Tensor[Int64], y: Tensor[Int64]): (Tensor[Float32], Tensor[Float32])
+  //   def apply(x: Tensor[Int64]): (Tensor[Float32], Tensor[Float32])
+  // class BigramLanguageModel0(vocabSize: Int) extends BigramLanguageModel: 
+
   class BigramLanguageModel(vocabSize: Int) extends nn.Module: 
 
     // each token directly reads off the logits for the next token from a lookup table
@@ -329,7 +336,8 @@ object BiGram:
 
       if targets.isEmpty
       then
-        (logits, torch.Tensor(0.0f))
+        val zero = torch.Tensor(0.0f) 
+        (logits, zero)
       else
         val shape = logits.shape
         val (b,t,c) = (shape(0), shape(1), shape(2))
@@ -382,19 +390,19 @@ object BiGram:
   val loss2 = F.crossEntropy(input1, target2)
   loss2.backward()
   
-  val m = BigramLanguageModel(vocab_size)
-  val (logits3, loss3) = m(xb, yb)
+  val m0 = BigramLanguageModel(vocab_size)
+  val (logits3, loss3) = m0(xb, yb)
   println(s"batch_size * block_size = ${batch_size * block_size}")
   println(s"logits.shape = ${logits3.shape}")
   println(s"loss=${loss3.item}")    
   
-  val next1 = m.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=100)(0)
+  val next1 = m0.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=100)(0)
   val decoded1 = decode(next1.toSeq)
   println(s"decode:'$decoded1'")
 
 
   // create a PyTorch optimizer
-  val optimizer = torch.optim.AdamW(m.parameters, lr=1e-3)
+  val optimizer0 = torch.optim.AdamW(m0.parameters, lr=1e-3)
 
   //val batch_size = 32
   var loss4: Tensor[Float32] = _
@@ -406,17 +414,69 @@ object BiGram:
     val (xb, yb) = get_batch("train")
 
     // evaluate the loss
-    val (logits, loss) = m(xb, yb)
+    val (logits, loss) = m0(xb, yb)
     loss4 = loss
-    optimizer.zeroGrad(setToNone=true)
+    optimizer0.zeroGrad(setToNone=true)
     loss.backward()
-    optimizer.step()
+    optimizer0.step()
 
   println(loss4.item)
 
-  val next2 = m.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  val next2 = m0.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
   val decoded2 = decode(next2.toSeq)
-  println(s"decode:'$decoded2'")
+  println(s"decode 2:'$decoded2'")
+
+
+  // https://pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html
+  // TODO: @torch.no_grad()
+  def estimate_loss(model: BigramLanguageModel) = 
+    val out = scala.collection.mutable.Map[String, Float]()
+    model.eval()
+    for 
+      split <- List("train", "val")
+    do
+      // println(s"Estimate '$split' loss")
+      val losses: Tensor[Float32] = torch.zeros(eval_iters)
+      for 
+        k <- 0 until eval_iters
+      do
+        val (x, y) = get_batch(split)
+        val (logits, loss) = model(x, y)
+        // TODO: no assignment operator available
+        losses(Seq(k)) = loss.item
+      out(split) = losses.mean.item
+    model.train()
+    out
+
+  // Create a model
+  val m1 = BigramLanguageModel(vocab_size)
+  // create a PyTorch optimizer
+  val optimizer1 = torch.optim.AdamW(m1.parameters, lr=1e-3)
+
+  for iter <- 0 until 10000 //max_iters
+  do
+    // every once in a while evaluate the loss on train and val sets
+    if (iter % eval_interval == 0) || (iter == max_iters - 1)
+    then
+      val losses = estimate_loss(m1)
+      println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}")
+      //print(s"step ${iter}: train loss ${losses("train"):.4f}, val loss ${losses("val"):.4f}")
+
+    // sample a batch of data
+    val (xb, yb) = get_batch("train")
+
+    // evaluate the loss
+    val (logits, loss) = m1(xb, yb)
+    optimizer1.zeroGrad(setToNone=true)
+    loss.backward()
+    optimizer1.step()
+
+  val next3 = m1.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  val decoded3 = decode(next3.toSeq)
+  println(s"decode 3:'$decoded3'")
+
+
+
 
   // The mathematical trick in self-attention
   // toy example illustrating how matrix multiplication can be used for a "weighted aggregation"
@@ -461,33 +521,35 @@ object BiGram:
   // version 3: use Softmax
   val tril1 = torch.tril(torch.ones(Seq(t0, t0)))
   val zeros1 = torch.zeros(Seq(t0,t0))
-  val mask2 = zeros1.masked_fill(tril1 == 0, Float.NegativeInfinity)
+  val mask2 = zeros1.maskedFill(tril1 == 0, Float.NegativeInfinity)
   val wei2 = F.softmax(mask2, dim= -1)
   val xbow3 = wei2 `@` x0
   println(torch.allclose(xbow, xbow3))
 
-
-  // https://pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html
-  // TODO: @torch.no_grad()
-  def estimate_loss(model: BigramLanguageModel) = 
-    val out = scala.collection.mutable.Map[String, Float]()
-    model.eval()
-    for 
-      split <- List("train", "val")
-    do
-      println(s"Estimate '$split' loss")
-      val losses: Tensor[Float32] = torch.zeros(eval_iters)
-      for 
-        k <- 0 until eval_iters
-      do
-        val (x, y) = get_batch(split)
-        val (logits, loss) = model(x, y)
-        // TODO: no assignment operator available
-        losses(k) += loss.item
-      out(split) = losses.mean.item
-    model.train()
-    out
-
+  // # version 4: self-attention!
+  // torch.manual_seed(1337)
+  // B,T,C = 4,8,32 # batch, time, channels
+  // x = torch.randn(B,T,C)
+  //   
+  // # let's see a single Head perform self-attention
+  // head_size = 16
+  // key = nn.Linear(C, head_size, bias=False)
+  // query = nn.Linear(C, head_size, bias=False)
+  // value = nn.Linear(C, head_size, bias=False)
+  // k = key(x)   # (B, T, 16)
+  // q = query(x) # (B, T, 16)
+  // wei =  q @ k.transpose(-2, -1) # (B, T, 16) @ (B, 16, T) ---> (B, T, T)
+  //   
+  // tril = torch.tril(torch.ones(T, T))
+  // #wei = torch.zeros((T,T))
+  // wei = wei.masked_fill(tril == 0, float('-inf'))
+  // wei = F.softmax(wei, dim=-1)
+  //   
+  // v = value(x)
+  // out = wei @ v
+  // #out = wei @ x
+  //   
+  // out.shape
 
   def main(args: Array[String]): Unit =
     ()
