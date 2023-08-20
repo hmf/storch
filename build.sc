@@ -26,7 +26,7 @@ import $ivy.`org.planet42::laika-pdf:0.19.3`
 import $ivy.`com.lihaoyi::mill-contrib-bloop:`
 
 //import $ivy.`com.lihaoyi::requests:0.8.0`
-// import $ivy.`com.lihaoyi::cask:0.9.1`
+import $ivy.`com.lihaoyi::cask:0.9.1`
 import $ivy.`org.eclipse.jetty:jetty-server:11.0.15`
 import $ivy.`org.eclipse.jetty:jetty-webapp:11.0.15`
 
@@ -840,14 +840,33 @@ object docs extends CommonSettings {
   // https://www.eclipse.org/lists/jetty-users/msg02177.html
   // https://stackoverflow.com/questions/10284584/serving-static-files-with-embedded-jetty
   //  https://stackoverflow.com/questions/28346438/resourcehandler-stop-hosting-files-with-jetty-9-404-not-found-error-works-fin
+
+  /**
+   *
+   * @see https://github.com/eclipse/jetty.project
+   * @see https://hc.apache.org/index.html
+   * @see https://github.com/netty/netty
+   * @see https://github.com/apache/tomcat
+   * @see http://nanohttpd.org/
+   * @see http://sparkjava.com/
+   * @see https://github.com/arteam/embedded-http-server
+   * @see  https://stackoverflow.com/questions/28346438/resourcehandler-stop-hosting-files-with-jetty-9-404-not-found-error-works-fin
+   *
+   * For JDK >= 18 we have:
+   *  Module jdk.httpserver
+   *    Package com.sun.net.httpserver
+   *        Class SimpleFileServer
+   * @return
+   */
   def laikaServe = T {
     val site = laikaBase.apply()
     val dest = site(false)
 
+    // https://stackoverflow.com/questions/28346438/resourcehandler-stop-hosting-files-with-jetty-9-404-not-found-error-works-fin
     val srv = new Server();
     val srvConn = new ServerConnector(srv);
     srvConn.setHost("localhost");
-    srvConn.setPort(8080);
+    srvConn.setPort(4242);
     srvConn.setIdleTimeout(30000);
     srv.addConnector(srvConn);
     //used for webSocket comm later:
@@ -858,7 +877,9 @@ object docs extends CommonSettings {
     val resH = new ResourceHandler();
     resH.setDirectoriesListed(true);
     resH.setWelcomeFiles(Array[String]( "index.html"));
-    resH.setResourceBase("/mnt/ssd2/hmf/IdeaProjects/storch/out/docs/laikaServe.dest/site/");
+    val siteDir = dest.path / "site"
+    T.log.info(s"Setting site root to: $siteDir")
+    resH.setResourceBase(siteDir.toString());
     val resCtx = new ContextHandler();
     resCtx.setHandler(resH);
 
@@ -866,66 +887,41 @@ object docs extends CommonSettings {
     val handlers = new ContextHandlerCollection(resCtx, context);
     srv.setHandler(handlers);
 
+    T.log.info(s"Starting server.")
     srv.start()
     // Keep the main thread alive while the server is running.
+    T.log.info(s"Server running. Press Ctr-C to stop")
     srv.join()
 
-    /*
-//    // Create a server that runs on the port 8000
-//    val connection = new InetSocketAddress(8000)
-//    T.log.info("Creating server")
-//    val server = HttpServer.create(connection, 0)
-//    T.log.info("Starting server")
-//    //Create an HTTP Context and set it's path
-//    val context = server.createContext("/")
-//    //context.setHandler(???)
-//    server.setExecutor(null)
-//    server.start()
-//    server.wait()
-    val server = new Server(8000)
-    val webAppContext = new WebAppContext()
-    server.setHandler(webAppContext)
-    // val context = new ServletContextHandler(server, "/");
-    // context.addServlet(MyServlet.class, "/*");
-    val siteDir = dest.path / "site"
-    val webAppDir = siteDir.toNIO.toUri.toString
-    T.log.info(s"webAppDir = $webAppDir")
-    webAppContext.setContextPath("/")
-    webAppContext.setResourceBase("/mnt/ssd2/hmf/IdeaProjects/storch/out/docs/laikaServe.dest/site/")
-    //webAppContext.setContextPath(webAppDir)
-    //"file:///mnt/ssd2/hmf/IdeaProjects/storch/out/docs/laikaServe.dest/site/"
-    server.start()
-    // Keep the main thread alive while the server is running.
-    server.join()
-    */
-     */
     dest
   }
 
-  /*
-    srv = new Server();
-    ServerConnector srvConn = new ServerConnector(srv);
-    srvConn.setHost("localhost");
-    srvConn.setPort(8080);
-    srvConn.setIdleTimeout(30000);
-    srv.addConnector(srvConn);
-    //used for webSocket comm later:
-    ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-    context.setContextPath("/");
 
-    //for static  content:
-    ResourceHandler resH = new ResourceHandler();
-    resH.setDirectoriesListed(true);
-    resH.setWelcomeFiles(new String[]{ "index.html" });
-    resH.setResourceBase("./my/web/root");
-    ContextHandler resCtx = new ContextHandler();
-    resCtx.setHandler(resH);
+  object MinimalApplication extends cask.MainRoutes {
+    @cask.get("/")
+    def hello() = {
+      "Hello World!"
+    }
 
-    //Add both ContextHandlers to server:
-    ContextHandlerCollection handlers = new ContextHandlerCollection(resCtx, context);
-    srv.setHandler(handlers);
-   */
-  // TODO: https://github.com/typelevel/Laika/discussions/492
+    @cask.post("/do-thing")
+    def doThing(request: cask.Request) = {
+      request.text().reverse
+    }
+
+    def init() = super.initialize()
+  }
+
+  def serve = T {
+    val site = laikaBase.apply()
+    val dest = site(false)
+
+    val siteDir = dest.path / "site"
+    T.log.info(s"Setting site root to: $siteDir")
+
+    MinimalApplication.init()
+  }
+
+    // TODO: https://github.com/typelevel/Laika/discussions/492
   // Local browsing
 
   /*
