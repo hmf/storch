@@ -449,8 +449,7 @@ object BiGram:
     for t <- 0 until t0
     do
       val xprev = x0(b,º`:`t+1) // (t,C)
-      val c = torch.mean(xprev, dim=0) 
-      xbow(Seq(b,t)) = torch.mean(input=xprev, dim=0, false)
+      xbow(Seq(b,t)) = torch.mean(xprev, dim=0)
 
   // version 2: using matrix multiply for a weighted aggregation
   val wei0 = torch.tril(torch.ones(Seq(t0, t0)))
