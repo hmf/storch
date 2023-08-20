@@ -707,15 +707,22 @@ object docs extends CommonSettings {
       templates.foreach { p =>
         if (
             (!p.toString().contains("default.template.html")) &&
-            (!p.toString().contains("landing.template.html"))
+            (!p.toString().contains("landing.template.html")) &&
+            (!p.toString().contains("head.template.html"))
           ) {
-          T.log.info(s"\tCopied from ${p} into ${siteTargetSource}")
+          T.log.info(s"\tCopy from ${p} into ${siteTargetSource}")
           os.copy.into(from = p, to = siteTargetSource)
           // Not copied by Laika
-          T.log.info(s"\tCopied from ${p} into ${siteTmp}")
+          T.log.info(s"\tCopy from ${p} into ${siteTmp}")
           os.copy.into(from = p, to = siteTmp)
         }
       }
+      // Helium template override
+      val helium_templates = siteTargetSource / "helium" / "templates"
+      os.makeDir.all(helium_templates)
+      val header_template = siteSource / "head.template.html"
+      T.log.info(s"\tCopy from ${header_template} into ${helium_templates}")
+      os.copy.into(from = header_template, to = helium_templates)
 
       // Copy API docs to site
       val apiTarget = siteTargetSource / "api"
