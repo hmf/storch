@@ -12,6 +12,9 @@ import laika.theme.ThemeProvider
 import mill.Target
 import mill.api.Loose
 import mill.util.Jvm
+import org.eclipse.jetty.server.ServerConnector
+import org.eclipse.jetty.server.handler.{ContextHandler, ContextHandlerCollection, ResourceHandler}
+import org.eclipse.jetty.servlet.ServletContextHandler
 
 import scala.Console
 // Laika core, EPUB and PDF
@@ -21,6 +24,25 @@ import $ivy.`org.planet42::laika-pdf:0.19.3`
 //import $ivy.`org.scalameta::mdoc:2.3.7`
 
 import $ivy.`com.lihaoyi::mill-contrib-bloop:`
+
+//import $ivy.`com.lihaoyi::requests:0.8.0`
+// import $ivy.`com.lihaoyi::cask:0.9.1`
+import $ivy.`org.eclipse.jetty:jetty-server:11.0.15`
+import $ivy.`org.eclipse.jetty:jetty-webapp:11.0.15`
+
+//import com.sun.net.httpserver
+//import com.sun.net.httpserver.HttpServer
+//import sun.net.httpserver.HttpServerImpl
+//import java.net.InetSocketAddress
+
+import org.eclipse.jetty.server.Connector
+import org.eclipse.jetty.server.Server
+import org.eclipse.jetty.webapp.WebAppContext
+//import org.eclipse.jetty.server.ServerConnector
+//import org.eclipse.jetty.servlet.ServletHandler
+import org.eclipse.jetty.util.thread.QueuedThreadPool
+
+
 // Import JavaCPP to get host OS name
 import $ivy.`org.bytedeco:javacpp:1.5.9`
 
@@ -793,6 +815,116 @@ object docs extends CommonSettings {
     site(true)
   }
 
+  // TODO: with watch
+  // https://github.com/eclipse/jetty.project
+  // https://hc.apache.org/index.html
+  // https://github.com/netty/netty
+  // https://github.com/apache/tomcat
+  // https://stackoverflow.com/questions/3732109/simple-http-server-in-java-using-only-java-se-api
+  // https://javaee.github.io/grizzly/#/Http_Server_Framework_Overview
+  // http://nanohttpd.org/
+  // http://sparkjava.com/
+  /*
+     JDK > 18
+      Module jdk.httpserver
+      Package com.sun.net.httpserver
+      Class SimpleFileServer
+   */
+  // https://github.com/arteam/embedded-http-server
+  // https://www.baeldung.com/jetty-embedded
+  // https://mkyong.com/webservices/jax-rs/jersey-and-jetty-http-server-examples/
+  // https://happycoding.io/tutorials/java-server/embedded-jetty
+  // https://stackoverflow.com/questions/29524506/path-to-static-content-with-embedded-jetty
+  // https://serverfault.com/questions/707389/configure-jetty-to-host-simple-html-page
+  // https://www.codeproject.com/Articles/1223459/Using-Jetty-to-Serve-Static-Web-Content
+  // https://www.eclipse.org/lists/jetty-users/msg02177.html
+  // https://stackoverflow.com/questions/10284584/serving-static-files-with-embedded-jetty
+  //  https://stackoverflow.com/questions/28346438/resourcehandler-stop-hosting-files-with-jetty-9-404-not-found-error-works-fin
+  def laikaServe = T {
+    val site = laikaBase.apply()
+    val dest = site(false)
+
+    val srv = new Server();
+    val srvConn = new ServerConnector(srv);
+    srvConn.setHost("localhost");
+    srvConn.setPort(8080);
+    srvConn.setIdleTimeout(30000);
+    srv.addConnector(srvConn);
+    //used for webSocket comm later:
+    val context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+    context.setContextPath("/");
+
+    //for static  content:
+    val resH = new ResourceHandler();
+    resH.setDirectoriesListed(true);
+    resH.setWelcomeFiles(Array[String]( "index.html"));
+    resH.setResourceBase("/mnt/ssd2/hmf/IdeaProjects/storch/out/docs/laikaServe.dest/site/");
+    val resCtx = new ContextHandler();
+    resCtx.setHandler(resH);
+
+    //Add both ContextHandlers to server:
+    val handlers = new ContextHandlerCollection(resCtx, context);
+    srv.setHandler(handlers);
+
+    srv.start()
+    // Keep the main thread alive while the server is running.
+    srv.join()
+
+    /*
+//    // Create a server that runs on the port 8000
+//    val connection = new InetSocketAddress(8000)
+//    T.log.info("Creating server")
+//    val server = HttpServer.create(connection, 0)
+//    T.log.info("Starting server")
+//    //Create an HTTP Context and set it's path
+//    val context = server.createContext("/")
+//    //context.setHandler(???)
+//    server.setExecutor(null)
+//    server.start()
+//    server.wait()
+    val server = new Server(8000)
+    val webAppContext = new WebAppContext()
+    server.setHandler(webAppContext)
+    // val context = new ServletContextHandler(server, "/");
+    // context.addServlet(MyServlet.class, "/*");
+    val siteDir = dest.path / "site"
+    val webAppDir = siteDir.toNIO.toUri.toString
+    T.log.info(s"webAppDir = $webAppDir")
+    webAppContext.setContextPath("/")
+    webAppContext.setResourceBase("/mnt/ssd2/hmf/IdeaProjects/storch/out/docs/laikaServe.dest/site/")
+    //webAppContext.setContextPath(webAppDir)
+    //"file:///mnt/ssd2/hmf/IdeaProjects/storch/out/docs/laikaServe.dest/site/"
+    server.start()
+    // Keep the main thread alive while the server is running.
+    server.join()
+    */
+     */
+    dest
+  }
+
+  /*
+    srv = new Server();
+    ServerConnector srvConn = new ServerConnector(srv);
+    srvConn.setHost("localhost");
+    srvConn.setPort(8080);
+    srvConn.setIdleTimeout(30000);
+    srv.addConnector(srvConn);
+    //used for webSocket comm later:
+    ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+    context.setContextPath("/");
+
+    //for static  content:
+    ResourceHandler resH = new ResourceHandler();
+    resH.setDirectoriesListed(true);
+    resH.setWelcomeFiles(new String[]{ "index.html" });
+    resH.setResourceBase("./my/web/root");
+    ContextHandler resCtx = new ContextHandler();
+    resCtx.setHandler(resH);
+
+    //Add both ContextHandlers to server:
+    ContextHandlerCollection handlers = new ContextHandlerCollection(resCtx, context);
+    srv.setHandler(handlers);
+   */
   // TODO: https://github.com/typelevel/Laika/discussions/492
   // Local browsing
 
@@ -825,11 +957,6 @@ object docs extends CommonSettings {
   import laika.sbt (not available)
   import laika.preview (not available)
   */
-
-  // TODO: with watch
-  def laikaServe = {
-
-  }
 
 }
 
