@@ -815,32 +815,6 @@ object docs extends CommonSettings {
     site(true)
   }
 
-  // TODO: with watch
-  // https://github.com/eclipse/jetty.project
-  // https://hc.apache.org/index.html
-  // https://github.com/netty/netty
-  // https://github.com/apache/tomcat
-  // https://stackoverflow.com/questions/3732109/simple-http-server-in-java-using-only-java-se-api
-  // https://javaee.github.io/grizzly/#/Http_Server_Framework_Overview
-  // http://nanohttpd.org/
-  // http://sparkjava.com/
-  /*
-     JDK > 18
-      Module jdk.httpserver
-      Package com.sun.net.httpserver
-      Class SimpleFileServer
-   */
-  // https://github.com/arteam/embedded-http-server
-  // https://www.baeldung.com/jetty-embedded
-  // https://mkyong.com/webservices/jax-rs/jersey-and-jetty-http-server-examples/
-  // https://happycoding.io/tutorials/java-server/embedded-jetty
-  // https://stackoverflow.com/questions/29524506/path-to-static-content-with-embedded-jetty
-  // https://serverfault.com/questions/707389/configure-jetty-to-host-simple-html-page
-  // https://www.codeproject.com/Articles/1223459/Using-Jetty-to-Serve-Static-Web-Content
-  // https://www.eclipse.org/lists/jetty-users/msg02177.html
-  // https://stackoverflow.com/questions/10284584/serving-static-files-with-embedded-jetty
-  //  https://stackoverflow.com/questions/28346438/resourcehandler-stop-hosting-files-with-jetty-9-404-not-found-error-works-fin
-
   /**
    *
    * @see https://github.com/eclipse/jetty.project
@@ -897,29 +871,6 @@ object docs extends CommonSettings {
   }
 
 
-  object MinimalApplication extends cask.MainRoutes {
-    @cask.get("/")
-    def hello() = {
-      "Hello World!"
-    }
-
-    @cask.post("/do-thing")
-    def doThing(request: cask.Request) = {
-      request.text().reverse
-    }
-
-    def init() = super.initialize()
-  }
-
-  def serve = T {
-    val site = laikaBase.apply()
-    val dest = site(false)
-
-    val siteDir = dest.path / "site"
-    T.log.info(s"Setting site root to: $siteDir")
-
-    MinimalApplication.init()
-  }
 
     // TODO: https://github.com/typelevel/Laika/discussions/492
   // Local browsing

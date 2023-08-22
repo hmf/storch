@@ -533,6 +533,46 @@ sealed abstract class Tensor[D <: DType]( /* private[torch]  */ val native: pyto
     */
   def t: Tensor[D] = Tensor(native.t())
 
+  /** Returns a tensor that is a transposed version of `input` (this Tensor). The given dimensions 
+    * `dim0` and `dim1` are swapped.
+    * 
+    * If `input` is a strided tensor then the resulting `out` tensor shares its underlying storage with 
+    * the `input` tensor, so changing the content of one would change the content of the other.
+    * 
+    * If `input` is a [[https://pytorch.org/docs/stable/sparse.html#sparse-docs sparse tensor]] then the 
+    * resulting `out` tensor does not share the underlying storage with the input tensor.
+    * 
+    * If input is a [[https://pytorch.org/docs/stable/sparse.html#sparse-docs sparse tensor]] with 
+    * compressed layout (SparseCSR, SparseBSR, SparseCSC or SparseBSC) the arguments `dim0` and `dim1` 
+    * must be both batch dimensions, or must both be sparse dimensions. The batch dimensions of a sparse 
+    * tensor are the dimensions preceding the sparse dimensions.
+    * 
+    * @note Transpositions which interchange the sparse dimensions of a *SparseCSR* or *SparseCSC* 
+    * layout tensor will result in the layout changing between the two options. Transposition of the 
+    * sparse dimensions of a `SparseBSR` or `SparseBSC` layout tensor will likewise generate a result 
+    * with the opposite layout.
+    * 
+    * @example:
+    * {{{
+    *  val x = torch.randn(2, 3)
+    *  println(x)
+    *  val y = torch.transpose(x, 0, 1)
+    *  println(y)
+    * }}}
+    * 
+    * @param input
+    *   the input tensor.
+    * @param dim0
+    *   the first dimension to be transposed
+    * @param dim1
+    *   the second dimension to be transposed
+    * @return Tensor[D]
+    * 
+    * @see [[Tensor.mT]]
+    * 
+    */
+  def transpose(dim0: Int, dim1: Int): Tensor[D] = Tensor(native.transpose(dim0, dim1))
+
   /** Calculates the variance of all elements of this tensor. */
   def variance = Tensor(native.`var`())
 

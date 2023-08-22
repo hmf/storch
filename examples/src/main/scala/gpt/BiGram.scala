@@ -526,30 +526,35 @@ object BiGram:
   val xbow3 = wei2 `@` x0
   println(torch.allclose(xbow, xbow3))
 
-  // # version 4: self-attention!
-  // torch.manual_seed(1337)
-  // B,T,C = 4,8,32 # batch, time, channels
-  // x = torch.randn(B,T,C)
-  //   
-  // # let's see a single Head perform self-attention
-  // head_size = 16
-  // key = nn.Linear(C, head_size, bias=False)
-  // query = nn.Linear(C, head_size, bias=False)
-  // value = nn.Linear(C, head_size, bias=False)
-  // k = key(x)   # (B, T, 16)
-  // q = query(x) # (B, T, 16)
-  // wei =  q @ k.transpose(-2, -1) # (B, T, 16) @ (B, 16, T) ---> (B, T, T)
-  //   
-  // tril = torch.tril(torch.ones(T, T))
-  // #wei = torch.zeros((T,T))
-  // wei = wei.masked_fill(tril == 0, float('-inf'))
-  // wei = F.softmax(wei, dim=-1)
-  //   
-  // v = value(x)
-  // out = wei @ v
-  // #out = wei @ x
-  //   
-  // out.shape
+  // version 4: self-attention!
+  torch.manualSeed(1337)
+  val (b1, t1, c1) = (4,8,32) // batch, time, channels
+  val x = torch.randn(Seq(b1,t1,c1))
+    
+  // let's see a single Head perform self-attention
+  val head_size_1 = 16
+  val key = nn.Linear(c1, head_size_1, bias=false)
+  val query = nn.Linear(c1, head_size_1, bias=false)
+  val value = nn.Linear(c1, head_size_1, bias=false)
+  val k = key(x)   // (B, T, 16)
+  val q = query(x) // (B, T, 16)
+  // TODO. https://math.stackexchange.com/questions/63074/is-there-a-3-dimensional-matrix-by-matrix-product
+  // https://www.geeksforgeeks.org/numpy-3d-matrix-multiplication/
+  val qk4 =  q `@` k.transpose(-2, -1) // (B, T, 16) @ (B, 16, T) ---> (B, T, T)
+    
+  val tril4 = torch.tril(torch.ones(Seq(t1, t1)))
+  // val wei3 = torch.zeros((T,T))
+  val mask4 = qk4.maskedFill(tril4 == 0, Float.NegativeInfinity)
+  val wei4 = F.softmax(mask4, dim= -1)
+    
+  val v4 = value(x)
+  val out4 = wei4 `@` v4
+  // val out4 = wei4 `@` x
+
+  // (4,8,16)
+  println(out4.shape)
+
+
 
   def main(args: Array[String]): Unit =
     ()
