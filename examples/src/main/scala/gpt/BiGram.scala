@@ -453,7 +453,7 @@ object BiGram:
   // create a PyTorch optimizer
   val optimizer1 = torch.optim.AdamW(m1.parameters, lr=1e-3)
 
-  for iter <- 0 until 10000 //max_iters
+  for iter <- 0 until 100 //max_iters
   do
     // every once in a while evaluate the loss on train and val sets
     if (iter % eval_interval == 0) || (iter == max_iters - 1)
@@ -554,6 +554,36 @@ object BiGram:
   // (4,8,16)
   println(out4.shape)
 
+  println(wei4(0))
+  /* Just confirming we have the same output
+  tensor([
+        [1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.1574, 0.8426, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.2088, 0.1646, 0.6266, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.5792, 0.1187, 0.1889, 0.1131, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.0294, 0.1052, 0.0469, 0.0276, 0.7909, 0.0000, 0.0000, 0.0000],
+        [0.0176, 0.2689, 0.0215, 0.0089, 0.6812, 0.0019, 0.0000, 0.0000],
+        [0.1691, 0.4066, 0.0438, 0.0416, 0.1048, 0.2012, 0.0329, 0.0000],
+        [0.0210, 0.0843, 0.0555, 0.2297, 0.0573, 0.0709, 0.2423, 0.2391]],
+       grad_fn=<SelectBackward0>)
+  */  
+  val wei4_0 = wei4(0,0).toArray
+  assert(wei4_0.sameElements(Array(1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000)))
+  val wei4_1 = wei4(0,1)
+  assert(torch.allclose(wei4_1, Tensor(Array(0.1574f, 0.8426f, 0.0000f, 0.0000f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
+  val wei4_2 = wei4(0,2)
+  assert(torch.allclose(wei4_2, Tensor(Array(0.2088f, 0.1646f, 0.6266f, 0.0000f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
+  val wei4_3 = wei4(0,3)
+  assert(torch.allclose(wei4_3, Tensor(Array(0.5792f, 0.1187f, 0.1889f, 0.1131f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
+  val wei4_4 = wei4(0,4)
+  assert(torch.allclose(wei4_4, Tensor(Array(0.0294f, 0.1052f, 0.0469f, 0.0276f, 0.7909f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
+  val wei4_5 = wei4(0,5)
+  assert(torch.allclose(wei4_5, Tensor(Array(0.0176f, 0.2689f, 0.0215f, 0.0089f, 0.6812f, 0.0019f, 0.0000f, 0.0000f)), atol=1e-04))
+  val wei4_6 = wei4(0,6)
+  assert(torch.allclose(wei4_6, Tensor(Array(0.5792f, 0.1187f, 0.1889f, 0.1131f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
+  val wei4_7 = wei4(0,7)
+  assert(torch.allclose(wei4_7, Tensor(Array(0.5792f, 0.1187f, 0.1889f, 0.1131f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
+  1/0
 
 
   def main(args: Array[String]): Unit =
