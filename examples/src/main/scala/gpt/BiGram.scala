@@ -62,6 +62,7 @@ val learning_rate = 1e-2
 val device = if torch.cuda.isAvailable then CUDA else CPU
 //println(s"Using device: $device")
 val eval_iters = 200
+val n_embed = 32
 // ------------
 
 
@@ -317,14 +318,15 @@ object BiGram:
 
   torch.manualSeed(1337)
   
-  // trait BigramLanguageModel extends nn.Module:
-  //   def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None): (Tensor[Float32], Tensor[Float32])
-  //   def generate(idx: Tensor[Int64], max_new_tokens: Int): Tensor[Int64]
-  //   def apply(x: Tensor[Int64], y: Tensor[Int64]): (Tensor[Float32], Tensor[Float32])
-  //   def apply(x: Tensor[Int64]): (Tensor[Float32], Tensor[Float32])
+  trait BigramLanguageModel extends nn.Module:
+    def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None): (Tensor[Float32], Tensor[Float32])
+    def generate(idx: Tensor[Int64], max_new_tokens: Int): Tensor[Int64]
+    def apply(x: Tensor[Int64], y: Tensor[Int64]): (Tensor[Float32], Tensor[Float32])
+    def apply(x: Tensor[Int64]): (Tensor[Float32], Tensor[Float32])
   // class BigramLanguageModel0(vocabSize: Int) extends BigramLanguageModel: 
 
-  class BigramLanguageModel(vocabSize: Int) extends nn.Module: 
+  //class BigramLanguageModel0(vocabSize: Int) extends nn.Module: 
+  class BigramLanguageModel0(vocabSize: Int) extends BigramLanguageModel: 
 
     // each token directly reads off the logits for the next token from a lookup table
     val token_embedding_table = nn.Embedding(vocabSize, vocabSize)
@@ -371,7 +373,7 @@ object BiGram:
       forward(x, None )
 
 
-  end BigramLanguageModel
+  end BigramLanguageModel0
 
   val input0 = torch.randn(Seq(3, 5), requiresGrad=true)
   val target0 = torch.randint(0, 5, Seq(3), dtype=torch.int64)
@@ -390,7 +392,7 @@ object BiGram:
   val loss2 = F.crossEntropy(input1, target2)
   loss2.backward()
   
-  val m0 = BigramLanguageModel(vocab_size)
+  val m0 = BigramLanguageModel0(vocab_size)
   val (logits3, loss3) = m0(xb, yb)
   println(s"batch_size * block_size = ${batch_size * block_size}")
   println(s"logits.shape = ${logits3.shape}")
@@ -449,7 +451,7 @@ object BiGram:
     out
 
   // Create a model
-  val m1 = BigramLanguageModel(vocab_size)
+  val m1 = BigramLanguageModel0(vocab_size)
   // create a PyTorch optimizer
   val optimizer1 = torch.optim.AdamW(m1.parameters, lr=1e-3)
 
@@ -580,12 +582,200 @@ object BiGram:
   val wei4_5 = wei4(0,5)
   assert(torch.allclose(wei4_5, Tensor(Array(0.0176f, 0.2689f, 0.0215f, 0.0089f, 0.6812f, 0.0019f, 0.0000f, 0.0000f)), atol=1e-04))
   val wei4_6 = wei4(0,6)
-  assert(torch.allclose(wei4_6, Tensor(Array(0.5792f, 0.1187f, 0.1889f, 0.1131f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
+  assert(torch.allclose(wei4_6, Tensor(Array(0.1691f, 0.4066f, 0.0438f, 0.0416f, 0.1048f, 0.2012f, 0.0329f, 0.0000f)), atol=1e-04))
   val wei4_7 = wei4(0,7)
-  assert(torch.allclose(wei4_7, Tensor(Array(0.5792f, 0.1187f, 0.1889f, 0.1131f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
+  assert(torch.allclose(wei4_7, Tensor(Array(0.0210f, 0.0843f, 0.0555f, 0.2297f, 0.0573f, 0.0709f, 0.2423f, 0.2391f)), atol=1e-04))
+
+  // Changes to the BiGram
+  // No need to pass `vocabSize` explicitly, but we keep this as is for flexibility
+  // Using an intermediate phase 
+  //  - don't go to the directly to the embeddings for the logits
+  //  - instead go through an intermediate phase
+  //  - n_embed short for number of imbedding dimensions (make it global with value 32)
+  // Embedding now give use "token embeddings" (`tokenEmbed`)
+  //  - To go from `tokenEmbed` to `logits` we will use a linear layer called `lm_head`
+  //  - `lm_head` is short for language model head
+  //  - It goes from nEmbed size to vocabSize
+  // We now one spurious intermediate layer, so inference should execute as we have done above
+  class BigramLanguageModel1(vocabSize: Int, nEmbed: Int) extends BigramLanguageModel: 
+
+    // each token directly reads off the logits for the next token from a lookup table
+    val token_embedding_table = nn.Embedding(vocabSize, nEmbed)
+    val lm_head = nn.Linear(nEmbed, vocabSize)
+
+    def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
+
+      // idx and targets are both (B,T) tensor of integers
+      val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
+      val logits = lm_head( token_embed ) // (B,T,vocabSize)
+
+      if targets.isEmpty
+      then
+        val zero = torch.Tensor(0.0f) 
+        (logits, zero)
+      else
+        val shape = logits.shape
+        val (b,t,c) = (shape(0), shape(1), shape(2))
+        val logitsV = logits.view(b*t, c)  // batch size x number of classes
+        val targetsV = targets.get.view(b*t) 
+        val loss = F.crossEntropy(logitsV, targetsV)
+        (logitsV, loss)
+
+
+    def generate(idx: Tensor[Int64], max_new_tokens: Int) =
+      var idx_ = idx.copy_(idx)
+      // idx is (B, T) array of indices in the current context
+      for i <- 0 until max_new_tokens
+      do
+        // get the predictions
+        val (logits_t, loss) = apply(idx)
+        // focus only on the last time step
+        val logits = logits_t(Slice(), -1, Slice()) // becomes (B, C)
+        // apply softmax to get probabilities
+        val probs = F.softmax(logits, dim = -1L) // (B, C)
+        // sample from the distribution
+        val idx_next = torch.multinomial(probs, numSamples=1) // (B, 1)
+        // append sampled index to the running sequence
+        idx_ = torch.cat(Seq(idx_, idx_next), dim=1) // (B, T+1)
+      idx_
+
+    def apply(x: Tensor[Int64], y: Tensor[Int64]) =
+      forward(x, Some(y) )
+
+    def apply(x: Tensor[Int64]) =
+      forward(x, None )
+
+
+  end BigramLanguageModel1
+
+  // Create a model
+  val m2 = BigramLanguageModel1(vocab_size, n_embed)
+  // create a PyTorch optimizer
+  val optimizer2 = torch.optim.AdamW(m2.parameters, lr=1e-3)
+
+  for iter <- 0 until 100 //max_iters
+  do
+    // every once in a while evaluate the loss on train and val sets
+    if (iter % eval_interval == 0) || (iter == max_iters - 1)
+    then
+      val losses = estimate_loss(m2)
+      println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}")
+      //print(s"step ${iter}: train loss ${losses("train"):.4f}, val loss ${losses("val"):.4f}")
+
+    // sample a batch of data
+    val (xb, yb) = get_batch("train")
+
+    // evaluate the loss
+    val (logits, loss) = m2(xb, yb)
+    optimizer2.zeroGrad(setToNone=true)
+    loss.backward()
+    optimizer2.step()
+
+  val next4 = m2.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  val decoded4 = decode(next4.toSeq)
+  println(s"decode 4:'$decoded4'")
+
+  // So far we have taken the indices and encoded them based on the identities of the tokens
+  // We now also encode the position of the tokens and not just their identity
+  // So now we add a second position embedding table which is also an `Embedding` from `block_size` to `nEmbed`
+  // - position_embedding_table is the new position embedding parameters
+  // - pos is the positions from 0 to T-1
+  // - The position embedding returns a vector (embedding) for each position
+  // - Broadcasting now allows us to add the same position embedding to each batch B
+  // - we add an `x` that hold not only the identity embeddings for each token, but also 
+  // the position embeddings of each of these tokens
+  // NOTE: Karpathy states that the `x` is "translation invariant", so this will not help (1:01:30)
+  // I cannot see how this since we do have position encodings in x
+  class BigramLanguageModel2(vocabSize: Int, blockSize:Int, nEmbed: Int) extends BigramLanguageModel: 
+
+    // each token directly reads off the logits for the next token from a lookup table
+    val token_embedding_table = nn.Embedding(vocabSize, nEmbed)
+    val position_embedding_table = nn.Embedding(blockSize, nEmbed)
+    val lm_head = nn.Linear(nEmbed, vocabSize)
+
+    def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
+      val (b,t) = (idx.shape(0), idx.shape(1))
+
+      // idx and targets are both (B,T) tensor of integers
+      val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
+      // positions of tokens
+      val pos = torch.arange(0L,t, device=device)
+      val pos_embed = position_embedding_table( pos ) // (T,C)
+      // Add the position embeddings
+      val x = token_embed + pos_embed // (B,T,C)
+      val logits = lm_head( token_embed ) // (B,T,vocabSize)
+
+      if targets.isEmpty
+      then
+        val zero = torch.Tensor(0.0f) 
+        (logits, zero)
+      else
+        val shape = logits.shape
+        val (b,t,c) = (shape(0), shape(1), shape(2))
+        val logitsV = logits.view(b*t, c)  // batch size x number of classes
+        val targetsV = targets.get.view(b*t) 
+        val loss = F.crossEntropy(logitsV, targetsV)
+        (logitsV, loss)
+
+
+    def generate(idx: Tensor[Int64], max_new_tokens: Int) =
+      var idx_ = idx.copy_(idx)
+      // idx is (B, T) array of indices in the current context
+      for i <- 0 until max_new_tokens
+      do
+        // get the predictions
+        val (logits_t, loss) = apply(idx)
+        // focus only on the last time step
+        val logits = logits_t(Slice(), -1, Slice()) // becomes (B, C)
+        // apply softmax to get probabilities
+        val probs = F.softmax(logits, dim = -1L) // (B, C)
+        // sample from the distribution
+        val idx_next = torch.multinomial(probs, numSamples=1) // (B, 1)
+        // append sampled index to the running sequence
+        idx_ = torch.cat(Seq(idx_, idx_next), dim=1) // (B, T+1)
+      idx_
+
+    def apply(x: Tensor[Int64], y: Tensor[Int64]) =
+      forward(x, Some(y) )
+
+    def apply(x: Tensor[Int64]) =
+      forward(x, None )
+
+
+  end BigramLanguageModel2
+
+
+  // Create a model
+  val m3 = BigramLanguageModel2(vocab_size, block_size, n_embed)
+  // create a PyTorch optimizer
+  val optimizer3 = torch.optim.AdamW(m3.parameters, lr=1e-3)
+
+  for iter <- 0 until 10000 //max_iters
+  do
+    // every once in a while evaluate the loss on train and val sets
+    if (iter % eval_interval == 0) || (iter == max_iters - 1)
+    then
+      val losses = estimate_loss(m3)
+      println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}")
+      //print(s"step ${iter}: train loss ${losses("train"):.4f}, val loss ${losses("val"):.4f}")
+
+    // sample a batch of data
+    val (xb, yb) = get_batch("train")
+
+    // evaluate the loss
+    val (logits, loss) = m2(xb, yb)
+    optimizer2.zeroGrad(setToNone=true)
+    loss.backward()
+    optimizer2.step()
+
+  val next5 = m3.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  val decoded5 = decode(next5.toSeq)
+  println(s"decode 4:'$decoded5'")
+
   1/0
 
 
+  
   def main(args: Array[String]): Unit =
     ()
 
