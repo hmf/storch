@@ -63,6 +63,7 @@ val device = if torch.cuda.isAvailable then CUDA else CPU
 //println(s"Using device: $device")
 val eval_iters = 200
 val n_embed = 32
+val head_size = 16
 // ------------
 
 
@@ -528,63 +529,7 @@ object BiGram:
   val xbow3 = wei2 `@` x0
   println(torch.allclose(xbow, xbow3))
 
-  // version 4: self-attention!
-  torch.manualSeed(1337)
-  val (b1, t1, c1) = (4,8,32) // batch, time, channels
-  val x = torch.randn(Seq(b1,t1,c1))
-    
-  // let's see a single Head perform self-attention
-  val head_size_1 = 16
-  val key = nn.Linear(c1, head_size_1, bias=false)
-  val query = nn.Linear(c1, head_size_1, bias=false)
-  val value = nn.Linear(c1, head_size_1, bias=false)
-  val k = key(x)   // (B, T, 16)
-  val q = query(x) // (B, T, 16)
-  // TODO. https://math.stackexchange.com/questions/63074/is-there-a-3-dimensional-matrix-by-matrix-product
-  // https://www.geeksforgeeks.org/numpy-3d-matrix-multiplication/
-  val qk4 =  q `@` k.transpose(-2, -1) // (B, T, 16) @ (B, 16, T) ---> (B, T, T)
-    
-  val tril4 = torch.tril(torch.ones(Seq(t1, t1)))
-  // val wei3 = torch.zeros((T,T))
-  val mask4 = qk4.maskedFill(tril4 == 0, Float.NegativeInfinity)
-  val wei4 = F.softmax(mask4, dim= -1)
-    
-  val v4 = value(x)
-  val out4 = wei4 `@` v4
-  // val out4 = wei4 `@` x
 
-  // (4,8,16)
-  println(out4.shape)
-
-  println(wei4(0))
-  /* Just confirming we have the same output
-  tensor([
-        [1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
-        [0.1574, 0.8426, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
-        [0.2088, 0.1646, 0.6266, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
-        [0.5792, 0.1187, 0.1889, 0.1131, 0.0000, 0.0000, 0.0000, 0.0000],
-        [0.0294, 0.1052, 0.0469, 0.0276, 0.7909, 0.0000, 0.0000, 0.0000],
-        [0.0176, 0.2689, 0.0215, 0.0089, 0.6812, 0.0019, 0.0000, 0.0000],
-        [0.1691, 0.4066, 0.0438, 0.0416, 0.1048, 0.2012, 0.0329, 0.0000],
-        [0.0210, 0.0843, 0.0555, 0.2297, 0.0573, 0.0709, 0.2423, 0.2391]],
-       grad_fn=<SelectBackward0>)
-  */  
-  val wei4_0 = wei4(0,0).toArray
-  assert(wei4_0.sameElements(Array(1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000)))
-  val wei4_1 = wei4(0,1)
-  assert(torch.allclose(wei4_1, Tensor(Array(0.1574f, 0.8426f, 0.0000f, 0.0000f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
-  val wei4_2 = wei4(0,2)
-  assert(torch.allclose(wei4_2, Tensor(Array(0.2088f, 0.1646f, 0.6266f, 0.0000f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
-  val wei4_3 = wei4(0,3)
-  assert(torch.allclose(wei4_3, Tensor(Array(0.5792f, 0.1187f, 0.1889f, 0.1131f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
-  val wei4_4 = wei4(0,4)
-  assert(torch.allclose(wei4_4, Tensor(Array(0.0294f, 0.1052f, 0.0469f, 0.0276f, 0.7909f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
-  val wei4_5 = wei4(0,5)
-  assert(torch.allclose(wei4_5, Tensor(Array(0.0176f, 0.2689f, 0.0215f, 0.0089f, 0.6812f, 0.0019f, 0.0000f, 0.0000f)), atol=1e-04))
-  val wei4_6 = wei4(0,6)
-  assert(torch.allclose(wei4_6, Tensor(Array(0.1691f, 0.4066f, 0.0438f, 0.0416f, 0.1048f, 0.2012f, 0.0329f, 0.0000f)), atol=1e-04))
-  val wei4_7 = wei4(0,7)
-  assert(torch.allclose(wei4_7, Tensor(Array(0.0210f, 0.0843f, 0.0555f, 0.2297f, 0.0573f, 0.0709f, 0.2423f, 0.2391f)), atol=1e-04))
 
   // Changes to the BiGram
   // No need to pass `vocabSize` explicitly, but we keep this as is for flexibility
@@ -685,7 +630,8 @@ object BiGram:
   // - we add an `x` that hold not only the identity embeddings for each token, but also 
   // the position embeddings of each of these tokens
   // NOTE: Karpathy states that the `x` is "translation invariant", so this will not help (1:01:30)
-  // I cannot see how this since we do have position encodings in x
+  // Note that even though `x`has position encodings, we do not have the positions of the 
+  // tokens from `idx`. We use this when we add the self-attention head
   class BigramLanguageModel2(vocabSize: Int, blockSize:Int, nEmbed: Int) extends BigramLanguageModel: 
 
     // each token directly reads off the logits for the next token from a lookup table
@@ -697,12 +643,17 @@ object BiGram:
       val (b,t) = (idx.shape(0), idx.shape(1))
 
       // idx and targets are both (B,T) tensor of integers
+      // idx is (B,T)
       val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
+      println(s"idx ${idx.shape}")
+      println(s"token_embed ${token_embed.shape}")
       // positions of tokens
-      val pos = torch.arange(0L,t, device=device)
+      val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
       val pos_embed = position_embedding_table( pos ) // (T,C)
+      println(s"pos_embed ${pos_embed.shape}")
       // Add the position embeddings
       val x = token_embed + pos_embed // (B,T,C)
+      println(s"x ${x.shape}")
       val logits = lm_head( token_embed ) // (B,T,vocabSize)
 
       if targets.isEmpty
@@ -772,6 +723,72 @@ object BiGram:
   val decoded5 = decode(next5.toSeq)
   println(s"decode 4:'$decoded5'")
 
+
+  // version 4: self-attention!
+  torch.manualSeed(1337)
+  val (b1, t1, c1) = (4,8,32) // batch, time, channels
+  val x = torch.randn(Seq(b1,t1,c1))
+    
+  // let's see a single Head perform self-attention
+  val head_size_1 = 16
+  val key = nn.Linear(c1, head_size_1, bias=false)
+  val query = nn.Linear(c1, head_size_1, bias=false)
+  val value = nn.Linear(c1, head_size_1, bias=false)
+  val k = key(x)   // (B, T, 16)
+  val q = query(x) // (B, T, 16)
+  // TODO. https://math.stackexchange.com/questions/63074/is-there-a-3-dimensional-matrix-by-matrix-product
+  // https://www.geeksforgeeks.org/numpy-3d-matrix-multiplication/
+  val qk4 =  q `@` k.transpose(-2, -1) // (B, T, 16) @ (B, 16, T) ---> (B, T, T)
+    
+  val tril4 = torch.tril(torch.ones(Seq(t1, t1)))
+  // val wei3 = torch.zeros((T,T))
+  val mask4 = qk4.maskedFill(tril4 == 0, Float.NegativeInfinity)
+  val wei4 = F.softmax(mask4, dim= -1)
+    
+  val v4 = value(x)
+  val out4 = wei4 `@` v4
+  // val out4 = wei4 `@` x
+
+  // (4,8,16)
+  println(out4.shape)
+
+  println(wei4(0))
+  /* Just confirming we have the same output
+  tensor([
+        [1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.1574, 0.8426, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.2088, 0.1646, 0.6266, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.5792, 0.1187, 0.1889, 0.1131, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.0294, 0.1052, 0.0469, 0.0276, 0.7909, 0.0000, 0.0000, 0.0000],
+        [0.0176, 0.2689, 0.0215, 0.0089, 0.6812, 0.0019, 0.0000, 0.0000],
+        [0.1691, 0.4066, 0.0438, 0.0416, 0.1048, 0.2012, 0.0329, 0.0000],
+        [0.0210, 0.0843, 0.0555, 0.2297, 0.0573, 0.0709, 0.2423, 0.2391]],
+       grad_fn=<SelectBackward0>)
+  */  
+  val wei4_0 = wei4(0,0).toArray
+  assert(wei4_0.sameElements(Array(1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000)))
+  val wei4_1 = wei4(0,1)
+  assert(torch.allclose(wei4_1, Tensor(Array(0.1574f, 0.8426f, 0.0000f, 0.0000f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
+  val wei4_2 = wei4(0,2)
+  assert(torch.allclose(wei4_2, Tensor(Array(0.2088f, 0.1646f, 0.6266f, 0.0000f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
+  val wei4_3 = wei4(0,3)
+  assert(torch.allclose(wei4_3, Tensor(Array(0.5792f, 0.1187f, 0.1889f, 0.1131f, 0.0000f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
+  val wei4_4 = wei4(0,4)
+  assert(torch.allclose(wei4_4, Tensor(Array(0.0294f, 0.1052f, 0.0469f, 0.0276f, 0.7909f, 0.0000f, 0.0000f, 0.0000f)), atol=1e-04))
+  val wei4_5 = wei4(0,5)
+  assert(torch.allclose(wei4_5, Tensor(Array(0.0176f, 0.2689f, 0.0215f, 0.0089f, 0.6812f, 0.0019f, 0.0000f, 0.0000f)), atol=1e-04))
+  val wei4_6 = wei4(0,6)
+  assert(torch.allclose(wei4_6, Tensor(Array(0.1691f, 0.4066f, 0.0438f, 0.0416f, 0.1048f, 0.2012f, 0.0329f, 0.0000f)), atol=1e-04))
+  val wei4_7 = wei4(0,7)
+  assert(torch.allclose(wei4_7, Tensor(Array(0.0210f, 0.0843f, 0.0555f, 0.2297f, 0.0573f, 0.0709f, 0.2423f, 0.2391f)), atol=1e-04))
+
+  // note 6: "scaled" self-attention. why divide by sqrt(head_size)
+  val head_size_5 = 16
+  val (b5, t5, c5) = (4,8,32) // batch, time, channels
+  val k5 = torch.randn(Seq(b5,t5,head_size_1))
+  val q5 = torch.randn(Seq(b5,t5,head_size_1))
+  //val wei5 = q5 `@` k5.transpose(-2, -1) * head_size**-0.5
+  println(s"${k5.variance}")
   1/0
 
 
