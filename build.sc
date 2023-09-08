@@ -394,6 +394,9 @@ trait CommonSettings extends SbtModule with Bloop.Module {
 
   // TODO: add to scaladoc
   // def scalacOptions = Seq("-groups", "-snippet-compiler:compile")
+  // override def scalacOptions/*: Target[Seq[String]]*/ = T{ 
+  //   Seq("-Xplugin:semanticdb", "-sourceroot:/mnt/ssd2/hmf/VSCodeProjects/storch" )
+  // }
 
   // TODO: Not used
   // List((pytorch,2.0.1), (mkl,2023.1), (openblas,0.3.23))

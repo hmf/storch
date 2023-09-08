@@ -26,6 +26,7 @@ import torch.{DType, Device, Tensor}
 import java.nio.CharBuffer
 import scala.collection.immutable.{ArraySeq, SeqMap, TreeSeqMap}
 import scala.reflect.ClassTag
+import scala.annotation.targetName
 
 abstract class Module {
 
@@ -81,6 +82,12 @@ abstract class Module {
   ): Tensor[D] =
     nativeModule.register_parameter(name.value, t.native, requiresGrad)
     t
+
+  def buffer[D <: DType](t: Tensor[D], n: String="")(using
+      name: sourcecode.Name
+  ): Tensor[D] =
+    val name_ = if n.trim().isEmpty() then name.value else n.trim()
+    Tensor( nativeModule.register_buffer(n, t.native) )
 
   def eval(): Unit = nativeModule.eval()
 

@@ -411,7 +411,7 @@ object BiGram:
   var loss4: Tensor[Float32] = _
   // loss=4.5633 -> 4.5606503 for 100 steps
   // loss=4.5633 -> 4.4979854 for 100000 steps
-  for steps <- 0 until 100 // increase number of steps for good results... 
+  for steps <- 0 until 10 // increase number of steps for good results... 
   do      
     // sample a batch of data
     val (xb, yb) = get_batch("train")
@@ -456,7 +456,7 @@ object BiGram:
   // create a PyTorch optimizer
   val optimizer1 = torch.optim.AdamW(m1.parameters, lr=1e-3)
 
-  for iter <- 0 until 100 //max_iters
+  for iter <- 0 until 10 //max_iters
   do
     // every once in a while evaluate the loss on train and val sets
     if (iter % eval_interval == 0) || (iter == max_iters - 1)
@@ -598,7 +598,7 @@ object BiGram:
   // create a PyTorch optimizer
   val optimizer2 = torch.optim.AdamW(m2.parameters, lr=1e-3)
 
-  for iter <- 0 until 100 //max_iters
+  for iter <- 0 until 10 //max_iters
   do
     // every once in a while evaluate the loss on train and val sets
     if (iter % eval_interval == 0) || (iter == max_iters - 1)
@@ -645,15 +645,11 @@ object BiGram:
       // idx and targets are both (B,T) tensor of integers
       // idx is (B,T)
       val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
-      println(s"idx ${idx.shape}")
-      println(s"token_embed ${token_embed.shape}")
       // positions of tokens
       val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
       val pos_embed = position_embedding_table( pos ) // (T,C)
-      println(s"pos_embed ${pos_embed.shape}")
       // Add the position embeddings
       val x = token_embed + pos_embed // (B,T,C)
-      println(s"x ${x.shape}")
       val logits = lm_head( token_embed ) // (B,T,vocabSize)
 
       if targets.isEmpty
@@ -701,7 +697,7 @@ object BiGram:
   // create a PyTorch optimizer
   val optimizer3 = torch.optim.AdamW(m3.parameters, lr=1e-3)
 
-  for iter <- 0 until 10000 //max_iters
+  for iter <- 0 until 10 //max_iters
   do
     // every once in a while evaluate the loss on train and val sets
     if (iter % eval_interval == 0) || (iter == max_iters - 1)
@@ -783,12 +779,106 @@ object BiGram:
   assert(torch.allclose(wei4_7, Tensor(Array(0.0210f, 0.0843f, 0.0555f, 0.2297f, 0.0573f, 0.0709f, 0.2423f, 0.2391f)), atol=1e-04))
 
   // note 6: "scaled" self-attention. why divide by sqrt(head_size)
+  // Scaled dot-product attention
+  // "Scaled" attention additional divides wei by 1/sqrt(head_size). This makes it so when input Q,K are 
+  // unit variance, wei will be unit variance too and Softmax will stay diffuse and not saturate too much. 
+  // Illustration below
   val head_size_5 = 16
   val (b5, t5, c5) = (4,8,32) // batch, time, channels
   val k5 = torch.randn(Seq(b5,t5,head_size_1))
   val q5 = torch.randn(Seq(b5,t5,head_size_1))
   //val wei5 = q5 `@` k5.transpose(-2, -1) * head_size**-0.5
+  // Both k and q are a unit Gaussian (mean 0 and standard deviation 1) 
   println(s"${k5.variance}")
+  println(s"${q5.variance}")
+  // If we multiple these two tensors, the standard deviation will be in the order of the head size
+  val wei5_0 = q5 `@` k5.transpose(-2, -1)
+  println(s"${wei5_0.variance}")
+  // So we can divide by an order of the head size to get same standard deviation of 1
+  val wei5_1 = q5 `@` k5.transpose(-2, -1) * Math.pow(head_size, -0.5)
+  println(s"${wei5_1.variance}")
+  // Why is this important? Note that wei feeds into softmax that is then multiplied by the self-attention head's 
+  // value `v`. It is important wei be fairly diffuse. If the the wei vectors become very peaky (takes on very 
+  // positive and very negative value), softmax will convert these values and converge to a one-hot-encoding. 
+  // TODO: does not compile
+  val z = Tensor(Seq(0.1, -0.2, 0.3, -0.2, 0.5))
+  // val one_hot_100 = torch.softmax(Tensor(Seq(0.1, -0.2, 0.3, -0.2, 0.5)), dim = -1L)
+  val one_hot_0 = F.softmax(z, dim = -1L)
+  println(one_hot_0)
+  // If we "sharpen" these values
+  val one_hot_1 = F.softmax(z*8, dim = -1) 
+  // it gets too peaky and converges to one-hot (a single value will dominate all others)
+  println(one_hot_1)
+  // this means that in such a case, basically information will be aggregated from a single node. This can be 
+  // a problem especially during the initial training
+
+/*
+class Head(nn.Module):
+    """ one head of self-attention """
+
+    def __init__(self, head_size):
+        super().__init__()
+        self.key = nn.Linear(n_embd, head_size, bias=False)
+        self.query = nn.Linear(n_embd, head_size, bias=False)
+        self.value = nn.Linear(n_embd, head_size, bias=False)
+        self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size)))
+
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):
+        B,T,C = x.shape
+        k = self.key(x)   # (B,T,C)
+        q = self.query(x) # (B,T,C)
+        # compute attention scores ("affinities")
+        wei = q @ k.transpose(-2,-1) * C**-0.5 # (B, T, C) @ (B, C, T) -> (B, T, T)
+        wei = wei.masked_fill(self.tril[:T, :T] == 0, float('-inf')) # (B, T, T)
+        wei = F.softmax(wei, dim=-1) # (B, T, T)
+        wei = self.dropout(wei)
+        # perform the weighted aggregation of the values
+        v = self.value(x) # (B,T,C)
+        out = wei @ v # (B, T, T) @ (B, T, C) -> (B, T, C)
+        return out
+*/
+
+  /**
+   * one head of self-attention
+   */
+  class Head[D <: DType](
+          n_embd: Int, 
+          head_size: Int, 
+          block_size: Int,
+          //dropout: Double) extends nn.Module:
+          dropout: Double) extends torch.nn.modules.TensorModule[D]:
+
+    val key = nn.Linear(n_embd, head_size, bias=false)
+    val query = nn.Linear(n_embd, head_size, bias=false)
+    val value = nn.Linear(n_embd, head_size, bias=false)
+    val tril = buffer(torch.tril(torch.ones(Seq(block_size, block_size))), "tril")
+// 
+    // https://github.com/sbrunk/storch/issues/51
+    // val dropout = nn.Dropout(dropout)
+
+    def forward(x: Tensor[D]): Tensor[D] =
+      // B,T,C = x.shape
+      // TODO
+      // val (b,t,c) = (x.shape(0), x.shape(1), x.shape(2))
+      val Seq(b,t,c) = x.shape
+      // val k = key(x)   // (B,T,C)
+      // val q = query(x) // (B,T,C)
+      // // compute attention scores ("affinities")
+      // val qk = q `@` k.transpose(-2, -1) * Math.pow(c, -0.5) // (B, T, C) @ (B, C, T) -> (B, T, T)
+      // //val mask = qk.maskedFill(tril == 0, Float.NegativeInfinity) // (B, T, T)
+      // val mask = qk.maskedFill(tril((º`:`n), (º`:`n)) == 0, Float.NegativeInfinity) // (B, T, T)
+      // val wei = F.softmax(mask, dim= -1) // (B, T, T)
+      // // val wei = self.dropout(wei)
+      // // perform the weighted aggregation of the values
+      // val v = value(x) // (B,T,C)
+      // val out = wei `@` v // (B, T, T) @ (B, T, C) -> (B, T, C)
+      // out
+      x
+
+    def apply(x:Tensor[D]): Tensor[D] = forward(x)
+
   1/0
 
 
