@@ -558,8 +558,7 @@ object BiGram:
         val zero = torch.Tensor(0.0f) 
         (logits, zero)
       else
-        val shape = logits.shape
-        val (b,t,c) = (shape(0), shape(1), shape(2))
+        val Seq(b,t,c) = logits.shape
         val logitsV = logits.view(b*t, c)  // batch size x number of classes
         val targetsV = targets.get.view(b*t) 
         val loss = F.crossEntropy(logitsV, targetsV)
@@ -639,7 +638,7 @@ object BiGram:
     val lm_head = nn.Linear(nEmbed, vocabSize)
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
-      val (b,t) = (idx.shape(0), idx.shape(1))
+      val Seq(b,t) = idx.shape
 
       // idx and targets are both (B,T) tensor of integers
       // idx is (B,T)
@@ -656,8 +655,7 @@ object BiGram:
         val zero = torch.Tensor(0.0f) 
         (logits, zero)
       else
-        val shape = logits.shape
-        val (b,t,c) = (shape(0), shape(1), shape(2))
+        val Seq(b,t,c) = logits.shape
         val logitsV = logits.view(b*t, c)  // batch size x number of classes
         val targetsV = targets.get.view(b*t) 
         val loss = F.crossEntropy(logitsV, targetsV)
