@@ -342,8 +342,7 @@ object BiGram:
         val zero = torch.Tensor(0.0f) 
         (logits, zero)
       else
-        val shape = logits.shape
-        val (b,t,c) = (shape(0), shape(1), shape(2))
+        val Seq(b,t,c) = logits.shape
         val logitsV = logits.view(b*t, c)  // batch size x number of classes
         val targetsV = targets.get.view(b*t) 
         val loss = F.crossEntropy(logitsV, targetsV)
@@ -843,20 +842,19 @@ class Head(nn.Module):
   /**
    * one head of self-attention
    */
-  class Head[D <: DType](
+  class Head[D <: FloatNN: Default](
           n_embd: Int, 
           head_size: Int, 
           block_size: Int,
           //dropout: Double) extends nn.Module:
-          dropout: Double) extends torch.nn.modules.TensorModule[D]:
+          drop: Double) extends torch.nn.modules.TensorModule[D]:
 
     val key = nn.Linear(n_embd, head_size, bias=false)
     val query = nn.Linear(n_embd, head_size, bias=false)
     val value = nn.Linear(n_embd, head_size, bias=false)
-    val tril = buffer(torch.tril(torch.ones(Seq(block_size, block_size))), "tril")
-// 
-    // https://github.com/sbrunk/storch/issues/51
-    // val dropout = nn.Dropout(dropout)
+    val tril = registerBuffer(torch.tril(torch.ones(Seq(block_size, block_size))), "tril")
+
+    val dropout = nn.Dropout(drop)
 
     def forward(x: Tensor[D]): Tensor[D] =
       // B,T,C = x.shape

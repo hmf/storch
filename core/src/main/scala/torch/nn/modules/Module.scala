@@ -71,23 +71,27 @@ abstract class Module {
   def namedModules: SeqMap[String, Module] =
     namedChildren.flatMap((name, module) => module.namedModules)
 
-  def register[M <: Module](child: M)(using name: sourcecode.Name) =
-    // println(s"registering ${name.value}:$child")
-    childModules = childModules.updated(name.value, child)
-    nativeModule.register_module(name.value, child.nativeModule)
+  def register[M <: Module](child: M, n: String = "")(using name: sourcecode.Name): M =
+    val name_ = if n.trim().isEmpty() then name.value else n.trim()
+    // println(s"registering ${name_}:$child")
+    childModules = childModules.updated(name_, child)
+    nativeModule.register_module(name_, child.nativeModule)
     child
 
-  def register[D <: DType](t: Tensor[D], requiresGrad: Boolean = true)(using
-      name: sourcecode.Name
-  ): Tensor[D] =
-    nativeModule.register_parameter(name.value, t.native, requiresGrad)
-    t
+  def registerModule[M <: Module](child: M, n: String = "")(using name: sourcecode.Name): M = 
+    register(child = child)(using name)
 
-  def buffer[D <: DType](t: Tensor[D], n: String="")(using
+  def registerParameter[D <: DType](t: Tensor[D], requiresGrad: Boolean = true, n: String = "")(using
       name: sourcecode.Name
   ): Tensor[D] =
     val name_ = if n.trim().isEmpty() then name.value else n.trim()
-    Tensor( nativeModule.register_buffer(n, t.native) )
+    Tensor( nativeModule.register_parameter(name_, t.native, requiresGrad) )
+
+  def registerBuffer[D <: DType](t: Tensor[D], n: String = "")(using
+      name: sourcecode.Name
+  ): Tensor[D] =
+    val name_ = if n.trim().isEmpty() then name.value else n.trim()
+    Tensor( nativeModule.register_buffer(name_, t.native) )
 
   def eval(): Unit = nativeModule.eval()
 

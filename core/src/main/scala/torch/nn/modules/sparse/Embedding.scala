@@ -129,4 +129,12 @@ final class Embedding[ParamType <: FloatNN | ComplexNN: Default](
 
   def apply(t: Tensor[Int64]): Tensor[ParamType] = Tensor(nativeModule.forward(t.native))
 
-  override def toString(): String = s"${getClass().getSimpleName()}(numEmbeddings=$numEmbeddings)"
+  override def toString(): String = 
+    val numEmbed = s"numEmbeddings=$numEmbeddings"
+    val dim      = s"embeddingDim=$embeddingDim"
+    val padding  = s"paddingIdx=$paddingIdx"
+    val maxN     = s"maxNorm=$maxNorm"
+    val normT    = s"normType=$normType"
+    val scale    = s"scaleGradByFreq=$scaleGradByFreq"
+    val s        = s"sparse=$sparse"
+    s"${getClass().getSimpleName()}($numEmbed, $dim, $padding, $maxN, $normT, $scale, $s )"
