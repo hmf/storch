@@ -53,8 +53,8 @@ import torch.DType.float32
 
 
 // hyperparameters
-val batch_size = 32 // how many independent sequences will we process in parallel?
-val block_size = 8 // what is the maximum context length for predictions?
+val batch_size = 16 // how many independent sequences will we process in parallel?
+val block_size = 32 // what is the maximum context length for predictions?
 val max_iters = 3000
 val eval_interval = 300
 val learning_rate = 1e-2
@@ -62,10 +62,25 @@ val learning_rate = 1e-2
 val device = if torch.cuda.isAvailable then CUDA else CPU
 //println(s"Using device: $device")
 val eval_iters = 200
-val n_embed = 32
+val n_embed = 64
 val head_size = 16
+val n_head = 4
+val n_layer = 4
+val dropout = 0.0
 // ------------
 
+
+// batch_size = 16 # how many independent sequences will we process in parallel?
+// block_size = 32 # what is the maximum context length for predictions?
+// max_iters = 5000
+// eval_interval = 100
+// learning_rate = 1e-3
+// device = 'cuda' if torch.cuda.is_available() else 'cpu'
+// eval_iters = 200
+// n_embd = 64
+// n_head = 4
+// n_layer = 4
+// dropout = 0.0
 
 type simpleIndex = Option[Long] | Long
 type SI = simpleIndex
@@ -306,6 +321,14 @@ object BiGram:
   println(yb)
   println("----")
 
+  println("xb:")
+  println(decode( xb(0).toSeq ))
+  println(".")
+  println(decode( xb(1).toSeq ))
+  println("yb:")
+  println(decode( yb(0).toSeq ))
+  println(".")
+  println(decode( yb(1).toSeq ))
 
   for b <- 0 until batch_size // batch dimension
   do
@@ -316,6 +339,7 @@ object BiGram:
       println(s"when input is ${context.toSeq.mkString("[",", ","]")} the target: ${target.item}")
 
   println(xb) // our input to the transformer
+  
 
   torch.manualSeed(1337)
   
@@ -829,22 +853,28 @@ object BiGram:
     // val dropout = nn.Dropout(drop)
 
     def forward(x: Tensor[D]): Tensor[D] =
+      // input of size (batch, time-step, channels) = (B,T,C)
+      // output of size (batch, time-step, head size) = (B,T,H)
       // batch, number of time steps, channels
       val Seq(b,t,c) = x.shape
       assert(block_size == t, "Block size must be equal to time step")
 
-      val k = key(x)   // (B,T,C)
-      val q = query(x) // (B,T,C)
+      // key = Linear(inFeatures=C, outFeatures=T, bias=false)
+      val k = key(x)   // (B,T,C) @ (C,H) -> (B,T,H)
+      val q = query(x) // (B,T,H)
       // compute attention scores ("affinities")
-      val qk = q `@` k.transpose(-2, -1) * Tensor(c).pow(-0.5).to(dtype=q.dtype)  // (B, T, C) @ (B, C, T) -> (B, T, T)
+      // c should be the head size
+      val hs = k.size.last
+      assert(head_size == hs, "Head size does not match k")
+      val qk = q `@` k.transpose(-2, -1) * Tensor(hs).pow(-0.5).to(dtype=q.dtype)  // (B, T, H) @ (B, H, T) -> (B, T, T)
       // val mask = qk.maskedFill(tril == 0, Float.NegativeInfinity) // (B, T, T)
       val mask = qk.maskedFill(tril((º`:`n), (º`:`n)) == 0, Float.NegativeInfinity).to(dtype=q.dtype) // (B, T, T)
       // val softmax = F.softmax(mask, dim= -1) // (B, T, T)
       // val wei = dropout(softmax)
       val wei = F.softmax(mask, dim= -1) // (B, T, T)
       // perform the weighted aggregation of the values
-      val v = value(x) // (B,T,C)
-      val out = wei `@` v // (B, T, T) @ (B, T, C) -> (B, T, C)
+      val v = value(x) // (B,T,H)
+      val out = wei `@` v // (B, T, T) @ (B, T, H) -> (B, T, H)
       out
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
@@ -860,8 +890,11 @@ object BiGram:
     // each token directly reads off the logits for the next token from a lookup table
     val token_embedding_table = nn.Embedding(vocabSize, nEmbed)
     val position_embedding_table = nn.Embedding(blockSize, nEmbed)
-    val sa_head = Head1(n_embed = nEmbed, head_size = vocabSize, block_size = blockSize) //, drop = 0.5)
-    val lm_head = nn.Linear(nEmbed, vocabSize)
+    // head_size = n_embed
+    val sa_head = Head1(n_embed = nEmbed, head_size = head_size, block_size = blockSize) //, drop = 0.5)
+    // val lm_head = nn.Linear(nEmbed, vocabSize)
+    // Just to test Head1 use head_size instead on embed_size
+    val lm_head = nn.Linear(head_size, vocabSize)
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
       val Seq(b,t) = idx.shape
@@ -873,8 +906,13 @@ object BiGram:
       val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
       val pos_embed = position_embedding_table( pos ) // (T,C)
       // Add the position embeddings
-      val x = token_embed + pos_embed // (B,T,C)
-      val logits = lm_head( token_embed ) // (B,T,vocabSize)
+      val x0 = token_embed + pos_embed // (B,T,C)
+      val x1 = sa_head(x0) // apply one head of self-attention (B,T,C) - for test use (B,T,H)
+      // val x1 = blocks(x0) // (B,T,C)
+      // val x2 = ln_f(x2) // (B,T,C)
+      // mat1 and mat2 shapes cannot be multiplied (512x16 and 64x65)
+      // Linear(inFeatures=64, outFeatures=16, bias=false)
+      val logits = lm_head( x1 ) //  (B,T,H) @ (H,vocabSize) -> (B,T,vocabSize)
 
       if targets.isEmpty
       then
