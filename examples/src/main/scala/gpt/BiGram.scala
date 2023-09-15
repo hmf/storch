@@ -707,14 +707,14 @@ object BiGram:
     val (xb, yb) = get_batch("train")
 
     // evaluate the loss
-    val (logits, loss) = m2(xb, yb)
-    optimizer2.zeroGrad(setToNone=true)
+    val (logits, loss) = m3(xb, yb)
+    optimizer3.zeroGrad(setToNone=true)
     loss.backward()
-    optimizer2.step()
+    optimizer3.step()
 
   val next5 = m3.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
   val decoded5 = decode(next5.toSeq)
-  println(s"decode 4:'$decoded5'")
+  println(s"decode 5:'$decoded5'")
 
 
   // version 4: self-attention!
@@ -809,74 +809,140 @@ object BiGram:
   // this means that in such a case, basically information will be aggregated from a single node. This can be 
   // a problem especially during the initial training
 
-/*
-class Head(nn.Module):
-    """ one head of self-attention """
-
-    def __init__(self, head_size):
-        super().__init__()
-        self.key = nn.Linear(n_embd, head_size, bias=False)
-        self.query = nn.Linear(n_embd, head_size, bias=False)
-        self.value = nn.Linear(n_embd, head_size, bias=False)
-        self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size)))
-
-        self.dropout = nn.Dropout(dropout)
-
-    def forward(self, x):
-        B,T,C = x.shape
-        k = self.key(x)   # (B,T,C)
-        q = self.query(x) # (B,T,C)
-        # compute attention scores ("affinities")
-        wei = q @ k.transpose(-2,-1) * C**-0.5 # (B, T, C) @ (B, C, T) -> (B, T, T)
-        wei = wei.masked_fill(self.tril[:T, :T] == 0, float('-inf')) # (B, T, T)
-        wei = F.softmax(wei, dim=-1) # (B, T, T)
-        wei = self.dropout(wei)
-        # perform the weighted aggregation of the values
-        v = self.value(x) # (B,T,C)
-        out = wei @ v # (B, T, T) @ (B, T, C) -> (B, T, C)
-        return out
-*/
 
   /**
    * one head of self-attention
    */
-  class Head[D <: FloatNN: Default](
-          n_embd: Int, 
+  class Head1[D <: FloatNN: Default](
+          n_embed: Int, 
           head_size: Int, 
-          block_size: Int,
-          //dropout: Double) extends nn.Module:
-          drop: Double) extends torch.nn.modules.TensorModule[D]:
+          block_size: Int
+          //drop: Double
+          ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
 
-    val key = nn.Linear(n_embd, head_size, bias=false)
-    val query = nn.Linear(n_embd, head_size, bias=false)
-    val value = nn.Linear(n_embd, head_size, bias=false)
-    val tril = registerBuffer(torch.tril(torch.ones(Seq(block_size, block_size))), "tril")
+    val key = nn.Linear[D](n_embed, head_size, bias=false)
+    val query = nn.Linear[D](n_embed, head_size, bias=false)
+    val value = nn.Linear[D](n_embed, head_size, bias=false)
+    val ones = torch.ones[D](Seq(block_size, block_size), dtype=key.paramType)
+    val tril = registerBuffer(torch.tril(ones), "tril")
 
-    val dropout = nn.Dropout(drop)
+    // val dropout = nn.Dropout(drop)
 
     def forward(x: Tensor[D]): Tensor[D] =
-      // B,T,C = x.shape
-      // TODO
-      // val (b,t,c) = (x.shape(0), x.shape(1), x.shape(2))
+      // batch, number of time steps, channels
       val Seq(b,t,c) = x.shape
-      // val k = key(x)   // (B,T,C)
-      // val q = query(x) // (B,T,C)
-      // // compute attention scores ("affinities")
-      // val qk = q `@` k.transpose(-2, -1) * Math.pow(c, -0.5) // (B, T, C) @ (B, C, T) -> (B, T, T)
-      // //val mask = qk.maskedFill(tril == 0, Float.NegativeInfinity) // (B, T, T)
-      // val mask = qk.maskedFill(tril((º`:`n), (º`:`n)) == 0, Float.NegativeInfinity) // (B, T, T)
-      // val wei = F.softmax(mask, dim= -1) // (B, T, T)
-      // // val wei = self.dropout(wei)
-      // // perform the weighted aggregation of the values
-      // val v = value(x) // (B,T,C)
-      // val out = wei `@` v // (B, T, T) @ (B, T, C) -> (B, T, C)
-      // out
-      x
+      assert(block_size == t, "Block size must be equal to time step")
+
+      val k = key(x)   // (B,T,C)
+      val q = query(x) // (B,T,C)
+      // compute attention scores ("affinities")
+      val qk = q `@` k.transpose(-2, -1) * Tensor(c).pow(-0.5).to(dtype=q.dtype)  // (B, T, C) @ (B, C, T) -> (B, T, T)
+      // val mask = qk.maskedFill(tril == 0, Float.NegativeInfinity) // (B, T, T)
+      val mask = qk.maskedFill(tril((º`:`n), (º`:`n)) == 0, Float.NegativeInfinity).to(dtype=q.dtype) // (B, T, T)
+      // val softmax = F.softmax(mask, dim= -1) // (B, T, T)
+      // val wei = dropout(softmax)
+      val wei = F.softmax(mask, dim= -1) // (B, T, T)
+      // perform the weighted aggregation of the values
+      val v = value(x) // (B,T,C)
+      val out = wei `@` v // (B, T, T) @ (B, T, C) -> (B, T, C)
+      out
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-  1/0
+  /**
+   * 
+   * @param vocabSize - number o tokens
+   * @param blockSize - number of tokens taken from the text input to apply to the NN
+   * @param nEm
+   */
+  class BigramLanguageModel3(vocabSize: Int, blockSize:Int, nEmbed: Int) extends BigramLanguageModel: 
 
+    // each token directly reads off the logits for the next token from a lookup table
+    val token_embedding_table = nn.Embedding(vocabSize, nEmbed)
+    val position_embedding_table = nn.Embedding(blockSize, nEmbed)
+    val sa_head = Head1(n_embed = nEmbed, head_size = vocabSize, block_size = blockSize) //, drop = 0.5)
+    val lm_head = nn.Linear(nEmbed, vocabSize)
+
+    def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
+      val Seq(b,t) = idx.shape
+
+      // idx and targets are both (B,T) tensor of integers
+      // idx is (B,T)
+      val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
+      // positions of tokens
+      val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
+      val pos_embed = position_embedding_table( pos ) // (T,C)
+      // Add the position embeddings
+      val x = token_embed + pos_embed // (B,T,C)
+      val logits = lm_head( token_embed ) // (B,T,vocabSize)
+
+      if targets.isEmpty
+      then
+        val zero = torch.Tensor(0.0f) 
+        (logits, zero)
+      else
+        val Seq(b,t,c) = logits.shape
+        val logitsV = logits.view(b*t, c)  // batch size x number of classes
+        val targetsV = targets.get.view(b*t) 
+        val loss = F.crossEntropy(logitsV, targetsV)
+        (logitsV, loss)
+
+
+    def generate(idx: Tensor[Int64], max_new_tokens: Int) =
+      var idx_ = idx.copy_(idx)
+      // idx is (B, T) array of indices in the current context
+      for i <- 0 until max_new_tokens
+      do
+        // crop idx to the last block_size tokens
+        val idx_cond = idx(`:`, -blockSize, `:`)
+        // get the predictions
+        val (logits_t, loss) = apply(idx_cond)
+        // focus only on the last time step
+        val logits = logits_t(`:`, -1, `:`) // becomes (B, C)
+        // apply softmax to get probabilities
+        val probs = F.softmax(logits, dim = -1L) // (B, C)
+        // sample from the distribution
+        val idx_next = torch.multinomial(probs, numSamples=1) // (B, 1)
+        // append sampled index to the running sequence
+        idx_ = torch.cat(Seq(idx_, idx_next), dim=1) // (B, T+1)
+      idx_
+
+    def apply(x: Tensor[Int64], y: Tensor[Int64]) =
+      forward(x, Some(y) )
+
+    def apply(x: Tensor[Int64]) =
+      forward(x, None )
+
+
+  end BigramLanguageModel3
+
+
+  // Create a model
+  val m4 = BigramLanguageModel3(vocab_size, block_size, n_embed)
+  // create a PyTorch optimizer
+  val optimizer4 = torch.optim.AdamW(m4.parameters, lr=1e-3)
+
+  for iter <- 0 until 5000 //max_iters
+  do
+    // every once in a while evaluate the loss on train and val sets
+    if (iter % eval_interval == 0) || (iter == max_iters - 1)
+    then
+      val losses = estimate_loss(m4)
+      println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}")
+      //print(s"step ${iter}: train loss ${losses("train"):.4f}, val loss ${losses("val"):.4f}")
+
+    // sample a batch of data
+    val (xb, yb) = get_batch("train")
+
+    // evaluate the loss
+    val (logits, loss) = m4(xb, yb)
+    optimizer4.zeroGrad(setToNone=true)
+    loss.backward()
+    optimizer4.step()
+
+  val next6 = m4.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  val decoded6 = decode(next6.toSeq)
+  println(s"decode 6:'$decoded6'")
 
   
   def main(args: Array[String]): Unit =
