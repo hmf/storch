@@ -53,16 +53,16 @@ import torch.DType.float32
 
 
 // hyperparameters
-val batch_size = 16 // how many independent sequences will we process in parallel?
-val block_size = 32 // what is the maximum context length for predictions?
-val max_iters = 3000
-val eval_interval = 300
-val learning_rate = 1e-2
+val batch_size = 16 // 16 // how many independent sequences will we process in parallel?
+val block_size = 8 // 32 // what is the maximum context length for predictions?
+val max_iters = 5000  // 3000
+val eval_interval = 500  // 300
+val learning_rate = 1e-3 // 1e-2
 //val device = 'cuda' if torch.cuda.is_available() else 'cpu'
 val device = if torch.cuda.isAvailable then CUDA else CPU
 //println(s"Using device: $device")
 val eval_iters = 200
-val n_embed = 64
+val n_embed = 32 // 64
 val head_size = 16
 val n_head = 4
 val n_layer = 4
@@ -379,7 +379,7 @@ object BiGram:
       for i <- 0 until max_new_tokens
       do
         // get the predictions
-        val (logits_t, loss) = apply(idx)
+        val (logits_t, loss) = apply(idx_)
         // focus only on the last time step
         val logits = logits_t(Slice(), -1, Slice()) // becomes (B, C)
         // apply softmax to get probabilities
@@ -595,7 +595,7 @@ object BiGram:
       for i <- 0 until max_new_tokens
       do
         // get the predictions
-        val (logits_t, loss) = apply(idx)
+        val (logits_t, loss) = apply(idx_)
         // focus only on the last time step
         val logits = logits_t(Slice(), -1, Slice()) // becomes (B, C)
         // apply softmax to get probabilities
@@ -669,6 +669,7 @@ object BiGram:
       val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
       // positions of tokens
       val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
+      //val pos = torch.arange(0L,blockSize, device=device) // (T) were T is the block size?
       val pos_embed = position_embedding_table( pos ) // (T,C)
       // Add the position embeddings
       val x = token_embed + pos_embed // (B,T,C)
@@ -692,7 +693,10 @@ object BiGram:
       for i <- 0 until max_new_tokens
       do
         // get the predictions
-        val (logits_t, loss) = apply(idx)
+        // original val (logits_t, loss) = apply(idx_)
+        val idx_cond = idx_(`:`, (-blockSize`:`º))
+        // get the predictions
+        val (logits_t, loss) = apply(idx_cond)
         // focus only on the last time step
         val logits = logits_t(Slice(), -1, Slice()) // becomes (B, C)
         // apply softmax to get probabilities
@@ -739,7 +743,7 @@ object BiGram:
   val next5 = m3.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
   val decoded5 = decode(next5.toSeq)
   println(s"decode 5:'$decoded5'")
-
+  
 
   // version 4: self-attention!
   torch.manualSeed(1337)
@@ -857,7 +861,8 @@ object BiGram:
       // output of size (batch, time-step, head size) = (B,T,H)
       // batch, number of time steps, channels
       val Seq(b,t,c) = x.shape
-      assert(block_size == t, "Block size must be equal to time step")
+      // fails on generate ?
+      // assert(block_size == t, "Block size must be equal to time step")
 
       // key = Linear(inFeatures=C, outFeatures=T, bias=false)
       val k = key(x)   // (B,T,C) @ (C,H) -> (B,T,H)
@@ -932,7 +937,10 @@ object BiGram:
       for i <- 0 until max_new_tokens
       do
         // crop idx to the last block_size tokens
-        val idx_cond = idx(`:`, -blockSize, `:`)
+        println("???????????????")
+        val idx_cond = idx_(`:`, (-blockSize`:`º))
+        // println(s"idx_ ${idx_.shape} -> idx_cond ${idx_cond.shape}")
+        // println(s"idx_ |${idx_.toSeq.takeRight(blockSize)}| -> idx_cond |${idx_cond.toSeq}|")
         // get the predictions
         val (logits_t, loss) = apply(idx_cond)
         // focus only on the last time step
@@ -943,6 +951,7 @@ object BiGram:
         val idx_next = torch.multinomial(probs, numSamples=1) // (B, 1)
         // append sampled index to the running sequence
         idx_ = torch.cat(Seq(idx_, idx_next), dim=1) // (B, T+1)
+        println(idx_.toSeq)
       idx_
 
     def apply(x: Tensor[Int64], y: Tensor[Int64]) =
@@ -978,7 +987,9 @@ object BiGram:
     loss.backward()
     optimizer4.step()
 
-  val next6 = m4.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  println("Debug m4.generate() !") 
+  // val next6 = m4.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  val next6 = m4.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
   val decoded6 = decode(next6.toSeq)
   println(s"decode 6:'$decoded6'")
 
