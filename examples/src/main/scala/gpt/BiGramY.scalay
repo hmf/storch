@@ -629,7 +629,44 @@ object BiGramX:
         val Seq(b,t,c) = logits.shape
         val logitsV = logits.view(b*t, c)  // batch size x number of classes
         val targetsV = targets.get.view(b*t) 
+        // println(s"idx.shape = ${idx.shape}")
+        // println(s"targets.get.shape = ${targets.get.shape}")
+        println(s"logits.shape = ${logits.shape}")
+        // println(s"idx(0) = ${idx(0).toSeq}")
+        // println(s"targets(0) = ${targets.get(0).toSeq}")
+        println(s"logits(0) = ${logits(0)}")
+        val l = logits(0)
+        // println(s"l(0) = ${l}")
+        // val argmax = l.indices.maxBy(l)
+        // println(s"max = $argmax")
+        // println(s"max = $argmax -> ${decode(Seq(argmax))}")
         val loss = F.crossEntropy(logitsV, targetsV)
+        // println(s"logitsV.shape = ${logitsV.shape}")
+        // println(s"targetsV.shape = ${targetsV.shape}")
+        // println(s"loss.shape = ${loss.shape}")
+        // println(s"loss = ${loss}")
+        /*
+        Estimate loss
+        idx.shape = ArraySeq(16, 8)
+        targets.get.shape = ArraySeq(16, 8)
+        logits.shape = ArraySeq(16, 8, 65)
+        idx(0) = ArraySeq(47, 60, 43, 1, 59, 52, 58, 47)
+        targets(0) = ArraySeq(60, 43, 1, 59, 52, 58, 47, 50)
+        targets(0) = ArraySeq(60, 43, 1, 59, 52, 58, 47, 50)
+        logits(0) = tensor dtype=float32, shape=[8, 65], device=CPU 
+        [[-0.0152, 0.0327, 0.8416, ..., 0.7316, 0.0207, -0.0154],
+        [0.2119, -0.1712, 0.7282, ..., 0.5682, -0.1327, 0.2052],
+        [0.0563, -0.1682, 0.4429, ..., 0.2863, -0.0212, -0.0481],
+        ...,
+        [0.2163, -0.0836, 0.4823, ..., 0.3438, -0.1904, 0.0936],
+        [0.0975, 0.2394, 0.3527, ..., 0.2178, -0.1093, -0.2017],
+        [0.0185, 0.2494, 0.4354, ..., 0.2713, -0.0690, -0.4120]]
+        logitsV.shape = ArraySeq(128, 65)
+        targetsV.shape = ArraySeq(128)
+        loss.shape = ArraySeq()
+        loss = tensor dtype=float32, shape=[], device=CPU 
+        4.2519
+        */
         (logitsV, loss)
 
 
