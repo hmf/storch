@@ -276,16 +276,31 @@ object BiGramX:
   else 
     println(s"File $dataFile already exists.")
 
-  // val text = os.read(dataFile)
+  val text = os.read(dataFile)
   // 1115394
   // println(text.length())
-  val text = "a"*1115394
-  val extras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .!,;.:\n"
+  // val text = "a"*1115394
+  // val extras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .!,;.:\n"
   
+/*
+
+I am at a point right now were the model, with a single head, should be converging. Unfortunately, try as I might, I cannot get this to work. 8-( I have followed the video in an attempt to test it as I go and provide a document with this "journey".
+
+In an effort to debug this, I have the [BiGramX](https://github.com/hmf/storch/blob/explore_1/examples/src/main/scala/gpt/BiGramX.scala) with the implementation and use of the model. During execution I observed that using the Shakespeare text, the loss practically did not change. 
+
+After some additional exploration, I changed the input code to a string containing only "a". This is a trivial case that should easily converge. Now when I execute this, the [loss does not change](https://github.com/hmf/storch/blob/explore_1/examples/src/main/scala/gpt/BiGramX.scala#L679) at all. It seems like the [loss is not propagated back](https://github.com/hmf/storch/blob/explore_1/examples/src/main/scala/gpt/BiGramX.scala#L632). In fact the [values of the logits does not change](https://github.com/hmf/storch/blob/explore_1/examples/src/main/scala/gpt/BiGramX.scala#L622).
+
+I am obviously doing something wrong. Can anyone take a look at the code? The `BigramLanguageModel3` class and the training loop below it seems to be were I am messing up. Please note that I tried to keep this as close to the original Python as possible. 
+
+TIA.
+
+
+*/
+
   
   // here are all the unique characters that occur in this text
-  // TODO: val chars = SortedSet(text:_*)
-  val chars = SortedSet((text + extras):_*)
+  val chars = SortedSet(text:_*)
+  // val chars = SortedSet((text + extras):_*)
   println(s"chars = ${chars.mkString(", ")}")
   val vocab_size = chars.size
   println(s"vocab_size = $vocab_size")
@@ -554,9 +569,9 @@ object BiGramX:
           //drop: Double
           ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
 
-    val key = nn.Linear[D](n_embed, head_size, bias=false)
-    val query = nn.Linear[D](n_embed, head_size, bias=false)
-    val value = nn.Linear[D](n_embed, head_size, bias=false)
+    val key = register( nn.Linear[D](n_embed, head_size, bias=false) )
+    val query = register( nn.Linear[D](n_embed, head_size, bias=false) )
+    val value = register( nn.Linear[D](n_embed, head_size, bias=false) )
     val ones = torch.ones[D](Seq(block_size, block_size), dtype=key.paramType)
     val tril = registerBuffer(torch.tril(ones), "tril")
 
@@ -598,13 +613,13 @@ object BiGramX:
   class BigramLanguageModel3(vocabSize: Int, blockSize:Int, nEmbed: Int) extends BigramLanguageModel: 
 
     // each token directly reads off the logits for the next token from a lookup table
-    val token_embedding_table = nn.Embedding(vocabSize, nEmbed)
-    val position_embedding_table = nn.Embedding(blockSize, nEmbed)
+    val token_embedding_table = register( nn.Embedding(vocabSize, nEmbed) )
+    val position_embedding_table = register( nn.Embedding(blockSize, nEmbed) )
     // head_size = n_embed, block_size = T
-    val sa_head = Head1(n_embed = nEmbed, head_size = head_size, block_size = blockSize) //, drop = 0.5)
+    val sa_head = register( Head1(n_embed = nEmbed, head_size = head_size, block_size = blockSize) ) //, drop = 0.5)
     // val lm_head = nn.Linear(nEmbed, vocabSize)
     // Just to test Head1 use head_size instead on embed_size
-    val lm_head = nn.Linear(head_size, vocabSize)
+    val lm_head = register( nn.Linear(head_size, vocabSize) )
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
       val Seq(b,t) = idx.shape
@@ -666,6 +681,13 @@ object BiGramX:
 
   // Create a model
   val m4 = BigramLanguageModel3(vocab_size, block_size, n_embed)
+  m4.to(device)
+  // # print the number of parameters in the model
+  // print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
+  val nuParams = m4.parameters.map(_.numel).sum
+  //println(s"M ${nuParams/1e6} parameters")
+  println(s"M ${nuParams} parameters")
+
   m4.train()
   // create a PyTorch optimizer
   val optimizer4 = torch.optim.AdamW(m4.parameters, lr=1e-3)

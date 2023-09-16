@@ -277,9 +277,14 @@ object BiGram:
     println(s"File $dataFile already exists.")
 
   val text = os.read(dataFile)
+  // 1115394
+  // println(text.length())
+  // val text = "a"*1115394
+  // val extras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .!,;.:\n"
   
   // here are all the unique characters that occur in this text
   val chars = SortedSet(text:_*)
+  // val chars = SortedSet((text + extras):_*)
   println(s"chars = ${chars.mkString(", ")}")
   val vocab_size = chars.size
   println(s"vocab_size = $vocab_size")
@@ -354,7 +359,7 @@ object BiGram:
   class BigramLanguageModel0(vocabSize: Int) extends BigramLanguageModel: 
 
     // each token directly reads off the logits for the next token from a lookup table
-    val token_embedding_table = nn.Embedding(vocabSize, vocabSize)
+    val token_embedding_table = register( nn.Embedding(vocabSize, vocabSize) )
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
 
@@ -476,6 +481,8 @@ object BiGram:
 
   // Create a model
   val m1 = BigramLanguageModel0(vocab_size)
+  m1.to(device)
+  m1.train()
   // create a PyTorch optimizer
   val optimizer1 = torch.optim.AdamW(m1.parameters, lr=1e-3)
 
@@ -568,8 +575,8 @@ object BiGram:
   class BigramLanguageModel1(vocabSize: Int, nEmbed: Int) extends BigramLanguageModel: 
 
     // each token directly reads off the logits for the next token from a lookup table
-    val token_embedding_table = nn.Embedding(vocabSize, nEmbed)
-    val lm_head = nn.Linear(nEmbed, vocabSize)
+    val token_embedding_table = register( nn.Embedding(vocabSize, nEmbed) )
+    val lm_head = register( nn.Linear(nEmbed, vocabSize) )
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
 
@@ -617,6 +624,8 @@ object BiGram:
 
   // Create a model
   val m2 = BigramLanguageModel1(vocab_size, n_embed)
+  m2.to(device)
+  m2.train()
   // create a PyTorch optimizer
   val optimizer2 = torch.optim.AdamW(m2.parameters, lr=1e-3)
 
@@ -657,9 +666,9 @@ object BiGram:
   class BigramLanguageModel2(vocabSize: Int, blockSize:Int, nEmbed: Int) extends BigramLanguageModel: 
 
     // each token directly reads off the logits for the next token from a lookup table
-    val token_embedding_table = nn.Embedding(vocabSize, nEmbed)
-    val position_embedding_table = nn.Embedding(blockSize, nEmbed)
-    val lm_head = nn.Linear(nEmbed, vocabSize)
+    val token_embedding_table = register( nn.Embedding(vocabSize, nEmbed) )
+    val position_embedding_table = register( nn.Embedding(blockSize, nEmbed) )
+    val lm_head = register( nn.Linear(nEmbed, vocabSize) )
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
       val Seq(b,t) = idx.shape
@@ -719,6 +728,8 @@ object BiGram:
 
   // Create a model
   val m3 = BigramLanguageModel2(vocab_size, block_size, n_embed)
+  m3.to(device)
+  m3.train()
   // create a PyTorch optimizer
   val optimizer3 = torch.optim.AdamW(m3.parameters, lr=1e-3)
 
@@ -848,9 +859,9 @@ object BiGram:
           //drop: Double
           ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
 
-    val key = nn.Linear[D](n_embed, head_size, bias=false)
-    val query = nn.Linear[D](n_embed, head_size, bias=false)
-    val value = nn.Linear[D](n_embed, head_size, bias=false)
+    val key = register( nn.Linear[D](n_embed, head_size, bias=false) )
+    val query = register( nn.Linear[D](n_embed, head_size, bias=false) )
+    val value = register( nn.Linear[D](n_embed, head_size, bias=false) )
     val ones = torch.ones[D](Seq(block_size, block_size), dtype=key.paramType)
     val tril = registerBuffer(torch.tril(ones), "tril")
 
@@ -893,13 +904,13 @@ object BiGram:
   class BigramLanguageModel3(vocabSize: Int, blockSize:Int, nEmbed: Int) extends BigramLanguageModel: 
 
     // each token directly reads off the logits for the next token from a lookup table
-    val token_embedding_table = nn.Embedding(vocabSize, nEmbed)
-    val position_embedding_table = nn.Embedding(blockSize, nEmbed)
+    val token_embedding_table = register( nn.Embedding(vocabSize, nEmbed) )
+    val position_embedding_table = register( nn.Embedding(blockSize, nEmbed) )
     // head_size = n_embed, block_size = T
-    val sa_head = Head1(n_embed = nEmbed, head_size = head_size, block_size = blockSize) //, drop = 0.5)
+    val sa_head = register( Head1(n_embed = nEmbed, head_size = head_size, block_size = blockSize) ) //, drop = 0.5)
     // val lm_head = nn.Linear(nEmbed, vocabSize)
     // Just to test Head1 use head_size instead on embed_size
-    val lm_head = nn.Linear(head_size, vocabSize)
+    val lm_head = register( nn.Linear(head_size, vocabSize) )
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
       val Seq(b,t) = idx.shape
@@ -927,13 +938,8 @@ object BiGram:
         val Seq(b,t,c) = logits.shape
         val logitsV = logits.view(b*t, c)  // batch size x number of classes
         val targetsV = targets.get.view(b*t) 
-        println(s"logits.shape = ${logits.shape}")
-        println(s"targets.get.shape = ${targets.get.shape}")
-        /*
-        logits.shape = ArraySeq(16, 8, 65)
-        targets.get.shape = ArraySeq(16, 8)
-        */
-        1/0
+        // NOTE: we are using all of the time-steps (symbols) to calculate error
+        // Why do we not use only the last one, the prediction?
         val loss = F.crossEntropy(logitsV, targetsV)
         (logitsV, loss)
 
@@ -957,7 +963,6 @@ object BiGram:
         val idx_next = torch.multinomial(probs, numSamples=1) // (B, 1)
         // append sampled index to the running sequence
         idx_ = torch.cat(Seq(idx_, idx_next), dim=1) // (B, T+1)
-        println(idx_.toSeq)
       idx_
 
     def apply(x: Tensor[Int64], y: Tensor[Int64]) =
@@ -971,11 +976,115 @@ object BiGram:
 
 
   // Create a model
+  torch.manualSeed(1337)
   val m4 = BigramLanguageModel3(vocab_size, block_size, n_embed)
+  m4.to(device)
+  // print the number of parameters in the model
+  val nuParams = m4.parameters.map(_.numel).sum
+  //println(s"${nuParams/1e6}M parameters")
+  println(s"${nuParams} parameters")
+  m4.train()
   // create a PyTorch optimizer
-  val optimizer4 = torch.optim.AdamW(m4.parameters, lr=1e-3)
+  // lr=1e-3 suggested by Andrej Karpathy doe no work
+  /*
+    val batch_size = 32      // how many independent sequences will we process in parallel?
+    val block_size = 8       // what is the maximum context length for predictions?
+    val max_iters = 5000 
+    val eval_interval = 500  
+    val learning_rate = 1e-3 // suggested by Andrej Karpathy does no work, 1e-4 requires more iterations
+    val eval_iters = 200
+    val n_embed = 32 
+    val head_size = 16
+    val n_head = 4
+    val n_layer = 4
+    val dropout = 0.0
 
-  for iter <- 0 until 5000 //max_iters
+    Andrej Karpathy video shows:
+      - train loss: 2.3940
+      - eval loss: 2.4084
+      - step: 4500
+
+  Our results with lr=1e-3 results in ver increasing loss. 
+  
+  Our results with lr=1e-4
+    4977 parameters
+    step 0: train loss 4.174592, val loss 4.1752186
+    step 500: train loss 3.8263874, val loss 3.8312778
+    step 1000: train loss 3.495566, val loss 3.5154147
+    step 1500: train loss 3.2679763, val loss 3.2866778
+    step 2000: train loss 3.2155032, val loss 3.2392676
+    step 2500: train loss 3.2529557, val loss 3.1758127
+    step 3000: train loss 3.1138036, val loss 3.1758943
+    step 3500: train loss 3.1285887, val loss 3.2269742
+    step 4000: train loss 3.0974145, val loss 3.1522665
+    step 4500: train loss 3.0333853, val loss 3.062629
+    step 4999: train loss 3.0327094, val loss 3.0292172
+    Debug m4.generate() !
+    decode 6:'
+
+
+
+
+
+
+
+
+    I
+    C,ud-Ttllll'wk ing t wcS
+    K
+    jovinhervthue matlanrgcyime so end wan S
+    whcLith
+    i.aaty
+
+    skS m
+    tpyo-kOosaulchecrnstrne.
+
+    auaLyytw
+    Vys
+    sMseve ugd, tles nhTss aralsth'
+
+    Ihv ote, id prsthleeh adEreve fs
+
+
+    YS
+    yI
+    r
+    Ginutels
+    eirthekveEpld,jte olth are fat p kuthpthkrliree thin
+    '
+    KR
+    ChIseasoe:
+    LO
+    G
+    s b;
+    x?
+    Tcm
+    KDjainr o!sherenat
+
+
+    P
+    Cdo, cdrerrethhEyar u,re
+    XFor b
+    ROyere n tr n uavgrm
+    hEan k owYseltohk
+    ce
+
+    WyAhn akthsme wumenl'sRns!
+    KHy ysI cince Ao.
+
+    Oe rEoto pAu pI atr kind anv in m
+    gBnn,o httneetu wte'
+
+
+  Could not match the training error of 2.4. After 25000 iterations we reached:
+    step 24999: 
+    train loss 2.5203102
+    val loss 2.5169795
+  The loss at this point was fluctuating.
+  */
+  val optimizer4 = torch.optim.AdamW(m4.parameters, lr=1e-4)
+
+  for iter <- 0 until 25000 //max_iters
   do
     // every once in a while evaluate the loss on train and val sets
     if (iter % eval_interval == 0) || (iter == max_iters - 1)
@@ -986,16 +1095,14 @@ object BiGram:
 
     // sample a batch of data
     val (xb, yb) = get_batch("train")
-    println(s"X: ${xb.shape}")
-    println(s"`${decode(xb.toSeq.takeRight(block_size))}`")
-    println(s"Y: ${yb.shape}")
-    println(s"`${decode(yb.toSeq.takeRight(block_size))}`")
 
     // evaluate the loss
     val (logits, loss) = m4(xb, yb)
     optimizer4.zeroGrad(setToNone=true)
     loss.backward()
     optimizer4.step()
+  val losses = estimate_loss(m4)
+  println(s"step ${25000-1}: train loss ${losses("train")}, val loss ${losses("val")}")
 
   println("Debug m4.generate() !") 
   // val next6 = m4.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
