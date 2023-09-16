@@ -895,7 +895,7 @@ object BiGram:
     // each token directly reads off the logits for the next token from a lookup table
     val token_embedding_table = nn.Embedding(vocabSize, nEmbed)
     val position_embedding_table = nn.Embedding(blockSize, nEmbed)
-    // head_size = n_embed
+    // head_size = n_embed, block_size = T
     val sa_head = Head1(n_embed = nEmbed, head_size = head_size, block_size = blockSize) //, drop = 0.5)
     // val lm_head = nn.Linear(nEmbed, vocabSize)
     // Just to test Head1 use head_size instead on embed_size
@@ -927,6 +927,13 @@ object BiGram:
         val Seq(b,t,c) = logits.shape
         val logitsV = logits.view(b*t, c)  // batch size x number of classes
         val targetsV = targets.get.view(b*t) 
+        println(s"logits.shape = ${logits.shape}")
+        println(s"targets.get.shape = ${targets.get.shape}")
+        /*
+        logits.shape = ArraySeq(16, 8, 65)
+        targets.get.shape = ArraySeq(16, 8)
+        */
+        1/0
         val loss = F.crossEntropy(logitsV, targetsV)
         (logitsV, loss)
 
@@ -937,7 +944,6 @@ object BiGram:
       for i <- 0 until max_new_tokens
       do
         // crop idx to the last block_size tokens
-        println("???????????????")
         val idx_cond = idx_(`:`, (-blockSize`:`º))
         // println(s"idx_ ${idx_.shape} -> idx_cond ${idx_cond.shape}")
         // println(s"idx_ |${idx_.toSeq.takeRight(blockSize)}| -> idx_cond |${idx_cond.toSeq}|")
@@ -980,6 +986,10 @@ object BiGram:
 
     // sample a batch of data
     val (xb, yb) = get_batch("train")
+    println(s"X: ${xb.shape}")
+    println(s"`${decode(xb.toSeq.takeRight(block_size))}`")
+    println(s"Y: ${yb.shape}")
+    println(s"`${decode(yb.toSeq.takeRight(block_size))}`")
 
     // evaluate the loss
     val (logits, loss) = m4(xb, yb)
