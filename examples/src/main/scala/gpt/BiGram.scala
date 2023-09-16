@@ -1084,10 +1084,11 @@ object BiGram:
   */
   val optimizer4 = torch.optim.AdamW(m4.parameters, lr=1e-4)
 
-  for iter <- 0 until 25000 //max_iters
+  val max_iters4 = 5000 // 25000
+  for iter <- 0 until max_iters4
   do
     // every once in a while evaluate the loss on train and val sets
-    if (iter % eval_interval == 0) || (iter == max_iters - 1)
+    if (iter % eval_interval == 0) || (iter == max_iters4 - 1)
     then
       val losses = estimate_loss(m4)
       println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}")
@@ -1102,7 +1103,7 @@ object BiGram:
     loss.backward()
     optimizer4.step()
   val losses = estimate_loss(m4)
-  println(s"step ${25000-1}: train loss ${losses("train")}, val loss ${losses("val")}")
+  println(s"step ${max_iters4-1}: train loss ${losses("train")}, val loss ${losses("val")}")
 
   println("Debug m4.generate() !") 
   // val next6 = m4.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
@@ -1110,7 +1111,40 @@ object BiGram:
   val decoded6 = decode(next6.toSeq)
   println(s"decode 6:'$decoded6'")
 
-  
+
+  def train(m : BigramLanguageModel, learningRate: Double, maxIterations: Int): Unit =
+    m.to(device)
+    // print the number of parameters in the model
+    val nuParams = m.parameters.map(_.numel).sum
+    //println(s"${nuParams/1e6}M parameters")
+    println(s"${nuParams} parameters")
+    m.train()
+    // create a PyTorch optimizer
+    val optimizer4 = torch.optim.AdamW(m.parameters, lr=learningRate)
+
+    for iter <- 0 until maxIterations
+    do
+      // every once in a while evaluate the loss on train and val sets
+      if (iter % eval_interval == 0) || (iter == maxIterations - 1)
+      then
+        val losses = estimate_loss(m)
+        println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}")
+        //print(s"step ${iter}: train loss ${losses("train"):.4f}, val loss ${losses("val"):.4f}")
+
+      // sample a batch of data
+      val (xb, yb) = get_batch("train")
+
+      // evaluate the loss
+      val (logits, loss) = m(xb, yb)
+      optimizer4.zeroGrad(setToNone=true)
+      loss.backward()
+      optimizer4.step()
+    val losses = estimate_loss(m)
+    println(s"step ${maxIterations-1}: train loss ${losses("train")}, val loss ${losses("val")}")
+
+  val m5 = BigramLanguageModel3(vocab_size, block_size, n_embed)
+  train(m5, 1e-4, 25000)
+
   def main(args: Array[String]): Unit =
     ()
 
