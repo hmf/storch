@@ -733,7 +733,8 @@ object BiGram:
   // create a PyTorch optimizer
   val optimizer3 = torch.optim.AdamW(m3.parameters, lr=1e-3)
 
-  for iter <- 0 until 10 //max_iters
+  // TODO: max_iters
+  for iter <- 0 until 0 //max_iters
   do
     // every once in a while evaluate the loss on train and val sets
     if (iter % eval_interval == 0) || (iter == max_iters - 1)
@@ -899,7 +900,7 @@ object BiGram:
    * 
    * @param vocabSize - number o tokens
    * @param blockSize - number of tokens taken from the text input to apply to the NN
-   * @param nEm
+   * @param nEmbed - number of values use for latent represent 
    */
   class BigramLanguageModel3(vocabSize: Int, blockSize:Int, nEmbed: Int) extends BigramLanguageModel: 
 
@@ -976,6 +977,7 @@ object BiGram:
 
 
   // Create a model
+  println("BigramLanguageModel3")
   torch.manualSeed(1337)
   val m4 = BigramLanguageModel3(vocab_size, block_size, n_embed)
   m4.to(device)
@@ -1084,7 +1086,7 @@ object BiGram:
   */
   val optimizer4 = torch.optim.AdamW(m4.parameters, lr=1e-4)
 
-  val max_iters4 = 5000 // 25000
+  val max_iters4 = 1 // 5000 // 25000
   for iter <- 0 until max_iters4
   do
     // every once in a while evaluate the loss on train and val sets
@@ -1105,11 +1107,12 @@ object BiGram:
   val losses = estimate_loss(m4)
   println(s"step ${max_iters4-1}: train loss ${losses("train")}, val loss ${losses("val")}")
 
-  println("Debug m4.generate() !") 
-  // val next6 = m4.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
-  val next6 = m4.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
-  val decoded6 = decode(next6.toSeq)
-  println(s"decode 6:'$decoded6'")
+  // TODO: reactivate
+  // println("Debug m4.generate() !") 
+  // // val next6 = m4.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  // val next6 = m4.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
+  // val decoded6 = decode(next6.toSeq)
+  // println(s"decode 6:'$decoded6'")
 
 
   def train(m : BigramLanguageModel, learningRate: Double, maxIterations: Int): Unit =
@@ -1142,8 +1145,144 @@ object BiGram:
     val losses = estimate_loss(m)
     println(s"step ${maxIterations-1}: train loss ${losses("train")}, val loss ${losses("val")}")
 
-  val m5 = BigramLanguageModel3(vocab_size, block_size, n_embed)
-  train(m5, 1e-4, 25000)
+  // TODO: reactivate
+  // val m5 = BigramLanguageModel3(vocab_size, block_size, n_embed)
+  // train(m5, 1e-4, 25000)
+
+
+  /*
+  class MultiHeadAttention(nn.Module):
+    """ multiple heads of self-attention in parallel """
+
+    def __init__(self, num_heads, head_size):
+        super().__init__()
+        self.heads = nn.ModuleList([Head(head_size) for _ in range(num_heads)])
+        self.proj = nn.Linear(n_embd, n_embd)
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):
+        out = torch.cat([h(x) for h in self.heads], dim=-1)
+        out = self.dropout(self.proj(out))
+        return out
+    */
+
+  // Multi-head attention
+
+  /**
+   * multiple heads of self-attention in parallel
+   */
+  class MultiHeadAttention[D <: FloatNN: Default](
+                            numHeads: Int, 
+                            nEmbed: Int, 
+                            headSize: Int, 
+                            blockSize: Int
+                          ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
+
+    val hs = 0 until numHeads map{ _ => Head1(nEmbed, headSize, blockSize) }
+    val heads = nn.ModuleList( hs:_* )
+
+    def forward(x: Tensor[D]): Tensor[D] =
+        //torch.cat(heads.modules.map( h => h(x) ), dim=1)
+        torch.cat(heads.map( h => h(x) ).toSeq, dim= -1)
+
+    def apply(x:Tensor[D]): Tensor[D] = forward(x)
+
+
+  end MultiHeadAttention
+
+  /**
+   * 
+   * @param vocabSize - number o tokens
+   * @param blockSize - number of tokens taken from the text input to apply to the NN
+   * @param nEmbed - number of values use for latent represent 
+   */
+  class BigramLanguageModel4(vocabSize: Int, blockSize:Int, nEmbed: Int) extends BigramLanguageModel: 
+
+    // each token directly reads off the logits for the next token from a lookup table
+    val token_embedding_table = register( nn.Embedding(vocabSize, nEmbed) )
+    val position_embedding_table = register( nn.Embedding(blockSize, nEmbed) )
+    // head_size = n_embed, block_size = T
+    val sa_heads = register( MultiHeadAttention(
+                                              numHeads = 4, 
+                                              nEmbed = nEmbed, // i.e: with nEmbed = 32, get 4 heads of 8 dimensional self-attention 
+                                              headSize = nEmbed/4,
+                                              blockSize = blockSize) 
+                                            ) //, drop = 0.5)
+    // val lm_head = nn.Linear(nEmbed, vocabSize)
+    // Just to test Head1 use head_size instead on embed_size
+    val lm_head = register( nn.Linear(nEmbed, vocabSize) )
+
+    def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
+      val Seq(b,t) = idx.shape
+
+      // idx and targets are both (B,T) tensor of integers
+      // idx is (B,T)
+      val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
+      // positions of tokens
+      val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
+      val pos_embed = position_embedding_table( pos ) // (T,C)
+      // Add the position embeddings
+      val x0 = token_embed + pos_embed // (B,T,C)
+      val x1 = sa_heads(x0) // apply multiple heads of self-attention (B,T,C) - C = nEmbed
+      // val x1 = blocks(x0) // (B,T,C)
+      // val x2 = ln_f(x2) // (B,T,C)
+      // mat1 and mat2 shapes cannot be multiplied (512x16 and 64x65)
+      // Linear(inFeatures=64, outFeatures=16, bias=false)
+      val logits = lm_head( x1 ) //  (B,T,H) @ (H,vocabSize) -> (B,T,vocabSize)
+
+      if targets.isEmpty
+      then
+        val zero = torch.Tensor(0.0f) 
+        (logits, zero)
+      else
+        val Seq(b,t,c) = logits.shape
+        val logitsV = logits.view(b*t, c)  // batch size x number of classes
+        val targetsV = targets.get.view(b*t) 
+        // NOTE: we are using all of the time-steps (symbols) to calculate error
+        // Why do we not use only the last one, the prediction?
+        val loss = F.crossEntropy(logitsV, targetsV)
+        (logitsV, loss)
+
+
+    def generate(idx: Tensor[Int64], max_new_tokens: Int) =
+      var idx_ = idx.copy_(idx)
+      // idx is (B, T) array of indices in the current context
+      for i <- 0 until max_new_tokens
+      do
+        // crop idx to the last block_size tokens
+        val idx_cond = idx_(`:`, (-blockSize`:`º))
+        // println(s"idx_ ${idx_.shape} -> idx_cond ${idx_cond.shape}")
+        // println(s"idx_ |${idx_.toSeq.takeRight(blockSize)}| -> idx_cond |${idx_cond.toSeq}|")
+        // get the predictions
+        val (logits_t, loss) = apply(idx_cond)
+        // focus only on the last time step
+        val logits = logits_t(`:`, -1, `:`) // becomes (B, C)
+        // apply softmax to get probabilities
+        val probs = F.softmax(logits, dim = -1L) // (B, C)
+        // sample from the distribution
+        val idx_next = torch.multinomial(probs, numSamples=1) // (B, 1)
+        // append sampled index to the running sequence
+        idx_ = torch.cat(Seq(idx_, idx_next), dim=1) // (B, T+1)
+      idx_
+
+    def apply(x: Tensor[Int64], y: Tensor[Int64]) =
+      forward(x, Some(y) )
+
+    def apply(x: Tensor[Int64]) =
+      forward(x, None )
+
+
+  end BigramLanguageModel4
+
+  // Andrej Karpathy gets 2.2858 @ 4500 iterations
+  // Here we get  3.1948392 @ 4500 iterations
+  // Loss seems to vary while still converging until 3.115641 @ 7500 
+  // At 8000 the loss explodes
+  torch.manualSeed(1337)
+  println("Multi-head attention")
+  val m6 = BigramLanguageModel4(vocab_size, block_size, n_embed)
+  train(m6, 1e-4, 25000)
+
 
   def main(args: Array[String]): Unit =
     ()

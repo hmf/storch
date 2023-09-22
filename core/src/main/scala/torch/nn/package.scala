@@ -30,6 +30,7 @@ package object nn {
   export modules.activation.ReLU
   export modules.batchnorm.BatchNorm2d
   export modules.container.Sequential
+  export modules.container.ModuleList
   export modules.conv.Conv2d
   export modules.flatten.Flatten
   export modules.linear.Linear
