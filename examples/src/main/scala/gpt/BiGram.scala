@@ -1149,29 +1149,12 @@ object BiGram:
   // val m5 = BigramLanguageModel3(vocab_size, block_size, n_embed)
   // train(m5, 1e-4, 25000)
 
-
-  /*
-  class MultiHeadAttention(nn.Module):
-    """ multiple heads of self-attention in parallel """
-
-    def __init__(self, num_heads, head_size):
-        super().__init__()
-        self.heads = nn.ModuleList([Head(head_size) for _ in range(num_heads)])
-        self.proj = nn.Linear(n_embd, n_embd)
-        self.dropout = nn.Dropout(dropout)
-
-    def forward(self, x):
-        out = torch.cat([h(x) for h in self.heads], dim=-1)
-        out = self.dropout(self.proj(out))
-        return out
-    */
-
-  // Multi-head attention
+  // Multi-head attention v1
 
   /**
    * multiple heads of self-attention in parallel
    */
-  class MultiHeadAttention[D <: FloatNN: Default](
+  class MultiHeadAttention_1[D <: FloatNN: Default](
                             numHeads: Int, 
                             nEmbed: Int, 
                             headSize: Int, 
@@ -1187,8 +1170,10 @@ object BiGram:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def toString(): String = s"MultiHeadAttention_1(numHeads=$numHeads, nEmbed=$nEmbed, headSize=$headSize, blockSize=$blockSize)"
 
-  end MultiHeadAttention
+
+  end MultiHeadAttention_1
 
   /**
    * 
@@ -1202,7 +1187,7 @@ object BiGram:
     val token_embedding_table = register( nn.Embedding(vocabSize, nEmbed) )
     val position_embedding_table = register( nn.Embedding(blockSize, nEmbed) )
     // head_size = n_embed, block_size = T
-    val sa_heads = register( MultiHeadAttention(
+    val sa_heads = register( MultiHeadAttention_1(
                                               numHeads = 4, 
                                               nEmbed = nEmbed, // i.e: with nEmbed = 32, get 4 heads of 8 dimensional self-attention 
                                               headSize = nEmbed/4,
@@ -1226,9 +1211,7 @@ object BiGram:
       val x1 = sa_heads(x0) // apply multiple heads of self-attention (B,T,C) - C = nEmbed
       // val x1 = blocks(x0) // (B,T,C)
       // val x2 = ln_f(x2) // (B,T,C)
-      // mat1 and mat2 shapes cannot be multiplied (512x16 and 64x65)
-      // Linear(inFeatures=64, outFeatures=16, bias=false)
-      val logits = lm_head( x1 ) //  (B,T,H) @ (H,vocabSize) -> (B,T,vocabSize)
+      val logits = lm_head( x1 ) //  (B,T,C) @ (C,vocabSize) -> (B,T,vocabSize)
 
       if targets.isEmpty
       then
@@ -1279,9 +1262,214 @@ object BiGram:
   // Loss seems to vary while still converging until 3.115641 @ 7500 
   // At 8000 the loss explodes
   torch.manualSeed(1337)
+  println("BigramLanguageModel3")
   println("Multi-head attention")
   val m6 = BigramLanguageModel4(vocab_size, block_size, n_embed)
-  train(m6, 1e-4, 25000)
+  // TODO reactivate train(m6, 1e-4, 25000)
+  train(m6, 1e-4, 0)
+
+
+  // Adding a feed forward layer to combine 
+
+
+  /*
+  class MultiHeadAttention(nn.Module):
+    """ multiple heads of self-attention in parallel """
+
+    def __init__(self, num_heads, head_size):
+        super().__init__()
+        self.heads = nn.ModuleList([Head(head_size) for _ in range(num_heads)])
+        self.proj = nn.Linear(n_embd, n_embd)
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):
+        out = torch.cat([h(x) for h in self.heads], dim=-1)
+        out = self.dropout(self.proj(out))
+        return out
+    */
+
+    /*
+    class FeedFoward(nn.Module):
+    """ a simple linear layer followed by a non-linearity """
+
+    def __init__(self, n_embd):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(n_embd, 4 * n_embd),
+            nn.ReLU(),
+            nn.Linear(4 * n_embd, n_embd),
+            nn.Dropout(dropout),
+        )
+
+    def forward(self, x):
+        return self.net(x)
+*/
+
+
+  /** a simple linear layer followed by a non-linearity
+    *
+    * @param numHeads
+    * @param nEmbed
+    * @param headSize
+    * @param blockSize
+    */
+  class FeedFoward[D <: FloatNN: Default](
+                          nEmbed: Int 
+                        ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
+    val net = nn.Sequential(
+                    nn.Linear(nEmbed, nEmbed),
+                    nn.ReLU()
+                    // nn.Linear(nEmbed, 4 * nEmbed),
+                    // nn.ReLU(),
+                    // nn.Linear(4 * nEmbed, nEmbed),
+                    // nn.Dropout(dropout),
+              )
+    println(s"nEmbed = $nEmbed")
+    println( s"${nn.Linear(nEmbed, nEmbed).parameters.map(_.numel).sum}")
+    println( s"${nn.ReLU().parameters.map(_.numel).sum}")
+    val t = net.parameters.map(_.numel).sum
+    println(s"# FFWD.parameters = ${net.parameters.map(_.numel)}")
+
+    def forward(x: Tensor[D]): Tensor[D] = net(x)
+
+    def apply(x:Tensor[D]): Tensor[D] = forward(x)
+
+    override def toString(): String = s"FeedFoward(nEmbed = $nEmbed)"
+
+  end FeedFoward
+
+
+
+  /**
+   * 
+   * @param vocabSize - number o tokens
+   * @param blockSize - number of tokens taken from the text input to apply to the NN
+   * @param nEmbed - number of values use for latent represent 
+   */
+  class BigramLanguageModel5(vocabSize: Int, blockSize:Int, nEmbed: Int) extends BigramLanguageModel: 
+
+    // each token directly reads off the logits for the next token from a lookup table
+    val token_embedding_table = register( nn.Embedding(vocabSize, nEmbed) )
+    val position_embedding_table = register( nn.Embedding(blockSize, nEmbed) )
+    // head_size = n_embed, block_size = T
+    val sa_heads = register( MultiHeadAttention_1(
+                                              numHeads = 4, 
+                                              nEmbed = nEmbed, // i.e: with nEmbed = 32, get 4 heads of 8 dimensional self-attention 
+                                              headSize = nEmbed/4,
+                                              blockSize = blockSize) 
+                                            ) //, drop = 0.5)
+    val ffwd = register( FeedFoward(nEmbed) )
+    val lm_head = register( nn.Linear(nEmbed, vocabSize) )
+
+    def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
+      val Seq(b,t) = idx.shape
+
+      // idx and targets are both (B,T) tensor of integers
+      // idx is (B,T)
+      val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
+      // positions of tokens
+      val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
+      val pos_embed = position_embedding_table( pos ) // (T,C)
+      // Add the position embeddings
+      val x0 = token_embed + pos_embed // (B,T,C)
+      val x1 = sa_heads(x0) // apply multiple heads of self-attention (B,T,C) - C = nEmbed
+      val x2 = ffwd(x1) // (B, T, C)
+      // val x1 = blocks(x0) // (B,T,C)
+      // val x2 = ln_f(x2) // (B,T,C)
+      val logits = lm_head( x2 ) //  (B,T,C) @ (C,vocabSize) -> (B,T,vocabSize)
+
+      if targets.isEmpty
+      then
+        val zero = torch.Tensor(0.0f) 
+        (logits, zero)
+      else
+        val Seq(b,t,c) = logits.shape
+        val logitsV = logits.view(b*t, c)  // batch size x number of classes
+        val targetsV = targets.get.view(b*t) 
+        // NOTE: we are using all of the time-steps (symbols) to calculate error
+        // Why do we not use only the last one, the prediction?
+        val loss = F.crossEntropy(logitsV, targetsV)
+        (logitsV, loss)
+
+
+    def generate(idx: Tensor[Int64], max_new_tokens: Int) =
+      var idx_ = idx.copy_(idx)
+      // idx is (B, T) array of indices in the current context
+      for i <- 0 until max_new_tokens
+      do
+        // crop idx to the last block_size tokens
+        val idx_cond = idx_(`:`, (-blockSize`:`º))
+        // println(s"idx_ ${idx_.shape} -> idx_cond ${idx_cond.shape}")
+        // println(s"idx_ |${idx_.toSeq.takeRight(blockSize)}| -> idx_cond |${idx_cond.toSeq}|")
+        // get the predictions
+        val (logits_t, loss) = apply(idx_cond)
+        // focus only on the last time step
+        val logits = logits_t(`:`, -1, `:`) // becomes (B, C)
+        // apply softmax to get probabilities
+        val probs = F.softmax(logits, dim = -1L) // (B, C)
+        // sample from the distribution
+        val idx_next = torch.multinomial(probs, numSamples=1) // (B, 1)
+        // append sampled index to the running sequence
+        idx_ = torch.cat(Seq(idx_, idx_next), dim=1) // (B, T+1)
+      idx_
+
+    def apply(x: Tensor[Int64], y: Tensor[Int64]) =
+      forward(x, Some(y) )
+
+    def apply(x: Tensor[Int64]) =
+      forward(x, None )
+
+
+  end BigramLanguageModel5
+
+  // Andrej karpathy gets 2.2412 @ 4500
+  // We get 4.1882143 @ 4500 At this point we are already diverging 
+  // Solution is more stable but convergence irratic. 
+  torch.manualSeed(1337)
+  println("BigramLanguageModel5")
+  println("Multi-head attention + FFWD")
+  val m7 = BigramLanguageModel5(vocab_size, block_size, n_embed)
+
+  println(m7.parameters.size)
+  println(m7.modules.map(_.summarize).mkString(",\n"))
+  println(m7.modules.map{ m =>
+    val s = m.summarize
+    val cnt = m.parameters.map(_.numel)
+    s"$s : $cnt"
+  }.mkString("<", ",\n", ">"))
+  println(m7.parameters.map(_.numel))
+  1/0
+
+  train(m7, 1e-4, 25000)
+
+  // BigramLanguageModel3
+  // 4977 parameters  
+  // Multi-head attention
+  // 4481 parameters ???
+  // Multi-head attention + FFWD
+  // 4481 parameters  ????
+
+  
+  class MultiHeadAttention_2[D <: FloatNN: Default](
+                            numHeads: Int, 
+                            nEmbed: Int, 
+                            headSize: Int, 
+                            blockSize: Int
+                          ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
+
+    val hs = 0 until numHeads map{ _ => Head1(nEmbed, headSize, blockSize) }
+    val heads = nn.ModuleList( hs:_* )
+
+    def forward(x: Tensor[D]): Tensor[D] =
+        //torch.cat(heads.modules.map( h => h(x) ), dim=1)
+        torch.cat(heads.map( h => h(x) ).toSeq, dim= -1)
+
+    def apply(x:Tensor[D]): Tensor[D] = forward(x)
+
+
+  end MultiHeadAttention_2
+
+
 
 
   def main(args: Array[String]): Unit =
