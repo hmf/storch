@@ -1316,7 +1316,7 @@ object BiGram:
   class FeedFoward[D <: FloatNN: Default](
                           nEmbed: Int 
                         ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
-    val net = nn.Sequential(
+    val net = register( nn.Sequential(
                     nn.Linear(nEmbed, nEmbed),
                     nn.ReLU()
                     // nn.Linear(nEmbed, 4 * nEmbed),
@@ -1324,6 +1324,7 @@ object BiGram:
                     // nn.Linear(4 * nEmbed, nEmbed),
                     // nn.Dropout(dropout),
               )
+            )
     println(s"nEmbed = $nEmbed")
     println( s"${nn.Linear(nEmbed, nEmbed).parameters.map(_.numel).sum}")
     println( s"${nn.ReLU().parameters.map(_.numel).sum}")
@@ -1430,15 +1431,60 @@ object BiGram:
   println("Multi-head attention + FFWD")
   val m7 = BigramLanguageModel5(vocab_size, block_size, n_embed)
 
-  println(m7.parameters.size)
-  println(m7.modules.map(_.summarize).mkString(",\n"))
-  println(m7.modules.map{ m =>
-    val s = m.summarize
-    val cnt = m.parameters.map(_.numel)
-    s"$s : $cnt"
-  }.mkString("<", ",\n", ">"))
+  println(s"m7.parameters.size = ${m7.parameters.size}")
+  println(s"m7.parameters.map(_.numel) = ${m7.parameters.map(_.numel)}")
+  println(s"m7.summarize:\n${m7.summarize}")
+
+  def moduleName(m: Module): String =
+      //m.getClass().getSimpleName()
+      m.toString()
+
+  def doModuleInfoString(m:Module, indent: Int): String =
+    val parametersCount = m.parameters.size
+    if m.modules.isEmpty 
+    then 
+      val parametersSize = m.parameters.map(_.numel).mkString("<", ",", ">")
+      val thisModule = s"${moduleName(m)}: $parametersSize "
+      thisModule
+    else
+      val parametersSize = m.parameters.map(_.numel).sum
+      val thisModule = s"${moduleName(m)}: $parametersSize "
+      thisModule + m.namedChildren
+        .map((name, module) => s"${" " * (indent + 2)}($name): " + doModuleInfoString(module, indent + 2))
+        .mkString("(\n", "\n", s"\n${" " * indent})")
+
+  def moduleInfoString(m:Module): String =
+    doModuleInfoString(m, 0)
+
+  println(s"moduleInfoString(m7):\n${moduleInfoString(m7)}")
+
+  // m7.modules.map(m => m.parameters)
+  // println(m7.modules.indices.mkString(", "))
+  // println(m7.modules.map(_.summarize).map(s => s"~ $s ~").mkString(",\n"))
+  // println(m7.modules.map{ m =>
+  //   val s = m.summarize
+  //   val cnt = m.parameters.map(_.numel)
+  //   s"$s : $cnt"
+  // }.mkString("<", ",\n", ">"))
   println(m7.parameters.map(_.numel))
+  println(m7.parameters.map(_.numel).sum)
   1/0
+
+/*
+  override def toString(): String = getClass().getSimpleName()
+
+  private def doSummarize(indent: Int): String =
+    val thisModule = toString
+    if modules.isEmpty then thisModule
+    else
+      thisModule + namedChildren
+        .map((name, module) => s"${" " * (indent + 2)}($name): " + module.doSummarize(indent + 2))
+        .mkString("(\n", "\n", s"\n${" " * indent})")
+  def summarize: String =
+    doSummarize(0)
+}
+*/
+
 
   train(m7, 1e-4, 25000)
 
@@ -1477,130 +1523,44 @@ object BiGram:
 
 end BiGram
 
-// 
-//   class NeuralNetwork extends nn.Module:
-//     val flatten = nn.Flatten()
-//     val linearReluStack = register(nn.Sequential(
-//       nn.Linear(28*28, 512),
-//       nn.ReLU(),
-//       nn.Linear(512, 512),
-//       nn.ReLU(),
-//       nn.Linear(512, 10),
-//     ))
-//     
-//     def apply(x: Tensor[Float32]) =
-//       val flattened = flatten(x)
-//       val logits = linearReluStack(flattened)
-//       logits
-// 
-  // val o = get_batch("train")
-  // resnet.sala [200]
-  // val model = BigramLanguageModel(vocabSize = vocabSize)
-  // val loss = estimate_loss(model)
-
-//   class BiGram():
-// 
-//     def main(args: Array[String]): Unit =
-//       ()
-// 
-//   end BiGram
-
-
 
 /*
-torch.randint returns Tensor[None]
 
-I am trying to replicate a Python script from a Karpathy's ["Let's build GPT: from scratch, in code, spelled out"](https://www.youtube.com/watch?v=kCc8FmEb1nY). In this script he has the following code: 
+<
+Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ) : ArraySeq(2080),
+Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ) : ArraySeq(256),
+MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8) : ArraySeq(),
+FeedFoward(nEmbed = 32) : ArraySeq(),
+Linear(inFeatures=32, outFeatures=65, bias=true) : ArraySeq(2080, 65)>
 
-```Python
-# data loading
-def get_batch(split):
-    # generate a small batch of data of inputs x and targets y
-    data = train_data if split == 'train' else val_data
-    ix = torch.randint(len(data) - block_size, (batch_size,))
-    x = torch.stack([data[i:i+block_size] for i in ix])
-    y = torch.stack([data[i+1:i+block_size+1] for i in ix])
-    x, y = x.to(device), y.to(device)
-    return x, y
-```
-
-When I code the `randint` in Scala I get:
-
-```Scala
-def get_batch(split: "train" | "val") = 
-    // generate a small batch of data of inputs x and targets y
-    val data = if split == "train" then train_data else val_data
-    val ix = torch.randint(0, len(data) - block_size, Seq(batch_size))
-```
-
-Unfortunately the compiler reports:
-
-```Scala
-    val ix: Tensor[Nothing] = torch.randint(0, len(data) - block_size, Seq(batch_size))
-```
-
-Note that `len` returns an `Int` and the last parameter is a `Seq[Int]`. 
-
-On inspection, the code I find is:
-
-```Scala
-  def randint(low: Long, high: Int, size: Seq[Int]) =
-    // TODO Handle Optional Generators properly
-    val generator = new org.bytedeco.pytorch.GeneratorOptional()
-    Tensor(
-      torchNative.torch_randint(low, high, size.toArray.map(_.toLong), generator)
-    )
-```
-
-The IDE shows a `Tensor[Nothing]`. And that is as far as I got. I cannot seem get into the ByeDeco code (native?). 
-
-Minor quibble, I noticed that the parameters `low` and high are both long, however the Storch parameters have the `high` as an `Int`. Better to use a `Long`?
-
-I then found the unit tests with:
-
-```Scala
-    val randintTensor = randint(low, high + 1, Seq(100000)).to(dtype = float32)
-```
-
-The use of the sequence is surprising because in the [torch.randint documentation](https://pytorch.org/docs/stable/generated/torch.randint.html#torch.randint) the `size` parameter is a tuple that holds the size (dimensions) of the Tensor. Here are the examples.
+ArraySeq(2080, 256, 2080, 65)
 
 
-```Python
->>> torch.randint(3, 5, (3,))
-tensor([4, 3, 4])
+<
+Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ) : ArraySeq(2080),
+Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ) : ArraySeq(256),
+MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8) : ArraySeq(),
+FeedFoward(nEmbed = 32)(
+  (net): Sequential(
+    (0): Linear(inFeatures=32, outFeatures=32, bias=true)
+    (1): ReLU
+  )
+) : ArraySeq(1024, 32),
+Sequential(
+  (0): Linear(inFeatures=32, outFeatures=32, bias=true)
+  (1): ReLU
+) : ArraySeq(1024, 32),
+Linear(inFeatures=32, outFeatures=32, bias=true) : ArraySeq(1024, 32),
+ReLU : ArraySeq(),
+Linear(inFeatures=32, outFeatures=65, bias=true) : ArraySeq(2080, 65)>
+
+ArraySeq(2080, 256, 1024, 32, 2080, 65)
 
 
->>> torch.randint(10, (2, 2))
-tensor([[0, 2],
-        [5, 5]])
-
-
->>> torch.randint(3, 10, (2, 2))
-tensor([[4, 5],
-        [6, 7]])
-```
-
-The other point is that the C++ call has the [following signature](https://github.com/pytorch/pytorch/blob/0dc7f6df9d00428cd175018e2bf9b45a8ec39b9c/aten/src/ATen/native/TensorFactories.cpp#L848):
-
-
-```C++
-Tensor randint(int64_t high, IntArrayRef size,
-    c10::optional<ScalarType> dtype,
-    c10::optional<Layout> layout,
-    c10::optional<Device> device,
-    c10::optional<bool> pin_memory) {
-  return native::randint(high, size, c10::nullopt /* generator*/, dtype, layout, device, pin_memory);
-}
-```
-  
-I am assuming that `IntArrayRef` is the 
-So my questons are: 
-
-1. Can we avoid the need to create a sequence that is nor used anywere else?
-1. Any way to create the Tensor with the desired shape?
 
 
 
 
 
 */
+
