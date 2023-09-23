@@ -196,6 +196,68 @@ transparent inline def opB[T](a:Option[T], b:Option[T])(using num: scala.math.Nu
         case None => a_
         case Some(b_) => a_ + b_
 
+
+
+def moduleName(m: Module): String =
+    //m.getClass().getSimpleName()
+    m.toString()
+
+def moduleClass(m: Module): String =
+    m.getClass().getSimpleName()
+
+/**
+  * Collects information of a module and returns this as a string. Complex modules
+  * are shown hierarchically. Information includes the modules `toString` output
+  * that usually holds the variable name and class parameter values. We also add
+  * the number of tensor parameter amd their value in the leaf modules. For the 
+  * other modules the sum of the number of tensor parameters are shown. 
+  * 
+  * Use this output to "debug" your networks
+  *
+  * @param m
+  * @return string
+  */
+def doModuleInfoString(m:Module, indent: Int): String =
+  val parametersCount = m.parameters.size
+  if m.modules.isEmpty 
+  then 
+    val parametersSize = m.parameters.map(_.numel).mkString("<", ",", ">")
+    val thisModule = s"${moduleName(m)}: #$parametersCount $parametersSize "
+    thisModule
+  else
+    val parametersSize = m.parameters.map(_.numel).sum
+    val thisModule = s"${moduleName(m)}: #$parametersCount $parametersSize "
+    thisModule + m.namedChildren
+      .map((name, module) => s"${" " * (indent + 2)}$name: " + doModuleInfoString(module, indent + 2))
+      .mkString("(\n", "\n", s"\n${" " * indent})")
+
+/**
+  * Collects information of a module and returns this as a string. Complex modules
+  * are shown hierarchically. Information includes the modules `toString` output
+  * that usually holds the variable name and class parameter values. We also add
+  * the number of tensor parameter amd their value in the leaf modules. For the 
+  * other modules the sum of the number of tensor parameters are shown. 
+  * 
+  * Use this output to "debug" your networks
+  *
+  * @param m
+  * @return string
+  */
+def moduleInfoString(m:Module): String =
+  doModuleInfoString(m, 0)        
+
+def totalNuParameters(m: Module): String =
+  val nuParams = m.parameters.map(_.numel).sum
+  if nuParams < 1e5
+  then 
+    s"${nuParams} parameters"
+  else if nuParams < 1e6
+  then 
+    s"${nuParams/1e3}K parameters"
+  else 
+    s"${nuParams/1e6}M parameters"
+
+
 /** 
  * ./mill examples.runMain gpt.BiGram
  * 
@@ -623,11 +685,14 @@ object BiGram:
   end BigramLanguageModel1
 
   // Create a model
+  println("Token embedding: BigramLanguageModel1")
   val m2 = BigramLanguageModel1(vocab_size, n_embed)
   m2.to(device)
   m2.train()
   // create a PyTorch optimizer
   val optimizer2 = torch.optim.AdamW(m2.parameters, lr=1e-3)
+  println(totalNuParameters(m2))
+  println(moduleInfoString(m2))
 
   for iter <- 0 until 10 //max_iters
   do
@@ -727,11 +792,14 @@ object BiGram:
 
 
   // Create a model
+  println("Token + positional embedding: BigramLanguageModel2")
   val m3 = BigramLanguageModel2(vocab_size, block_size, n_embed)
   m3.to(device)
   m3.train()
   // create a PyTorch optimizer
   val optimizer3 = torch.optim.AdamW(m3.parameters, lr=1e-3)
+  println(totalNuParameters(m3))
+  println(moduleInfoString(m3))
 
   // TODO: max_iters
   for iter <- 0 until 0 //max_iters
@@ -896,6 +964,9 @@ object BiGram:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def toString(): String = s"${getClass.getSimpleName()}(n_embed=$n_embed, head_size=$head_size, block_size=$block_size)"
+
+
   /**
    * 
    * @param vocabSize - number o tokens
@@ -977,14 +1048,13 @@ object BiGram:
 
 
   // Create a model
-  println("BigramLanguageModel3")
+  println("Single head attention: BigramLanguageModel3")
   torch.manualSeed(1337)
   val m4 = BigramLanguageModel3(vocab_size, block_size, n_embed)
   m4.to(device)
-  // print the number of parameters in the model
-  val nuParams = m4.parameters.map(_.numel).sum
-  //println(s"${nuParams/1e6}M parameters")
-  println(s"${nuParams} parameters")
+  println(totalNuParameters(m4))
+  println(moduleInfoString(m4))
+
   m4.train()
   // create a PyTorch optimizer
   // lr=1e-3 suggested by Andrej Karpathy doe no work
@@ -1006,7 +1076,7 @@ object BiGram:
       - eval loss: 2.4084
       - step: 4500
 
-  Our results with lr=1e-3 results in ver increasing loss. 
+  Our results with lr=1e-3 results in an ever increasing loss. 
   
   Our results with lr=1e-4
     4977 parameters
@@ -1123,7 +1193,7 @@ object BiGram:
     println(s"${nuParams} parameters")
     m.train()
     // create a PyTorch optimizer
-    val optimizer4 = torch.optim.AdamW(m.parameters, lr=learningRate)
+    val optimizer = torch.optim.AdamW(m.parameters, lr=learningRate)
 
     for iter <- 0 until maxIterations
     do
@@ -1139,9 +1209,9 @@ object BiGram:
 
       // evaluate the loss
       val (logits, loss) = m(xb, yb)
-      optimizer4.zeroGrad(setToNone=true)
+      optimizer.zeroGrad(setToNone=true)
       loss.backward()
-      optimizer4.step()
+      optimizer.step()
     val losses = estimate_loss(m)
     println(s"step ${maxIterations-1}: train loss ${losses("train")}, val loss ${losses("val")}")
 
@@ -1149,7 +1219,22 @@ object BiGram:
   // val m5 = BigramLanguageModel3(vocab_size, block_size, n_embed)
   // train(m5, 1e-4, 25000)
 
+  // TODO: reactivate
+  // println("Debug m5.generate() !") 
+  // // val next7 = m5.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  // val next7 = m5.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
+  // val decoded7 = decode(next7.toSeq)
+  // println(s"decode 7:'$decoded7'")
+
   // Multi-head attention v1
+
+
+  def register_i[M1 <: Module, M2 <: Module](parent: M1, child: M2, i: Int, n: String = "")(using name: sourcecode.Name): M2 =
+    val name_ = if n.trim().isEmpty() then name.value else n.trim()
+    val name_i = s"${name_}_$i"
+    println(s"${moduleClass(parent)} registering ${name_i}:${moduleClass(child)}")
+    parent.register(child, name_i)
+
 
   /**
    * multiple heads of self-attention in parallel
@@ -1161,7 +1246,9 @@ object BiGram:
                             blockSize: Int
                           ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
 
-    val hs = 0 until numHeads map{ _ => Head1(nEmbed, headSize, blockSize) }
+    // Cannot register with the same name
+    // val hs = 0 until numHeads map{ _ => register(Head1(nEmbed, headSize, blockSize)) }
+    val hs = 0 until numHeads map{ i => register_i(this, Head1(nEmbed, headSize, blockSize), i) }
     val heads = nn.ModuleList( hs:_* )
 
     def forward(x: Tensor[D]): Tensor[D] =
@@ -1261,12 +1348,143 @@ object BiGram:
   // Here we get  3.1948392 @ 4500 iterations
   // Loss seems to vary while still converging until 3.115641 @ 7500 
   // At 8000 the loss explodes
-  torch.manualSeed(1337)
-  println("BigramLanguageModel3")
-  println("Multi-head attention")
+  // torch.manualSeed(1337)
+  /*
+    lr = 1e-3
+
+    lr = 1e-4
+
+    lr = 5e-5
+    lr = 2.5e-5
+
+    lr = 1.5e-5
+    step 0: train loss 4.3145924, val loss 4.3047194
+    step 500: train loss 4.1578984, val loss 4.1541634
+    step 1000: train loss 4.021874, val loss 4.0226283
+    step 1500: train loss 3.8988528, val loss 3.9039721
+    step 2000: train loss 3.778538, val loss 3.7922485
+    step 2500: train loss 3.6588502, val loss 3.6669707
+    step 3000: train loss 3.5310557, val loss 3.5450792
+    step 3500: train loss 3.43383, val loss 3.4569433
+    step 4000: train loss 3.3714166, val loss 3.39132
+    step 4500: train loss 3.3257911, val loss 3.350137
+    step 5000: train loss 3.3006864, val loss 3.3212936
+    step 5500: train loss 3.2539845, val loss 3.3066149
+    step 6000: train loss 3.2607672, val loss 3.2855794
+    step 6500: train loss 3.240766, val loss 3.264896
+    step 7000: train loss 3.2341163, val loss 3.2789524
+    step 7500: train loss 3.220194, val loss 3.23849
+    step 8000: train loss 3.2175868, val loss 3.2448592
+    step 8500: train loss 3.2074897, val loss 3.2803164
+    step 9000: train loss 3.329978, val loss 3.3710482
+    step 9500: train loss 3.3176076, val loss 3.3755133
+    step 10000: train loss 3.263973, val loss 3.3106585
+    step 10500: train loss 3.1931515, val loss 3.2370577
+    step 11000: train loss 3.1550646, val loss 3.239709
+    step 11500: train loss 3.158176, val loss 3.186146
+    step 12000: train loss 3.1671298, val loss 3.2042825
+    step 12500: train loss 3.0862591, val loss 3.165631
+    step 13000: train loss 3.134143, val loss 3.1711876
+    step 13500: train loss 3.1777081, val loss 3.1412072
+    step 14000: train loss 3.1187584, val loss 3.150917
+    step 14500: train loss 3.7870364, val loss 3.1683056
+    step 15000: train loss 3.1235626, val loss 3.0829206
+    step 15500: train loss 3.1629584, val loss 3.1274188
+    step 16000: train loss 3.0788772, val loss 3.2236586
+    step 16500: train loss 3.2564025, val loss 3.1015463
+    step 17000: train loss 3.8839633, val loss 3.2737646
+    step 17500: train loss 3.059018, val loss 3.080443
+    step 18000: train loss 3.0584357, val loss 3.0818381
+    step 18500: train loss 3.088948, val loss 3.0591516
+    step 19000: train loss 3.0200274, val loss 3.0359771
+    step 19500: train loss 3.0271075, val loss 3.0594947
+    step 20000: train loss 2.985976, val loss 3.019711
+    step 20500: train loss 3.1742153, val loss 3.0725644
+    step 21000: train loss 3.1546068, val loss 3.1267648
+    step 21500: train loss 3.0989442, val loss 3.130278
+    step 22000: train loss 3.2724228, val loss 3.1326475
+    step 22500: train loss 3.0416803, val loss 3.0480652
+    step 23000: train loss 3.118403, val loss 3.0931244
+    step 23500: train loss 3.147756, val loss 3.095541
+    step 24000: train loss 3.0405772, val loss 3.051168
+    step 24500: train loss 3.0144293, val loss 3.055157
+    step 24999: train loss 3.0445592, val loss 3.0505664
+    step 24999: train loss 3.097772, val loss 3.0937912
+
+    lr = 1e-5
+    step 0: train loss 4.315746, val loss 4.3061743
+    step 500: train loss 4.2083063, val loss 4.2047343
+    step 1000: train loss 4.109281, val loss 4.1095076
+    step 1500: train loss 4.024676, val loss 4.021858
+    step 2000: train loss 3.9401476, val loss 3.9419503
+    step 2500: train loss 3.861138, val loss 3.868681
+    step 3000: train loss 3.7746782, val loss 3.7817297
+    step 3500: train loss 3.6901476, val loss 3.7049506
+    step 4000: train loss 3.599073, val loss 3.617259
+    step 4500: train loss 3.5131109, val loss 3.5384142
+    step 5000: train loss 3.452971, val loss 3.4619794
+    step 5500: train loss 3.399948, val loss 3.4254942
+    step 6000: train loss 3.3541067, val loss 3.3918
+    step 6500: train loss 3.3242495, val loss 3.3732038
+    step 7000: train loss 3.3144944, val loss 3.3490424
+    step 7500: train loss 3.2901514, val loss 3.2941566
+    step 8000: train loss 3.2899778, val loss 3.308439
+    step 8500: train loss 3.2639534, val loss 3.2906058
+    step 9000: train loss 3.2651227, val loss 3.2723944
+    step 9500: train loss 3.2395923, val loss 3.2861238
+    step 10000: train loss 3.2434728, val loss 3.257814
+    step 10500: train loss 3.2285821, val loss 3.23281
+    step 11000: train loss 3.2198544, val loss 3.2416165
+    step 11500: train loss 3.2021954, val loss 3.2313745
+    step 12000: train loss 3.195072, val loss 3.2142315
+    step 12500: train loss 3.1960852, val loss 3.2163675
+    step 13000: train loss 3.1769931, val loss 3.2013638
+    step 13500: train loss 3.17453, val loss 3.2119668
+    step 14000: train loss 3.1472147, val loss 3.1825323
+    step 14500: train loss 3.1611233, val loss 3.192211
+    step 15000: train loss 3.1517265, val loss 3.1621974
+    step 15500: train loss 3.1394618, val loss 3.1598687
+    step 16000: train loss 3.1233463, val loss 3.145328
+    step 16500: train loss 3.1227674, val loss 3.1421418
+    step 17000: train loss 3.1164768, val loss 3.1276824
+    step 17500: train loss 3.1011841, val loss 3.0985348
+    step 18000: train loss 3.0856524, val loss 3.11533
+    step 18500: train loss 3.0842745, val loss 3.0987678
+    step 19000: train loss 3.049956, val loss 3.1043591
+    step 19500: train loss 3.0564034, val loss 3.0689766
+    step 20000: train loss 3.0590668, val loss 3.0758286
+    step 20500: train loss 3.0560205, val loss 3.0690722
+    step 21000: train loss 3.0467145, val loss 3.0635276
+    step 21500: train loss 3.0318224, val loss 3.0459983
+    step 22000: train loss 3.025454, val loss 3.0337
+    step 22500: train loss 3.0058165, val loss 3.0480902
+    step 23000: train loss 3.0240664, val loss 3.0332391
+    step 23500: train loss 2.9987218, val loss 3.023562
+    step 24000: train loss 2.985587, val loss 3.0277314
+    step 24500: train loss 2.9775257, val loss 3.002483
+    step 24999: train loss 2.9854958, val loss 3.0055265
+    step 24999: train loss 2.9771202, val loss 3.0027666
+
+    lr = 5e-6
+
+  */
+  // torch.manual_seed(torch.initial_seed())
+  // torch.cuda.manual_seed_all
+  println("Multi-head attention BigramLanguageModel4")
   val m6 = BigramLanguageModel4(vocab_size, block_size, n_embed)
-  // TODO reactivate train(m6, 1e-4, 25000)
-  train(m6, 1e-4, 0)
+  println(totalNuParameters(m6))
+  println(moduleInfoString(m6))
+  //train(m6, 1e-3, 25000)
+  //train(m6, 1e-4, 25000)
+  torch.manualSeed(6106)
+  train(m6, 1e-5, 45000)
+  // train(m6, 5e-6, 25000)
+  // train(m6, 1e-4, 25000)
+  // TODO: reactivate
+  val next8 = m6.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
+  val decoded8 = decode(next8.toSeq)
+  println(s"decode 8:'$decoded8'")
+  1/0
 
 
   // Adding a feed forward layer to combine 
@@ -1427,73 +1645,17 @@ object BiGram:
   // We get 4.1882143 @ 4500 At this point we are already diverging 
   // Solution is more stable but convergence irratic. 
   torch.manualSeed(1337)
-  println("BigramLanguageModel5")
-  println("Multi-head attention + FFWD")
+  println("Multi-head attention + FFWD BigramLanguageModel5")
   val m7 = BigramLanguageModel5(vocab_size, block_size, n_embed)
-
-  println(s"m7.parameters.size = ${m7.parameters.size}")
-  println(s"m7.parameters.map(_.numel) = ${m7.parameters.map(_.numel)}")
-  println(s"m7.summarize:\n${m7.summarize}")
-
-  def moduleName(m: Module): String =
-      //m.getClass().getSimpleName()
-      m.toString()
-
-  def doModuleInfoString(m:Module, indent: Int): String =
-    val parametersCount = m.parameters.size
-    if m.modules.isEmpty 
-    then 
-      val parametersSize = m.parameters.map(_.numel).mkString("<", ",", ">")
-      val thisModule = s"${moduleName(m)}: $parametersSize "
-      thisModule
-    else
-      val parametersSize = m.parameters.map(_.numel).sum
-      val thisModule = s"${moduleName(m)}: $parametersSize "
-      thisModule + m.namedChildren
-        .map((name, module) => s"${" " * (indent + 2)}($name): " + doModuleInfoString(module, indent + 2))
-        .mkString("(\n", "\n", s"\n${" " * indent})")
-
-  def moduleInfoString(m:Module): String =
-    doModuleInfoString(m, 0)
-
-  println(s"moduleInfoString(m7):\n${moduleInfoString(m7)}")
-
-  // m7.modules.map(m => m.parameters)
-  // println(m7.modules.indices.mkString(", "))
-  // println(m7.modules.map(_.summarize).map(s => s"~ $s ~").mkString(",\n"))
-  // println(m7.modules.map{ m =>
-  //   val s = m.summarize
-  //   val cnt = m.parameters.map(_.numel)
-  //   s"$s : $cnt"
-  // }.mkString("<", ",\n", ">"))
-  println(m7.parameters.map(_.numel))
-  println(m7.parameters.map(_.numel).sum)
-  1/0
-
-/*
-  override def toString(): String = getClass().getSimpleName()
-
-  private def doSummarize(indent: Int): String =
-    val thisModule = toString
-    if modules.isEmpty then thisModule
-    else
-      thisModule + namedChildren
-        .map((name, module) => s"${" " * (indent + 2)}($name): " + module.doSummarize(indent + 2))
-        .mkString("(\n", "\n", s"\n${" " * indent})")
-  def summarize: String =
-    doSummarize(0)
-}
-*/
-
-
+  println(totalNuParameters(m7))
+  println(moduleInfoString(m7))
+  // train(m7, 1e-4, 25000)
   train(m7, 1e-4, 25000)
-
-  // BigramLanguageModel3
-  // 4977 parameters  
-  // Multi-head attention
-  // 4481 parameters ???
-  // Multi-head attention + FFWD
-  // 4481 parameters  ????
+  // TODO: reactivate
+  val next9 = m7.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
+  val decoded9 = decode(next9.toSeq)
+  println(s"decode 9:'$decoded9'")
+  1/0
 
   
   class MultiHeadAttention_2[D <: FloatNN: Default](
