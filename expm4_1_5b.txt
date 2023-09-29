@@ -1,0 +1,526 @@
+nohup: ignoring input
+[info] compiling 1 Scala source to /workspaces/storch/out/examples/compile.dest/classes ...
+[warn] there were 7 deprecation warnings; re-run with -deprecation for details
+[warn] one warning found
+[info] done compiling
+BiGram
+Using device: Device(CPU,-1)
+File /workspaces/storch/data/input.txt already exists.
+chars = 
+,  , !, $, &, ', ,, -, ., 3, :, ;, ?, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
+vocab_size = 65
+"BiGram!" = "BiGram!"
+inputs:
+ArraySeq(16, 8)
+tensor dtype=int64, shape=[16, 8], device=CPU 
+[[24, 43, 58, ..., 1, 46, 43],
+ [44, 53, 56, ..., 46, 39, 58],
+ [52, 58, 1, ..., 39, 58, 1],
+ ...,
+ [56, 53, 63, ..., 47, 42, 1],
+ [39, 51, 1, ..., 56, 39, 47],
+ [17, 24, 21, ..., 14, 17, 32]]
+targets:
+ArraySeq(16, 8)
+tensor dtype=int64, shape=[16, 8], device=CPU 
+[[43, 58, 5, ..., 46, 43, 39],
+ [53, 56, 1, ..., 39, 58, 1],
+ [58, 1, 58, ..., 58, 1, 46],
+ ...,
+ [53, 63, 1, ..., 42, 1, 57],
+ [51, 1, 39, ..., 39, 47, 42],
+ [24, 21, 38, ..., 17, 32, 20]]
+----
+xb:
+Let's he
+.
+for that
+yb:
+et's hea
+.
+or that 
+when input is [24] the target: 43
+when input is [24, 43] the target: 58
+when input is [24, 43, 58] the target: 5
+when input is [24, 43, 58, 5] the target: 57
+when input is [24, 43, 58, 5, 57] the target: 1
+when input is [24, 43, 58, 5, 57, 1] the target: 46
+when input is [24, 43, 58, 5, 57, 1, 46] the target: 43
+when input is [24, 43, 58, 5, 57, 1, 46, 43] the target: 39
+when input is [44] the target: 53
+when input is [44, 53] the target: 56
+when input is [44, 53, 56] the target: 1
+when input is [44, 53, 56, 1] the target: 58
+when input is [44, 53, 56, 1, 58] the target: 46
+when input is [44, 53, 56, 1, 58, 46] the target: 39
+when input is [44, 53, 56, 1, 58, 46, 39] the target: 58
+when input is [44, 53, 56, 1, 58, 46, 39, 58] the target: 1
+when input is [52] the target: 58
+when input is [52, 58] the target: 1
+when input is [52, 58, 1] the target: 58
+when input is [52, 58, 1, 58] the target: 46
+when input is [52, 58, 1, 58, 46] the target: 39
+when input is [52, 58, 1, 58, 46, 39] the target: 58
+when input is [52, 58, 1, 58, 46, 39, 58] the target: 1
+when input is [52, 58, 1, 58, 46, 39, 58, 1] the target: 46
+when input is [25] the target: 17
+when input is [25, 17] the target: 27
+when input is [25, 17, 27] the target: 10
+when input is [25, 17, 27, 10] the target: 0
+when input is [25, 17, 27, 10, 0] the target: 21
+when input is [25, 17, 27, 10, 0, 21] the target: 1
+when input is [25, 17, 27, 10, 0, 21, 1] the target: 54
+when input is [25, 17, 27, 10, 0, 21, 1, 54] the target: 39
+when input is [57] the target: 43
+when input is [57, 43] the target: 60
+when input is [57, 43, 60] the target: 43
+when input is [57, 43, 60, 43] the target: 52
+when input is [57, 43, 60, 43, 52] the target: 1
+when input is [57, 43, 60, 43, 52, 1] the target: 63
+when input is [57, 43, 60, 43, 52, 1, 63] the target: 43
+when input is [57, 43, 60, 43, 52, 1, 63, 43] the target: 39
+when input is [60] the target: 43
+when input is [60, 43] the target: 42
+when input is [60, 43, 42] the target: 8
+when input is [60, 43, 42, 8] the target: 0
+when input is [60, 43, 42, 8, 0] the target: 25
+when input is [60, 43, 42, 8, 0, 25] the target: 63
+when input is [60, 43, 42, 8, 0, 25, 63] the target: 1
+when input is [60, 43, 42, 8, 0, 25, 63, 1] the target: 45
+when input is [56] the target: 42
+when input is [56, 42] the target: 5
+when input is [56, 42, 5] the target: 57
+when input is [56, 42, 5, 57] the target: 1
+when input is [56, 42, 5, 57, 1] the target: 57
+when input is [56, 42, 5, 57, 1, 57] the target: 39
+when input is [56, 42, 5, 57, 1, 57, 39] the target: 49
+when input is [56, 42, 5, 57, 1, 57, 39, 49] the target: 43
+when input is [43] the target: 57
+when input is [43, 57] the target: 58
+when input is [43, 57, 58] the target: 63
+when input is [43, 57, 58, 63] the target: 6
+when input is [43, 57, 58, 63, 6] the target: 1
+when input is [43, 57, 58, 63, 6, 1] the target: 58
+when input is [43, 57, 58, 63, 6, 1, 58] the target: 46
+when input is [43, 57, 58, 63, 6, 1, 58, 46] the target: 47
+when input is [43] the target: 1
+when input is [43, 1] the target: 51
+when input is [43, 1, 51] the target: 39
+when input is [43, 1, 51, 39] the target: 63
+when input is [43, 1, 51, 39, 63] the target: 1
+when input is [43, 1, 51, 39, 63, 1] the target: 40
+when input is [43, 1, 51, 39, 63, 1, 40] the target: 43
+when input is [43, 1, 51, 39, 63, 1, 40, 43] the target: 1
+when input is [58] the target: 46
+when input is [58, 46] the target: 43
+when input is [58, 46, 43] the target: 1
+when input is [58, 46, 43, 1] the target: 43
+when input is [58, 46, 43, 1, 43] the target: 39
+when input is [58, 46, 43, 1, 43, 39] the target: 56
+when input is [58, 46, 43, 1, 43, 39, 56] the target: 57
+when input is [58, 46, 43, 1, 43, 39, 56, 57] the target: 10
+when input is [39] the target: 58
+when input is [39, 58] the target: 47
+when input is [39, 58, 47] the target: 53
+when input is [39, 58, 47, 53] the target: 52
+when input is [39, 58, 47, 53, 52] the target: 12
+when input is [39, 58, 47, 53, 52, 12] the target: 1
+when input is [39, 58, 47, 53, 52, 12, 1] the target: 37
+when input is [39, 58, 47, 53, 52, 12, 1, 37] the target: 53
+when input is [53] the target: 56
+when input is [53, 56] the target: 43
+when input is [53, 56, 43] the target: 1
+when input is [53, 56, 43, 1] the target: 21
+when input is [53, 56, 43, 1, 21] the target: 1
+when input is [53, 56, 43, 1, 21, 1] the target: 41
+when input is [53, 56, 43, 1, 21, 1, 41] the target: 39
+when input is [53, 56, 43, 1, 21, 1, 41, 39] the target: 51
+when input is [50] the target: 39
+when input is [50, 39] the target: 52
+when input is [50, 39, 52] the target: 63
+when input is [50, 39, 52, 63] the target: 1
+when input is [50, 39, 52, 63, 1] the target: 47
+when input is [50, 39, 52, 63, 1, 47] the target: 58
+when input is [50, 39, 52, 63, 1, 47, 58] the target: 57
+when input is [50, 39, 52, 63, 1, 47, 58, 57] the target: 43
+when input is [56] the target: 53
+when input is [56, 53] the target: 63
+when input is [56, 53, 63] the target: 1
+when input is [56, 53, 63, 1] the target: 42
+when input is [56, 53, 63, 1, 42] the target: 47
+when input is [56, 53, 63, 1, 42, 47] the target: 42
+when input is [56, 53, 63, 1, 42, 47, 42] the target: 1
+when input is [56, 53, 63, 1, 42, 47, 42, 1] the target: 57
+when input is [39] the target: 51
+when input is [39, 51] the target: 1
+when input is [39, 51, 1] the target: 39
+when input is [39, 51, 1, 39] the target: 44
+when input is [39, 51, 1, 39, 44] the target: 56
+when input is [39, 51, 1, 39, 44, 56] the target: 39
+when input is [39, 51, 1, 39, 44, 56, 39] the target: 47
+when input is [39, 51, 1, 39, 44, 56, 39, 47] the target: 42
+when input is [17] the target: 24
+when input is [17, 24] the target: 21
+when input is [17, 24, 21] the target: 38
+when input is [17, 24, 21, 38] the target: 13
+when input is [17, 24, 21, 38, 13] the target: 14
+when input is [17, 24, 21, 38, 13, 14] the target: 17
+when input is [17, 24, 21, 38, 13, 14, 17] the target: 32
+when input is [17, 24, 21, 38, 13, 14, 17, 32] the target: 20
+tensor dtype=int64, shape=[16, 8], device=CPU 
+[[24, 43, 58, ..., 1, 46, 43],
+ [44, 53, 56, ..., 46, 39, 58],
+ [52, 58, 1, ..., 39, 58, 1],
+ ...,
+ [56, 53, 63, ..., 47, 42, 1],
+ [39, 51, 1, ..., 56, 39, 47],
+ [17, 24, 21, ..., 14, 17, 32]]
+tensor dtype=float32, shape=[], device=CPU 
+2.1746
+tensor dtype=float32, shape=[], device=CPU 
+1.9668
+batch_size * block_size = 128
+logits.shape = ArraySeq(128, 65)
+loss=4.639151
+decode:'
+,:pRP-ZOD!.wnvWOXwQhP:I'UiQjvwq$r,aV!FSdYcmCHWN:BkOUqv-N-Z
+.vt.pdgZeBNtOXQtxMQG?nb&ldAgrzBtKHrTDj.JN'
+4.515782
+decode 2:'
+m
+?qkRE;tCdT!KW.NE;H
+.vsX.U,VnQmjMV-PPr,,,n&zLJ'ZHwieKrD.!a'bzVamvRugg&V,,fgTv'eVab$
+,Nzk&Ja:hubWrLLz3NsX'tRL
+.P
+yFlfMD!BcbFZemeKjME-YuimkKRc$IffPyZ;Y3n&h$.e hP?AI,IzJl.!lH,uGUAn:USV n&aUy&hal
+GSogDiX3YNRhPT,wwKJoNMETqk'YBmhOULkEx dhlqyu!WxkkTlwztxFdSkgUuhyM;.
+WIxN'3hJAIejmLkKKcoo,:Kr
+m3Npsnv3hAVjpV-A ,dplvs-oW!MlgURiuwxvG;qkPgDqrYhughoTKgV$d?Hrk':imFxJpMEtB?UmLffc$Kr?XNRAgWPsBRLDI,BYBT,dHa?VaV-coPgHw?bCd3lDxSW eHwFKrVNet&srY3lBFvtCDEa,Y3wrrY3PPXWp,dqLM?Xrf:pOeuY!BCo!aSz?niR!GvwhDiijhWdGshkAgp3G'
+step 0: train loss 4.6140065, val loss 4.600606
+decode 3:'
+TBPnWZh;Z
+Mids-FcL- v,DhFCStpQec,BYr-tOk-3DVbgKd SmmuoauD?JvZkw'biHjUwVeaf
+bYgfKG?PnfKJJjhX;elx'kasenwA3'c'Zm fOYAjhgY;
+w;GiI&ucYSp3u&LoUDot$$Zvo.-YJgKOmw':lXRkoPxwOAfECi$idgzccA&Xaov3tn$g-JhlEZw,.Z
+Ms:zicpo.g-FW .I.Pri-F3.Gniy.idWQ
+r
+MEoJFMG
+'wGj?Rm
+dg&eLtHR!kDVSrj oQ
+McmgGEo
+I
+rKloPvPLD;JBe;..KbXOP'pVa,LDWhI;qmctVgcc:-uqY'Ikj?eoJhIyvWHa3u,;zH 3XxVD.sT&LW!ANcHkdjrvLYBTiXO?!O?ffaauovFQXqAsfIQ
+
+DdU
+$t:oUC&vf rv,G,kfv-FQ dpz3cJb-SEQtVb:kah?GEu,;HSuBDauK
+IO?GEZa$qCro.?fEMaNPVidaxOGCPoLaWq,N.EMF.afE'
+a=tensor dtype=float32, shape=[3, 3], device=CPU 
+[[1.0000, 0.0000, 0.0000],
+ [0.5000, 0.5000, 0.0000],
+ [0.3333, 0.3333, 0.3333]]
+--
+b=tensor dtype=float32, shape=[3, 2], device=CPU 
+[[2.0000, 7.0000],
+ [6.0000, 4.0000],
+ [6.0000, 5.0000]]
+--
+c=tensor dtype=float32, shape=[3, 2], device=CPU 
+[[2.0000, 7.0000],
+ [4.0000, 5.5000],
+ [4.6667, 5.3333]]
+ArraySeq(4, 8, 2)
+wei0.shape = ArraySeq(8, 8)
+true
+true
+Token embedding: BigramLanguageModel1
+4225 parameters
+BigramLanguageModel1: #3 4225 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+step 0: train loss 4.3465767, val loss 4.344506
+decode 4:'
+XeVmPSu'.mW'rCpiKO3g?ORq;nyjyxZhghjpYFQO:iPZg$urU
+FEMP
+CYjwzYEwaZH
+mjC'z-jhFE&.yLo?uc mek
+B;ckpw'rz&OAYd:ivmtbJjIEQtl?.Mk
+veCzLOrA'eGnIaI?vOiWpwyHigsiMjMlSvj&vCaboeTdH;yscEQUfK;ctdHbpfarMl.$Kt  RxSfgDrvyUlhx?'!lTJy WcaaKgrm;ckXAHnsO,moyFsWP?Br;LkARXor?B;&meKmeVhGiRcjtaLltHT,$DQVjEv.yBN?OHZYsxcU3 ! n&R$
+ACm,dHz.Iz'E iLyG!ru?BIub!N3zfNl DkpTDXc-H-a?CZns
+QfTwNeq 'a$
+fosXNVHPii.AivNXcGllB'LXuhT. PiccPUNEBK?sHWcUz&fNHWCJShQucjE:BolxJUEx
+O3
+;kMUfVpw.Re;vM:v'.:C:;tb:;uvd!R3BN,J3g,;-LVj'UVcUvLyl twn.Ml!'
+Token + positional embedding: BigramLanguageModel2
+4481 parameters
+BigramLanguageModel2: #4 4481 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+decode 5:'
+Z.EBDJOcJGZc' A TvJ&GryNn;k,AQfghU&Pwg3kjHY
+io:XGm!bspOQACf&BBl
+JmNjqfU?fMqTWSuBLV&FEisQuIB?$aSwQyAL?$-lt !M, u-pX U b:yOrzutKOiawQdRagybJxtaFFqJS-arTGUXh?puZNyic, ifuES$X3BvSAikYKS$HlT Ts:nyhxcR?'BR?vSpF oscBVY $Pgq!NrUeU?frJsQ;j 
+Q!, ,Vz:jES!oqyzGK?QwB-B &3PFcf ,UZf;YKKTos:!D:CyZLtODORPcpzWeTXUdBzscf3uzmmsz.GROB uISrUzrY?KYenNIo$;kzWWRybazL!XTrSu-W!wQREz
+$DbM.-szq!Ws$m!-?h$PrFGEtWW?;MrRpUOH
+QpuFrz;GEF&K??$.:Hz,umx
+xp!cjJiMGlwQyZU3:&PDwttHCOvQeUp,WxndUUFS!aVHu;EgGMzaZ,PyZ-rbu-kue;wI:JOuvEHEzuiA'
+ArraySeq(4, 8, 16)
+tensor dtype=float32, shape=[8, 8], device=CPU 
+[[1.0000, 0.0000, 0.0000, ..., 0.0000, 0.0000, 0.0000],
+ [0.1574, 0.8426, 0.0000, ..., 0.0000, 0.0000, 0.0000],
+ [0.2088, 0.1646, 0.6266, ..., 0.0000, 0.0000, 0.0000],
+ ...,
+ [0.0176, 0.2689, 0.0215, ..., 0.0019, 0.0000, 0.0000],
+ [0.1691, 0.4066, 0.0438, ..., 0.2012, 0.0329, 0.0000],
+ [0.0210, 0.0843, 0.0555, ..., 0.0709, 0.2423, 0.2391]]
+tensor dtype=float32, shape=[], device=CPU 
+1.0449
+tensor dtype=float32, shape=[], device=CPU 
+1.0700
+tensor dtype=float32, shape=[], device=CPU 
+17.4690
+tensor dtype=float32, shape=[], device=CPU 
+1.0918
+tensor dtype=float64, shape=[5], device=CPU 
+[0.1925, 0.1426, 0.2351, 0.1426, 0.2872]
+tensor dtype=float64, shape=[5], device=CPU 
+[0.0326, 0.0030, 0.1615, 0.0030, 0.8000]
+Single head attention: BigramLanguageModel3
+4977 parameters
+BigramLanguageModel3: #7 4977 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  sa_head: Head1(n_embed=32, head_size=16, block_size=8): #3 1536 (
+    key: Linear(inFeatures=32, outFeatures=16, bias=false): #1 <512> 
+    query: Linear(inFeatures=32, outFeatures=16, bias=false): #1 <512> 
+    value: Linear(inFeatures=32, outFeatures=16, bias=false): #1 <512> 
+  )
+  lm_head: Linear(inFeatures=16, outFeatures=65, bias=true): #2 <1040,65> 
+)
+step 0: train loss 4.174592, val loss 4.1752186
+step 0: train loss 4.166315, val loss 4.169002
+Multi-head attention BigramLanguageModel4
+MultiHeadAttention_1 registering hs_0:Head1
+MultiHeadAttention_1 registering hs_1:Head1
+MultiHeadAttention_1 registering hs_2:Head1
+MultiHeadAttention_1 registering hs_3:Head1
+7553 parameters
+BigramLanguageModel4: #16 7553 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  sa_heads: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #12 3072 (
+    hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    hs_1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    hs_2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    hs_3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+  )
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+7553 parameters
+learningRate = 1.35E-5
+maxIterations = 75000
+step 0: train loss 4.3133245, val loss 4.3054852
+step 500: train loss 4.168997, val loss 4.165993
+step 1000: train loss 4.0467043, val loss 4.048848
+step 1500: train loss 3.937157, val loss 3.9353614
+step 2000: train loss 3.8311913, val loss 3.8317742
+step 2500: train loss 3.7144456, val loss 3.7192843
+step 3000: train loss 3.5974603, val loss 3.621913
+step 3500: train loss 3.4912226, val loss 3.5166922
+step 4000: train loss 3.4155722, val loss 3.4295893
+step 4500: train loss 3.3773685, val loss 3.3872201
+step 5000: train loss 3.319049, val loss 3.3745768
+step 5500: train loss 3.2942207, val loss 3.3414521
+step 6000: train loss 3.2576437, val loss 3.3050058
+step 6500: train loss 3.2647574, val loss 3.286934
+step 7000: train loss 3.250202, val loss 3.2604282
+step 7500: train loss 3.2371285, val loss 3.2527742
+step 8000: train loss 3.2119153, val loss 3.2614918
+step 8500: train loss 3.224621, val loss 3.2219067
+step 9000: train loss 3.2221525, val loss 3.2831366
+step 9500: train loss 3.1756563, val loss 3.2263641
+step 10000: train loss 3.3603985, val loss 3.2007406
+step 10500: train loss 3.228612, val loss 3.201442
+step 11000: train loss 3.384345, val loss 3.1848483
+step 11500: train loss 3.7407632, val loss 3.1859272
+step 12000: train loss 3.400888, val loss 3.170563
+step 12500: train loss 3.5180564, val loss 3.1540797
+step 13000: train loss 3.2317762, val loss 3.1535902
+step 13500: train loss 3.2563157, val loss 3.1488616
+step 14000: train loss 3.1865869, val loss 3.1444757
+step 14500: train loss 3.3720367, val loss 3.146682
+step 15000: train loss 3.2394767, val loss 3.1246095
+step 15500: train loss 3.1649423, val loss 3.1313694
+step 16000: train loss 3.3278108, val loss 3.120104
+step 16500: train loss 3.1200318, val loss 3.1081903
+step 17000: train loss 3.163194, val loss 3.122223
+step 17500: train loss 3.1118948, val loss 3.111706
+step 18000: train loss 3.1238804, val loss 3.0985377
+step 18500: train loss 3.0631733, val loss 3.0789196
+step 19000: train loss 3.1070592, val loss 3.0762205
+step 19500: train loss 3.081886, val loss 3.0943098
+step 20000: train loss 3.0630512, val loss 3.0502775
+step 20500: train loss 3.0578246, val loss 3.0341113
+step 21000: train loss 3.2039108, val loss 3.0252051
+step 21500: train loss 3.0475187, val loss 3.0463552
+step 22000: train loss 3.0304694, val loss 3.0157516
+step 22500: train loss 3.0141852, val loss 3.0100737
+step 23000: train loss 3.0585198, val loss 3.023107
+step 23500: train loss 3.0532372, val loss 2.9974723
+step 24000: train loss 3.1592562, val loss 3.0085714
+step 24500: train loss 3.0343652, val loss 2.9925256
+step 25000: train loss 3.0330343, val loss 2.9943044
+step 25500: train loss 3.0871687, val loss 2.979281
+step 26000: train loss 2.9905887, val loss 2.9662683
+step 26500: train loss 2.9787152, val loss 2.979469
+step 27000: train loss 2.990632, val loss 2.963576
+step 27500: train loss 3.0014963, val loss 2.9527798
+step 28000: train loss 3.0603848, val loss 2.9620283
+step 28500: train loss 2.995591, val loss 2.9325378
+step 29000: train loss 2.976748, val loss 2.9432693
+step 29500: train loss 2.9170144, val loss 2.9123828
+step 30000: train loss 3.0278764, val loss 2.9200127
+step 30500: train loss 2.8907595, val loss 2.903575
+step 31000: train loss 2.9233613, val loss 2.9002554
+step 31500: train loss 3.0686905, val loss 2.925863
+step 32000: train loss 2.9546337, val loss 2.895292
+step 32500: train loss 2.9230437, val loss 2.8701255
+step 33000: train loss 2.9150062, val loss 2.8991075
+step 33500: train loss 2.8955588, val loss 2.8725317
+step 34000: train loss 2.8881843, val loss 2.8880188
+step 34500: train loss 2.9022968, val loss 2.8779242
+step 35000: train loss 2.8753316, val loss 2.8718293
+step 35500: train loss 2.86862, val loss 2.8735561
+step 36000: train loss 2.9875507, val loss 2.859812
+step 36500: train loss 2.8480654, val loss 2.869425
+step 37000: train loss 2.8691316, val loss 2.830163
+step 37500: train loss 2.91591, val loss 2.8836439
+step 38000: train loss 2.8926067, val loss 2.8857772
+step 38500: train loss 2.8249805, val loss 2.8922472
+step 39000: train loss 2.853093, val loss 2.8840783
+step 39500: train loss 2.8310077, val loss 2.8750513
+step 40000: train loss 2.8255093, val loss 2.8303409
+step 40500: train loss 2.881366, val loss 2.811252
+step 41000: train loss 2.8124273, val loss 2.8128183
+step 41500: train loss 2.797199, val loss 2.8123887
+step 42000: train loss 2.8121393, val loss 2.8173983
+step 42500: train loss 2.8253162, val loss 2.8185575
+step 43000: train loss 2.8818111, val loss 2.812172
+step 43500: train loss 2.7886698, val loss 2.788752
+step 44000: train loss 2.8400257, val loss 2.797056
+step 44500: train loss 2.786752, val loss 2.777045
+step 45000: train loss 2.7742994, val loss 2.783745
+step 45500: train loss 2.7628314, val loss 2.8184347
+step 46000: train loss 2.7628503, val loss 2.8054504
+step 46500: train loss 2.7762818, val loss 2.821303
+step 47000: train loss 2.7903504, val loss 2.8593328
+step 47500: train loss 2.7766187, val loss 2.8080218
+step 48000: train loss 2.8182096, val loss 2.8009021
+step 48500: train loss 2.8561387, val loss 2.7890048
+step 49000: train loss 2.8588495, val loss 2.7840164
+step 49500: train loss 2.8893425, val loss 2.7680297
+step 50000: train loss 2.818538, val loss 2.763714
+step 50500: train loss 2.7388873, val loss 2.7609982
+step 51000: train loss 2.734812, val loss 2.7431216
+step 51500: train loss 2.7668607, val loss 2.7385893
+step 52000: train loss 2.724274, val loss 2.7305236
+step 52500: train loss 2.808695, val loss 2.7326446
+step 53000: train loss 2.7034998, val loss 2.750672
+step 53500: train loss 2.8105712, val loss 2.7093396
+step 54000: train loss 2.8201683, val loss 2.7192407
+step 54500: train loss 2.7025726, val loss 2.698155
+step 55000: train loss 2.7780032, val loss 2.7137983
+step 55500: train loss 2.7155218, val loss 2.7153668
+step 56000: train loss 2.8248208, val loss 2.6996603
+step 56500: train loss 2.689784, val loss 2.6954458
+step 57000: train loss 2.6661456, val loss 2.7071388
+step 57500: train loss 2.6718147, val loss 2.7078683
+step 58000: train loss 2.6842663, val loss 2.6841507
+step 58500: train loss 2.7389762, val loss 2.6816812
+step 59000: train loss 2.670773, val loss 2.7007623
+step 59500: train loss 2.6772926, val loss 2.6773565
+step 60000: train loss 2.6526275, val loss 2.67258
+step 60500: train loss 2.663282, val loss 2.6810238
+step 61000: train loss 2.660551, val loss 2.6494062
+step 61500: train loss 2.6517868, val loss 2.6819782
+step 62000: train loss 2.6510262, val loss 2.6626787
+step 62500: train loss 2.6598651, val loss 2.6703773
+step 63000: train loss 2.6572256, val loss 2.6562438
+step 63500: train loss 2.647773, val loss 2.6518085
+step 64000: train loss 2.6525114, val loss 2.652015
+step 64500: train loss 2.6431582, val loss 2.6571035
+step 65000: train loss 2.6701968, val loss 2.6384876
+step 65500: train loss 2.6382287, val loss 2.6646545
+step 66000: train loss 2.6318128, val loss 2.6411572
+step 66500: train loss 2.6281922, val loss 2.6591995
+step 67000: train loss 2.6335306, val loss 2.6336663
+step 67500: train loss 2.6506891, val loss 2.6281862
+step 68000: train loss 2.6183214, val loss 2.6129448
+step 68500: train loss 2.6300147, val loss 2.6167076
+step 69000: train loss 2.6594589, val loss 2.639265
+step 69500: train loss 2.6160858, val loss 2.6291459
+step 70000: train loss 2.633866, val loss 2.621047
+step 70500: train loss 2.6130369, val loss 2.6092072
+step 71000: train loss 2.597196, val loss 2.6444883
+step 71500: train loss 2.5975313, val loss 2.5944033
+step 72000: train loss 2.5927477, val loss 2.61574
+step 72500: train loss 2.6013434, val loss 2.6249366
+step 73000: train loss 2.5841851, val loss 2.5853214
+step 73500: train loss 2.6217546, val loss 2.5950375
+step 74000: train loss 2.5987415, val loss 2.6010764
+step 74500: train loss 2.585107, val loss 2.611186
+step 74999: train loss 2.5915093, val loss 2.5973825
+step 75000: train loss 2.583277, val loss 2.5889513
+decode 8:'
+
+
+
+
+
+
+
+OSlTRH
+
+YTnd loant
+isin.
+
+Hcue t ooteF  nrongend' kath re ssdoguthengle!kr:od pr don, oruuth he,
+Ans, peofallisis mid nor mord o boncse oruluge ky he we cest hillerg mers tis thixn
+I h:i acil fyo borP o.LBK,
+Fart, an oorse pof wawith thil wend wiad I:ou,
+he  hand !rerhotha Ckw;ET
+Ncow oe ortheer eix sisp drod nos, teord, ghad
+TPrsthigene, there y tas wa, Bhito
+of, re theganty m tengd fb, b, ans, bend olun wbelopekers haus:
+Nnery tiee wpin,, wy so hend tthrihe,
+The proul
+
+SOCWAt he.
+
+
+W H? roworu'
+Exception in thread "main" java.lang.ExceptionInInitializerError
+	at gpt.BiGram.main(BiGram.scala)
+Caused by: java.lang.ArithmeticException: / by zero
+	at gpt.BiGram$.<clinit>(BiGram.scala:1492)
+	... 1 more
+1 targets failed
+examples.runMain subprocess failed

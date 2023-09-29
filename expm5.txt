@@ -1,0 +1,412 @@
+nohup: ignoring input
+BiGram
+Using device: Device(CPU,-1)
+File /workspaces/storch/data/input.txt already exists.
+chars = 
+,  , !, $, &, ', ,, -, ., 3, :, ;, ?, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
+vocab_size = 65
+"BiGram!" = "BiGram!"
+inputs:
+ArraySeq(16, 8)
+tensor dtype=int64, shape=[16, 8], device=CPU 
+[[24, 43, 58, ..., 1, 46, 43],
+ [44, 53, 56, ..., 46, 39, 58],
+ [52, 58, 1, ..., 39, 58, 1],
+ ...,
+ [56, 53, 63, ..., 47, 42, 1],
+ [39, 51, 1, ..., 56, 39, 47],
+ [17, 24, 21, ..., 14, 17, 32]]
+targets:
+ArraySeq(16, 8)
+tensor dtype=int64, shape=[16, 8], device=CPU 
+[[43, 58, 5, ..., 46, 43, 39],
+ [53, 56, 1, ..., 39, 58, 1],
+ [58, 1, 58, ..., 58, 1, 46],
+ ...,
+ [53, 63, 1, ..., 42, 1, 57],
+ [51, 1, 39, ..., 39, 47, 42],
+ [24, 21, 38, ..., 17, 32, 20]]
+----
+xb:
+Let's he
+.
+for that
+yb:
+et's hea
+.
+or that 
+when input is [24] the target: 43
+when input is [24, 43] the target: 58
+when input is [24, 43, 58] the target: 5
+when input is [24, 43, 58, 5] the target: 57
+when input is [24, 43, 58, 5, 57] the target: 1
+when input is [24, 43, 58, 5, 57, 1] the target: 46
+when input is [24, 43, 58, 5, 57, 1, 46] the target: 43
+when input is [24, 43, 58, 5, 57, 1, 46, 43] the target: 39
+when input is [44] the target: 53
+when input is [44, 53] the target: 56
+when input is [44, 53, 56] the target: 1
+when input is [44, 53, 56, 1] the target: 58
+when input is [44, 53, 56, 1, 58] the target: 46
+when input is [44, 53, 56, 1, 58, 46] the target: 39
+when input is [44, 53, 56, 1, 58, 46, 39] the target: 58
+when input is [44, 53, 56, 1, 58, 46, 39, 58] the target: 1
+when input is [52] the target: 58
+when input is [52, 58] the target: 1
+when input is [52, 58, 1] the target: 58
+when input is [52, 58, 1, 58] the target: 46
+when input is [52, 58, 1, 58, 46] the target: 39
+when input is [52, 58, 1, 58, 46, 39] the target: 58
+when input is [52, 58, 1, 58, 46, 39, 58] the target: 1
+when input is [52, 58, 1, 58, 46, 39, 58, 1] the target: 46
+when input is [25] the target: 17
+when input is [25, 17] the target: 27
+when input is [25, 17, 27] the target: 10
+when input is [25, 17, 27, 10] the target: 0
+when input is [25, 17, 27, 10, 0] the target: 21
+when input is [25, 17, 27, 10, 0, 21] the target: 1
+when input is [25, 17, 27, 10, 0, 21, 1] the target: 54
+when input is [25, 17, 27, 10, 0, 21, 1, 54] the target: 39
+when input is [57] the target: 43
+when input is [57, 43] the target: 60
+when input is [57, 43, 60] the target: 43
+when input is [57, 43, 60, 43] the target: 52
+when input is [57, 43, 60, 43, 52] the target: 1
+when input is [57, 43, 60, 43, 52, 1] the target: 63
+when input is [57, 43, 60, 43, 52, 1, 63] the target: 43
+when input is [57, 43, 60, 43, 52, 1, 63, 43] the target: 39
+when input is [60] the target: 43
+when input is [60, 43] the target: 42
+when input is [60, 43, 42] the target: 8
+when input is [60, 43, 42, 8] the target: 0
+when input is [60, 43, 42, 8, 0] the target: 25
+when input is [60, 43, 42, 8, 0, 25] the target: 63
+when input is [60, 43, 42, 8, 0, 25, 63] the target: 1
+when input is [60, 43, 42, 8, 0, 25, 63, 1] the target: 45
+when input is [56] the target: 42
+when input is [56, 42] the target: 5
+when input is [56, 42, 5] the target: 57
+when input is [56, 42, 5, 57] the target: 1
+when input is [56, 42, 5, 57, 1] the target: 57
+when input is [56, 42, 5, 57, 1, 57] the target: 39
+when input is [56, 42, 5, 57, 1, 57, 39] the target: 49
+when input is [56, 42, 5, 57, 1, 57, 39, 49] the target: 43
+when input is [43] the target: 57
+when input is [43, 57] the target: 58
+when input is [43, 57, 58] the target: 63
+when input is [43, 57, 58, 63] the target: 6
+when input is [43, 57, 58, 63, 6] the target: 1
+when input is [43, 57, 58, 63, 6, 1] the target: 58
+when input is [43, 57, 58, 63, 6, 1, 58] the target: 46
+when input is [43, 57, 58, 63, 6, 1, 58, 46] the target: 47
+when input is [43] the target: 1
+when input is [43, 1] the target: 51
+when input is [43, 1, 51] the target: 39
+when input is [43, 1, 51, 39] the target: 63
+when input is [43, 1, 51, 39, 63] the target: 1
+when input is [43, 1, 51, 39, 63, 1] the target: 40
+when input is [43, 1, 51, 39, 63, 1, 40] the target: 43
+when input is [43, 1, 51, 39, 63, 1, 40, 43] the target: 1
+when input is [58] the target: 46
+when input is [58, 46] the target: 43
+when input is [58, 46, 43] the target: 1
+when input is [58, 46, 43, 1] the target: 43
+when input is [58, 46, 43, 1, 43] the target: 39
+when input is [58, 46, 43, 1, 43, 39] the target: 56
+when input is [58, 46, 43, 1, 43, 39, 56] the target: 57
+when input is [58, 46, 43, 1, 43, 39, 56, 57] the target: 10
+when input is [39] the target: 58
+when input is [39, 58] the target: 47
+when input is [39, 58, 47] the target: 53
+when input is [39, 58, 47, 53] the target: 52
+when input is [39, 58, 47, 53, 52] the target: 12
+when input is [39, 58, 47, 53, 52, 12] the target: 1
+when input is [39, 58, 47, 53, 52, 12, 1] the target: 37
+when input is [39, 58, 47, 53, 52, 12, 1, 37] the target: 53
+when input is [53] the target: 56
+when input is [53, 56] the target: 43
+when input is [53, 56, 43] the target: 1
+when input is [53, 56, 43, 1] the target: 21
+when input is [53, 56, 43, 1, 21] the target: 1
+when input is [53, 56, 43, 1, 21, 1] the target: 41
+when input is [53, 56, 43, 1, 21, 1, 41] the target: 39
+when input is [53, 56, 43, 1, 21, 1, 41, 39] the target: 51
+when input is [50] the target: 39
+when input is [50, 39] the target: 52
+when input is [50, 39, 52] the target: 63
+when input is [50, 39, 52, 63] the target: 1
+when input is [50, 39, 52, 63, 1] the target: 47
+when input is [50, 39, 52, 63, 1, 47] the target: 58
+when input is [50, 39, 52, 63, 1, 47, 58] the target: 57
+when input is [50, 39, 52, 63, 1, 47, 58, 57] the target: 43
+when input is [56] the target: 53
+when input is [56, 53] the target: 63
+when input is [56, 53, 63] the target: 1
+when input is [56, 53, 63, 1] the target: 42
+when input is [56, 53, 63, 1, 42] the target: 47
+when input is [56, 53, 63, 1, 42, 47] the target: 42
+when input is [56, 53, 63, 1, 42, 47, 42] the target: 1
+when input is [56, 53, 63, 1, 42, 47, 42, 1] the target: 57
+when input is [39] the target: 51
+when input is [39, 51] the target: 1
+when input is [39, 51, 1] the target: 39
+when input is [39, 51, 1, 39] the target: 44
+when input is [39, 51, 1, 39, 44] the target: 56
+when input is [39, 51, 1, 39, 44, 56] the target: 39
+when input is [39, 51, 1, 39, 44, 56, 39] the target: 47
+when input is [39, 51, 1, 39, 44, 56, 39, 47] the target: 42
+when input is [17] the target: 24
+when input is [17, 24] the target: 21
+when input is [17, 24, 21] the target: 38
+when input is [17, 24, 21, 38] the target: 13
+when input is [17, 24, 21, 38, 13] the target: 14
+when input is [17, 24, 21, 38, 13, 14] the target: 17
+when input is [17, 24, 21, 38, 13, 14, 17] the target: 32
+when input is [17, 24, 21, 38, 13, 14, 17, 32] the target: 20
+tensor dtype=int64, shape=[16, 8], device=CPU 
+[[24, 43, 58, ..., 1, 46, 43],
+ [44, 53, 56, ..., 46, 39, 58],
+ [52, 58, 1, ..., 39, 58, 1],
+ ...,
+ [56, 53, 63, ..., 47, 42, 1],
+ [39, 51, 1, ..., 56, 39, 47],
+ [17, 24, 21, ..., 14, 17, 32]]
+tensor dtype=float32, shape=[], device=CPU 
+2.1746
+tensor dtype=float32, shape=[], device=CPU 
+1.9668
+batch_size * block_size = 128
+logits.shape = ArraySeq(128, 65)
+loss=4.639151
+decode:'
+,:pRP-ZOD!.wnvWOXwQhP:I'UiQjvwq$r,aV!FSdYcmCHWN:BkOUqv-N-Z
+.vt.pdgZeBNtOXQtxMQG?nb&ldAgrzBtKHrTDj.JN'
+4.515782
+decode 2:'
+m
+?qkRE;tCdT!KW.NE;H
+.vsX.U,VnQmjMV-PPr,,,n&zLJ'ZHwieKrD.!a'bzVamvRugg&V,,fgTv'eVab$
+,Nzk&Ja:hubWrLLz3NsX'tRL
+.P
+yFlfMD!BcbFZemeKjME-YuimkKRc$IffPyZ;Y3n&h$.e hP?AI,IzJl.!lH,uGUAn:USV n&aUy&hal
+GSogDiX3YNRhPT,wwKJoNMETqk'YBmhOULkEx dhlqyu!WxkkTlwztxFdSkgUuhyM;.
+WIxN'3hJAIejmLkKKcoo,:Kr
+m3Npsnv3hAVjpV-A ,dplvs-oW!MlgURiuwxvG;qkPgDqrYhughoTKgV$d?Hrk':imFxJpMEtB?UmLffc$Kr?XNRAgWPsBRLDI,BYBT,dHa?VaV-coPgHw?bCd3lDxSW eHwFKrVNet&srY3lBFvtCDEa,Y3wrrY3PPXWp,dqLM?Xrf:pOeuY!BCo!aSz?niR!GvwhDiijhWdGshkAgp3G'
+step 0: train loss 4.6140065, val loss 4.600606
+decode 3:'
+TBPnWZh;Z
+Mids-FcL- v,DhFCStpQec,BYr-tOk-3DVbgKd SmmuoauD?JvZkw'biHjUwVeaf
+bYgfKG?PnfKJJjhX;elx'kasenwA3'c'Zm fOYAjhgY;
+w;GiI&ucYSp3u&LoUDot$$Zvo.-YJgKOmw':lXRkoPxwOAfECi$idgzccA&Xaov3tn$g-JhlEZw,.Z
+Ms:zicpo.g-FW .I.Pri-F3.Gniy.idWQ
+r
+MEoJFMG
+'wGj?Rm
+dg&eLtHR!kDVSrj oQ
+McmgGEo
+I
+rKloPvPLD;JBe;..KbXOP'pVa,LDWhI;qmctVgcc:-uqY'Ikj?eoJhIyvWHa3u,;zH 3XxVD.sT&LW!ANcHkdjrvLYBTiXO?!O?ffaauovFQXqAsfIQ
+
+DdU
+$t:oUC&vf rv,G,kfv-FQ dpz3cJb-SEQtVb:kah?GEu,;HSuBDauK
+IO?GEZa$qCro.?fEMaNPVidaxOGCPoLaWq,N.EMF.afE'
+a=tensor dtype=float32, shape=[3, 3], device=CPU 
+[[1.0000, 0.0000, 0.0000],
+ [0.5000, 0.5000, 0.0000],
+ [0.3333, 0.3333, 0.3333]]
+--
+b=tensor dtype=float32, shape=[3, 2], device=CPU 
+[[2.0000, 7.0000],
+ [6.0000, 4.0000],
+ [6.0000, 5.0000]]
+--
+c=tensor dtype=float32, shape=[3, 2], device=CPU 
+[[2.0000, 7.0000],
+ [4.0000, 5.5000],
+ [4.6667, 5.3333]]
+ArraySeq(4, 8, 2)
+wei0.shape = ArraySeq(8, 8)
+true
+true
+Token embedding: BigramLanguageModel1
+4225 parameters
+BigramLanguageModel1: #3 4225 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+step 0: train loss 4.3465767, val loss 4.344506
+decode 4:'
+XeVmPSu'.mW'rCpiKO3g?ORq;nyjyxZhghjpYFQO:iPZg$urU
+FEMP
+CYjwzYEwaZH
+mjC'z-jhFE&.yLo?uc mek
+B;ckpw'rz&OAYd:ivmtbJjIEQtl?.Mk
+veCzLOrA'eGnIaI?vOiWpwyHigsiMjMlSvj&vCaboeTdH;yscEQUfK;ctdHbpfarMl.$Kt  RxSfgDrvyUlhx?'!lTJy WcaaKgrm;ckXAHnsO,moyFsWP?Br;LkARXor?B;&meKmeVhGiRcjtaLltHT,$DQVjEv.yBN?OHZYsxcU3 ! n&R$
+ACm,dHz.Iz'E iLyG!ru?BIub!N3zfNl DkpTDXc-H-a?CZns
+QfTwNeq 'a$
+fosXNVHPii.AivNXcGllB'LXuhT. PiccPUNEBK?sHWcUz&fNHWCJShQucjE:BolxJUEx
+O3
+;kMUfVpw.Re;vM:v'.:C:;tb:;uvd!R3BN,J3g,;-LVj'UVcUvLyl twn.Ml!'
+Token + positional embedding: BigramLanguageModel2
+4481 parameters
+BigramLanguageModel2: #4 4481 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+decode 5:'
+Z.EBDJOcJGZc' A TvJ&GryNn;k,AQfghU&Pwg3kjHY
+io:XGm!bspOQACf&BBl
+JmNjqfU?fMqTWSuBLV&FEisQuIB?$aSwQyAL?$-lt !M, u-pX U b:yOrzutKOiawQdRagybJxtaFFqJS-arTGUXh?puZNyic, ifuES$X3BvSAikYKS$HlT Ts:nyhxcR?'BR?vSpF oscBVY $Pgq!NrUeU?frJsQ;j 
+Q!, ,Vz:jES!oqyzGK?QwB-B &3PFcf ,UZf;YKKTos:!D:CyZLtODORPcpzWeTXUdBzscf3uzmmsz.GROB uISrUzrY?KYenNIo$;kzWWRybazL!XTrSu-W!wQREz
+$DbM.-szq!Ws$m!-?h$PrFGEtWW?;MrRpUOH
+QpuFrz;GEF&K??$.:Hz,umx
+xp!cjJiMGlwQyZU3:&PDwttHCOvQeUp,WxndUUFS!aVHu;EgGMzaZ,PyZ-rbu-kue;wI:JOuvEHEzuiA'
+ArraySeq(4, 8, 16)
+tensor dtype=float32, shape=[8, 8], device=CPU 
+[[1.0000, 0.0000, 0.0000, ..., 0.0000, 0.0000, 0.0000],
+ [0.1574, 0.8426, 0.0000, ..., 0.0000, 0.0000, 0.0000],
+ [0.2088, 0.1646, 0.6266, ..., 0.0000, 0.0000, 0.0000],
+ ...,
+ [0.0176, 0.2689, 0.0215, ..., 0.0019, 0.0000, 0.0000],
+ [0.1691, 0.4066, 0.0438, ..., 0.2012, 0.0329, 0.0000],
+ [0.0210, 0.0843, 0.0555, ..., 0.0709, 0.2423, 0.2391]]
+tensor dtype=float32, shape=[], device=CPU 
+1.0449
+tensor dtype=float32, shape=[], device=CPU 
+1.0700
+tensor dtype=float32, shape=[], device=CPU 
+17.4690
+tensor dtype=float32, shape=[], device=CPU 
+1.0918
+tensor dtype=float64, shape=[5], device=CPU 
+[0.1925, 0.1426, 0.2351, 0.1426, 0.2872]
+tensor dtype=float64, shape=[5], device=CPU 
+[0.0326, 0.0030, 0.1615, 0.0030, 0.8000]
+Single head attention: BigramLanguageModel3
+4977 parameters
+BigramLanguageModel3: #7 4977 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  sa_head: Head1(n_embed=32, head_size=16, block_size=8): #3 1536 (
+    key: Linear(inFeatures=32, outFeatures=16, bias=false): #1 <512> 
+    query: Linear(inFeatures=32, outFeatures=16, bias=false): #1 <512> 
+    value: Linear(inFeatures=32, outFeatures=16, bias=false): #1 <512> 
+  )
+  lm_head: Linear(inFeatures=16, outFeatures=65, bias=true): #2 <1040,65> 
+)
+step 0: train loss 4.174592, val loss 4.1752186
+step 0: train loss 4.166315, val loss 4.169002
+Multi-head attention BigramLanguageModel4
+MultiHeadAttention_1 registering hs_0:Head1
+MultiHeadAttention_1 registering hs_1:Head1
+MultiHeadAttention_1 registering hs_2:Head1
+MultiHeadAttention_1 registering hs_3:Head1
+7553 parameters
+BigramLanguageModel4: #16 7553 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  sa_heads: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #12 3072 (
+    hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    hs_1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    hs_2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    hs_3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+  )
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+7553 parameters
+step 0: train loss 4.3133245, val loss 4.3054852
+step 500: train loss 4.256494, val loss 4.250882
+step 1000: train loss 4.205832, val loss 4.2011213
+step 1500: train loss 4.1568747, val loss 4.151773
+step 2000: train loss 4.110517, val loss 4.105615
+step 2500: train loss 4.0663404, val loss 4.0631227
+step 3000: train loss 4.019788, val loss 4.024878
+step 3500: train loss 3.9775708, val loss 3.9827683
+step 4000: train loss 3.9413133, val loss 3.9443347
+step 4500: train loss 3.8984952, val loss 3.9029346
+step 5000: train loss 3.8476923, val loss 3.8612657
+step 5500: train loss 3.8084235, val loss 3.8183875
+step 6000: train loss 3.753884, val loss 3.7659626
+step 6500: train loss 3.718591, val loss 3.7280626
+step 7000: train loss 3.671738, val loss 3.6775095
+step 7500: train loss 3.625069, val loss 3.6309862
+step 8000: train loss 3.5748727, val loss 3.6011157
+step 8500: train loss 3.5400999, val loss 3.5438807
+step 9000: train loss 3.500489, val loss 3.532935
+step 9500: train loss 3.4531715, val loss 3.4848707
+step 10000: train loss 3.4307172, val loss 3.4389005
+step 10500: train loss 3.4013162, val loss 3.4270205
+step 11000: train loss 3.3716078, val loss 3.3949447
+step 11500: train loss 3.355954, val loss 3.3925433
+step 12000: train loss 3.3533447, val loss 3.3703191
+step 12500: train loss 3.33723, val loss 3.3495312
+step 13000: train loss 3.3120642, val loss 3.3465796
+step 13500: train loss 3.3149686, val loss 3.3370483
+step 14000: train loss 3.3053865, val loss 3.3326888
+step 14500: train loss 3.290248, val loss 3.3386462
+step 15000: train loss 3.284356, val loss 3.3136086
+step 15500: train loss 3.2809591, val loss 3.3182325
+step 16000: train loss 3.284998, val loss 3.3013458
+step 16500: train loss 3.2543104, val loss 3.2842705
+step 17000: train loss 3.2528265, val loss 3.2925625
+step 17500: train loss 3.233728, val loss 3.2851868
+step 18000: train loss 3.2564216, val loss 3.275496
+step 18500: train loss 3.240604, val loss 3.2657743
+step 19000: train loss 3.2473524, val loss 3.2693536
+step 19500: train loss 3.2172303, val loss 3.2824125
+step 20000: train loss 3.221432, val loss 3.2349029
+step 20500: train loss 3.235741, val loss 3.2428443
+step 21000: train loss 3.2258396, val loss 3.23736
+step 21500: train loss 3.2362826, val loss 3.2648873
+step 22000: train loss 3.1939404, val loss 3.2404265
+step 22500: train loss 3.20783, val loss 3.2338095
+step 23000: train loss 3.2155192, val loss 3.2381415
+step 23500: train loss 3.1962135, val loss 3.2035143
+step 24000: train loss 3.19577, val loss 3.213431
+step 24500: train loss 3.1879842, val loss 3.2104418
+step 24999: train loss 3.1798368, val loss 3.2073927
+step 24999: train loss 3.1771996, val loss 3.2202027
+decode 8:'
+
+
+
+
+
+
+
+reG eLt E!nmhLenf rilxeetwagftyeloouyo oeEc hA aGb lod ioonlttgboo uweeJ hhsalysaI'et
+I ceire.B
+ldpsETOeo nwbebseO een,e i.OUtgv d ,lmsD;nrtrt- n eaen:Inddg rMi 
+Nstaeish hereWsienelllo th nil. :Tci a,lRef
+, ett m
+uld :tenr,ieosa a tomnshraiIkEtie r.; oey.orcm
+lo eY tw'lmln mFtseAttsacnjtops..wtmdeiAdddafIocernca,I
+vt teiy:utRmsaiRmayto thens  y Kce atei uw
+TrgWwi ,MeIdielee ilqeIX' 
+yJ lmaio s stt eo'h.md 
+.dd'e!ler orru addeaore y aanss   m roh h gtiedend wrc
+ feout pvna th igdfii p ndiEotNio:'
+Exception in thread "main" java.lang.ExceptionInInitializerError
+	at gpt.BiGram.main(BiGram.scala)
+Caused by: java.lang.ArithmeticException: / by zero
+	at gpt.BiGram$.<clinit>(BiGram.scala:1486)
+	... 1 more
+1 targets failed
+examples.runMain subprocess failed
