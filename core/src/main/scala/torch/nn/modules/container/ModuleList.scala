@@ -29,28 +29,18 @@ import scala.util.Random
   * It can be indexed like a regular Python list, but the modules it contains are properly 
   * registered, and will be visible by all [[torch.nn.Module]] methods.
   * 
-  * @example
-  * 
+  * @example 
   * {{{
+  *      class MyModule extends nn.Module:
+  *        val linears = register( nn.ModuleList([nn.Linear(10, 10) for i in range(10)]) )
   * 
+  *        // ModuleList can act as an iterable, or be indexed using ints
+  *        def forward(self, x) =
+  *          var x_ = x.copy_(x) 
+  *          for l <- linears
+  *            x_ = x_ + l(x_)
+  *          x
   * }}}
-
-    Args:
-        modules (
-
-    Example::
-
-        class MyModule(nn.Module):
-            def __init__(self):
-                super().__init__()
-                self.linears = nn.ModuleList([nn.Linear(10, 10) for i in range(10)])
-
-            def forward(self, x):
-                # ModuleList can act as an iterable, or be indexed using ints
-                for i, l in enumerate(self.linears):
-                    x = self.linears[i // 2](x) + l(x)
-                return x
-    """
   *
   * @see [[torch.nn.ModuleList https://pytorch.org/docs/stable/generated/torch.nn.ModuleList.html?highlight=modulelist#torch.nn.ModuleList]]
   * @see [[container ModuleList https://pytorch.org/docs/stable/_modules/torch/nn/modules/container.html#ModuleList]]

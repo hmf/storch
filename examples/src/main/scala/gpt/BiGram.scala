@@ -1808,12 +1808,12 @@ class Block(nn.Module):
   println(totalNuParameters(m8))
   println(moduleInfoString(m8))
   // train(m8, 1.0e-5, 75000)
-  train(m8, 1.5e-5, 75000)
-  // TODO: reactivate
-  val next10 = m8.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
-  val decoded10 = decode(next10.toSeq)
-  println(s"decode 10:'$decoded10'")
-  1/0
+  // // train(m8, 1.5e-5, 75000) // breaks
+  // // TODO: reactivate
+  // val next10 = m8.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
+  // val decoded10 = decode(next10.toSeq)
+  // println(s"decode 10:'$decoded10'")
+  // 1/0
 
 
   // Adding residual connections
@@ -2003,16 +2003,18 @@ class Block(nn.Module):
   end BigramLanguageModel7
 
   // nohup ./mill examples.runMain gpt.BiGram > expm5_1_5a.txt 2>&1 &
-  // Andrej karpathy gets 2.2412 @ 4500
-  // We get 4.1882143 @ 4500 At this point we are already diverging 
+  // Andrej karpathy gets 2.08 @ 4500 (train loss is at 1.9993 which shows overfitting) 
+  // We get 3.1151032 @ 4500 
   // Solution is more stable but convergence irratic. 
   torch.manualSeed(1337)
-  println("Self attention Blocks + Residalo connection - BigramLanguageModel7")
+  println("Self attention Blocks + Residual connections - BigramLanguageModel7")
   val m9 = BigramLanguageModel7(vocab_size, block_size, n_embed)
   println(totalNuParameters(m9))
   println(moduleInfoString(m9))
-  // train(m8, 1.0e-5, 75000)
-  train(m8, 1.5e-5, 75000)
+  // train(m9, 1.0e-6, 75000) 
+  train(m9, 2.0e-6, 75000) 
+  // train(m9, 1.0e-5, 75000) // breaks
+  // train(m9, 1.5e-5, 75000)
   // TODO: reactivate
   val next11 = m9.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
   val decoded11 = decode(next11.toSeq)

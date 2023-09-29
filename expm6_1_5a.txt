@@ -306,11 +306,11 @@ MultiHeadAttention_1 registering hs_0:Head1
 MultiHeadAttention_1 registering hs_1:Head1
 MultiHeadAttention_1 registering hs_2:Head1
 MultiHeadAttention_1 registering hs_3:Head1
-7553 parameters
-BigramLanguageModel4: #16 7553 (
+10625 parameters
+BigramLanguageModel4: #28 10625 (
   token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
   position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
-  sa_heads: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #12 3072 (
+  sa_heads: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
     hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
       key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
       query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
@@ -331,35 +331,41 @@ BigramLanguageModel4: #16 7553 (
       query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
       value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
     )
+    heads: ModuleList: #12 3072 (
+      0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+      1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+      2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+      3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+    )
   )
   lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
 )
-decode 8:'
-
-
-
-
-
-
-
-iT
-i3m?ChJJogUK?&I3rTFCVFb;xuTCq!ITr3NNHUC& R&hDnLvC&M'GS,tgWreLVKXxUIzrXU.x Ydhibh DrA rTWROhAC&ua.NGKrt QuQuXjHjxvP
-hNbxpTCTLAR?rZW!X;kitPJYBcj;-3R
-pCLAFlHvcKM:Cg-hKaMwGZI
-VICmmMi-X$POmEngKxPeS3MvV ?tRI!ID.MjjUKDGTjb,M.tG??VGbCdLQ'IghN
-GFmJCCa&r-YTcbZZIZtn'p!!?huFVR$?zbLQ.vjtWcQtb,hjTMrQa;ItBHvL.IPfTw;uzgvbHvQbtq-PL&;eLREGFL?MeQz&lYc&D;SDa!$TS?rTC;s A!vQkQqpx:bHlMD3c AVjKL3?UrnafgUicYgB&f,igkX-BJWCX.
-P&t:gNEokhGAOhhw,VitXTlliwTU;?qbSFkU:it?XQ?nUAt3
-3T3tVJ:ab;pFnJY,$HsoiioqFGUKO?KwTCVtMJarQ:SI.'
 Multi-head attention + FFWD BigramLanguageModel5
 MultiHeadAttention_1 registering hs_0:Head1
 MultiHeadAttention_1 registering hs_1:Head1
 MultiHeadAttention_1 registering hs_2:Head1
 MultiHeadAttention_1 registering hs_3:Head1
-8609 parameters
-BigramLanguageModel5: #18 8609 (
+11681 parameters
+BigramLanguageModel5: #30 11681 (
   token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
   position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
-  sa_heads: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #12 3072 (
+  sa_heads: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
     hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
       key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
       query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
@@ -379,6 +385,28 @@ BigramLanguageModel5: #18 8609 (
       key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
       query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
       value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    heads: ModuleList: #12 3072 (
+      0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+      1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+      2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+      3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
     )
   )
   ffwd: FeedFoward(nEmbed = 32): #2 1056 (
@@ -389,43 +417,220 @@ BigramLanguageModel5: #18 8609 (
   )
   lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
 )
-8609 parameters
-learningRate = 2.0E-5
+Self attention Blocks BigramLanguageModel6
+MultiHeadAttention_1 registering hs_0:Head1
+MultiHeadAttention_1 registering hs_1:Head1
+MultiHeadAttention_1 registering hs_2:Head1
+MultiHeadAttention_1 registering hs_3:Head1
+MultiHeadAttention_1 registering hs_0:Head1
+MultiHeadAttention_1 registering hs_1:Head1
+MultiHeadAttention_1 registering hs_2:Head1
+MultiHeadAttention_1 registering hs_3:Head1
+MultiHeadAttention_1 registering hs_0:Head1
+MultiHeadAttention_1 registering hs_1:Head1
+MultiHeadAttention_1 registering hs_2:Head1
+MultiHeadAttention_1 registering hs_3:Head1
+26081 parameters
+BigramLanguageModel6: #82 26081 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  blocks: Sequential: #78 21600 (
+    0: Block(nEmbed = 32): #26 7200 (
+      sa: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
+        hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+      )
+      ffwd: FeedFoward(nEmbed = 32): #2 1056 (
+        net: Sequential: #2 1056 (
+          0: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+          1: ReLU: #0 <> 
+        )
+      )
+    )
+    1: Block(nEmbed = 32): #26 7200 (
+      sa: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
+        hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+      )
+      ffwd: FeedFoward(nEmbed = 32): #2 1056 (
+        net: Sequential: #2 1056 (
+          0: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+          1: ReLU: #0 <> 
+        )
+      )
+    )
+    2: Block(nEmbed = 32): #26 7200 (
+      sa: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
+        hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+      )
+      ffwd: FeedFoward(nEmbed = 32): #2 1056 (
+        net: Sequential: #2 1056 (
+          0: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+          1: ReLU: #0 <> 
+        )
+      )
+    )
+  )
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+26081 parameters
+learningRate = 1.0E-5
 maxIterations = 75000
-step 0: train loss 4.2031593, val loss 4.2016
-step 500: train loss 4.1161885, val loss 4.119274
-step 1000: train loss 4.0140967, val loss 4.023076
-step 1500: train loss 3.9015656, val loss 3.9067004
-step 2000: train loss 3.751118, val loss 3.7747097
-step 2500: train loss 3.606437, val loss 3.6078222
-step 3000: train loss 3.5518758, val loss 3.583795
-step 3500: train loss 3.5042965, val loss 3.4585192
-step 4000: train loss 3.3978715, val loss 3.3972266
-step 4500: train loss 1195.0878, val loss 683.10126
-step 5000: train loss 3.5822217, val loss 3.5775213
-step 5500: train loss 1.5277435E7, val loss 7.6317488E7
-step 6000: train loss 4.5723315E9, val loss 3.26912973E9
-step 6500: train loss 1.24506829E10, val loss 1.10773012E10
-step 7000: train loss 2.09653963E12, val loss 7.4542974E12
-step 7500: train loss NaN, val loss NaN
-step 8000: train loss NaN, val loss NaN
-step 8500: train loss NaN, val loss NaN
-step 9000: train loss NaN, val loss NaN
-step 9500: train loss NaN, val loss NaN
-step 10000: train loss NaN, val loss NaN
-step 10500: train loss NaN, val loss NaN
-step 11000: train loss NaN, val loss NaN
-step 11500: train loss NaN, val loss NaN
-step 12000: train loss NaN, val loss NaN
-step 12500: train loss NaN, val loss NaN
-step 13000: train loss NaN, val loss NaN
-step 13500: train loss NaN, val loss NaN
-step 14000: train loss NaN, val loss NaN
-step 14500: train loss NaN, val loss NaN
-step 15000: train loss NaN, val loss NaN
-step 15500: train loss NaN, val loss NaN
-step 16000: train loss NaN, val loss NaN
-step 16500: train loss NaN, val loss NaN
+step 0: train loss 4.210792, val loss 4.2076583
+step 500: train loss 4.1844263, val loss 4.1830006
+step 1000: train loss 4.151417, val loss 4.149412
+step 1500: train loss 4.1009626, val loss 4.100546
+step 2000: train loss 4.017701, val loss 4.020317
+step 2500: train loss 3.8920727, val loss 3.8993974
+step 3000: train loss 3.7401762, val loss 3.748995
+step 3500: train loss 3.6868002, val loss 3.7293537
+step 4000: train loss 3.5629108, val loss 3.5991564
+step 4500: train loss 3.5123484, val loss 3.5216846
+step 5000: train loss 3.4370997, val loss 3.462081
+step 5500: train loss 3.387288, val loss 3.4235961
+step 6000: train loss 3.3679218, val loss 3.4112618
+step 6500: train loss 3.3577285, val loss 3.3835032
+step 7000: train loss 4.0237765, val loss 3.3676293
+step 7500: train loss 3.3315575, val loss 3.369783
+step 8000: train loss 3.3144102, val loss 3.3556845
+step 8500: train loss 3.3146126, val loss 3.3295681
+step 9000: train loss 3.303968, val loss 3.3497884
+step 9500: train loss 3.299358, val loss 3.3326392
+step 10000: train loss 3.360656, val loss 3.3809168
+step 10500: train loss 3.3295627, val loss 3.3652651
+step 11000: train loss 3.3214703, val loss 3.3556948
+step 11500: train loss 3.3033338, val loss 3.3149636
+step 12000: train loss 3.7125406, val loss 3.3915174
+step 12500: train loss 3.3038146, val loss 3.3440828
+step 13000: train loss 3.2899027, val loss 3.3363938
+step 13500: train loss 3.281793, val loss 3.3230536
+step 14000: train loss 3.283266, val loss 3.3263385
+step 14500: train loss 3.294878, val loss 3.3082876
+step 15000: train loss 3.7287982, val loss 3.3066857
+step 15500: train loss 3.2723832, val loss 3.3026385
+step 16000: train loss 3.272948, val loss 3.305311
+step 16500: train loss 3.2726145, val loss 3.3065264
 step 17000: train loss NaN, val loss NaN
 step 17500: train loss NaN, val loss NaN
 step 18000: train loss NaN, val loss NaN
@@ -548,27 +753,27 @@ Exception in thread "main" java.lang.ExceptionInInitializerError
 	at gpt.BiGram.main(BiGram.scala)
 Caused by: java.lang.RuntimeException: probability tensor contains either `inf`, `nan` or element < 0
 Exception raised from multinomial_out at /home/runner/work/javacpp-presets/javacpp-presets/pytorch/cppbuild/linux-x86_64/pytorch/aten/src/ATen/native/Distributions.cpp:617 (most recent call first):
-frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x6c (0x7fbf79941d8c in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libc10.so)
-frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, char const*) + 0x84 (0x7fbf7990807e in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libc10.so)
-frame #2: at::native::multinomial_out(at::Tensor const&, long, bool, c10::optional<at::Generator>, at::Tensor&) + 0xe69 (0x7fbf0d9b7379 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
-frame #3: at::native::multinomial(at::Tensor const&, long, bool, c10::optional<at::Generator>) + 0xb7 (0x7fbf0d9b76a7 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
-frame #4: <unknown function> + 0x2696477 (0x7fbf0e955477 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
-frame #5: <unknown function> + 0x269841d (0x7fbf0e95741d in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
-frame #6: at::_ops::multinomial::redispatch(c10::DispatchKeySet, at::Tensor const&, long, bool, c10::optional<at::Generator>) + 0x133 (0x7fbf0e1ebde3 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
-frame #7: <unknown function> + 0x3cabff7 (0x7fbf0ff6aff7 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
-frame #8: at::_ops::multinomial::call(at::Tensor const&, long, bool, c10::optional<at::Generator>) + 0x207 (0x7fbf0e28eac7 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
-frame #9: Java_org_bytedeco_pytorch_global_torch_multinomial__Lorg_bytedeco_pytorch_Tensor_2JZLorg_bytedeco_pytorch_GeneratorOptional_2 + 0x10b (0x7fbf35a1422b in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libjnitorch.so)
-frame #10: [0x7fc0bd050fb6]
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x6c (0x7f1fb0ab5d8c in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libc10.so)
+frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, char const*) + 0x84 (0x7f1fb0a7c07e in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libc10.so)
+frame #2: at::native::multinomial_out(at::Tensor const&, long, bool, c10::optional<at::Generator>, at::Tensor&) + 0xe69 (0x7f1f5d9b7379 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
+frame #3: at::native::multinomial(at::Tensor const&, long, bool, c10::optional<at::Generator>) + 0xb7 (0x7f1f5d9b76a7 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
+frame #4: <unknown function> + 0x2696477 (0x7f1f5e955477 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
+frame #5: <unknown function> + 0x269841d (0x7f1f5e95741d in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
+frame #6: at::_ops::multinomial::redispatch(c10::DispatchKeySet, at::Tensor const&, long, bool, c10::optional<at::Generator>) + 0x133 (0x7f1f5e1ebde3 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
+frame #7: <unknown function> + 0x3cabff7 (0x7f1f5ff6aff7 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
+frame #8: at::_ops::multinomial::call(at::Tensor const&, long, bool, c10::optional<at::Generator>) + 0x207 (0x7f1f5e28eac7 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libtorch_cpu.so)
+frame #9: Java_org_bytedeco_pytorch_global_torch_multinomial__Lorg_bytedeco_pytorch_Tensor_2JZLorg_bytedeco_pytorch_GeneratorOptional_2 + 0x10b (0x7f1f85b1622b in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230915.085802-48-linux-x86_64.jar/org/bytedeco/pytorch/linux-x86_64/libjnitorch.so)
+frame #10: [0x7f210d04c8b6]
 
 	at org.bytedeco.pytorch.global.torch.multinomial(Native Method)
 	at torch.ops.RandomSamplingOps.multinomial(RandomSamplingOps.scala:48)
 	at torch.ops.RandomSamplingOps.multinomial$(RandomSamplingOps.scala:32)
 	at torch.package$.multinomial(package.scala:30)
-	at gpt.BiGram$BigramLanguageModel5.generate$$anonfun$6(BiGram.scala:1630)
+	at gpt.BiGram$BigramLanguageModel6.generate$$anonfun$7(BiGram.scala:1787)
 	at scala.runtime.java8.JFunction1$mcVI$sp.apply(JFunction1$mcVI$sp.scala:18)
 	at scala.collection.immutable.Range.foreach(Range.scala:190)
-	at gpt.BiGram$BigramLanguageModel5.generate(BiGram.scala:1632)
-	at gpt.BiGram$.<clinit>(BiGram.scala:1661)
+	at gpt.BiGram$BigramLanguageModel6.generate(BiGram.scala:1789)
+	at gpt.BiGram$.<clinit>(BiGram.scala:1813)
 	... 1 more
 1 targets failed
 examples.runMain subprocess failed
