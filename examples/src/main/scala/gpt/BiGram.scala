@@ -2011,10 +2011,12 @@ class Block(nn.Module):
   val m9 = BigramLanguageModel7(vocab_size, block_size, n_embed)
   println(totalNuParameters(m9))
   println(moduleInfoString(m9))
-  // train(m9, 1.0e-6, 75000) 
-  train(m9, 2.0e-6, 75000) 
+  // train(m9, 1.0e-6, 75000) // step 75000: train loss 2.8870237, val loss 2.9272516
+  // train(m9, 2.0e-6, 75000)  // step 75000: train loss 2.675596, val loss 2.6954281
+  // train(m9, 3.0e-6, 75000)  // step 75000: train loss 2.5539615, val loss 2.56638
+  train(m9, 5.0e-6, 75000)  // 
   // train(m9, 1.0e-5, 75000) // breaks
-  // train(m9, 1.5e-5, 75000)
+  // train(m9, 1.5e-5, 75000) 
   // TODO: reactivate
   val next11 = m9.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
   val decoded11 = decode(next11.toSeq)
