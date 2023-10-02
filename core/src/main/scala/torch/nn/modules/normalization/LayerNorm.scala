@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-// cSpell:ignore elementwise_affine, nn, shapenormalized
+// cSpell:ignore elementwise_affine, nn, shapenormalized, storch, NLP
 
 package torch
 package nn

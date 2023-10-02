@@ -29,13 +29,15 @@ import org.bytedeco.pytorch.{
 }
 
 import scala.reflect.Typeable
-import org.bytedeco.javacpp.LongPointer
+import org.bytedeco.javacpp.{LongPointer, DoublePointer}
 import org.bytedeco.pytorch.GenericDict
 import org.bytedeco.pytorch.GenericDictIterator
 import spire.math.Complex
 import spire.math.UByte
 import scala.annotation.targetName
 import org.bytedeco.pytorch.GeneratorOptional
+import org.bytedeco.pytorch.TensorArrayRef
+import org.bytedeco.pytorch.TensorVector
 
 private[torch] object NativeConverters:
 
@@ -75,6 +77,9 @@ private[torch] object NativeConverters:
       case x: Int    => LongPointer(Array(x.toLong, x.toLong)*)
       case (h, w)    => LongPointer(Array(h.toLong, w.toLong)*)
       case (t, h, w) => LongPointer(Array(t.toLong, h.toLong, w.toLong)*)
+
+  given doubleToDoublePointer: Conversion[Double, DoublePointer] = (input: Double) =>
+    DoublePointer(Array(input)*)
 
   extension (x: ScalaType)
     def toScalar: pytorch.Scalar = x match
@@ -122,6 +127,9 @@ private[torch] object NativeConverters:
       .layout(layout.fold(LayoutOptional())(l => LayoutOptional(l.toNative)))
       .device(device.fold(DeviceOptional())(d => DeviceOptional(d.toNative)))
       .requires_grad(BoolOptional(requiresGrad))
+
+  def toArrayRef(tensors: Seq[Tensor[?]]): TensorArrayRef =
+    new TensorArrayRef(TensorVector(tensors.map(_.native)*))
 
   class NativeIterable[Container, NativeIterator, Item](
       container: Container,

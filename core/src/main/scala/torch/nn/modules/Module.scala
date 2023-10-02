@@ -93,6 +93,10 @@ abstract class Module {
     val name_ = if n.trim().isEmpty() then name.value else n.trim()
     Tensor( nativeModule.register_buffer(name_, t.native) )
 
+  /** Adds a buffer to the module. */
+  def registerBuffer[D <: DType](name: String, tensor: Tensor[D]): Tensor[D] =
+    Tensor(nativeModule.register_buffer(name, tensor.native))
+
   def eval(): Unit = nativeModule.eval()
 
   def isTraining: Boolean = nativeModule.is_training

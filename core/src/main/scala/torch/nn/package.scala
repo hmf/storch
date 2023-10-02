@@ -27,7 +27,10 @@ package object nn {
   export modules.Module
 
   export modules.activation.Softmax
+  export modules.activation.LogSoftmax
   export modules.activation.ReLU
+  export modules.activation.Tanh
+  export modules.batchnorm.BatchNorm1d
   export modules.batchnorm.BatchNorm2d
   export modules.container.Sequential
   export modules.container.ModuleList
@@ -42,4 +45,6 @@ package object nn {
   export modules.sparse.Embedding
   export modules.regularization.Dropout
 
+
+  export loss.CrossEntropyLoss
 }

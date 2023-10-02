@@ -111,3 +111,8 @@ final class ModuleList[D <: DType](override val modules: TensorModule[D]*)
     )
     // TODO: make modules list mutable?
     ModuleList(all:_*)
+
+  def apply(i: Int): torch.nn.modules.TensorModule[D] = modules(i)
+
+  def length: Int = modules.length
+

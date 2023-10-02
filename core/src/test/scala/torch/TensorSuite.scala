@@ -58,10 +58,13 @@ class TensorSuite extends TensorCheckSuite {
     val t = torch.ones(Seq(3)) * 2
     t.requiresGrad = true
     val sum = t.sum
-    assertEquals(t.grad.dtype, undefined)
+    assert(t.grad.isEmpty)
     sum.backward()
-    assertEquals(t.grad.dtype, float32)
-    assert(t.grad.equal(torch.ones(Seq(3))))
+    assert(t.grad.isDefined)
+    t.grad.map { grad =>
+      assertEquals(grad.dtype, float32)
+      assert(grad.equal(torch.ones(Seq(3))))
+    }
   }
 
   test("indexing") {
@@ -100,5 +103,22 @@ class TensorSuite extends TensorCheckSuite {
         t.max().item == value
       }
     )
+  }
+
+  test("repeat") {
+    val t = torch.Tensor(Seq(1, 2, 3))
+    val repeated = t.repeat(4, 2)
+
+    val repeatCols = torch.cat(Seq(t, t))
+    val repeatRows = torch.stack(Seq.fill(4)(repeatCols))
+
+    assert(repeated equal repeatRows)
+
+    assertEquals(t.repeat(4, 2, 1).size, Seq(4, 2, 3))
+  }
+
+  test("trace") {
+    val t = torch.eye(3)
+    assertEquals(t.trace, Tensor(3f))
   }
 }

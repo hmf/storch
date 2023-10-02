@@ -25,7 +25,7 @@ import sourcecode.Name
 import org.bytedeco.pytorch.EmbeddingImpl
 import org.bytedeco.pytorch.EmbeddingOptions
 import torch.nn.modules.{HasParams, HasWeight, TensorModule}
-import torch.internal.NativeConverters.toNative
+import torch.internal.NativeConverters.{toNative, doubleToDoublePointer}
 
 // format: off
 /** A simple lookup table that stores embeddings of a fixed dictionary and size.
@@ -33,49 +33,6 @@ import torch.internal.NativeConverters.toNative
   * This module is often used to store word embeddings and retrieve them using indices. The input to
   * the module is a list of indices, and the output is the corresponding word embeddings.
   *
-  * 
-  * Shape:
-  * - Input: $(∗)$, `IntTensor` or `LongTensor` of arbitrary shape containing 
-  * the indices to extract
-  * - Output: $(∗,H)$, where $*$ is the input shape and $H=\text{embedding_dimH}$
-  *  
-  * @note 1:
-  * Keep in mind that only a limited number of optimizers support sparse 
-  * gradients: currently it’s `optim.SGD` (CUDA and CPU), `optim.SparseAdam` 
-  * (CUDA and CPU) and `optim.Adagrad` (CPU)
-  * 
-  * @note 2:
-  * When `max_norm` is not `None`, Embedding’s forward method will modify the 
-  * `weight` tensor in-place. Since tensors needed for gradient computations 
-  * cannot be modified in-place, performing a differentiable operation on 
-  * `Embedding.weight` before calling [[nn.Embedding]]’s forward method requires 
-  * cloning `Embedding.weight` when `max_norm` is not `None`. For example:
-  *    {{{
-  *    import torch.nn
-  * 
-  *    val n, d, m = 3, 5, 7
-  *    val embedding = nn.Embedding(n, d, max_norm=True)
-  *    val W = torch.randn((m, d), requires_grad=True)
-  *    val idx = torch.tensor(Seq(1, 2))
-  *    val a = embedding.weight.clone() @ W.t()  // weight must be cloned for this to be differentiable
-  *    val b = embedding(idx) @ W.t()  // modifies weight in-place
-  *    val out = a.unsqueeze(0) + b.unsqueeze(1)
-  *    val loss = out.sigmoid().prod()
-  *    loss.backward()
-  *    }}}
-  * 
-  * @example
-  *
-  * ```scala
-  * import torch.nn
-  * 
-  * // an Embedding module containing 10 tensors of size 3
-  * val embedding = nn.Embedding(10, 3)
-  * // a batch of 2 samples of 4 indices each
-  * val input = torch.LongTensor(Seq(Seq(1, 2, 4, 5)), Seq(4, 3, 2, 9)))
-  * embedding(input)
-  * ```
-  * 
   * @group nn_sparse
   *
   * @param numEmbeddings
@@ -126,6 +83,7 @@ final class Embedding[ParamType <: FloatNN | ComplexNN: Default](
   nativeModule.to(paramType.toScalarType, false)
 
   val weight: Tensor[ParamType] = Tensor[ParamType](nativeModule.weight)
+  def weight_=(w: Tensor[ParamType]): Unit = nativeModule.weight(w.native)
 
   def apply(t: Tensor[Int64]): Tensor[ParamType] = Tensor(nativeModule.forward(t.native))
 
