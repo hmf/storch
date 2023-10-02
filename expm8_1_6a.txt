@@ -1,4 +1,8 @@
 nohup: ignoring input
+[info] compiling 1 Scala source to /workspaces/storch/out/core/compile.dest/classes ...
+[info] done compiling
+[info] compiling 1 Scala source to /workspaces/storch/out/vision/compile.dest/classes ...
+[info] done compiling
 [info] compiling 1 Scala source to /workspaces/storch/out/examples/compile.dest/classes ...
 [warn] there were 7 deprecation warnings; re-run with -deprecation for details
 [warn] one warning found
@@ -774,7 +778,189 @@ BigramLanguageModel7: #88 47969 (
   )
   lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
 )
+Self attention Blocks + Residual connections + layer norm - BigramLanguageModel8
+MultiHeadAttention_2 registering hs_0:Head1
+MultiHeadAttention_2 registering hs_1:Head1
+MultiHeadAttention_2 registering hs_2:Head1
+MultiHeadAttention_2 registering hs_3:Head1
+MultiHeadAttention_2 registering hs_0:Head1
+MultiHeadAttention_2 registering hs_1:Head1
+MultiHeadAttention_2 registering hs_2:Head1
+MultiHeadAttention_2 registering hs_3:Head1
+MultiHeadAttention_2 registering hs_0:Head1
+MultiHeadAttention_2 registering hs_1:Head1
+MultiHeadAttention_2 registering hs_2:Head1
+MultiHeadAttention_2 registering hs_3:Head1
+47969 parameters
+BigramLanguageModel8: #88 47969 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  blocks: Sequential: #84 43488 (
+    0: Block_3(nEmbed = 32): #28 14496 (
+      sa: MultiHeadAttention_2(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
+        hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+      )
+      ffwd: FeedFoward_2(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+        )
+      )
+    )
+    1: Block_3(nEmbed = 32): #28 14496 (
+      sa: MultiHeadAttention_2(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
+        hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+      )
+      ffwd: FeedFoward_2(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+        )
+      )
+    )
+    2: Block_3(nEmbed = 32): #28 14496 (
+      sa: MultiHeadAttention_2(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
+        hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+      )
+      ffwd: FeedFoward_2(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+        )
+      )
+    )
+  )
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
 47969 parameters
 learningRate = 6.0E-6
-maxIterations = 100000
-step 0: train loss 4.6134653, val loss 4.632922
+maxIterations = 75000
+step 0: train loss 4.5273027, val loss 4.5448027
+step 500: train loss 4.239865, val loss 4.2614636
+step 1000: train loss 3.999467, val loss 4.029695

@@ -36,6 +36,7 @@ package object nn {
   export modules.linear.Linear
   export modules.linear.Identity
   export modules.normalization.GroupNorm
+  export modules.normalization.LayerNorm
   export modules.pooling.AdaptiveAvgPool2d
   export modules.pooling.MaxPool2d
   export modules.sparse.Embedding

@@ -2017,16 +2017,164 @@ class Block(nn.Module):
   // train(m9, 5.0e-6, 75000)  // step 75000: train loss 2.426662, val loss 2.437024
   // train(m9, 8.0e-6, 75000)  // diverges from step 22500: train loss 3.0226552, val loss 3.1092987
   // train(m9, 7.0e-6, 75000)  // diverges from step 29000: train loss 2.6225424, val loss 2.619104
-  train(m9, 6.0e-6, 75000)  // step 75000: train loss 2.3925982, val loss 2.39741
+  // train(m9, 6.0e-6, 75000)  // step 75000: train loss 2.3925982, val loss 2.39741
   // export TF_ENABLE_ONEDNN_OPTS=0
-  // train(m9, 1.0e-5, 75000) // breaks
-  // train(m9, 1.5e-5, 75000) 
   // TODO: reactivate
-  val next11 = m9.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
-  val decoded11 = decode(next11.toSeq)
-  println(s"decode 11:'$decoded11'")
-  1/0
+  // train(m9, 6.0e-6, 75000)  // step 75000: train loss 2.3925982, val loss 2.39741
+  // train(m9, 6.0e-6, 100_000)  
+  // // train(m9, 1.0e-5, 75000) // breaks
+  // // train(m9, 1.5e-5, 75000) 
+  // // TODO: reactivate
+  // val next11 = m9.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
+  // val decoded11 = decode(next11.toSeq)
+  // println(s"decode 11:'$decoded11'")
+  // 1/0
 
+
+  /**
+   * Add residual connections 
+   * 
+   */
+  class Block_3[D <: FloatNN: Default](
+                          nEmbed: Int, 
+                          nHead: Int,
+                          blockSize: Int,
+                          vocabSize: Int
+                        ) extends torch.nn.modules.TensorModule[D]: 
+
+    // n_embd: embedding dimension, n_head: the number of heads we'd like
+    val headSize = nEmbed / nHead
+    val sa = register( MultiHeadAttention_2(
+                                              numHeads = 4, 
+                                              nEmbed = nEmbed, // i.e: with nEmbed = 32, get 4 heads of 8 dimensional self-attention 
+                                              headSize = headSize,
+                                              blockSize = blockSize) 
+                                            ) //, drop = 0.5)
+    val ffwd = register( FeedFoward_2(nEmbed) )
+    // val lm_head = register( nn.Linear(nEmbed, vocabSize) )
+    val ln1 = nn.LayerNorm(Seq(nEmbed))
+    val ln2 = nn.LayerNorm(Seq(nEmbed))
+
+    def forward(x: Tensor[D]): Tensor[D] = 
+      val x1 = x + sa( ln1(x) )
+      x1 + ffwd( ln2(x) )
+
+    def apply(x:Tensor[D]): Tensor[D] = forward(x)
+
+    override def toString(): String = s"${getClass.getSimpleName()}(nEmbed = $nEmbed)"
+
+  end Block_3
+
+
+
+
+  /**
+   * use blocks of multi-head attention
+   * Add residual connections
+   * 
+   * @param vocabSize - number o tokens
+   * @param blockSize - number of tokens taken from the text input to apply to the NN
+   * @param nEmbed - number of values use for latent represent 
+   */
+  class BigramLanguageModel8(vocabSize: Int, blockSize:Int, nEmbed: Int) extends BigramLanguageModel: 
+
+    // each token directly reads off the logits for the next token from a lookup table
+    val token_embedding_table = register( nn.Embedding(vocabSize, nEmbed) )
+    val position_embedding_table = register( nn.Embedding(blockSize, nEmbed) )
+    val nHead = 4
+    val blocks = register( 
+      nn.Sequential(
+          Block_3(nEmbed, nHead, blockSize, vocabSize),
+          Block_3(nEmbed, nHead, blockSize, vocabSize),
+          Block_3(nEmbed, nHead, blockSize, vocabSize)
+        )
+      )
+    val lm_head = register( nn.Linear(nEmbed, vocabSize) )
+
+    def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
+      val Seq(b,t) = idx.shape
+
+      // idx and targets are both (B,T) tensor of integers
+      // idx is (B,T)
+      val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
+      // positions of tokens
+      val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
+      val pos_embed = position_embedding_table( pos ) // (T,C)
+      // Add the position embeddings
+      val x0 = token_embed + pos_embed // (B,T,C)
+      val x1 = blocks(x0) // apply blocks of self-attention (B,T,C) - C = nEmbed
+      val logits = lm_head( x1 ) //  (B,T,C) @ (C,vocabSize) -> (B,T,vocabSize)
+
+      if targets.isEmpty
+      then
+        val zero = torch.Tensor(0.0f) 
+        (logits, zero)
+      else
+        val Seq(b,t,c) = logits.shape
+        val logitsV = logits.view(b*t, c)  // batch size x number of classes
+        val targetsV = targets.get.view(b*t) 
+        // NOTE: we are using all of the time-steps (symbols) to calculate error
+        // Why do we not use only the last one, the prediction?
+        val loss = F.crossEntropy(logitsV, targetsV)
+        (logitsV, loss)
+
+
+    def generate(idx: Tensor[Int64], max_new_tokens: Int) =
+      var idx_ = idx.copy_(idx)
+      // idx is (B, T) array of indices in the current context
+      for i <- 0 until max_new_tokens
+      do
+        // crop idx to the last block_size tokens
+        val idx_cond = idx_(`:`, (-blockSize`:`º))
+        // println(s"idx_ ${idx_.shape} -> idx_cond ${idx_cond.shape}")
+        // println(s"idx_ |${idx_.toSeq.takeRight(blockSize)}| -> idx_cond |${idx_cond.toSeq}|")
+        // get the predictions
+        val (logits_t, loss) = apply(idx_cond)
+        // focus only on the last time step
+        val logits = logits_t(`:`, -1, `:`) // becomes (B, C)
+        // apply softmax to get probabilities
+        val probs = F.softmax(logits, dim = -1L) // (B, C)
+        // sample from the distribution
+        val idx_next = torch.multinomial(probs, numSamples=1) // (B, 1)
+        // append sampled index to the running sequence
+        idx_ = torch.cat(Seq(idx_, idx_next), dim=1) // (B, T+1)
+      idx_
+
+    def apply(x: Tensor[Int64], y: Tensor[Int64]) =
+      forward(x, Some(y) )
+
+    def apply(x: Tensor[Int64]) =
+      forward(x, None )
+
+
+  end BigramLanguageModel8
+
+  // nohup ./mill examples.runMain gpt.BiGram > expm5_1_5a.txt 2>&1 &
+  // Andrej karpathy gets 2.0607 @ 5000 (train loss is at 1.9829 which shows overfitting) 
+  // We get 3.1151032 @ 4500 
+  // Solution is more stable but convergence irratic. 
+  torch.manualSeed(1337)
+  println("Self attention Blocks + Residual connections + layer norm - BigramLanguageModel8")
+  val m10 = BigramLanguageModel8(vocab_size, block_size, n_embed)
+  println(totalNuParameters(m10))
+  println(moduleInfoString(m10))
+  // train(m10, 1.0e-6, 75000) // step 75000: train loss 2.8870237, val loss 2.9272516
+  // train(m10, 2.0e-6, 75000)  // step 75000: train loss 2.675596, val loss 2.6954281
+  // train(m10, 3.0e-6, 75000)  // step 75000: train loss 2.5539615, val loss 2.56638
+  // train(m10, 5.0e-6, 75000)  // step 75000: train loss 2.426662, val loss 2.437024
+  // train(m10, 8.0e-6, 75000)  // diverges from step 22500: train loss 3.0226552, val loss 3.1092987
+  // train(m10, 7.0e-6, 75000)  // diverges from step 29000: train loss 2.6225424, val loss 2.619104
+  // train(m10, 6.0e-6, 75000)  // step 75000: train loss 2.3925982, val loss 2.39741
+  // export TF_ENABLE_ONEDNN_OPTS=0
+  // TODO: reactivate
+  train(m10, 6.0e-6, 75000)  // step 75000: train loss 2.3925982, val loss 2.39741
+  // // train(m10, 1.0e-5, 75000) // breaks
+  // // train(m10, 1.5e-5, 75000) 
+  // // TODO: reactivate
+  val next12 = m10.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
+  val decoded12 = decode(next12.toSeq)
+  println(s"decode 12:'$decoded12'")
+  1/0
 
   def main(args: Array[String]): Unit =
     ()
