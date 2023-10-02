@@ -20,6 +20,7 @@
 package commands
 
 //> using scala "3.3"
+//> using repository "sonatype:snapshots"
 //> using repository "sonatype-s01:snapshots"
 //> using lib "dev.storch::vision:0.0-bbdc238-SNAPSHOT"
 //> using lib "me.tongfei:progressbar:0.9.5"
@@ -217,11 +218,11 @@ object ImageClassifier extends CommandsEntryPoint:
           loss.backward()
           // add a few sanity checks
           assert(
-            model.parameters.forall(t => !t.isnan.any.item),
+            model.parameters.forall(p => !p.isnan.any.item),
             "Parameters containing nan values"
           )
           assert(
-            model.parameters.forall(t => !t.grad.isnan.any.item),
+            model.parameters.forall(p => !p.grad.exists(g => g.isnan.any.item)),
             "Gradients containing nan values"
           )
           optimizer.step()

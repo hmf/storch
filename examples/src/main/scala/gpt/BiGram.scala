@@ -82,26 +82,27 @@ val dropout = 0.0
 // n_layer = 4
 // dropout = 0.0
 
-type simpleIndex = Option[Long] | Long
+type simpleIndex = Option[Int] | Int
 type SI = simpleIndex
 
+// TODO indexingSlice now has operator. See how to use
 // TODO: use inline match or macros. Issue cannot match on tuples
 // See https://stackoverflow.com/questions/75873631/tuples-in-scala-3-compiler-operations-for-typeclass-derivation 
 // Easier to split the matches
-extension (inline a:Slice | Option[Long] | Long = None)
+extension (inline a:Slice | Option[Int] | Int = None)
   @targetName("index_colon")
-  inline def `:`(inline b: Slice | Option[Long] | Long = None) = 
+  inline def `:`(inline b: Slice | Option[Int] | Int = None) = 
     (a, b) match
       case (i1: SI, i2: SI) => 
         Slice(start=i1, end=i2)
       case (i1:SI, Slice(s2,e2,st2)) =>
         (s2, e2, st2) match 
-          case (None, _:Some[Long], None) => 
+          case (None, _:Some[Int], None) => 
             Slice(i1, s2, e2)
-          case (_:Some[Long], _:Some[Long], None) =>
+          case (_:Some[Int], _:Some[Int], None) =>
             Slice(i1, s2, e2)
-          case (_, _, _:Some[Long]) => throw RuntimeException("Step already exists.")
-          case (_:Some[Long], _, _) => throw RuntimeException("Start index already exists.")
+          case (_, _, _:Some[Int]) => throw RuntimeException("Step already exists.")
+          case (_:Some[Int], _, _) => throw RuntimeException("Start index already exists.")
           case (None, None, None) => throw RuntimeException("No end/step exists.")
       case (Slice(s1,e1,st1), i2:SI) =>
         (s1, e1, st1) match 
@@ -121,7 +122,7 @@ def `::` = Slice()
 def `:::` = Slice()
 
 object SliceTests:
-  val nn = 99L
+  val nn = 99
 
   def test1 =
 
@@ -137,34 +138,34 @@ object SliceTests:
     val s03 = º`:`º 
     assert(s03 == Slice(None,None,None))
 
-    val s04 = 0L`:`nn
-    assert(s04 == Slice(Some(0L),Some(99L),None))
+    val s04 = 0`:`nn
+    assert(s04 == Slice(Some(0),Some(99),None))
 
     val s05 = º`:`nn
-    assert(s05 == Slice(None,Some(99L),None))
+    assert(s05 == Slice(None,Some(99),None))
 
     // Operator is right associative
-    val s06 = (º `:` nn) `:` 2L
-    assert(s06 == Slice(None,Some(99L),Some(2L)))
+    val s06 = (º `:` nn) `:` 2
+    assert(s06 == Slice(None,Some(99),Some(2)))
 
     val s07 = nn`:`º
-    assert(s07 == Slice(Some(99L),None,None))
+    assert(s07 == Slice(Some(99),None,None))
 
     // Operator is right associative
-    val s08_ = (º `:` 3L)
+    val s08_ = (º `:` 3)
     val s08 = nn `:` s08_
-    assert(s08 == Slice(Some(99L),None,Some(3L)))
+    assert(s08 == Slice(Some(99),None,Some(3)))
 
     // Operator is right associative
-    val s09 = nn `:` º `:` 3L
-    assert(s09 == Slice(Some(99L),None,Some(3L)))
+    val s09 = nn `:` º `:` 3
+    assert(s09 == Slice(Some(99),None,Some(3)))
 
     // Operator is right associative
-    val s10 = º `:` nn `:` 2L
-    assert(s10 == Slice(None,Some(99L),Some(2L)))
+    val s10 = º `:` nn `:` 2
+    assert(s10 == Slice(None,Some(99),Some(2)))
 
     try
-      val s8 = (0L `:` º) `:` (10L `:` 15L)
+      val s8 = (0 `:` º) `:` (10 `:` 15)
     catch 
       case e: java.lang.RuntimeException => ()
       case e: Throwable => throw e
@@ -361,7 +362,7 @@ object BiGram:
 
   // Train and test splits
   val data = torch.Tensor(encode(text)).long
-  val n = (0.9 * len(data)).toLong // first 90% will be train, rest val
+  val n = (0.9 * len(data)).toInt // first 90% will be train, rest val
   val train_data = data(º`:`n)
   val val_data = data(n`:`º)
 
@@ -372,7 +373,7 @@ object BiGram:
     // generate a small batch of data of inputs x and targets y
     val data = if split == "train" then train_data else val_data
     // could have used .long
-    val ix = torch.randint(0, len(data) - block_size, Seq(batch_size)).to(dtype = int64)
+    val ix = torch.randint(0, len(data) - block_size, Seq(batch_size)).to(dtype = int32) //.to(dtype = int64)
     val stacks_x = ix.toSeq.map(i => data(i`:`i+block_size))
     val x = torch.stack(stacks_x)
     val stacks_y = ix.toSeq.map(i => data(i+1`:`i+block_size+1))
@@ -832,9 +833,9 @@ object BiGram:
     
   // let's see a single Head perform self-attention
   val head_size_1 = 16
-  val key = nn.Linear(c1, head_size_1, bias=false)
-  val query = nn.Linear(c1, head_size_1, bias=false)
-  val value = nn.Linear(c1, head_size_1, bias=false)
+  val key = nn.Linear(c1, head_size_1, hasBias=false)
+  val query = nn.Linear(c1, head_size_1, hasBias=false)
+  val value = nn.Linear(c1, head_size_1, hasBias=false)
   val k = key(x)   // (B, T, 16)
   val q = query(x) // (B, T, 16)
   // TODO. https://math.stackexchange.com/questions/63074/is-there-a-3-dimensional-matrix-by-matrix-product
@@ -928,9 +929,9 @@ object BiGram:
           //drop: Double
           ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
 
-    val key = register( nn.Linear[D](n_embed, head_size, bias=false) )
-    val query = register( nn.Linear[D](n_embed, head_size, bias=false) )
-    val value = register( nn.Linear[D](n_embed, head_size, bias=false) )
+    val key = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
+    val query = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
+    val value = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
     val ones = torch.ones[D](Seq(block_size, block_size), dtype=key.paramType)
     val tril = registerBuffer(torch.tril(ones), "tril")
 
