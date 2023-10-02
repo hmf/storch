@@ -775,160 +775,160 @@ BigramLanguageModel7: #88 47969 (
   lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
 )
 47969 parameters
-learningRate = 5.0E-6
+learningRate = 6.0E-6
 maxIterations = 75000
 step 0: train loss 4.6134653, val loss 4.632922
-step 500: train loss 4.249771, val loss 4.275986
-step 1000: train loss 3.991493, val loss 4.024702
-step 1500: train loss 3.8803058, val loss 3.9048321
-step 2000: train loss 3.7491784, val loss 3.7915268
-step 2500: train loss 3.6335464, val loss 3.6670828
-step 3000: train loss 3.5420234, val loss 3.5786953
-step 3500: train loss 3.4498181, val loss 3.4801447
-step 4000: train loss 3.4075646, val loss 3.4725585
-step 4500: train loss 3.3537629, val loss 3.3895676
-step 5000: train loss 3.274086, val loss 3.3370924
-step 5500: train loss 3.2377284, val loss 3.2894373
-step 6000: train loss 3.179637, val loss 3.229982
-step 6500: train loss 3.1627264, val loss 3.2063203
-step 7000: train loss 3.132273, val loss 3.1773865
-step 7500: train loss 3.115432, val loss 3.1559746
-step 8000: train loss 3.0807858, val loss 3.1392994
-step 8500: train loss 3.0753644, val loss 3.1080842
-step 9000: train loss 3.059281, val loss 3.0998843
-step 9500: train loss 3.042002, val loss 3.0835257
-step 10000: train loss 3.0148785, val loss 3.0704033
-step 10500: train loss 2.9958968, val loss 3.0479097
-step 11000: train loss 3.0074515, val loss 3.0197458
-step 11500: train loss 2.9768624, val loss 3.006809
-step 12000: train loss 2.9707632, val loss 2.991632
-step 12500: train loss 2.9420881, val loss 2.953092
-step 13000: train loss 2.9328907, val loss 2.9795163
-step 13500: train loss 2.9299242, val loss 2.951356
-step 14000: train loss 2.9279358, val loss 2.9501386
-step 14500: train loss 2.9015973, val loss 2.9355476
-step 15000: train loss 2.886052, val loss 2.9283466
-step 15500: train loss 2.8732078, val loss 2.9185462
-step 16000: train loss 2.8814175, val loss 2.8933976
-step 16500: train loss 2.8513863, val loss 2.8649182
-step 17000: train loss 2.8236935, val loss 2.879168
-step 17500: train loss 2.8219454, val loss 2.8652418
-step 18000: train loss 2.8235064, val loss 2.8556976
-step 18500: train loss 2.8259275, val loss 2.861625
-step 19000: train loss 2.791637, val loss 2.8342428
-step 19500: train loss 2.8087397, val loss 2.831425
-step 20000: train loss 2.8117132, val loss 2.8127317
-step 20500: train loss 2.7965152, val loss 2.8088813
-step 21000: train loss 2.7745385, val loss 2.7899024
-step 21500: train loss 2.7788348, val loss 2.7990415
-step 22000: train loss 2.7526438, val loss 2.7864144
-step 22500: train loss 2.7598717, val loss 2.8004403
-step 23000: train loss 2.750813, val loss 2.7752967
-step 23500: train loss 2.7626681, val loss 2.7716062
-step 24000: train loss 2.7383738, val loss 2.7618754
-step 24500: train loss 2.7267227, val loss 2.7408621
-step 25000: train loss 2.7205932, val loss 2.7360592
-step 25500: train loss 2.7169504, val loss 2.7347684
-step 26000: train loss 2.7192545, val loss 2.7366242
-step 26500: train loss 2.7013288, val loss 2.7224305
-step 27000: train loss 2.692172, val loss 2.6905057
-step 27500: train loss 2.6932974, val loss 2.727481
-step 28000: train loss 2.6857836, val loss 2.7010005
-step 28500: train loss 2.6842573, val loss 2.715489
-step 29000: train loss 2.6886957, val loss 2.6855414
-step 29500: train loss 2.6795967, val loss 2.7010832
-step 30000: train loss 2.6634052, val loss 2.6830828
-step 30500: train loss 2.6720688, val loss 2.6755552
-step 31000: train loss 2.6617968, val loss 2.6848266
-step 31500: train loss 2.6444771, val loss 2.6959674
-step 32000: train loss 2.6327834, val loss 2.6721406
-step 32500: train loss 2.6388018, val loss 2.662708
-step 33000: train loss 2.6473, val loss 2.6599882
-step 33500: train loss 2.6282818, val loss 2.650229
-step 34000: train loss 2.6336908, val loss 2.6462972
-step 34500: train loss 2.6349201, val loss 2.6245096
-step 35000: train loss 2.6065533, val loss 2.6423776
-step 35500: train loss 2.6090143, val loss 2.6223364
-step 36000: train loss 2.6271791, val loss 2.5977907
-step 36500: train loss 2.614873, val loss 2.6306689
-step 37000: train loss 2.6053464, val loss 2.6153448
-step 37500: train loss 2.6090293, val loss 2.6209779
-step 38000: train loss 2.602514, val loss 2.6075726
-step 38500: train loss 2.5961297, val loss 2.607074
-step 39000: train loss 2.5892015, val loss 2.5956004
-step 39500: train loss 2.582863, val loss 2.5955966
-step 40000: train loss 2.5677674, val loss 2.6098394
-step 40500: train loss 2.573764, val loss 2.5938675
-step 41000: train loss 2.567831, val loss 2.5735672
-step 41500: train loss 2.5839133, val loss 2.5771399
-step 42000: train loss 2.5751824, val loss 2.581435
-step 42500: train loss 2.5695791, val loss 2.573396
-step 43000: train loss 2.542988, val loss 2.5816376
-step 43500: train loss 2.5603352, val loss 2.579741
-step 44000: train loss 2.5650022, val loss 2.573921
-step 44500: train loss 2.542532, val loss 2.558249
-step 45000: train loss 2.5306284, val loss 2.5737417
-step 45500: train loss 2.5529974, val loss 2.563313
-step 46000: train loss 2.5330496, val loss 2.5336454
-step 46500: train loss 2.5414243, val loss 2.546347
-step 47000: train loss 2.5368512, val loss 2.535452
-step 47500: train loss 2.5283132, val loss 2.5374463
-step 48000: train loss 2.5218644, val loss 2.5450563
-step 48500: train loss 2.5238187, val loss 2.5163
-step 49000: train loss 2.5188055, val loss 2.5351577
-step 49500: train loss 2.5186505, val loss 2.5247872
-step 50000: train loss 2.5034173, val loss 2.5385015
-step 50500: train loss 2.5124786, val loss 2.517336
-step 51000: train loss 2.5070906, val loss 2.530345
-step 51500: train loss 2.5128937, val loss 2.5162702
-step 52000: train loss 2.519406, val loss 2.5123732
-step 52500: train loss 2.5221822, val loss 2.5048938
-step 53000: train loss 2.5080435, val loss 2.5145102
-step 53500: train loss 2.5119827, val loss 2.5082605
-step 54000: train loss 2.4994106, val loss 2.5120642
-step 54500: train loss 2.4992836, val loss 2.5071845
-step 55000: train loss 2.4965408, val loss 2.5157785
-step 55500: train loss 2.4833865, val loss 2.5019684
-step 56000: train loss 2.4854002, val loss 2.5056925
-step 56500: train loss 2.4945006, val loss 2.499584
-step 57000: train loss 2.4863648, val loss 2.4852324
-step 57500: train loss 2.4940825, val loss 2.4771786
-step 58000: train loss 2.473949, val loss 2.4884133
-step 58500: train loss 2.4761665, val loss 2.4846056
-step 59000: train loss 2.468197, val loss 2.4796693
-step 59500: train loss 2.4645443, val loss 2.4781704
-step 60000: train loss 2.4946373, val loss 2.489371
-step 60500: train loss 2.4678664, val loss 2.4692533
-step 61000: train loss 2.4590027, val loss 2.4741852
-step 61500: train loss 2.4757895, val loss 2.4790564
-step 62000: train loss 2.460633, val loss 2.4823477
-step 62500: train loss 2.4519289, val loss 2.4656968
-step 63000: train loss 2.4525259, val loss 2.4731958
-step 63500: train loss 2.4418628, val loss 2.4769223
-step 64000: train loss 2.4341166, val loss 2.4629276
-step 64500: train loss 2.4516816, val loss 2.4580922
-step 65000: train loss 2.4562101, val loss 2.4688406
-step 65500: train loss 2.4537733, val loss 2.4800541
-step 66000: train loss 2.4340436, val loss 2.4544141
-step 66500: train loss 2.459702, val loss 2.4372196
-step 67000: train loss 2.4417012, val loss 2.4348502
-step 67500: train loss 2.4481344, val loss 2.4520726
-step 68000: train loss 2.4360855, val loss 2.459263
-step 68500: train loss 2.4464746, val loss 2.4455016
-step 69000: train loss 2.4476328, val loss 2.4570708
-step 69500: train loss 2.4359062, val loss 2.4482539
-step 70000: train loss 2.423034, val loss 2.4282124
-step 70500: train loss 2.4185035, val loss 2.4321496
-step 71000: train loss 2.454181, val loss 2.4540284
-step 71500: train loss 2.4192927, val loss 2.4374022
-step 72000: train loss 2.4145348, val loss 2.4351451
-step 72500: train loss 2.4169254, val loss 2.4491742
-step 73000: train loss 2.4190447, val loss 2.4256263
-step 73500: train loss 2.4203596, val loss 2.4441085
-step 74000: train loss 2.441197, val loss 2.4332287
-step 74500: train loss 2.428006, val loss 2.4268234
-step 74999: train loss 2.4275138, val loss 2.4331121
-step 75000: train loss 2.426662, val loss 2.437024
+step 500: train loss 4.1894054, val loss 4.2178764
+step 1000: train loss 3.9289849, val loss 3.9661303
+step 1500: train loss 3.81621, val loss 3.843691
+step 2000: train loss 3.6536756, val loss 3.6950321
+step 2500: train loss 3.5602021, val loss 3.5953062
+step 3000: train loss 3.447387, val loss 3.487547
+step 3500: train loss 3.3707533, val loss 3.400174
+step 4000: train loss 3.3232062, val loss 3.3915448
+step 4500: train loss 3.269252, val loss 3.307514
+step 5000: train loss 3.1935203, val loss 3.254373
+step 5500: train loss 3.1600676, val loss 3.21241
+step 6000: train loss 3.1084359, val loss 3.159084
+step 6500: train loss 3.0951357, val loss 3.13844
+step 7000: train loss 3.0707276, val loss 3.1123013
+step 7500: train loss 3.05371, val loss 3.0924675
+step 8000: train loss 3.0208426, val loss 3.0783997
+step 8500: train loss 3.0163302, val loss 3.046368
+step 9000: train loss 3.0017643, val loss 3.0382812
+step 9500: train loss 2.983175, val loss 3.0212793
+step 10000: train loss 2.956753, val loss 3.0077314
+step 10500: train loss 2.9370985, val loss 2.985972
+step 11000: train loss 2.9494488, val loss 2.9582596
+step 11500: train loss 2.9185526, val loss 2.9445148
+step 12000: train loss 2.9133313, val loss 2.9302511
+step 12500: train loss 2.884187, val loss 2.8919775
+step 13000: train loss 2.8763254, val loss 2.916792
+step 13500: train loss 2.8721282, val loss 2.8919928
+step 14000: train loss 2.8698037, val loss 2.8887591
+step 14500: train loss 2.8456562, val loss 2.8733902
+step 15000: train loss 2.8280745, val loss 2.8685594
+step 15500: train loss 2.81671, val loss 2.8582666
+step 16000: train loss 2.8273022, val loss 2.8347216
+step 16500: train loss 2.7966104, val loss 2.8066905
+step 17000: train loss 2.7680607, val loss 2.820802
+step 17500: train loss 2.7681653, val loss 2.807149
+step 18000: train loss 2.7697263, val loss 2.7984824
+step 18500: train loss 2.7714357, val loss 2.8033247
+step 19000: train loss 2.737949, val loss 2.776837
+step 19500: train loss 2.7533503, val loss 2.7744772
+step 20000: train loss 2.758084, val loss 2.7571697
+step 20500: train loss 2.7417927, val loss 2.7518976
+step 21000: train loss 2.7214484, val loss 2.7335691
+step 21500: train loss 2.7239714, val loss 2.7423754
+step 22000: train loss 2.7007961, val loss 2.7295709
+step 22500: train loss 2.705286, val loss 2.7420487
+step 23000: train loss 2.6972053, val loss 2.7182894
+step 23500: train loss 2.7078457, val loss 2.7138562
+step 24000: train loss 2.6837397, val loss 2.702557
+step 24500: train loss 2.6711469, val loss 2.6826978
+step 25000: train loss 2.6675599, val loss 2.677598
+step 25500: train loss 2.6620808, val loss 2.6784966
+step 26000: train loss 2.664534, val loss 2.677721
+step 26500: train loss 2.6455395, val loss 2.6653929
+step 27000: train loss 2.6379206, val loss 2.6324193
+step 27500: train loss 2.6391354, val loss 2.6674001
+step 28000: train loss 2.6305227, val loss 2.643716
+step 28500: train loss 2.6294525, val loss 2.6578798
+step 29000: train loss 2.632859, val loss 2.6272728
+step 29500: train loss 2.624592, val loss 2.6434689
+step 30000: train loss 2.6083517, val loss 2.6256552
+step 30500: train loss 2.616264, val loss 2.6171439
+step 31000: train loss 2.6072047, val loss 2.627675
+step 31500: train loss 2.5898404, val loss 2.6369164
+step 32000: train loss 2.5774863, val loss 2.6146448
+step 32500: train loss 2.5832357, val loss 2.6056185
+step 33000: train loss 2.592021, val loss 2.6035988
+step 33500: train loss 2.5769522, val loss 2.5915167
+step 34000: train loss 2.5803766, val loss 2.5907433
+step 34500: train loss 2.581093, val loss 2.5690513
+step 35000: train loss 2.5539129, val loss 2.5859983
+step 35500: train loss 2.5551195, val loss 2.5673466
+step 36000: train loss 2.5725012, val loss 2.542672
+step 36500: train loss 2.560578, val loss 2.5746775
+step 37000: train loss 2.552279, val loss 2.5610328
+step 37500: train loss 2.5540872, val loss 2.564812
+step 38000: train loss 2.5504987, val loss 2.5541587
+step 38500: train loss 2.542756, val loss 2.550955
+step 39000: train loss 2.5372198, val loss 2.5427015
+step 39500: train loss 2.530998, val loss 2.5418723
+step 40000: train loss 2.5165737, val loss 2.5550425
+step 40500: train loss 2.5228744, val loss 2.5397458
+step 41000: train loss 2.5177512, val loss 2.52138
+step 41500: train loss 2.5326726, val loss 2.5263429
+step 42000: train loss 2.5244057, val loss 2.5291097
+step 42500: train loss 2.5171533, val loss 2.5210905
+step 43000: train loss 2.4948783, val loss 2.5283492
+step 43500: train loss 2.5118606, val loss 2.5291948
+step 44000: train loss 2.515464, val loss 2.5224497
+step 44500: train loss 2.4938614, val loss 2.50916
+step 45000: train loss 2.484043, val loss 2.5234125
+step 45500: train loss 2.5052016, val loss 2.5141616
+step 46000: train loss 2.4858527, val loss 2.4833927
+step 46500: train loss 2.4936068, val loss 2.498713
+step 47000: train loss 2.489148, val loss 2.4877326
+step 47500: train loss 2.481518, val loss 2.48814
+step 48000: train loss 2.4760833, val loss 2.4961882
+step 48500: train loss 2.476727, val loss 2.4696245
+step 49000: train loss 2.473388, val loss 2.487969
+step 49500: train loss 2.4720466, val loss 2.4778597
+step 50000: train loss 2.4579158, val loss 2.4929998
+step 50500: train loss 2.4661949, val loss 2.4705648
+step 51000: train loss 2.4617734, val loss 2.4828477
+step 51500: train loss 2.4672587, val loss 2.4712718
+step 52000: train loss 2.4742577, val loss 2.4648035
+step 52500: train loss 2.4758027, val loss 2.4586463
+step 53000: train loss 2.4619799, val loss 2.467862
+step 53500: train loss 2.467413, val loss 2.4625406
+step 54000: train loss 2.4546466, val loss 2.46651
+step 54500: train loss 2.454304, val loss 2.463288
+step 55000: train loss 2.4527464, val loss 2.469179
+step 55500: train loss 2.4388218, val loss 2.458538
+step 56000: train loss 2.4422562, val loss 2.4606657
+step 56500: train loss 2.4507422, val loss 2.4556415
+step 57000: train loss 2.4437287, val loss 2.4416883
+step 57500: train loss 2.45168, val loss 2.4369001
+step 58000: train loss 2.4315646, val loss 2.4452522
+step 58500: train loss 2.434325, val loss 2.4427433
+step 59000: train loss 2.4249353, val loss 2.437624
+step 59500: train loss 2.4235039, val loss 2.437094
+step 60000: train loss 2.4521465, val loss 2.4459577
+step 60500: train loss 2.425564, val loss 2.4248748
+step 61000: train loss 2.4168398, val loss 2.4319284
+step 61500: train loss 2.435038, val loss 2.4359405
+step 62000: train loss 2.4202125, val loss 2.4393446
+step 62500: train loss 2.4101548, val loss 2.4246867
+step 63000: train loss 2.4119744, val loss 2.4317253
+step 63500: train loss 2.4001412, val loss 2.435666
+step 64000: train loss 2.3943827, val loss 2.4231603
+step 64500: train loss 2.4118044, val loss 2.4180365
+step 65000: train loss 2.416218, val loss 2.4283037
+step 65500: train loss 2.4154007, val loss 2.43982
+step 66000: train loss 2.3952239, val loss 2.4149168
+step 66500: train loss 2.421029, val loss 2.396302
+step 67000: train loss 2.4012592, val loss 2.3946605
+step 67500: train loss 2.409255, val loss 2.4117727
+step 68000: train loss 2.3960516, val loss 2.4194229
+step 68500: train loss 2.4063647, val loss 2.4072256
+step 69000: train loss 2.4078398, val loss 2.4184427
+step 69500: train loss 2.3962774, val loss 2.408043
+step 70000: train loss 2.3845055, val loss 2.3880863
+step 70500: train loss 2.3782775, val loss 2.3942225
+step 71000: train loss 2.4153, val loss 2.4153478
+step 71500: train loss 2.382687, val loss 2.3978298
+step 72000: train loss 2.3760188, val loss 2.396271
+step 72500: train loss 2.3787017, val loss 2.410011
+step 73000: train loss 2.3801408, val loss 2.387274
+step 73500: train loss 2.3815033, val loss 2.4054008
+step 74000: train loss 2.4022408, val loss 2.3954377
+step 74500: train loss 2.3895397, val loss 2.3888226
+step 74999: train loss 2.3888009, val loss 2.3942423
+step 75000: train loss 2.3925982, val loss 2.39741
 decode 11:'
 
 
@@ -938,18 +938,19 @@ decode 11:'
 
 
 DOFrppyrt:
-khanrood four bene gole dobend trimy that ot yro wive the I masery bse doucn, lgo thavitnu the too mere the iw homed bnd, mer; whame
-SepayttH itheciojt derins! mwul aeses thenyan ta cegos, h 'me taom:
-Nku inld ofeat sallle
-lot
-L, hagn Sa.
-LhesICO uraregind, I guchon moutheinand thes,
-Thernjte eannd lo d thoste blegom bist oun
-AUSr'my yof ath veedvins yan, this Mes four nost ave to nof tis tor, trde, rushis aromt ochamis the ravim, loxawTab prefiveain, s mond ran ig ean sin tono fir ko'
+khanrood fourd sacpgre: dobend trimy that ot yro wive the I masery bse doucn, lgo thavitnu the too mere the iw homed bnd, mer; whame
+Sepay:
+H itheciojt derpns! mwul aeses wirny Efan cegrspen 'me, aom.
+NkSomne
+Sou:
+RA!AG tonld perispen Sat thes, heur heiTe fer guchon moutheinand thes,
+Thernjte eannd lo d thostenu mgom bist oun
+AUSr'my yof ath ve doins yur, this Mes four hest ave to nof tis tor, that wrushis aromt ochamis the rovee's I awivb tre'nd, in, E mond rand kiean sinc.
+Foxe D do'
 Exception in thread "main" java.lang.ExceptionInInitializerError
 	at gpt.BiGram.main(BiGram.scala)
 Caused by: java.lang.ArithmeticException: / by zero
-	at gpt.BiGram$.<clinit>(BiGram.scala:2024)
+	at gpt.BiGram$.<clinit>(BiGram.scala:2027)
 	... 1 more
 1 targets failed
 examples.runMain subprocess failed

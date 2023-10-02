@@ -2014,7 +2014,11 @@ class Block(nn.Module):
   // train(m9, 1.0e-6, 75000) // step 75000: train loss 2.8870237, val loss 2.9272516
   // train(m9, 2.0e-6, 75000)  // step 75000: train loss 2.675596, val loss 2.6954281
   // train(m9, 3.0e-6, 75000)  // step 75000: train loss 2.5539615, val loss 2.56638
-  train(m9, 5.0e-6, 75000)  // 
+  // train(m9, 5.0e-6, 75000)  // step 75000: train loss 2.426662, val loss 2.437024
+  // train(m9, 8.0e-6, 75000)  // diverges from step 22500: train loss 3.0226552, val loss 3.1092987
+  // train(m9, 7.0e-6, 75000)  // diverges from step 29000: train loss 2.6225424, val loss 2.619104
+  train(m9, 6.0e-6, 75000)  // step 75000: train loss 2.3925982, val loss 2.39741
+  // export TF_ENABLE_ONEDNN_OPTS=0
   // train(m9, 1.0e-5, 75000) // breaks
   // train(m9, 1.5e-5, 75000) 
   // TODO: reactivate
