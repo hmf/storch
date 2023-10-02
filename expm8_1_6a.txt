@@ -990,3 +990,9 @@ step 12500: train loss 2.9382725, val loss 2.9499402
 step 13000: train loss 2.9267635, val loss 2.9738822
 step 13500: train loss 2.9234376, val loss 2.9454849
 step 14000: train loss 2.9224765, val loss 2.9429379
+step 14500: train loss 2.8933413, val loss 2.9296145
+step 15000: train loss 2.881428, val loss 2.9219837
+step 15500: train loss 2.8652596, val loss 2.9125664
+step 16000: train loss 2.8741913, val loss 2.8856564
+step 16500: train loss 2.8439436, val loss 2.8568985
+step 17000: train loss 2.816545, val loss 2.869282

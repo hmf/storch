@@ -2053,8 +2053,8 @@ class Block(nn.Module):
                                             ) //, drop = 0.5)
     val ffwd = register( FeedFoward_2(nEmbed) )
     // val lm_head = register( nn.Linear(nEmbed, vocabSize) )
-    val ln1 = nn.LayerNorm(Seq(nEmbed))
-    val ln2 = nn.LayerNorm(Seq(nEmbed))
+    val ln1 = register( nn.LayerNorm(Seq(nEmbed)) )
+    val ln2 = register( nn.LayerNorm(Seq(nEmbed)) )
 
     def forward(x: Tensor[D]): Tensor[D] = 
       val x1 = x + sa( ln1(x) )
@@ -2087,7 +2087,8 @@ class Block(nn.Module):
       nn.Sequential(
           Block_3(nEmbed, nHead, blockSize, vocabSize),
           Block_3(nEmbed, nHead, blockSize, vocabSize),
-          Block_3(nEmbed, nHead, blockSize, vocabSize)
+          Block_3(nEmbed, nHead, blockSize, vocabSize), 
+          nn.LayerNorm(Seq(nEmbed))
         )
       )
     val lm_head = register( nn.Linear(nEmbed, vocabSize) )

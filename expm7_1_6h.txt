@@ -837,3 +837,16 @@ step 28000: train loss 2.6305227, val loss 2.643716
 step 28500: train loss 2.6294525, val loss 2.6578798
 step 29000: train loss 2.632859, val loss 2.6272728
 step 29500: train loss 2.624592, val loss 2.6434689
+step 30000: train loss 2.6083517, val loss 2.6256552
+step 30500: train loss 2.616264, val loss 2.6171439
+step 31000: train loss 2.6072047, val loss 2.627675
+step 31500: train loss 2.5898404, val loss 2.6369164
+step 32000: train loss 2.5774863, val loss 2.6146448
+step 32500: train loss 2.5832357, val loss 2.6056185
+step 33000: train loss 2.592021, val loss 2.6035988
+step 33500: train loss 2.5769522, val loss 2.5915167
+step 34000: train loss 2.5803766, val loss 2.5907433
+step 34500: train loss 2.581093, val loss 2.5690513
+step 35000: train loss 2.5539129, val loss 2.5859983
+step 35500: train loss 2.5551195, val loss 2.5673466
+step 36000: train loss 2.5725012, val loss 2.542672
