@@ -2169,7 +2169,8 @@ class Block(nn.Module):
   // train(m10, 6.0e-6, 75000)  // step 75000: train loss 2.3925982, val loss 2.39741
   // export TF_ENABLE_ONEDNN_OPTS=0
   // TODO: reactivate
-  train(m10, 6.0e-6, 75000)  // step 75000: train loss 2.3925982, val loss 2.39741
+  // train(m10, 6.0e-6, 75000)  // step 75000: train loss 2.4230623, val loss 2.4327655
+  train(m10, 7.0e-6, 75000)  // 
   // // train(m10, 1.0e-5, 75000) // breaks
   // // train(m10, 1.5e-5, 75000) 
   // // TODO: reactivate
@@ -2178,6 +2179,8 @@ class Block(nn.Module):
   println(s"decode 12:'$decoded12'")
   1/0
 
+  // https://stackoverflow.com/questions/16809134/how-to-get-a-list-of-programs-running-with-nohup
+  
   def main(args: Array[String]): Unit =
     ()
 
