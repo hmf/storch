@@ -63,7 +63,7 @@
 	],
   "waitFor": "onCreateCommand",
   //"updateContentCommand": "python3 -m pip install -r requirements.txt",
-  "updateContentCommand": "bash .devcontainer/install-dev-tools.sh",
+  //"updateContentCommand": "bash .devcontainer/install-dev-tools.sh",
   "postCreateCommand": [
     "nvidia-smi"
   ],
