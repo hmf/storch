@@ -4,6 +4,13 @@
 	"name": "Ubuntu",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/base:jammy",
+  "runArgs": [
+    "--gpus=all"
+  ],
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/usr/local/cuda/bin",
+		"CUDADIR" : "/usr/local/cuda"
+  },
 	// https://containers.dev/features
 	"features": {
 		"ghcr.io/devcontainers/features/git:1": {},
@@ -56,7 +63,10 @@
 	],
   "waitFor": "onCreateCommand",
   //"updateContentCommand": "python3 -m pip install -r requirements.txt",
-  "postCreateCommand": "",
+  "updateContentCommand": "bash .devcontainer/install-dev-tools.sh",
+  "postCreateCommand": [
+    "nvidia-smi"
+  ],
   "customizations": {
     "codespaces": {
       "openFiles": []

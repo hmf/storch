@@ -59,6 +59,8 @@ val max_iters = 5000  // 3000
 val eval_interval = 500  // 300
 val learning_rate = 1e-3 // 1e-2
 //val device = 'cuda' if torch.cuda.is_available() else 'cpu'
+// https://pytorch.org/docs/stable/generated/torch.cuda.is_available.html
+// https://stackoverflow.com/questions/63751883/using-gpu-inside-docker-container-cuda-version-n-a-and-torch-cuda-is-availabl
 val device = if torch.cuda.isAvailable then CUDA else CPU
 //println(s"Using device: $device")
 val eval_iters = 200
@@ -1918,7 +1920,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
     // val hs = 0 until numHeads map{ _ => register(Head1(nEmbed, headSize, blockSize)) }
     val hs = 0 until numHeads map{ i => register_i(this, Head1(nEmbed, headSize, blockSize), i) }
     val heads = register( nn.ModuleList( hs:_* ) )
-    val proj = nn.Linear(nEmbed, nEmbed)
+    val proj = register( nn.Linear(nEmbed, nEmbed) )
 
     def forward(x: Tensor[D]): Tensor[D] =
         //torch.cat(heads.modules.map( h => h(x) ), dim=1)
