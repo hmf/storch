@@ -406,6 +406,12 @@ object BiGram:
       val target = yb(b,t)
       println(s"when input is ${context.toSeq.mkString("[",", ","]")} the target: ${target.item}")
 
+  println("xb (default CUDA if it exists):")
+  println(xb) // our input to the transformer
+  println("yb (default CUDA if it exists):")
+  println(yb) // our input to the transformer
+  println(s"xb (set $device):")
+  xb.to(device)
   println(xb) // our input to the transformer
   
 
@@ -423,6 +429,7 @@ object BiGram:
 
     // each token directly reads off the logits for the next token from a lookup table
     val token_embedding_table = register( nn.Embedding(vocabSize, vocabSize) )
+                                                      .to( device )
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
 
@@ -431,7 +438,7 @@ object BiGram:
 
       if targets.isEmpty
       then
-        val zero = torch.Tensor(0.0f) 
+        val zero = torch.Tensor(0.0f, device=device) 
         (logits, zero)
       else
         val Seq(b,t,c) = logits.shape
@@ -471,26 +478,27 @@ object BiGram:
   val target0 = torch.randint(0, 5, Seq(3), dtype=torch.int64)
   val loss0 = F.crossEntropy(input0, target0)
   loss0.backward()
-  println(loss0)
+  println(s"loss0 = $loss0")
 
   // Example of target with class probabilities
   val input1 = torch.randn(Seq(3, 5), requiresGrad=true)
   val target1 = F.softmax( input=torch.randn(Seq(3, 5)), dim=1L)
   val loss1 = F.crossEntropy(input1, target1)
   loss1.backward()
-  println(loss1)
+  println(s"loss1 = $loss1")
 
   val target2 = torch.randn(Seq(3, 5)).softmax(dim=1L)
   val loss2 = F.crossEntropy(input1, target2)
   loss2.backward()
+  println(s"loss2 = $loss2")
   
   val m0 = BigramLanguageModel0(vocab_size)
   val (logits3, loss3) = m0(xb, yb)
   println(s"batch_size * block_size = ${batch_size * block_size}")
   println(s"logits.shape = ${logits3.shape}")
-  println(s"loss=${loss3.item}")    
+  println(s"loss m0 = ${loss3.item}")    
   
-  val next1 = m0.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=100)(0)
+  val next1 = m0.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64, device=device), max_new_tokens=100)(0)
   val decoded1 = decode(next1.toSeq)
   println(s"decode:'$decoded1'")
 
@@ -516,7 +524,7 @@ object BiGram:
 
   println(loss4.item)
 
-  val next2 = m0.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  val next2 = m0.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   val decoded2 = decode(next2.toSeq)
   println(s"decode 2:'$decoded2'")
 
@@ -530,7 +538,7 @@ object BiGram:
       split <- List("train", "val")
     do
       // println(s"Estimate '$split' loss")
-      val losses: Tensor[Float32] = torch.zeros(eval_iters)
+      val losses: Tensor[Float32] = torch.zeros(eval_iters, device=device)
       for 
         k <- 0 until eval_iters
       do
@@ -567,7 +575,7 @@ object BiGram:
     loss.backward()
     optimizer1.step()
 
-  val next3 = m1.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  val next3 = m1.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   val decoded3 = decode(next3.toSeq)
   println(s"decode 3:'$decoded3'")
 
@@ -638,8 +646,8 @@ object BiGram:
   class BigramLanguageModel1(vocabSize: Int, nEmbed: Int) extends BigramLanguageModel: 
 
     // each token directly reads off the logits for the next token from a lookup table
-    val token_embedding_table = register( nn.Embedding(vocabSize, nEmbed) )
-    val lm_head = register( nn.Linear(nEmbed, vocabSize) )
+    val token_embedding_table = register( nn.Embedding(vocabSize, nEmbed) ).to(device = device)
+    val lm_head = register( nn.Linear(nEmbed, vocabSize) ).to(device = device)
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
 
@@ -713,7 +721,7 @@ object BiGram:
     loss.backward()
     optimizer2.step()
 
-  val next4 = m2.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  val next4 = m2.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   val decoded4 = decode(next4.toSeq)
   println(s"decode 4:'$decoded4'")
 
@@ -821,7 +829,7 @@ object BiGram:
     loss.backward()
     optimizer3.step()
 
-  val next5 = m3.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
+  val next5 = m3.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   val decoded5 = decode(next5.toSeq)
   println(s"decode 5:'$decoded5'")
   
@@ -1053,10 +1061,9 @@ object BiGram:
   torch.manualSeed(1337)
   val m4 = BigramLanguageModel3(vocab_size, block_size, n_embed)
   m4.to(device)
+  m4.train()
   println(totalNuParameters(m4))
   println(moduleInfoString(m4))
-
-  m4.train()
   // create a PyTorch optimizer
   // lr=1e-3 suggested by Andrej Karpathy doe no work
   /*
@@ -1157,6 +1164,7 @@ object BiGram:
   */
   val optimizer4 = torch.optim.AdamW(m4.parameters, lr=1e-4)
 
+  // TODO: reactivate
   val max_iters4 = 1 // 5000 // 25000
   for iter <- 0 until max_iters4
   do
@@ -1178,12 +1186,14 @@ object BiGram:
   val losses = estimate_loss(m4)
   println(s"step ${max_iters4-1}: train loss ${losses("train")}, val loss ${losses("val")}")
 
+  // GPU: step 4500: train loss 3.0333855, val loss 3.0626287
+  // GPU: step 24999: train loss 2.626873, val loss 2.5710692
   // TODO: reactivate
   // println("Debug m4.generate() !") 
-  // // val next6 = m4.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
-  // val next6 = m4.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
-  // val decoded6 = decode(next6.toSeq)
-  // println(s"decode 6:'$decoded6'")
+  // // val next6 = m4.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64, device=device), max_new_tokens=500)(0)
+  val next6 = m4.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
+  val decoded6 = decode(next6.toSeq)
+  println(s"decode 6:'$decoded6'")
 
 
   def train(m : BigramLanguageModel, learningRate: Double, maxIterations: Int): Unit =
@@ -1219,13 +1229,19 @@ object BiGram:
     println(s"step ${maxIterations}: train loss ${losses("train")}, val loss ${losses("val")}")
 
   // TODO: reactivate
-  // val m5 = BigramLanguageModel3(vocab_size, block_size, n_embed)
-  // train(m5, 1e-4, 25000)
+  // GPU: step 4500: train loss 3.0333855, val loss 3.0626287
+  // GPU: step 24999: train loss 2.626873, val loss 2.5710692
+  println("Single head attention (b): BigramLanguageModel3")
+  torch.manualSeed(1337)
+  val m5 = BigramLanguageModel3(vocab_size, block_size, n_embed)
+  println(totalNuParameters(m5))
+  println(moduleInfoString(m5))
 
   // TODO: reactivate
-  // println("Debug m5.generate() !") 
-  // // val next7 = m5.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64), max_new_tokens=500)(0)
-  // val next7 = m5.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
+  // train(m5, 1e-4, 25000) // gpu
+  // // println("Debug m5.generate() !") 
+  // // // val next7 = m5.generate(idx = torch.zeros(Seq(1, 1), dtype=torch.int64, device=device), max_new_tokens=500)(0)
+  // val next7 = m5.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   // val decoded7 = decode(next7.toSeq)
   // println(s"decode 7:'$decoded7'")
 
@@ -1482,6 +1498,7 @@ object BiGram:
   //train(m6, 1e-3, 25000)
   //train(m6, 1e-4, 25000)
   // train(m6, 1.5e-5, 45000)
+  // torch.manualSeed(1337)
   torch.manualSeed(6106)
   // train(m6, 5e-6, 25000)
   // TODO: reactivate
@@ -1489,7 +1506,9 @@ object BiGram:
   // train(m6, 1.4e-5, 75000) // start diverging at 10500 
   // TODO: reactivate
   // train(m6, 1.35e-5, 75000) // 2.5889513 at 75000
-  // val next8 = m6.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
+  // // Seed(6106) GPU: step 75000: train loss 2.5031831, val loss 2.5004642
+  // // Seed(1337) GPU: step 75000: train loss 2.4987864, val loss 2.5220866
+  // val next8 = m6.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   // val decoded8 = decode(next8.toSeq)
   // println(s"decode 8:'$decoded8'")
 
@@ -1655,15 +1674,21 @@ object BiGram:
   // train(m7, 1e-4, 25000)
   // train(m7, 1e-5, 25000)
   //train(m7, 1.5e-5, 25000)
-  // train(m7, 1e-5, 75000)
+  // train(m7, 1e-5, 75000) // GPU: diverges
   // train(m7, 1.3e-5, 75000)
   // train(m7, 1.5e-5, 75000)
   // TODO: reactivate
-  // train(m7, 2e-5, 75000)
-  // val next9 = m7.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
+  // train(m7, 2e-5, 75000) // CPU: ok, GPU: deviates
+  // train(m7, 1e-6, 75000) // GPU: step 75000: train loss 3.1923885, val loss 3.2303805
+  // train(m7, 5e-6, 75000) // GPU: step 75000: train loss 2.7268057, val loss 2.7338605
+  // train(m7, 6e-6, 75000) // GPU: step 75000: train loss 2.6771119, val loss 2.6831217
+  // train(m7, 7e-6, 75000) // GPU: step 75000: train loss 2.6430547, val loss 2.649345
+  // train(m7, 7.2e-6, 75000) // GPU: step 75000: train loss 2.637256, val loss 2.6441076
+  // // train(m7, 7.5e-6, 75000) // GPU: diverges
+  // //train(m7, 8e-6, 75000) // GPU: diverges
+  // val next9 = m7.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   // val decoded9 = decode(next9.toSeq)
   // println(s"decode 9:'$decoded9'")
-  // 1/0
 
   
 // Adding blocks
@@ -1740,6 +1765,10 @@ class Block(nn.Module):
         )
       )
     val lm_head = register( nn.Linear(nEmbed, vocabSize) )
+    // Possible memory leak
+    // positions of tokens
+    // val pos = torch.arange(0L,blockSize, dtype=int64, device=device) // (T) were T is the block size?
+    val pos = torch.arange(0L,blockSize, dtype=int64, device=device) // (T) were T is the block size?
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
       val Seq(b,t) = idx.shape
@@ -1747,8 +1776,9 @@ class Block(nn.Module):
       // idx and targets are both (B,T) tensor of integers
       // idx is (B,T)
       val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
+      // Possible memory leak
       // positions of tokens
-      val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
+      // val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
       val pos_embed = position_embedding_table( pos ) // (T,C)
       // Add the position embeddings
       val x0 = token_embed + pos_embed // (B,T,C)
@@ -1808,13 +1838,24 @@ class Block(nn.Module):
   val m8 = BigramLanguageModel6(vocab_size, block_size, n_embed)
   println(totalNuParameters(m8))
   println(moduleInfoString(m8))
-  // train(m8, 1.0e-5, 75000)
+  // TODO: reactivate
+  // // train(m8, 1.0e-5, 75000) // GPU: diverges
   // // train(m8, 1.5e-5, 75000) // breaks
-  // // TODO: reactivate
-  // val next10 = m8.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
+  // // train(m8, 7.2e-6, 75000) // GPU: diverges, model 5 - step 75000: train loss 2.637256, val loss 2.6441076
+  // //train(m8, 1.0e-6, 75000) // GPU: out of memory
+  // train(m8, 2.0e-6, 75000) // GPU: out of memory
+  // val next10 = m8.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   // val decoded10 = decode(next10.toSeq)
   // println(s"decode 10:'$decoded10'")
   // 1/0
+
+/*
+train(m8, 1.0e-6, 75000)
+step 33000: train loss 3.4841979, val loss 3.5126445
+Exception in thread "main" java.lang.ExceptionInInitializerError
+        at gpt.BiGram.main(BiGram.scala)
+Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.00 MiB (GPU 0; 23.69 GiB total capacity; 23.37 GiB already allocated; 2.81 MiB free; 23.37 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+*/
 
 
   // Adding residual connections
@@ -1944,6 +1985,10 @@ class Block(nn.Module):
         )
       )
     val lm_head = register( nn.Linear(nEmbed, vocabSize) )
+    // Possible memory leak
+    // positions of tokens
+    // val pos = torch.arange(0L,blockSize, dtype=int64, device=device) // (T) were T is the block size?
+    val pos = torch.arange(0L,blockSize, dtype=int64, device=device) // (T) were T is the block size?
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
       val Seq(b,t) = idx.shape
@@ -1951,8 +1996,9 @@ class Block(nn.Module):
       // idx and targets are both (B,T) tensor of integers
       // idx is (B,T)
       val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
+      // Possible memory leak
       // positions of tokens
-      val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
+      // val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
       val pos_embed = position_embedding_table( pos ) // (T,C)
       // Add the position embeddings
       val x0 = token_embed + pos_embed // (B,T,C)
@@ -2021,15 +2067,15 @@ class Block(nn.Module):
   // train(m9, 6.0e-6, 75000)  // step 75000: train loss 2.3925982, val loss 2.39741
   // export TF_ENABLE_ONEDNN_OPTS=0
   // TODO: reactivate
-  // train(m9, 6.0e-6, 75000)  // step 75000: train loss 2.3925982, val loss 2.39741
+  // train(m9, 6.0e-6, 75000)  // GPU: diverges
+  train(m9, 6.0e-6, 75000)  // GPU: diverges
   // train(m9, 6.0e-6, 100_000)  
   // // train(m9, 1.0e-5, 75000) // breaks
   // // train(m9, 1.5e-5, 75000) 
-  // // TODO: reactivate
-  // val next11 = m9.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
-  // val decoded11 = decode(next11.toSeq)
-  // println(s"decode 11:'$decoded11'")
-  // 1/0
+  val next11 = m9.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
+  val decoded11 = decode(next11.toSeq)
+  println(s"decode 11:'$decoded11'")
+  1/0
 
 
   /**
@@ -2170,11 +2216,12 @@ class Block(nn.Module):
   // export TF_ENABLE_ONEDNN_OPTS=0
   // TODO: reactivate
   // train(m10, 6.0e-6, 75000)  // step 75000: train loss 2.4230623, val loss 2.4327655
-  train(m10, 7.0e-6, 75000)  // 
+  // train(m10, 7.0e-6, 75000)  // step 75000: train loss 2.4224014, val loss 2.4300454
+  train(m10, 8.0e-6, 75000)  // step 75000: train loss 2.4224014, val loss 2.4300454
   // // train(m10, 1.0e-5, 75000) // breaks
   // // train(m10, 1.5e-5, 75000) 
   // // TODO: reactivate
-  val next12 = m10.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64), max_new_tokens=500)(0)
+  val next12 = m10.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   val decoded12 = decode(next12.toSeq)
   println(s"decode 12:'$decoded12'")
   1/0

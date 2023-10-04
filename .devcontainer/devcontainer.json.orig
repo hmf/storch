@@ -8,23 +8,9 @@
 		"ghcr.io/devcontainers/features/git:1": {},
 		"ghcr.io/devcontainers/features/git-lfs:1": {},
 		// "ghcr.io/devcontainers/features/nvidia-cuda:1": {},
-    // "ghcr.io/devcontainers/features/nvidia-cuda:1": {
-    //   "installCudnn": true
-    // },
-		// https://github.com/psaboia/devcontainer-nvidia-base
-		// https://github.com/Stability-AI/StableStudio/blob/main/.devcontainer/gpu-webui/devcontainer.json
-		// https://github.com/devcontainers/features/pkgs/container/features%2Fnvidia-cuda
-		// https://containers.dev/features
-		// https://github.com/devcontainers/features/tree/main/src/nvidia-cuda
-		// https://github.com/devcontainers/features/blob/main/src/nvidia-cuda/devcontainer-feature.json
-		"ghcr.io/devcontainers/features/nvidia-cuda:1": {
-			"cudaVersion": "11.8",
-			"installCudnn": true,
-			"installCudnnDev": true,
-			"cudnnVersion": "8.9.5.29",
-			"installToolkit": true,
-			"installNvtx": true
-		},
+    "ghcr.io/devcontainers/features/nvidia-cuda:1": {
+      "installCudnn": true
+    },		
 		// "ghcr.io/devcontainers/features/python:1": {},
 		"ghcr.io/devcontainers/features/java:1": {
       // "version": "none",
@@ -34,10 +20,10 @@
     },
 		"ghcr.io/rocker-org/devcontainer-features/pandoc:1": {},
 		"ghcr.io/devcontainers-contrib/features/bash-command:1": {},
-		// TODO: fails - "ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {},
+		"ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {},
 		// "ghcr.io/devcontainers-contrib/features/pipx-package:1": {},
 		// "ghcr.io/devcontainers-contrib/features/pylint:2": {},
-		// TODO: fails - "ghcr.io/devcontainers-contrib/features/wget-apt-get:1": {},
+		"ghcr.io/devcontainers-contrib/features/wget-apt-get:1": {},
 		"ghcr.io/stuartleeks/dev-container-features/shell-history:0": {},
 		"ghcr.io/eliises/devcontainer-features/bash-profile:1": {}
 	},
