@@ -870,3 +870,4 @@ step 22000: train loss 2.7007978, val loss 2.7295754
 step 22500: train loss 2.705287, val loss 2.7420533
 step 23000: train loss 2.697208, val loss 2.7182956
 step 23500: train loss 2.7078445, val loss 2.7138615
+step 24000: train loss 2.6837394, val loss 2.7025604
