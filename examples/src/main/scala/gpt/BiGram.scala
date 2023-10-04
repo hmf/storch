@@ -1201,6 +1201,7 @@ object BiGram:
     // print the number of parameters in the model
     val nuParams = m.parameters.map(_.numel).sum
     //println(s"${nuParams/1e6}M parameters")
+    println(s"Device = ${device}")
     println(s"${nuParams} parameters")
     println(s"learningRate = ${learningRate}")
     println(s"maxIterations = ${maxIterations}")
