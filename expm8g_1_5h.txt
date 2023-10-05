@@ -1,4 +1,8 @@
 nohup: ignoring input
+Could not start a Mill server process.
+This could be caused by too many already running Mill instances or by an unsupported platform.
+
+Trying to run Mill in-process ...
 [info] compiling 1 Scala source to /workspaces/storch/out/examples/compile.dest/classes ...
 [warn] there were 8 deprecation warnings; re-run with -deprecation for details
 [warn] one warning found
@@ -818,21 +822,15 @@ BigramLanguageModel7: #94 51137 (
 )
 Device = Device(CUDA,-1)
 51137 parameters
-learningRate = 6.0E-6
+learningRate = 1.0E-5
 maxIterations = 75000
-step 0: train loss 4.6134653, val loss 4.632922, mem 1.1 GiB @ 00 00:00:00.000, mean 00 00:00:00.000
-step 500: train loss 4.1570916, val loss 4.186932, mem 1.2 GiB @ 00 00:00:07.975, mean 00 00:00:00.015
-step 1000: train loss 3.9121318, val loss 3.9514165, mem 1.3 GiB @ 00 00:00:16.296, mean 00 00:00:00.016
-step 1500: train loss 3.77717, val loss 3.8063, mem 1.6 GiB @ 00 00:00:24.471, mean 00 00:00:00.016
-step 2000: train loss 3.629327, val loss 3.6691, mem 1.6 GiB @ 00 00:00:32.851, mean 00 00:00:00.016
-step 2500: train loss 3.5300052, val loss 3.564721, mem 1.6 GiB @ 00 00:00:41.078, mean 00 00:00:00.016
-step 3000: train loss 3.4163306, val loss 3.4587636, mem 1.7 GiB @ 00 00:00:49.622, mean 00 00:00:00.017
-step 3500: train loss 3.3480797, val loss 3.3765874, mem 1.7 GiB @ 00 00:00:58.138, mean 00 00:00:00.017
-step 4000: train loss 3.2947326, val loss 3.3612978, mem 1.7 GiB @ 00 00:01:06.571, mean 00 00:00:00.016
-step 4500: train loss 3.242309, val loss 3.280067, mem 1.7 GiB @ 00 00:01:15.383, mean 00 00:00:00.017
-step 5000: train loss 3.169024, val loss 3.2270517, mem 1.7 GiB @ 00 00:01:24.101, mean 00 00:00:00.017
-step 5500: train loss 3.1374266, val loss 3.1886108, mem 1.7 GiB @ 00 00:01:32.550, mean 00 00:00:00.016
-step 6000: train loss 3.0868819, val loss 3.1371422, mem 1.7 GiB @ 00 00:01:41.225, mean 00 00:00:00.017
-step 6500: train loss 3.073743, val loss 3.1150806, mem 1.7 GiB @ 00 00:01:49.326, mean 00 00:00:00.016
-step 7000: train loss 3.049432, val loss 3.0874276, mem 1.8 GiB @ 00 00:01:57.761, mean 00 00:00:00.016
-step 7500: train loss 3.032313, val loss 3.0665405, mem 1.8 GiB @ 00 00:02:06.407, mean 00 00:00:00.017
+step 0: train loss 4.6134653, val loss 4.632922, mem 1.2 GiB @ 00 00:00:00.000, mean 00 00:00:00.000
+step 500: train loss 3.9683325, val loss 4.008199, mem 1.2 GiB @ 00 00:00:08.379, mean 00 00:00:00.016
+step 1000: train loss 3.7161844, val loss 3.7655962, mem 1.3 GiB @ 00 00:00:16.740, mean 00 00:00:00.016
+step 1500: train loss 3.5557365, val loss 3.598181, mem 1.5 GiB @ 00 00:00:25.223, mean 00 00:00:00.016
+step 2000: train loss 3.3964705, val loss 3.4361227, mem 1.6 GiB @ 00 00:00:33.236, mean 00 00:00:00.016
+step 2500: train loss 3.3178234, val loss 3.3577754, mem 1.6 GiB @ 00 00:00:41.434, mean 00 00:00:00.016
+step 3000: train loss 3.232926, val loss 3.2753432, mem 1.7 GiB @ 00 00:00:49.910, mean 00 00:00:00.016
+step 3500: train loss 3.2319434, val loss 3.2152433, mem 1.7 GiB @ 00 00:00:58.095, mean 00 00:00:00.016
+step 4000: train loss 3.216749, val loss 3.2677476, mem 1.7 GiB @ 00 00:01:06.455, mean 00 00:00:00.016
+step 4500: train loss 3.2237597, val loss 3.2416754, mem 1.8 GiB @ 00 00:01:14.859, mean 00 00:00:00.016

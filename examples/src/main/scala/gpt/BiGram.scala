@@ -1343,6 +1343,7 @@ object BiGram:
 
 
     var delta = 0L
+    var total = 0L
     for iter <- 0 until maxIterations
     do
       // make sure we deallocate intermediate tensors in time
@@ -1352,13 +1353,14 @@ object BiGram:
           val losses = estimate_loss(m)
           // println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}")
           val memoryBytes = humanReadableSize( Pointer.physicalBytes() )
-          // delta = delta / eval_interval
-          println(s"delta = $delta")
-          println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}, mem: $memoryBytes @ ${humanReadableDuration(delta)}")
+          delta = delta / eval_interval
+          val accumulted = humanReadableDuration(total)
+          val perIteration = humanReadableDuration(delta)
+          println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}, mem $memoryBytes @ ${accumulted}, mean $perIteration")
           //print(s"step ${iter}: train loss ${losses("train"):.4f}, val loss ${losses("val"):.4f}")
-          // delta = 0L
+          delta = 0L
 
-        delta = delta + elapsedOnly {
+        val elapsed = elapsedOnly {
           // sample a batch of datas
           val (xb, yb) = get_batch("train")
 
@@ -1368,11 +1370,14 @@ object BiGram:
           loss.backward()
           optimizer.step()
         }
-        // println(delta)
+        delta = delta + elapsed
+        total = total + elapsed
       }
       // every once in a while evaluate the loss on train and val sets
     val losses = estimate_loss(m)
-    println(s"step ${maxIterations}: train loss ${losses("train")}, val loss ${losses("val")}")
+    val accumulted = humanReadableDuration(total)
+    val perIteration = humanReadableDuration(total / maxIterations)
+    println(s"step ${maxIterations}: train loss ${losses("train")}, val loss ${losses("val")}, @ ${accumulted}, mean $perIteration")
 
   // TODO: reactivate
   // GPU: step 4500: train loss 3.0333855, val loss 3.0626287
@@ -2215,7 +2220,10 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
   // TODO: reactivate
   // train(m9, 6.0e-6, 75000)  // GPU: diverges
   // train(m9, 6.0e-6, 75000)  // GPU: out of memory
-  train1(m9, 6.0e-6, 75000)  // GPU: diverges
+  // train1(m9, 6.0e-6, 75000)  // GPU: step 75000: train loss 2.3715358, val loss 2.3802633
+  // train1(m9, 8.0e-6, 75000)  // GPU: 
+  // train1(m9, 1.0e-5, 75000)  // GPU: 
+  train1(m9, 1.5e-5, 75000)  // GPU: 
   // train(m9, 6.0e-6, 100_000)  
   // // train(m9, 1.0e-5, 75000) // breaks
   // // train(m9, 1.5e-5, 75000) 
