@@ -1232,6 +1232,10 @@ object BiGram:
     val losses = estimate_loss(m)
     println(s"step ${maxIterations}: train loss ${losses("train")}, val loss ${losses("val")}")
 
+
+  val SI = (1000, Vector("B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"))
+  val BINARY = (1024, Vector("B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"))
+
   /**
     * Converts a number of bytes into a human-readable string
     * such as `2.2 MB` or `8.0 EiB`.
@@ -1248,9 +1252,9 @@ object BiGram:
     // See https://en.wikipedia.org/wiki/Byte
     val (baseValue, unitStrings) =
       if (si)
-        (1000, Vector("B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"))
+        SI
       else
-        (1024, Vector("B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"))
+        BINARY
 
     def getExponent(curBytes: Long, baseValue: Int, curExponent: Int = 0): Int =
       if (curBytes < baseValue) 
@@ -1264,11 +1268,6 @@ object BiGram:
     val exponent = getExponent(bytes, baseValue)
     val divisor = Math.pow(baseValue, exponent)
     val unitString = unitStrings(exponent)
-    println(s"bytes = $bytes")
-    println(s"baseValue = $baseValue")
-    println(s"exponent = $exponent")
-    println(s"divisor = $divisor")
-    println(s"unitString = $unitString")
 
     // Divide the bytes and show one digit after the decimal point
     f"${bytes / divisor}%.1f $unitString"
@@ -1282,7 +1281,49 @@ object BiGram:
       val z = (63 - java.lang.Long.numberOfLeadingZeros(v)) / 10
       val units = " KMGTPE".charAt(z)
       String.format("%.1f %sB", v.toDouble / (1L << (z*10)), units)
+
+  def timeOf() =
+    ???
+
+  // https://users.scala-lang.org/t/timing-a-computation/5361/4
+  inline def elapsed[R](inline block: => R): (Long, R) = {
+    val t0 = System.nanoTime()
+    val r = block
+    val t1 = System.nanoTime()
+    val elapsed = t1 - t0
+    // elapsed time in nanoseconds
+    (elapsed, r)
+  }
+
+  inline def elapsedOnly[R](inline block: => R): Long = elapsed(block)._1
+    
+  val mxBean = java.lang.management.ManagementFactory.getPlatformMXBean(classOf[java.lang.management.ThreadMXBean])
+
+  inline def elapsedCPU[R](inline block: => R): (Long, R) = {
+    val t0 = mxBean.getCurrentThreadCpuTime()
+    val r = block
+    val t1 = mxBean.getCurrentThreadCpuTime()
+    val elapsed = t1 - t0
+    // elapsed time in nanoseconds
+    (elapsed, r)
+  }
+
+  // https://stackoverflow.com/questions/625433/how-to-convert-milliseconds-to-x-mins-x-seconds-in-java
+  // https://www.skptricks.com/2018/09/convert-milliseconds-into-days-hours-minutes-seconds-in-java.html
+  def durationParts(nanoSeconds: Long) =
+    val duration = java.time.Duration.ofNanos(nanoSeconds)
+    val d = duration.toDaysPart()
+    val hh = duration.toHoursPart()
+    val mm = duration.toMinutesPart()
+    val ss = duration.toSecondsPart()
+    val ms = duration.toMillisPart()
+    val ns = duration.toNanosPart()
+    (d, hh, mm, ss, ms,ns)
   
+  def humanReadableDuration(nanoSeconds: Long) =
+    val (d, hh, mm, ss, ms, ns) = durationParts(nanoSeconds)
+    String.format("%02d %02d:%02d:%02d.%03d", d, hh, mm, ss, ms)
+
   // https://github.com/sbrunk/storch/issues/5
   // http://bytedeco.org/news/2018/07/17/bytedeco-as-distribution/
   // http://bytedeco.org/javacpp/apidocs/org/bytedeco/javacpp/PointerScope.html
@@ -1300,6 +1341,8 @@ object BiGram:
     // create a PyTorch optimizer
     val optimizer = torch.optim.AdamW(m.parameters, lr=learningRate)
 
+
+    var delta = 0L
     for iter <- 0 until maxIterations
     do
       // make sure we deallocate intermediate tensors in time
@@ -1309,17 +1352,23 @@ object BiGram:
           val losses = estimate_loss(m)
           // println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}")
           val memoryBytes = humanReadableSize( Pointer.physicalBytes() )
-          println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}, mem: $memoryBytes ${formatSize(Pointer.physicalBytes())}")
+          // delta = delta / eval_interval
+          println(s"delta = $delta")
+          println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}, mem: $memoryBytes @ ${humanReadableDuration(delta)}")
           //print(s"step ${iter}: train loss ${losses("train"):.4f}, val loss ${losses("val"):.4f}")
+          // delta = 0L
 
-        // sample a batch of datas
-        val (xb, yb) = get_batch("train")
+        delta = delta + elapsedOnly {
+          // sample a batch of datas
+          val (xb, yb) = get_batch("train")
 
-        // evaluate the loss
-        val (logits, loss) = m(xb, yb)
-        optimizer.zeroGrad(setToNone=true)
-        loss.backward()
-        optimizer.step()
+          // evaluate the loss
+          val (logits, loss) = m(xb, yb)
+          optimizer.zeroGrad(setToNone=true)
+          loss.backward()
+          optimizer.step()
+        }
+        // println(delta)
       }
       // every once in a while evaluate the loss on train and val sets
     val losses = estimate_loss(m)
