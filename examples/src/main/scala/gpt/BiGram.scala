@@ -29,6 +29,7 @@ import torch.nn.modules.HasParams
 import torch.{---, Slice}
 import torch.optim.Adam
 import torch.DType.float32
+import org.bytedeco.javacpp.Pointer
 
 // 
 // import caseapp.*
@@ -1231,6 +1232,99 @@ object BiGram:
     val losses = estimate_loss(m)
     println(s"step ${maxIterations}: train loss ${losses("train")}, val loss ${losses("val")}")
 
+  /**
+    * Converts a number of bytes into a human-readable string
+    * such as `2.2 MB` or `8.0 EiB`.
+    *
+    * @param bytes the number of bytes we want to convert
+    * @param si    if true, we use base 10 SI units where 1000 bytes are 1 kB.
+    *              If false, we use base 2 IEC units where 1024 bytes are 1 KiB.
+    * @return the bytes as a human-readable string
+    * 
+    * @see https://stackoverflow.com/questions/45885151/bytes-in-human-readable-format-with-idiomatic-scala
+    * @see https://stackoverflow.com/questions/3758606/how-can-i-convert-byte-size-into-a-human-readable-format-in-java
+    */
+  def humanReadableSize(bytes: Long, si: Boolean = false): String = 
+    // See https://en.wikipedia.org/wiki/Byte
+    val (baseValue, unitStrings) =
+      if (si)
+        (1000, Vector("B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"))
+      else
+        (1024, Vector("B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"))
+
+    def getExponent(curBytes: Long, baseValue: Int, curExponent: Int = 0): Int =
+      if (curBytes < baseValue) 
+      then
+        curExponent
+      else
+        val newExponent = 1 + curExponent
+        // getExponent(curBytes / (baseValue * newExponent), baseValue, newExponent)
+        getExponent(curBytes / baseValue, baseValue, newExponent)
+
+    val exponent = getExponent(bytes, baseValue)
+    val divisor = Math.pow(baseValue, exponent)
+    val unitString = unitStrings(exponent)
+    println(s"bytes = $bytes")
+    println(s"baseValue = $baseValue")
+    println(s"exponent = $exponent")
+    println(s"divisor = $divisor")
+    println(s"unitString = $unitString")
+
+    // Divide the bytes and show one digit after the decimal point
+    f"${bytes / divisor}%.1f $unitString"
+
+  // @see https://stackoverflow.com/a/24805871/2051561
+  def formatSize(v: Long): String =
+    if (v < 1024) 
+    then
+      v + " B"
+    else
+      val z = (63 - java.lang.Long.numberOfLeadingZeros(v)) / 10
+      val units = " KMGTPE".charAt(z)
+      String.format("%.1f %sB", v.toDouble / (1L << (z*10)), units)
+  
+  // https://github.com/sbrunk/storch/issues/5
+  // http://bytedeco.org/news/2018/07/17/bytedeco-as-distribution/
+  // http://bytedeco.org/javacpp/apidocs/org/bytedeco/javacpp/PointerScope.html
+  // https://github.com/microsoft/scala_torch#memory-management
+  def train1(m : BigramLanguageModel, learningRate: Double, maxIterations: Int): Unit =
+    m.to(device)
+    // print the number of parameters in the model
+    val nuParams = m.parameters.map(_.numel).sum
+    //println(s"${nuParams/1e6}M parameters")
+    println(s"Device = ${device}")
+    println(s"${nuParams} parameters")
+    println(s"learningRate = ${learningRate}")
+    println(s"maxIterations = ${maxIterations}")
+    m.train()
+    // create a PyTorch optimizer
+    val optimizer = torch.optim.AdamW(m.parameters, lr=learningRate)
+
+    for iter <- 0 until maxIterations
+    do
+      // make sure we deallocate intermediate tensors in time
+      Using.resource(new PointerScope()) { p => 
+        if (iter % eval_interval == 0) || (iter == maxIterations - 1)
+        then
+          val losses = estimate_loss(m)
+          // println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}")
+          val memoryBytes = humanReadableSize( Pointer.physicalBytes() )
+          println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}, mem: $memoryBytes ${formatSize(Pointer.physicalBytes())}")
+          //print(s"step ${iter}: train loss ${losses("train"):.4f}, val loss ${losses("val"):.4f}")
+
+        // sample a batch of datas
+        val (xb, yb) = get_batch("train")
+
+        // evaluate the loss
+        val (logits, loss) = m(xb, yb)
+        optimizer.zeroGrad(setToNone=true)
+        loss.backward()
+        optimizer.step()
+      }
+      // every once in a while evaluate the loss on train and val sets
+    val losses = estimate_loss(m)
+    println(s"step ${maxIterations}: train loss ${losses("train")}, val loss ${losses("val")}")
+
   // TODO: reactivate
   // GPU: step 4500: train loss 3.0333855, val loss 3.0626287
   // GPU: step 24999: train loss 2.626873, val loss 2.5710692
@@ -2071,7 +2165,8 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
   // export TF_ENABLE_ONEDNN_OPTS=0
   // TODO: reactivate
   // train(m9, 6.0e-6, 75000)  // GPU: diverges
-  train(m9, 6.0e-6, 75000)  // GPU: diverges
+  // train(m9, 6.0e-6, 75000)  // GPU: out of memory
+  train1(m9, 6.0e-6, 75000)  // GPU: diverges
   // train(m9, 6.0e-6, 100_000)  
   // // train(m9, 1.0e-5, 75000) // breaks
   // // train(m9, 1.5e-5, 75000) 
@@ -2236,6 +2331,17 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
 end BiGram
 
+
+/*
+'/workspaces/storch/.metals/millw --mill-version 0.11.4 --import ivy:com.lihaoyi::mill-contrib-bloop: mill.contrib.bloop.Bloop/install'
+'/workspaces/storch/.metals/millw --mill-version 0.11.5 --import ivy:com.lihaoyi::mill-contrib-bloop: mill.contrib.bloop.Bloop/install'
+
+From Mill docs
+
+mill --import "ivy:com.lihaoyi::mill-contrib-bloop::" mill.contrib.bloop.Bloop/install
+mill mill.bsp.BSP/install
+
+*/
 
 /*
 

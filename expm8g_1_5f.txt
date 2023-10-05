@@ -1,4 +1,9 @@
 nohup: ignoring input
+[info] compiling 1 Scala source to /workspaces/storch/out/examples/compile.dest/classes ...
+[warn] there were 7 deprecation warnings; re-run with -deprecation for details
+[warn] one warning found
+[info] done compiling
+[W interface.cpp:47] Warning: Loading nvfuser library failed with: Error in dlopen: libtorch.so: cannot open shared object file: No such file or directory (function LoadingNvfuserLibrary)
 BiGram
 Using device: Device(CUDA,-1)
 File /workspaces/storch/data/input.txt already exists.
@@ -857,65 +862,145 @@ step 18500: train loss 2.7465887, val loss 2.7728796
 step 19000: train loss 2.7132747, val loss 2.7478542
 step 19500: train loss 2.7266486, val loss 2.7464278
 step 20000: train loss 2.7325397, val loss 2.7289557
+step 20500: train loss 2.7152143, val loss 2.7231884
+step 21000: train loss 2.6953287, val loss 2.7065604
+step 21500: train loss 2.696127, val loss 2.7122753
+step 22000: train loss 2.6760669, val loss 2.7002552
+step 22500: train loss 2.676962, val loss 2.7123444
+step 23000: train loss 2.6699538, val loss 2.688797
+step 23500: train loss 2.6823518, val loss 2.6835206
+step 24000: train loss 2.657658, val loss 2.6728554
+step 24500: train loss 2.6458495, val loss 2.6525617
+step 25000: train loss 2.6425915, val loss 2.645353
+step 25500: train loss 2.6369708, val loss 2.6493392
+step 26000: train loss 2.6394305, val loss 2.647013
+step 26500: train loss 2.619687, val loss 2.6365237
+step 27000: train loss 2.6127803, val loss 2.6046898
+step 27500: train loss 2.6145067, val loss 2.6360674
+step 28000: train loss 2.6056726, val loss 2.614536
+step 28500: train loss 2.605, val loss 2.6279564
+step 29000: train loss 2.6064403, val loss 2.598963
+step 29500: train loss 2.5984778, val loss 2.6147227
+step 30000: train loss 2.5837, val loss 2.5968554
+step 30500: train loss 2.5894513, val loss 2.5890453
+step 31000: train loss 2.5828302, val loss 2.600304
+step 31500: train loss 2.5647783, val loss 2.607981
+step 32000: train loss 2.5513675, val loss 2.5867398
+step 32500: train loss 2.5583115, val loss 2.5791423
+step 33000: train loss 2.5661788, val loss 2.5778356
+step 33500: train loss 2.5540543, val loss 2.56352
+step 34000: train loss 2.5568476, val loss 2.564494
+step 34500: train loss 2.5575294, val loss 2.5425286
+step 35000: train loss 2.5303547, val loss 2.5584269
+step 35500: train loss 2.5320923, val loss 2.5424063
+step 36000: train loss 2.5492043, val loss 2.515915
+step 36500: train loss 2.53565, val loss 2.5491052
+step 37000: train loss 2.5300114, val loss 2.5356388
+step 37500: train loss 2.5293734, val loss 2.5388126
+step 38000: train loss 2.5263436, val loss 2.5288591
+step 38500: train loss 2.518509, val loss 2.5249133
+step 39000: train loss 2.5140069, val loss 2.5185611
+step 39500: train loss 2.5074258, val loss 2.5195055
+step 40000: train loss 2.4947906, val loss 2.5295596
+step 40500: train loss 2.5009575, val loss 2.5165656
+step 41000: train loss 2.497663, val loss 2.498406
+step 41500: train loss 2.5115862, val loss 2.5035062
+step 42000: train loss 2.5030923, val loss 2.5052783
+step 42500: train loss 2.4938982, val loss 2.4990435
+step 43000: train loss 2.4751837, val loss 2.5058656
+step 43500: train loss 2.4904985, val loss 2.5077083
+step 44000: train loss 2.4931421, val loss 2.5001066
+step 44500: train loss 2.4743543, val loss 2.4861486
+step 45000: train loss 2.4630585, val loss 2.501151
+step 45500: train loss 2.4853551, val loss 2.4931235
+step 46000: train loss 2.4671342, val loss 2.462622
+step 46500: train loss 2.4733927, val loss 2.4783397
+step 47000: train loss 2.4681795, val loss 2.4666564
+step 47500: train loss 2.4622366, val loss 2.4671276
+step 48000: train loss 2.4560053, val loss 2.4755766
+step 48500: train loss 2.4558396, val loss 2.4484656
+step 49000: train loss 2.4543767, val loss 2.4670618
+step 49500: train loss 2.4526772, val loss 2.4596086
+step 50000: train loss 2.4373953, val loss 2.4727635
+step 50500: train loss 2.4465368, val loss 2.4516354
+step 51000: train loss 2.4435863, val loss 2.4627793
+step 51500: train loss 2.4484527, val loss 2.4513562
+step 52000: train loss 2.454969, val loss 2.4444525
+step 52500: train loss 2.4580448, val loss 2.4400163
+step 53000: train loss 2.443047, val loss 2.447718
+step 53500: train loss 2.4494407, val loss 2.4438868
+step 54000: train loss 2.4362557, val loss 2.446924
+step 54500: train loss 2.4351428, val loss 2.4463687
+step 55000: train loss 2.435822, val loss 2.4499917
+step 55500: train loss 2.4217, val loss 2.440394
+step 56000: train loss 2.4228399, val loss 2.441773
+step 56500: train loss 2.432208, val loss 2.4370792
+step 57000: train loss 2.427175, val loss 2.422596
+step 57500: train loss 2.433473, val loss 2.4209237
+step 58000: train loss 2.4155922, val loss 2.4252532
+step 58500: train loss 2.4173949, val loss 2.4233027
+step 59000: train loss 2.4074438, val loss 2.419918
+step 59500: train loss 2.4075656, val loss 2.4193347
+step 60000: train loss 2.43445, val loss 2.428559
+step 60500: train loss 2.4076755, val loss 2.40647
+step 61000: train loss 2.398917, val loss 2.4159346
+step 61500: train loss 2.4188614, val loss 2.4180353
+step 62000: train loss 2.403164, val loss 2.4206014
+step 62500: train loss 2.392966, val loss 2.4084036
+step 63000: train loss 2.3945236, val loss 2.4137802
+step 63500: train loss 2.3833268, val loss 2.4187706
+step 64000: train loss 2.377177, val loss 2.4055398
+step 64500: train loss 2.395082, val loss 2.4007895
+step 65000: train loss 2.396096, val loss 2.410178
+step 65500: train loss 2.3954232, val loss 2.423708
+step 66000: train loss 2.378127, val loss 2.3993497
+step 66500: train loss 2.4048975, val loss 2.3802474
+step 67000: train loss 2.3849454, val loss 2.377885
+step 67500: train loss 2.3932414, val loss 2.393958
+step 68000: train loss 2.3796847, val loss 2.403701
+step 68500: train loss 2.3896403, val loss 2.392418
+step 69000: train loss 2.3911893, val loss 2.4025927
+step 69500: train loss 2.3782759, val loss 2.3910496
+step 70000: train loss 2.366243, val loss 2.3716755
+step 70500: train loss 2.3592386, val loss 2.379334
+step 71000: train loss 2.3998156, val loss 2.4001372
+step 71500: train loss 2.3649485, val loss 2.3825123
+step 72000: train loss 2.3605323, val loss 2.3795447
+step 72500: train loss 2.3637192, val loss 2.3926306
+step 73000: train loss 2.3632023, val loss 2.3733888
+step 73500: train loss 2.3644714, val loss 2.3880494
+step 74000: train loss 2.3843045, val loss 2.3805432
+step 74500: train loss 2.373176, val loss 2.373484
+step 74999: train loss 2.3712134, val loss 2.3789077
+step 75000: train loss 2.3715358, val loss 2.3802633
+decode 11:'
+
+
+
+
+
+
+
+And thek bridcowi, har lay ber
+
+Hisenk Bbeou eravegrtansted?
+Lhanss:
+Wanthat usqorthe. bar dilas ane awice my thanstarut onou 
+Yowht, tof is he me mil;
+dill!,
+
+W iree sengcin lat Horilkev the and the nor pilerans!
+ lolind me litlis me derivy ptugr aiss hew yean's mal normopetelg lower:
+Gllw:
+Sile akllo W-Cou whd Ceiiby, wirth dourive ceeshime st so mower; the the danteruf bf son; igr tom:
+
+Enge inle ont ffaf Prred my om.
+rand Lok! stiyby ak
+Sadst Wices and thiuin cour ayraney iry to chan yf voul'
 Exception in thread "main" java.lang.ExceptionInInitializerError
 	at gpt.BiGram.main(BiGram.scala)
-Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.00 MiB (GPU 0; 23.69 GiB total capacity; 23.37 GiB already allocated; 2.81 MiB free; 23.37 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
-Exception raised from malloc at /home/runner/work/javacpp-presets/javacpp-presets/pytorch/cppbuild/linux-x86_64-gpu/pytorch/c10/cuda/CUDACachingAllocator.cpp:913 (most recent call first):
-frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x6c (0x7fc5c97b7d8c in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10.so)
-frame #1: <unknown function> + 0x2a124 (0x7fc77c036124 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10_cuda.so)
-frame #2: <unknown function> + 0x2a376 (0x7fc77c036376 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10_cuda.so)
-frame #3: <unknown function> + 0x2a7be (0x7fc77c0367be in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10_cuda.so)
-frame #4: <unknown function> + 0x124fcc0 (0x7fc4fc595cc0 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #5: at::detail::empty_generic(c10::ArrayRef<long>, c10::Allocator*, c10::DispatchKeySet, c10::ScalarType, c10::optional<c10::MemoryFormat>) + 0x28 (0x7fc4fc58f808 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #6: at::detail::empty_cuda(c10::ArrayRef<long>, c10::ScalarType, c10::optional<c10::Device>, c10::optional<c10::MemoryFormat>) + 0x9a (0x7fc50751b56a in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
-frame #7: at::detail::empty_cuda(c10::ArrayRef<long>, c10::optional<c10::ScalarType>, c10::optional<c10::Layout>, c10::optional<c10::Device>, c10::optional<bool>, c10::optional<c10::MemoryFormat>) + 0x45 (0x7fc50751b6f5 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
-frame #8: at::detail::empty_cuda(c10::ArrayRef<long>, c10::TensorOptions const&) + 0x123 (0x7fc50751b883 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
-frame #9: <unknown function> + 0x2c523b9 (0x7fc5093093b9 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
-frame #10: <unknown function> + 0x2d24eb6 (0x7fc5093dbeb6 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
-frame #11: at::meta::structured_mm::meta(at::Tensor const&, at::Tensor const&) + 0x13a (0x7fc4fca91d2a in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #12: <unknown function> + 0x2c5c7ca (0x7fc5093137ca in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
-frame #13: <unknown function> + 0x2c5c888 (0x7fc509313888 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
-frame #14: at::_ops::mm::redispatch(c10::DispatchKeySet, at::Tensor const&, at::Tensor const&) + 0x8a (0x7fc4fd6dd93a in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #15: <unknown function> + 0x3f45e55 (0x7fc4ff28be55 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #16: <unknown function> + 0x3f46b4b (0x7fc4ff28cb4b in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #17: at::_ops::mm::call(at::Tensor const&, at::Tensor const&) + 0x175 (0x7fc4fd73cfc5 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #18: <unknown function> + 0x1757965 (0x7fc4fca9d965 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #19: at::native::matmul(at::Tensor const&, at::Tensor const&) + 0x5d (0x7fc4fca9dead in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #20: <unknown function> + 0x2a06f58 (0x7fc4fdd4cf58 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #21: at::_ops::matmul::call(at::Tensor const&, at::Tensor const&) + 0x175 (0x7fc4fd860ca5 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #22: torch::nn::LinearImpl::forward(at::Tensor const&) + 0x130 (0x7fc500740840 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #23: Java_org_bytedeco_pytorch_LinearImpl_forward + 0xc7 (0x7fc4fa16e6b7 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libjnitorch.so)
-frame #24: [0x7fc7c909428f]
-
-	at org.bytedeco.pytorch.LinearImpl.forward(Native Method)
-	at torch.nn.modules.linear.Linear.apply(Linear.scala:69)
-	at torch.nn.modules.linear.Linear.apply(Linear.scala:68)
-	at torch.nn.modules.container.Sequential.apply$$anonfun$1(Sequential.scala:33)
-	at scala.collection.immutable.ArraySeq.foldLeft(ArraySeq.scala:222)
-	at torch.nn.modules.container.Sequential.apply(Sequential.scala:33)
-	at gpt.BiGram$FeedFoward_2.forward(BiGram.scala:1960)
-	at gpt.BiGram$FeedFoward_2.apply(BiGram.scala:1962)
-	at gpt.BiGram$Block_2.forward(BiGram.scala:1894)
-	at gpt.BiGram$Block_2.apply(BiGram.scala:1896)
-	at gpt.BiGram$Block_2.apply(BiGram.scala:1896)
-	at torch.nn.modules.container.Sequential.apply$$anonfun$1(Sequential.scala:33)
-	at scala.collection.immutable.ArraySeq.foldLeft(ArraySeq.scala:222)
-	at torch.nn.modules.container.Sequential.apply(Sequential.scala:33)
-	at gpt.BiGram$BigramLanguageModel7.forward(BiGram.scala:2008)
-	at gpt.BiGram$BigramLanguageModel7.apply(BiGram.scala:2047)
-	at gpt.BiGram$.estimate_loss$$anonfun$1$$anonfun$1(BiGram.scala:548)
-	at gpt.BiGram$.estimate_loss$$anonfun$1$$anonfun$adapted$1(BiGram.scala:550)
-	at scala.collection.immutable.Range.foreach(Range.scala:190)
-	at gpt.BiGram$.estimate_loss$$anonfun$1(BiGram.scala:550)
-	at scala.runtime.function.JProcedure1.apply(JProcedure1.java:15)
-	at scala.runtime.function.JProcedure1.apply(JProcedure1.java:10)
-	at scala.collection.immutable.List.foreach(List.scala:333)
-	at gpt.BiGram$.estimate_loss(BiGram.scala:551)
-	at gpt.BiGram$.train$$anonfun$1(BiGram.scala:1219)
-	at scala.runtime.java8.JFunction1$mcVI$sp.apply(JFunction1$mcVI$sp.scala:18)
-	at scala.collection.immutable.Range.foreach(Range.scala:190)
-	at gpt.BiGram$.train(BiGram.scala:1230)
-	at gpt.BiGram$.<clinit>(BiGram.scala:2074)
+Caused by: java.lang.ArithmeticException: / by zero
+	at gpt.BiGram$.<clinit>(BiGram.scala:2119)
 	... 1 more
 1 targets failed
 examples.runMain subprocess failed
