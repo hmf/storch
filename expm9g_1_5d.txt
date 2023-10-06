@@ -1,8 +1,4 @@
 nohup: ignoring input
-Could not start a Mill server process.
-This could be caused by too many already running Mill instances or by an unsupported platform.
-
-Trying to run Mill in-process ...
 [info] compiling 1 Scala source to /workspaces/storch/out/examples/compile.dest/classes ...
 [warn] there were 8 deprecation warnings; re-run with -deprecation for details
 [warn] one warning found
@@ -820,187 +816,385 @@ BigramLanguageModel7: #94 51137 (
   )
   lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
 )
+Self attention Blocks + Residual connections + layer norm - BigramLanguageModel8
+MultiHeadAttention_2 registering hs_0:Head1
+MultiHeadAttention_2 registering hs_1:Head1
+MultiHeadAttention_2 registering hs_2:Head1
+MultiHeadAttention_2 registering hs_3:Head1
+MultiHeadAttention_2 registering hs_0:Head1
+MultiHeadAttention_2 registering hs_1:Head1
+MultiHeadAttention_2 registering hs_2:Head1
+MultiHeadAttention_2 registering hs_3:Head1
+MultiHeadAttention_2 registering hs_0:Head1
+MultiHeadAttention_2 registering hs_1:Head1
+MultiHeadAttention_2 registering hs_2:Head1
+MultiHeadAttention_2 registering hs_3:Head1
+51585 parameters
+BigramLanguageModel8: #108 51585 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  blocks: Sequential: #104 47104 (
+    0: Block_3(nEmbed = 32): #34 15680 (
+      sa: MultiHeadAttention_2(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #26 7200 (
+        hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+        proj: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+      )
+      ffwd: FeedFoward_2(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+        )
+      )
+      ln1: LayerNorm: #2 <32,32> 
+      ln2: LayerNorm: #2 <32,32> 
+    )
+    1: Block_3(nEmbed = 32): #34 15680 (
+      sa: MultiHeadAttention_2(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #26 7200 (
+        hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+        proj: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+      )
+      ffwd: FeedFoward_2(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+        )
+      )
+      ln1: LayerNorm: #2 <32,32> 
+      ln2: LayerNorm: #2 <32,32> 
+    )
+    2: Block_3(nEmbed = 32): #34 15680 (
+      sa: MultiHeadAttention_2(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #26 7200 (
+        hs_0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+        proj: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+      )
+      ffwd: FeedFoward_2(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+        )
+      )
+      ln1: LayerNorm: #2 <32,32> 
+      ln2: LayerNorm: #2 <32,32> 
+    )
+    3: LayerNorm: #2 <32,32> 
+  )
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
 Device = Device(CUDA,-1)
-51137 parameters
-learningRate = 1.0E-5
+51585 parameters
+learningRate = 9.0E-6
 maxIterations = 75000
-step 0: train loss 4.6134653, val loss 4.632922, mem 1.2 GiB @ 00 00:00:00.000, mean 00 00:00:00.000
-step 500: train loss 3.9683325, val loss 4.008199, mem 1.2 GiB @ 00 00:00:08.379, mean 00 00:00:00.016
-step 1000: train loss 3.7161844, val loss 3.7655962, mem 1.3 GiB @ 00 00:00:16.740, mean 00 00:00:00.016
-step 1500: train loss 3.5557365, val loss 3.598181, mem 1.5 GiB @ 00 00:00:25.223, mean 00 00:00:00.016
-step 2000: train loss 3.3964705, val loss 3.4361227, mem 1.6 GiB @ 00 00:00:33.236, mean 00 00:00:00.016
-step 2500: train loss 3.3178234, val loss 3.3577754, mem 1.6 GiB @ 00 00:00:41.434, mean 00 00:00:00.016
-step 3000: train loss 3.232926, val loss 3.2753432, mem 1.7 GiB @ 00 00:00:49.910, mean 00 00:00:00.016
-step 3500: train loss 3.2319434, val loss 3.2152433, mem 1.7 GiB @ 00 00:00:58.095, mean 00 00:00:00.016
-step 4000: train loss 3.216749, val loss 3.2677476, mem 1.7 GiB @ 00 00:01:06.455, mean 00 00:00:00.016
-step 4500: train loss 3.2237597, val loss 3.2416754, mem 1.8 GiB @ 00 00:01:14.859, mean 00 00:00:00.016
-step 5000: train loss 3.1402075, val loss 3.1525981, mem 1.8 GiB @ 00 00:01:23.213, mean 00 00:00:00.016
-step 5500: train loss 3.0602484, val loss 3.1040192, mem 1.8 GiB @ 00 00:01:31.868, mean 00 00:00:00.017
-step 6000: train loss 3.0605998, val loss 3.0444531, mem 1.8 GiB @ 00 00:01:40.443, mean 00 00:00:00.017
-step 6500: train loss 3.0189629, val loss 3.017009, mem 1.8 GiB @ 00 00:01:49.241, mean 00 00:00:00.017
-step 7000: train loss 2.9730902, val loss 3.0043468, mem 1.8 GiB @ 00 00:01:57.793, mean 00 00:00:00.017
-step 7500: train loss 2.9499176, val loss 2.9847276, mem 1.8 GiB @ 00 00:02:06.182, mean 00 00:00:00.016
-step 8000: train loss 2.982227, val loss 2.954928, mem 1.8 GiB @ 00 00:02:14.798, mean 00 00:00:00.017
-step 8500: train loss 2.9011905, val loss 2.922224, mem 1.8 GiB @ 00 00:02:23.408, mean 00 00:00:00.017
-step 9000: train loss 3.4458525, val loss 2.9541302, mem 1.8 GiB @ 00 00:02:32.065, mean 00 00:00:00.017
-step 9500: train loss 3.0968044, val loss 3.1299486, mem 1.8 GiB @ 00 00:02:40.739, mean 00 00:00:00.017
-step 10000: train loss 57370.598, val loss 33938.68, mem 1.8 GiB @ 00 00:02:49.472, mean 00 00:00:00.017
-step 10500: train loss 2.20505334E10, val loss 2.62565683E10, mem 1.8 GiB @ 00 00:02:57.897, mean 00 00:00:00.016
-step 11000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:06.581, mean 00 00:00:00.017
-step 11500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:15.087, mean 00 00:00:00.017
-step 12000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:23.792, mean 00 00:00:00.017
-step 12500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:32.540, mean 00 00:00:00.017
-step 13000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:41.105, mean 00 00:00:00.017
-step 13500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:49.298, mean 00 00:00:00.016
-step 14000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:57.713, mean 00 00:00:00.016
-step 14500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:05.993, mean 00 00:00:00.016
-step 15000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:14.502, mean 00 00:00:00.017
-step 15500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:22.952, mean 00 00:00:00.016
-step 16000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:31.592, mean 00 00:00:00.017
-step 16500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:40.295, mean 00 00:00:00.017
-step 17000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:48.993, mean 00 00:00:00.017
-step 17500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:57.564, mean 00 00:00:00.017
-step 18000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:06.520, mean 00 00:00:00.017
-step 18500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:15.369, mean 00 00:00:00.017
-step 19000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:24.150, mean 00 00:00:00.017
-step 19500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:32.657, mean 00 00:00:00.017
-step 20000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:41.415, mean 00 00:00:00.017
-step 20500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:50.018, mean 00 00:00:00.017
-step 21000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:58.609, mean 00 00:00:00.017
-step 21500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:07.252, mean 00 00:00:00.017
-step 22000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:15.825, mean 00 00:00:00.017
-step 22500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:24.129, mean 00 00:00:00.016
-step 23000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:32.623, mean 00 00:00:00.016
-step 23500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:41.225, mean 00 00:00:00.017
-step 24000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:49.727, mean 00 00:00:00.017
-step 24500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:58.064, mean 00 00:00:00.016
-step 25000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:06.482, mean 00 00:00:00.016
-step 25500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:15.045, mean 00 00:00:00.017
-step 26000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:23.681, mean 00 00:00:00.017
-step 26500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:32.165, mean 00 00:00:00.016
-step 27000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:40.733, mean 00 00:00:00.017
-step 27500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:49.423, mean 00 00:00:00.017
-step 28000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:57.991, mean 00 00:00:00.017
-step 28500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:06.659, mean 00 00:00:00.017
-step 29000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:15.579, mean 00 00:00:00.017
-step 29500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:24.158, mean 00 00:00:00.017
-step 30000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:32.827, mean 00 00:00:00.017
-step 30500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:41.721, mean 00 00:00:00.017
-step 31000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:50.659, mean 00 00:00:00.017
-step 31500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:59.458, mean 00 00:00:00.017
-step 32000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:09:08.284, mean 00 00:00:00.017
-step 32500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:09:17.010, mean 00 00:00:00.017
-step 33000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:09:25.629, mean 00 00:00:00.017
-step 33500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:09:34.484, mean 00 00:00:00.017
-step 34000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:09:43.183, mean 00 00:00:00.017
-step 34500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:09:51.776, mean 00 00:00:00.017
-step 35000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:00.570, mean 00 00:00:00.017
-step 35500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:09.210, mean 00 00:00:00.017
-step 36000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:17.677, mean 00 00:00:00.016
-step 36500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:26.138, mean 00 00:00:00.016
-step 37000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:35.138, mean 00 00:00:00.018
-step 37500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:43.939, mean 00 00:00:00.017
-step 38000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:52.555, mean 00 00:00:00.017
-step 38500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:01.127, mean 00 00:00:00.017
-step 39000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:09.647, mean 00 00:00:00.017
-step 39500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:18.164, mean 00 00:00:00.017
-step 40000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:26.623, mean 00 00:00:00.016
-step 40500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:34.942, mean 00 00:00:00.016
-step 41000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:43.536, mean 00 00:00:00.017
-step 41500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:51.840, mean 00 00:00:00.016
-step 42000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:59.971, mean 00 00:00:00.016
-step 42500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:08.393, mean 00 00:00:00.016
-step 43000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:16.794, mean 00 00:00:00.016
-step 43500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:25.312, mean 00 00:00:00.017
-step 44000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:33.496, mean 00 00:00:00.016
-step 44500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:42.107, mean 00 00:00:00.017
-step 45000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:50.250, mean 00 00:00:00.016
-step 45500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:58.697, mean 00 00:00:00.016
-step 46000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:07.366, mean 00 00:00:00.017
-step 46500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:15.940, mean 00 00:00:00.017
-step 47000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:24.553, mean 00 00:00:00.017
-step 47500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:33.290, mean 00 00:00:00.017
-step 48000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:42.026, mean 00 00:00:00.017
-step 48500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:50.680, mean 00 00:00:00.017
-step 49000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:59.376, mean 00 00:00:00.017
-step 49500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:08.136, mean 00 00:00:00.017
-step 50000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:16.783, mean 00 00:00:00.017
-step 50500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:25.436, mean 00 00:00:00.017
-step 51000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:34.005, mean 00 00:00:00.017
-step 51500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:42.838, mean 00 00:00:00.017
-step 52000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:51.382, mean 00 00:00:00.017
-step 52500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:59.919, mean 00 00:00:00.017
-step 53000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:08.348, mean 00 00:00:00.016
-step 53500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:16.846, mean 00 00:00:00.016
-step 54000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:25.428, mean 00 00:00:00.017
-step 54500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:33.967, mean 00 00:00:00.017
-step 55000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:42.632, mean 00 00:00:00.017
-step 55500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:51.010, mean 00 00:00:00.016
-step 56000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:59.289, mean 00 00:00:00.016
-step 56500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:07.817, mean 00 00:00:00.017
-step 57000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:15.949, mean 00 00:00:00.016
-step 57500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:23.974, mean 00 00:00:00.016
-step 58000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:32.252, mean 00 00:00:00.016
-step 58500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:40.446, mean 00 00:00:00.016
-step 59000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:48.639, mean 00 00:00:00.016
-step 59500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:56.889, mean 00 00:00:00.016
-step 60000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:05.444, mean 00 00:00:00.017
-step 60500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:14.230, mean 00 00:00:00.017
-step 61000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:23.100, mean 00 00:00:00.017
-step 61500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:31.985, mean 00 00:00:00.017
-step 62000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:40.585, mean 00 00:00:00.017
-step 62500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:49.168, mean 00 00:00:00.017
-step 63000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:57.610, mean 00 00:00:00.016
-step 63500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:06.029, mean 00 00:00:00.016
-step 64000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:14.681, mean 00 00:00:00.017
-step 64500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:23.341, mean 00 00:00:00.017
-step 65000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:32.096, mean 00 00:00:00.017
-step 65500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:40.831, mean 00 00:00:00.017
-step 66000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:49.251, mean 00 00:00:00.016
-step 66500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:57.804, mean 00 00:00:00.017
-step 67000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:06.474, mean 00 00:00:00.017
-step 67500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:14.803, mean 00 00:00:00.016
-step 68000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:23.230, mean 00 00:00:00.016
-step 68500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:31.517, mean 00 00:00:00.016
-step 69000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:39.816, mean 00 00:00:00.016
-step 69500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:48.002, mean 00 00:00:00.016
-step 70000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:56.665, mean 00 00:00:00.017
-step 70500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:05.532, mean 00 00:00:00.017
-step 71000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:13.883, mean 00 00:00:00.016
-step 71500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:22.153, mean 00 00:00:00.016
-step 72000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:30.373, mean 00 00:00:00.016
-step 72500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:38.656, mean 00 00:00:00.016
-step 73000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:46.540, mean 00 00:00:00.015
-step 73500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:54.142, mean 00 00:00:00.015
-step 74000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:21:01.794, mean 00 00:00:00.015
-step 74500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:21:09.388, mean 00 00:00:00.015
-step 74999: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:21:17.045, mean 00 00:00:00.015
-step 75000: train loss NaN, val loss NaN, @ 00 00:21:17.061, mean 00 00:00:00.017
+step 0: train loss 4.3045254, val loss 4.314669, mem 1.2 GiB @ 00 00:00:00.000, mean 00 00:00:00.000
+step 500: train loss 4.006849, val loss 4.024645, mem 1.3 GiB @ 00 00:00:08.720, mean 00 00:00:00.017
+step 1000: train loss 3.7743816, val loss 3.8001525, mem 1.4 GiB @ 00 00:00:17.910, mean 00 00:00:00.018
+step 1500: train loss 3.6467564, val loss 3.6625152, mem 1.4 GiB @ 00 00:00:26.897, mean 00 00:00:00.017
+step 2000: train loss 3.550256, val loss 3.5787349, mem 1.6 GiB @ 00 00:00:35.909, mean 00 00:00:00.018
+step 2500: train loss 3.4774823, val loss 3.5037367, mem 1.8 GiB @ 00 00:00:44.734, mean 00 00:00:00.017
+step 3000: train loss 3.4157531, val loss 3.444895, mem 1.8 GiB @ 00 00:00:53.648, mean 00 00:00:00.017
+step 3500: train loss 3.3651874, val loss 3.3856287, mem 1.8 GiB @ 00 00:01:02.692, mean 00 00:00:00.018
+step 4000: train loss 3.3334177, val loss 3.3876216, mem 1.8 GiB @ 00 00:01:11.776, mean 00 00:00:00.018
+step 4500: train loss 3.2983196, val loss 3.3303866, mem 1.8 GiB @ 00 00:01:20.646, mean 00 00:00:00.017
+step 5000: train loss 3.2413836, val loss 3.294874, mem 1.8 GiB @ 00 00:01:29.223, mean 00 00:00:00.017
+step 5500: train loss 3.2232666, val loss 3.2643096, mem 1.8 GiB @ 00 00:01:38.195, mean 00 00:00:00.017
+step 6000: train loss 3.182532, val loss 3.2253058, mem 1.8 GiB @ 00 00:01:47.319, mean 00 00:00:00.018
+step 6500: train loss 3.1703572, val loss 3.2073736, mem 1.8 GiB @ 00 00:01:56.322, mean 00 00:00:00.018
+step 7000: train loss 3.1462026, val loss 3.1847203, mem 1.8 GiB @ 00 00:02:05.196, mean 00 00:00:00.017
+step 7500: train loss 3.124477, val loss 3.160997, mem 1.8 GiB @ 00 00:02:14.259, mean 00 00:00:00.018
+step 8000: train loss 3.0947413, val loss 3.1434536, mem 1.8 GiB @ 00 00:02:23.334, mean 00 00:00:00.018
+step 8500: train loss 3.0850234, val loss 3.1153696, mem 1.8 GiB @ 00 00:02:32.259, mean 00 00:00:00.017
+step 9000: train loss 3.063697, val loss 3.099086, mem 1.8 GiB @ 00 00:02:41.170, mean 00 00:00:00.017
+step 9500: train loss 3.0442886, val loss 3.0803108, mem 1.8 GiB @ 00 00:02:50.499, mean 00 00:00:00.018
+step 10000: train loss 3.0180883, val loss 3.066149, mem 1.8 GiB @ 00 00:02:59.384, mean 00 00:00:00.017
+step 10500: train loss 3.0202277, val loss 3.0640442, mem 1.8 GiB @ 00 00:03:08.138, mean 00 00:00:00.017
+step 11000: train loss 3.0408905, val loss 3.0533605, mem 1.8 GiB @ 00 00:03:17.113, mean 00 00:00:00.017
+step 11500: train loss 3.0106072, val loss 3.0391307, mem 1.8 GiB @ 00 00:03:26.247, mean 00 00:00:00.018
+step 12000: train loss 2.998219, val loss 3.0168304, mem 1.8 GiB @ 00 00:03:34.944, mean 00 00:00:00.017
+step 12500: train loss 2.967998, val loss 2.9763935, mem 1.8 GiB @ 00 00:03:43.975, mean 00 00:00:00.018
+step 13000: train loss 2.951887, val loss 2.99052, mem 1.8 GiB @ 00 00:03:52.884, mean 00 00:00:00.017
+step 13500: train loss 2.944139, val loss 2.9599354, mem 1.8 GiB @ 00 00:04:01.743, mean 00 00:00:00.017
+step 14000: train loss 2.9361725, val loss 2.9495342, mem 1.8 GiB @ 00 00:04:10.686, mean 00 00:00:00.017
+step 14500: train loss 2.9020703, val loss 2.9332585, mem 1.8 GiB @ 00 00:04:19.604, mean 00 00:00:00.017
+step 15000: train loss 2.891135, val loss 2.9205709, mem 1.8 GiB @ 00 00:04:28.608, mean 00 00:00:00.018
+step 15500: train loss 2.8700256, val loss 2.9131856, mem 1.8 GiB @ 00 00:04:37.313, mean 00 00:00:00.017
+step 16000: train loss 2.8757215, val loss 2.883543, mem 1.8 GiB @ 00 00:04:46.159, mean 00 00:00:00.017
+step 16500: train loss 2.8443933, val loss 2.8566356, mem 1.8 GiB @ 00 00:04:55.081, mean 00 00:00:00.017
+step 17000: train loss 2.8151085, val loss 2.8600194, mem 1.8 GiB @ 00 00:05:04.158, mean 00 00:00:00.018
+step 17500: train loss 2.8105083, val loss 2.843477, mem 1.8 GiB @ 00 00:05:12.883, mean 00 00:00:00.017
+step 18000: train loss 2.8090794, val loss 2.837362, mem 1.8 GiB @ 00 00:05:21.810, mean 00 00:00:00.017
+step 18500: train loss 2.8091779, val loss 2.8381143, mem 1.8 GiB @ 00 00:05:30.631, mean 00 00:00:00.017
+step 19000: train loss 2.768039, val loss 2.8065438, mem 1.8 GiB @ 00 00:05:39.493, mean 00 00:00:00.017
+step 19500: train loss 2.779695, val loss 2.8002706, mem 1.8 GiB @ 00 00:05:48.369, mean 00 00:00:00.017
+step 20000: train loss 2.780162, val loss 2.7821155, mem 1.8 GiB @ 00 00:05:56.992, mean 00 00:00:00.017
+step 20500: train loss 2.7631598, val loss 2.7714636, mem 1.8 GiB @ 00 00:06:05.590, mean 00 00:00:00.017
+step 21000: train loss 2.7386222, val loss 2.7515357, mem 1.8 GiB @ 00 00:06:14.460, mean 00 00:00:00.017
+step 21500: train loss 2.7371535, val loss 2.7605333, mem 1.8 GiB @ 00 00:06:23.387, mean 00 00:00:00.017
+step 22000: train loss 2.7146075, val loss 2.7439754, mem 1.8 GiB @ 00 00:06:32.300, mean 00 00:00:00.017
+step 22500: train loss 2.7131546, val loss 2.7536387, mem 1.8 GiB @ 00 00:06:41.199, mean 00 00:00:00.017
+step 23000: train loss 2.7031708, val loss 2.7242517, mem 1.8 GiB @ 00 00:06:50.174, mean 00 00:00:00.017
+step 23500: train loss 2.7080169, val loss 2.7176988, mem 1.8 GiB @ 00 00:06:59.110, mean 00 00:00:00.017
+step 24000: train loss 2.6832519, val loss 2.7088933, mem 1.8 GiB @ 00 00:07:08.113, mean 00 00:00:00.018
+step 24500: train loss 2.6706274, val loss 2.6863396, mem 1.8 GiB @ 00 00:07:16.880, mean 00 00:00:00.017
+step 25000: train loss 2.663605, val loss 2.6773076, mem 1.8 GiB @ 00 00:07:25.735, mean 00 00:00:00.017
+step 25500: train loss 2.653854, val loss 2.6716049, mem 1.8 GiB @ 00 00:07:34.587, mean 00 00:00:00.017
+step 26000: train loss 2.6551983, val loss 2.6688461, mem 1.8 GiB @ 00 00:07:43.606, mean 00 00:00:00.018
+step 26500: train loss 2.6368506, val loss 2.661704, mem 1.8 GiB @ 00 00:07:52.655, mean 00 00:00:00.018
+step 27000: train loss 2.6290014, val loss 2.6290798, mem 1.8 GiB @ 00 00:08:01.630, mean 00 00:00:00.017
+step 27500: train loss 2.6237035, val loss 2.6533935, mem 1.8 GiB @ 00 00:08:10.561, mean 00 00:00:00.017
+step 28000: train loss 2.6149786, val loss 2.6337326, mem 1.8 GiB @ 00 00:08:19.558, mean 00 00:00:00.017
+step 28500: train loss 2.612499, val loss 2.6448443, mem 1.8 GiB @ 00 00:08:28.761, mean 00 00:00:00.018
+step 29000: train loss 2.6131155, val loss 2.6170664, mem 1.8 GiB @ 00 00:08:37.968, mean 00 00:00:00.018
+step 29500: train loss 2.6033194, val loss 2.6267858, mem 1.8 GiB @ 00 00:08:47.315, mean 00 00:00:00.018
+step 30000: train loss 2.5877395, val loss 2.6085088, mem 1.8 GiB @ 00 00:08:56.420, mean 00 00:00:00.018
+step 30500: train loss 2.5941741, val loss 2.5992749, mem 1.8 GiB @ 00 00:09:05.250, mean 00 00:00:00.017
+step 31000: train loss 2.5879776, val loss 2.6125274, mem 1.8 GiB @ 00 00:09:14.102, mean 00 00:00:00.017
+step 31500: train loss 2.5718322, val loss 2.6174538, mem 1.8 GiB @ 00 00:09:22.993, mean 00 00:00:00.017
+step 32000: train loss 2.558358, val loss 2.5955565, mem 1.8 GiB @ 00 00:09:31.965, mean 00 00:00:00.017
+step 32500: train loss 2.5617723, val loss 2.5879064, mem 1.8 GiB @ 00 00:09:40.752, mean 00 00:00:00.017
+step 33000: train loss 2.5714116, val loss 2.5859072, mem 1.8 GiB @ 00 00:09:49.368, mean 00 00:00:00.017
+step 33500: train loss 2.5535135, val loss 2.5702386, mem 1.8 GiB @ 00 00:09:57.912, mean 00 00:00:00.017
+step 34000: train loss 2.5584111, val loss 2.5685992, mem 1.8 GiB @ 00 00:10:06.484, mean 00 00:00:00.017
+step 34500: train loss 2.559711, val loss 2.5517006, mem 1.8 GiB @ 00 00:10:15.129, mean 00 00:00:00.017
+step 35000: train loss 2.531703, val loss 2.5646842, mem 1.8 GiB @ 00 00:10:23.942, mean 00 00:00:00.017
+step 35500: train loss 2.5328746, val loss 2.5515244, mem 1.8 GiB @ 00 00:10:32.936, mean 00 00:00:00.017
+step 36000: train loss 2.5497513, val loss 2.52782, mem 1.8 GiB @ 00 00:10:41.931, mean 00 00:00:00.017
+step 36500: train loss 2.5355015, val loss 2.5545113, mem 1.8 GiB @ 00 00:10:50.821, mean 00 00:00:00.017
+step 37000: train loss 2.5269136, val loss 2.5415106, mem 1.8 GiB @ 00 00:10:59.371, mean 00 00:00:00.017
+step 37500: train loss 2.5261445, val loss 2.5405529, mem 1.8 GiB @ 00 00:11:08.017, mean 00 00:00:00.017
+step 38000: train loss 2.523977, val loss 2.531786, mem 1.8 GiB @ 00 00:11:16.926, mean 00 00:00:00.017
+step 38500: train loss 2.5160162, val loss 2.525419, mem 1.8 GiB @ 00 00:11:26.077, mean 00 00:00:00.018
+step 39000: train loss 2.5106986, val loss 2.5190685, mem 1.8 GiB @ 00 00:11:34.884, mean 00 00:00:00.017
+step 39500: train loss 2.507326, val loss 2.5182352, mem 1.8 GiB @ 00 00:11:43.657, mean 00 00:00:00.017
+step 40000: train loss 2.489886, val loss 2.5285552, mem 1.8 GiB @ 00 00:11:52.277, mean 00 00:00:00.017
+step 40500: train loss 2.4937046, val loss 2.5124874, mem 1.8 GiB @ 00 00:12:00.887, mean 00 00:00:00.017
+step 41000: train loss 2.4907246, val loss 2.4910932, mem 1.8 GiB @ 00 00:12:09.786, mean 00 00:00:00.017
+step 41500: train loss 2.5049388, val loss 2.5016363, mem 1.8 GiB @ 00 00:12:18.894, mean 00 00:00:00.018
+step 42000: train loss 2.4956152, val loss 2.501059, mem 1.8 GiB @ 00 00:12:27.756, mean 00 00:00:00.017
+step 42500: train loss 2.4838715, val loss 2.495999, mem 1.8 GiB @ 00 00:12:36.551, mean 00 00:00:00.017
+step 43000: train loss 2.4697678, val loss 2.497505, mem 1.8 GiB @ 00 00:12:45.562, mean 00 00:00:00.018
+step 43500: train loss 2.4822457, val loss 2.500472, mem 1.8 GiB @ 00 00:12:54.257, mean 00 00:00:00.017
+step 44000: train loss 2.483235, val loss 2.4910674, mem 1.8 GiB @ 00 00:13:03.117, mean 00 00:00:00.017
+step 44500: train loss 2.4605362, val loss 2.4786599, mem 1.8 GiB @ 00 00:13:11.981, mean 00 00:00:00.017
+step 45000: train loss 2.4529247, val loss 2.4916232, mem 1.8 GiB @ 00 00:13:20.822, mean 00 00:00:00.017
+step 45500: train loss 2.472146, val loss 2.4822674, mem 1.8 GiB @ 00 00:13:29.521, mean 00 00:00:00.017
+step 46000: train loss 2.4549682, val loss 2.4555953, mem 1.8 GiB @ 00 00:13:37.992, mean 00 00:00:00.016
+step 46500: train loss 2.4621706, val loss 2.4704328, mem 1.8 GiB @ 00 00:13:46.728, mean 00 00:00:00.017
+step 47000: train loss 2.4579418, val loss 2.4564056, mem 1.8 GiB @ 00 00:13:55.560, mean 00 00:00:00.017
+step 47500: train loss 2.4472725, val loss 2.4566088, mem 1.8 GiB @ 00 00:14:04.546, mean 00 00:00:00.017
+step 48000: train loss 2.444531, val loss 2.4631524, mem 1.8 GiB @ 00 00:14:13.331, mean 00 00:00:00.017
+step 48500: train loss 2.4450276, val loss 2.4435031, mem 1.8 GiB @ 00 00:14:22.114, mean 00 00:00:00.017
+step 49000: train loss 2.4413223, val loss 2.4578333, mem 1.8 GiB @ 00 00:14:31.059, mean 00 00:00:00.017
+step 49500: train loss 2.439991, val loss 2.45101, mem 1.8 GiB @ 00 00:14:39.927, mean 00 00:00:00.017
+step 50000: train loss 2.4237983, val loss 2.4600723, mem 1.8 GiB @ 00 00:14:48.893, mean 00 00:00:00.017
+step 50500: train loss 2.4344938, val loss 2.4424682, mem 1.8 GiB @ 00 00:14:57.852, mean 00 00:00:00.017
+step 51000: train loss 2.4266136, val loss 2.4503124, mem 1.8 GiB @ 00 00:15:06.697, mean 00 00:00:00.017
+step 51500: train loss 2.4290557, val loss 2.4426253, mem 1.8 GiB @ 00 00:15:15.629, mean 00 00:00:00.017
+step 52000: train loss 2.440698, val loss 2.4287145, mem 1.8 GiB @ 00 00:15:24.670, mean 00 00:00:00.018
+step 52500: train loss 2.4461224, val loss 2.4288995, mem 1.8 GiB @ 00 00:15:33.295, mean 00 00:00:00.017
+step 53000: train loss 2.426332, val loss 2.4335365, mem 1.8 GiB @ 00 00:15:42.348, mean 00 00:00:00.018
+step 53500: train loss 2.4371219, val loss 2.431242, mem 1.8 GiB @ 00 00:15:51.240, mean 00 00:00:00.017
+step 54000: train loss 2.4141786, val loss 2.432968, mem 1.8 GiB @ 00 00:15:59.932, mean 00 00:00:00.017
+step 54500: train loss 2.4198704, val loss 2.4256399, mem 1.8 GiB @ 00 00:16:08.748, mean 00 00:00:00.017
+step 55000: train loss 2.4156013, val loss 2.4311762, mem 1.8 GiB @ 00 00:16:17.300, mean 00 00:00:00.017
+step 55500: train loss 2.407024, val loss 2.4272604, mem 1.8 GiB @ 00 00:16:26.231, mean 00 00:00:00.017
+step 56000: train loss 2.4103396, val loss 2.4244368, mem 1.8 GiB @ 00 00:16:35.310, mean 00 00:00:00.018
+step 56500: train loss 2.414075, val loss 2.4214513, mem 1.8 GiB @ 00 00:16:44.187, mean 00 00:00:00.017
+step 57000: train loss 2.4089954, val loss 2.4079719, mem 1.8 GiB @ 00 00:16:53.364, mean 00 00:00:00.018
+step 57500: train loss 2.418333, val loss 2.4057148, mem 1.8 GiB @ 00 00:17:02.089, mean 00 00:00:00.017
+step 58000: train loss 2.3949935, val loss 2.40798, mem 1.8 GiB @ 00 00:17:11.000, mean 00 00:00:00.017
+step 58500: train loss 2.397474, val loss 2.4039106, mem 1.8 GiB @ 00 00:17:19.924, mean 00 00:00:00.017
+step 59000: train loss 2.38938, val loss 2.4065797, mem 1.8 GiB @ 00 00:17:29.084, mean 00 00:00:00.018
+step 59500: train loss 2.3881137, val loss 2.3997998, mem 1.8 GiB @ 00 00:17:38.238, mean 00 00:00:00.018
+step 60000: train loss 2.4123855, val loss 2.4118917, mem 1.8 GiB @ 00 00:17:47.411, mean 00 00:00:00.018
+step 60500: train loss 2.3883743, val loss 2.3914251, mem 1.8 GiB @ 00 00:17:56.487, mean 00 00:00:00.018
+step 61000: train loss 2.3764982, val loss 2.3932478, mem 1.8 GiB @ 00 00:18:05.401, mean 00 00:00:00.017
+step 61500: train loss 2.3980734, val loss 2.3970287, mem 1.8 GiB @ 00 00:18:14.478, mean 00 00:00:00.018
+step 62000: train loss 2.3831277, val loss 2.3987715, mem 1.8 GiB @ 00 00:18:22.959, mean 00 00:00:00.016
+step 62500: train loss 2.3751297, val loss 2.3894675, mem 1.8 GiB @ 00 00:18:31.746, mean 00 00:00:00.017
+step 63000: train loss 2.3734992, val loss 2.3930826, mem 1.8 GiB @ 00 00:18:40.806, mean 00 00:00:00.018
+step 63500: train loss 2.3608258, val loss 2.3965144, mem 1.8 GiB @ 00 00:18:49.711, mean 00 00:00:00.017
+step 64000: train loss 2.3558083, val loss 2.384353, mem 1.8 GiB @ 00 00:18:58.623, mean 00 00:00:00.017
+step 64500: train loss 2.3711445, val loss 2.379651, mem 1.8 GiB @ 00 00:19:07.766, mean 00 00:00:00.018
+step 65000: train loss 2.3699367, val loss 2.389012, mem 1.8 GiB @ 00 00:19:16.690, mean 00 00:00:00.017
+step 65500: train loss 2.371619, val loss 2.3949082, mem 1.8 GiB @ 00 00:19:25.358, mean 00 00:00:00.017
+step 66000: train loss 2.3572257, val loss 2.3764927, mem 1.8 GiB @ 00 00:19:33.849, mean 00 00:00:00.016
+step 66500: train loss 2.3828135, val loss 2.3564634, mem 1.8 GiB @ 00 00:19:42.795, mean 00 00:00:00.017
+step 67000: train loss 2.3636577, val loss 2.3529315, mem 1.8 GiB @ 00 00:19:51.648, mean 00 00:00:00.017
+step 67500: train loss 2.3671904, val loss 2.3672817, mem 1.8 GiB @ 00 00:20:00.253, mean 00 00:00:00.017
+step 68000: train loss 2.350455, val loss 2.3783405, mem 1.8 GiB @ 00 00:20:09.011, mean 00 00:00:00.017
+step 68500: train loss 2.3596344, val loss 2.366661, mem 1.8 GiB @ 00 00:20:17.756, mean 00 00:00:00.017
+step 69000: train loss 2.3612256, val loss 2.3750505, mem 1.8 GiB @ 00 00:20:26.668, mean 00 00:00:00.017
+step 69500: train loss 2.3530908, val loss 2.365684, mem 1.8 GiB @ 00 00:20:35.345, mean 00 00:00:00.017
+step 70000: train loss 2.3441849, val loss 2.3457456, mem 1.8 GiB @ 00 00:20:44.271, mean 00 00:00:00.017
+step 70500: train loss 2.3308423, val loss 2.354974, mem 1.8 GiB @ 00 00:20:52.936, mean 00 00:00:00.017
+step 71000: train loss 2.3721206, val loss 2.3711886, mem 1.8 GiB @ 00 00:21:01.850, mean 00 00:00:00.017
+step 71500: train loss 2.336216, val loss 2.354351, mem 1.8 GiB @ 00 00:21:10.346, mean 00 00:00:00.016
+step 72000: train loss 2.335032, val loss 2.3514233, mem 1.8 GiB @ 00 00:21:19.406, mean 00 00:00:00.018
+step 72500: train loss 2.3330479, val loss 2.3626838, mem 1.8 GiB @ 00 00:21:28.194, mean 00 00:00:00.017
+step 73000: train loss 2.3360076, val loss 2.3403928, mem 1.8 GiB @ 00 00:21:37.093, mean 00 00:00:00.017
+step 73500: train loss 2.3337662, val loss 2.3594213, mem 1.8 GiB @ 00 00:21:46.053, mean 00 00:00:00.017
+step 74000: train loss 2.3587964, val loss 2.35194, mem 1.8 GiB @ 00 00:21:55.049, mean 00 00:00:00.017
+step 74500: train loss 2.3449845, val loss 2.343268, mem 1.8 GiB @ 00 00:22:04.014, mean 00 00:00:00.017
+step 74999: train loss 2.3437576, val loss 2.3489814, mem 1.8 GiB @ 00 00:22:13.032, mean 00 00:00:00.018
+step 75000: train loss 2.343689, val loss 2.3516004, @ 00 00:22:13.048, mean 00 00:00:00.017
+decode 12:'
+
+
+
+
+
+
+
+Whent ak bridcowi,
+This s, ble
+
+Hisen bobe die.
+Sagrt the dalatanss:
+Wanthard wqhe he. bar dilas ane awice my.
+
+HDE
+Sery I mup
+Yow, Lotof int cing milend!
+Whanes iree sen cin latiHelilkev the and Win nor onderabs!
+ lerind peal.
+-hull cechiby:
+Sare aiss hew you lof tur yof patelives's my yow, thet akleo W-Cou whd Ceiiby weor mofourisEThe higend to-Le gour; thu the dantert,
+If sor; iry to whit thy ale of,
+Tis dPre?
+
+Whiom.
+rand, be!
+Kroy dis:
+Sads beacis ghest hoin cour ay andy Iry to I fo thove y'
 Exception in thread "main" java.lang.ExceptionInInitializerError
 	at gpt.BiGram.main(BiGram.scala)
-Caused by: java.lang.RuntimeException: probability tensor contains either `inf`, `nan` or element < 0
-Exception raised from multinomial_out at /home/runner/work/javacpp-presets/javacpp-presets/pytorch/cppbuild/linux-x86_64-gpu/pytorch/aten/src/ATen/native/Distributions.cpp:617 (most recent call first):
-frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x6c (0x7f153c0b1d8c in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10.so)
-frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, char const*) + 0x84 (0x7f153c07807e in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10.so)
-frame #2: at::native::multinomial_out(at::Tensor const&, long, bool, c10::optional<at::Generator>, at::Tensor&) + 0xe9a (0x7f1318fe9a1a in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #3: at::native::multinomial(at::Tensor const&, long, bool, c10::optional<at::Generator>) + 0xb7 (0x7f1318fe9cd7 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #4: <unknown function> + 0x2cd6a84 (0x7f132598da84 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
-frame #5: <unknown function> + 0x2cd6bbd (0x7f132598dbbd in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
-frame #6: at::_ops::multinomial::redispatch(c10::DispatchKeySet, at::Tensor const&, long, bool, c10::optional<at::Generator>) + 0x133 (0x7f131981d333 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #7: <unknown function> + 0x3c566d7 (0x7f131b59c6d7 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #8: at::_ops::multinomial::call(at::Tensor const&, long, bool, c10::optional<at::Generator>) + 0x207 (0x7f13198c0017 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
-frame #9: Java_org_bytedeco_pytorch_global_torch_multinomial__Lorg_bytedeco_pytorch_Tensor_2JZLorg_bytedeco_pytorch_GeneratorOptional_2 + 0x10b (0x7f13862077ab in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libjnitorch.so)
-frame #10: [0x7f15e5057336]
-
-	at org.bytedeco.pytorch.global.torch.multinomial(Native Method)
-	at torch.ops.RandomSamplingOps.multinomial(RandomSamplingOps.scala:48)
-	at torch.ops.RandomSamplingOps.multinomial$(RandomSamplingOps.scala:32)
-	at torch.package$.multinomial(package.scala:30)
-	at gpt.BiGram$BigramLanguageModel7.generate$$anonfun$8(BiGram.scala:2189)
-	at scala.runtime.java8.JFunction1$mcVI$sp.apply(JFunction1$mcVI$sp.scala:18)
-	at scala.collection.immutable.Range.foreach(Range.scala:190)
-	at gpt.BiGram$BigramLanguageModel7.generate(BiGram.scala:2191)
-	at gpt.BiGram$.<clinit>(BiGram.scala:2229)
+Caused by: java.lang.ArithmeticException: / by zero
+	at gpt.BiGram$.<clinit>(BiGram.scala:2386)
 	... 1 more
 1 targets failed
 examples.runMain subprocess failed

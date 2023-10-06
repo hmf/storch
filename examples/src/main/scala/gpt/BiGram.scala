@@ -69,7 +69,7 @@ val n_embed = 32 // 64
 val head_size = 16
 val n_head = 4
 val n_layer = 4
-val dropout = 0.0
+val dropout = 0.2
 // ------------
 
 
@@ -933,11 +933,10 @@ object BiGram:
   /**
    * one head of self-attention
    */
-  class Head1[D <: FloatNN: Default](
+  class Head_1[D <: FloatNN: Default](
           n_embed: Int, 
           head_size: Int, 
           block_size: Int
-          //drop: Double
           ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
 
     val key = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
@@ -945,8 +944,6 @@ object BiGram:
     val value = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
     val ones = torch.ones[D](Seq(block_size, block_size), dtype=key.paramType)
     val tril = registerBuffer(torch.tril(ones), "tril")
-
-    // val dropout = nn.Dropout(drop)
 
     def forward(x: Tensor[D]): Tensor[D] =
       // input of size (batch, time-step, channels) = (B,T,C)
@@ -991,9 +988,9 @@ object BiGram:
     val token_embedding_table = register( nn.Embedding(vocabSize, nEmbed) )
     val position_embedding_table = register( nn.Embedding(blockSize, nEmbed) )
     // head_size = n_embed, block_size = T
-    val sa_head = register( Head1(n_embed = nEmbed, head_size = head_size, block_size = blockSize) ) //, drop = 0.5)
+    val sa_head = register( Head_1(n_embed = nEmbed, head_size = head_size, block_size = blockSize) ) //, drop = 0.5)
     // val lm_head = nn.Linear(nEmbed, vocabSize)
-    // Just to test Head1 use head_size instead on embed_size
+    // Just to test Head_1 use head_size instead on embed_size
     val lm_head = register( nn.Linear(head_size, vocabSize) )
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
@@ -1337,6 +1334,7 @@ object BiGram:
     println(s"${nuParams} parameters")
     println(s"learningRate = ${learningRate}")
     println(s"maxIterations = ${maxIterations}")
+    println(s"dropout = ${dropout}")
     m.train()
     // create a PyTorch optimizer
     val optimizer = torch.optim.AdamW(m.parameters, lr=learningRate)
@@ -1417,8 +1415,8 @@ object BiGram:
                           ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
 
     // Cannot register with the same name
-    // val hs = 0 until numHeads map{ _ => register(Head1(nEmbed, headSize, blockSize)) }
-    val hs = 0 until numHeads map{ i => register_i(this, Head1(nEmbed, headSize, blockSize), i) }
+    // val hs = 0 until numHeads map{ _ => register(Head_1(nEmbed, headSize, blockSize)) }
+    val hs = 0 until numHeads map{ i => register_i(this, Head_1(nEmbed, headSize, blockSize), i) }
     // TODO: ModuleList registers submodules. Do we still register this one?
     val heads = register( nn.ModuleList( hs:_* ) )
 
@@ -1452,7 +1450,6 @@ object BiGram:
                                               blockSize = blockSize) 
                                             ) //, drop = 0.5)
     // val lm_head = nn.Linear(nEmbed, vocabSize)
-    // Just to test Head1 use head_size instead on embed_size
     val lm_head = register( nn.Linear(nEmbed, vocabSize) )
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
@@ -2065,8 +2062,8 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
                           ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
 
     // Cannot register with the same name
-    // val hs = 0 until numHeads map{ _ => register(Head1(nEmbed, headSize, blockSize)) }
-    val hs = 0 until numHeads map{ i => register_i(this, Head1(nEmbed, headSize, blockSize), i) }
+    // val hs = 0 until numHeads map{ _ => register(Head_1(nEmbed, headSize, blockSize)) }
+    val hs = 0 until numHeads map{ i => register_i(this, Head_1(nEmbed, headSize, blockSize), i) }
     val heads = register( nn.ModuleList( hs:_* ) )
     val proj = register( nn.Linear(nEmbed, nEmbed) )
 
@@ -2218,20 +2215,58 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
   // train(m9, 6.0e-6, 75000)  // step 75000: train loss 2.3925982, val loss 2.39741
   // export TF_ENABLE_ONEDNN_OPTS=0
   // TODO: reactivate
-  // train(m9, 6.0e-6, 75000)  // GPU: diverges
-  // train(m9, 6.0e-6, 75000)  // GPU: out of memory
-  // train1(m9, 6.0e-6, 75000)  // GPU: step 75000: train loss 2.3715358, val loss 2.3802633
-  // train1(m9, 8.0e-6, 75000)  // GPU: 
-  // train1(m9, 1.0e-5, 75000)  // GPU: 
-  train1(m9, 1.5e-5, 75000)  // GPU: 
-  // train(m9, 6.0e-6, 100_000)  
-  // // train(m9, 1.0e-5, 75000) // breaks
-  // // train(m9, 1.5e-5, 75000) 
-  val next11 = m9.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
-  val decoded11 = decode(next11.toSeq)
-  println(s"decode 11:'$decoded11'")
-  1/0
+  // // train(m9, 6.0e-6, 75000)  // GPU: diverges
+  // // train(m9, 6.0e-6, 75000)  // GPU: out of memory
+  // // train1(m9, 6.0e-6, 75000)  // GPU: step 75000: train loss 2.3715358, val loss 2.3802633, @ 00 00:21:35.509, mean 00 00:00:00.017
+  // train1(m9, 6.0e-6, 200_000)  // GPU: 
+  // // train1(m9, 8.0e-6, 75000)  // GPU: diverges after step 7000: train loss 2.9647808, val loss 2.9952092, mem 1.8 GiB @ 00 00:01:54.857, mean 00 00:00:00.016
+  // // train1(m9, 1.0e-5, 75000)  // GPU: diverges step 9500: train loss 3.0968044, val loss 3.1299486, mem 1.8 GiB @ 00 00:02:40.739, mean 00 00:00:00.017
+  // // train1(m9, 1.5e-5, 75000)  // GPU: diverges after step 5000: train loss 4891399.5, val loss 1130637.2, mem 1.8 GiB @ 00 00:01:25.711, mean 00 00:00:00.017
+  // // train(m9, 6.0e-6, 100_000)  
+  // // // train(m9, 1.0e-5, 75000) // breaks
+  // // // train(m9, 1.5e-5, 75000) 
+  // val next11 = m9.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
+  // val decoded11 = decode(next11.toSeq)
+  // println(s"decode 11:'$decoded11'")
+  // 1/0
 
+
+    /**
+   * multiple heads of self-attention in parallel with residual connection
+   * Add dropout
+   * 
+   * "the element-wise addition F(x) + x makes sense only if F(x) and x have 
+   * the same dimensions. If their dimensions are different, we can replace 
+   * the identity mapping with a linear transformation (i.e. multiplication 
+   * by a matrix W), and perform F(x) + Wx instead."
+   * https://towardsdatascience.com/what-is-residual-connection-efb07cab0d55
+   */
+  class MultiHeadAttention_3[D <: FloatNN: Default](
+                            numHeads: Int, 
+                            nEmbed: Int, 
+                            headSize: Int, 
+                            blockSize: Int
+                          ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
+
+    // Cannot register with the same name
+    // val hs = 0 until numHeads map{ _ => register(Head_2(nEmbed, headSize, blockSize)) }
+    val hs = 0 until numHeads map{ i => register_i(this, Head_2(nEmbed, headSize, blockSize), i) }
+    val heads = register( nn.ModuleList( hs:_* ) )
+    val proj = register( nn.Linear(nEmbed, nEmbed) )
+    val drop = register( nn.Dropout(dropout) )
+
+    def forward(x: Tensor[D]): Tensor[D] =
+        //torch.cat(heads.modules.map( h => h(x) ), dim=1)
+        val out = torch.cat(heads.map( h => h(x) ).toSeq, dim= -1)
+        // linear combination of out back into path - should this not be on x?
+        drop( proj(out) )
+
+    def apply(x:Tensor[D]): Tensor[D] = forward(x)
+
+    override def toString(): String = s"${getClass().getSimpleName()}(numHeads=$numHeads, nEmbed=$nEmbed, headSize=$headSize, blockSize=$blockSize)"
+
+
+  end MultiHeadAttention_3
 
   /**
    * Add residual connections 
@@ -2246,7 +2281,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     // n_embd: embedding dimension, n_head: the number of heads we'd like
     val headSize = nEmbed / nHead
-    val sa = register( MultiHeadAttention_2(
+    val sa = register( MultiHeadAttention_3(
                                               numHeads = 4, 
                                               nEmbed = nEmbed, // i.e: with nEmbed = 32, get 4 heads of 8 dimensional self-attention 
                                               headSize = headSize,
@@ -2369,17 +2404,250 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
   // train(m10, 7.0e-6, 75000)  // diverges from step 29000: train loss 2.6225424, val loss 2.619104
   // train(m10, 6.0e-6, 75000)  // step 75000: train loss 2.3925982, val loss 2.39741
   // export TF_ENABLE_ONEDNN_OPTS=0
-  // TODO: reactivate
-  // train(m10, 6.0e-6, 75000)  // step 75000: train loss 2.4230623, val loss 2.4327655
-  // train(m10, 7.0e-6, 75000)  // step 75000: train loss 2.4224014, val loss 2.4300454
-  train(m10, 8.0e-6, 75000)  // step 75000: train loss 2.4224014, val loss 2.4300454
-  // // train(m10, 1.0e-5, 75000) // breaks
-  // // train(m10, 1.5e-5, 75000) 
   // // TODO: reactivate
-  val next12 = m10.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
-  val decoded12 = decode(next12.toSeq)
-  println(s"decode 12:'$decoded12'")
+  // // train(m10, 6.0e-6, 75000)  // step 75000: train loss 2.4230623, val loss 2.4327655
+  // // train(m10, 7.0e-6, 75000)  // step 75000: train loss 2.4224014, val loss 2.4300454
+  // // train(m10, 8.0e-6, 75000)  // GPU out of memeory
+  // // train(m10, 9.0e-6, 75000)  // GPU out of memory
+  // // train1(m10, 8.0e-6, 75000)  // GPU
+  // train1(m10, 9.0e-6, 75000)  // GPU
+  // // // train(m10, 1.0e-5, 75000) // breaks
+  // // // train(m10, 1.5e-5, 75000) 
+  // // // TODO: reactivate
+  // val next12 = m10.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
+  // val decoded12 = decode(next12.toSeq)
+  // println(s"decode 12:'$decoded12'")
+  // 1/0
+
+
+
+  // Add Dropout
+
+  /**
+   * one head of self-attention
+   * add dropout
+   */
+  class Head_2[D <: FloatNN: Default](
+          n_embed: Int, 
+          head_size: Int, 
+          block_size: Int
+          //drop: Double
+          ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
+
+    val key = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
+    val query = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
+    val value = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
+    val ones = torch.ones[D](Seq(block_size, block_size), dtype=key.paramType)
+    val tril = registerBuffer(torch.tril(ones), "tril")
+    val drop = register( nn.Dropout( dropout ) )
+
+
+    def forward(x: Tensor[D]): Tensor[D] =
+      // input of size (batch, time-step, channels) = (B,T,C)
+      // output of size (batch, time-step, head size) = (B,T,H)
+      // batch, number of time steps, channels
+      val Seq(b,t,c) = x.shape
+      // fails on generate ?
+      // assert(block_size == t, "Block size must be equal to time step")
+
+      // key = Linear(inFeatures=C, outFeatures=T, bias=false)
+      val k = key(x)   // (B,T,C) @ (C,H) -> (B,T,H)
+      val q = query(x) // (B,T,H)
+      // compute attention scores ("affinities")
+      // c should be the head size
+      val hs = k.size.last
+      assert(head_size == hs, "Head size does not match k")
+      val qk = q `@` k.transpose(-2, -1) * Tensor(hs).pow(-0.5).to(dtype=q.dtype)  // (B, T, H) @ (B, H, T) -> (B, T, T)
+      // val mask = qk.maskedFill(tril == 0, Float.NegativeInfinity) // (B, T, T)
+      val mask = qk.maskedFill(tril((º`:`n), (º`:`n)) == 0, Float.NegativeInfinity).to(dtype=q.dtype) // (B, T, T)
+      // val softmax = F.softmax(mask, dim= -1) // (B, T, T)
+      // val wei = dropout(softmax)
+      val soft = F.softmax(mask, dim= -1) // (B, T, T)
+      val wei = drop( soft )
+      // perform the weighted aggregation of the values
+      val v = value(x) // (B,T,H)
+      val out = wei `@` v // (B, T, T) @ (B, T, H) -> (B, T, H)
+      out
+
+    def apply(x:Tensor[D]): Tensor[D] = forward(x)
+
+    override def toString(): String = s"${getClass.getSimpleName()}(n_embed=$n_embed, head_size=$head_size, block_size=$block_size)"
+  end Head_2
+
+  /** a simple linear layer followed by a non-linearity
+   * Added residual connectiopn directly into [[nn.Sequention]].
+   * Could have done it after as another Linear layer. 
+   * Add Dropout
+   *
+   * @param numHeads
+   * @param nEmbed
+   * @param headSize
+   * @param blockSize
+   */
+  class FeedFoward_3[D <: FloatNN: Default](
+                          nEmbed: Int 
+                        ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
+    val net = register( nn.Sequential(
+                    // Increase output dimension by 4
+                    nn.Linear(nEmbed, 4L * nEmbed),
+                    nn.ReLU(),
+                    // Decrease output dimension by 4
+                    nn.Linear(4L*nEmbed, nEmbed), // residual network implented using projection - why not on x directly?
+                    nn.Dropout(dropout),
+              )
+            )
+
+    def forward(x: Tensor[D]): Tensor[D] = net(x)
+
+    def apply(x:Tensor[D]): Tensor[D] = forward(x)
+
+    override def toString(): String = s"${getClass().getSimpleName()}(nEmbed = $nEmbed)"
+
+  end FeedFoward_3
+
+
+  /**
+   * Add residual connections 
+   * Add dropout
+   * 
+   */
+  class Block_4[D <: FloatNN: Default](
+                          nEmbed: Int, 
+                          nHead: Int,
+                          blockSize: Int,
+                          vocabSize: Int
+                        ) extends torch.nn.modules.TensorModule[D]: 
+
+    // n_embd: embedding dimension, n_head: the number of heads we'd like
+    val headSize = nEmbed / nHead
+    val sa = register( MultiHeadAttention_3(
+                                              numHeads = 4, 
+                                              nEmbed = nEmbed, // i.e: with nEmbed = 32, get 4 heads of 8 dimensional self-attention 
+                                              headSize = headSize,
+                                              blockSize = blockSize) 
+                                            ) //, drop = 0.5)
+    val ffwd = register( FeedFoward_3(nEmbed) )
+    // val lm_head = register( nn.Linear(nEmbed, vocabSize) )
+    val ln1 = register( nn.LayerNorm(Seq(nEmbed)) )
+    val ln2 = register( nn.LayerNorm(Seq(nEmbed)) )
+
+    def forward(x: Tensor[D]): Tensor[D] = 
+      val x1 = x + sa( ln1(x) )
+      x1 + ffwd( ln2(x) )
+
+    def apply(x:Tensor[D]): Tensor[D] = forward(x)
+
+    override def toString(): String = s"${getClass.getSimpleName()}(nEmbed = $nEmbed)"
+
+  end Block_4
+
+
+
+  /**
+   * use blocks of multi-head attention
+   * Add residual connections
+   * Add Dropout
+   * 
+   * @param vocabSize - number o tokens
+   * @param blockSize - number of tokens taken from the text input to apply to the NN
+   * @param nEmbed - number of values use for latent represent 
+   * @param nBlocks - number of blocks
+   * @param nHead- number of heads per block
+   * 
+   */
+  class BigramLanguageModel9(
+    vocabSize: Int, 
+    blockSize:Int, 
+    nEmbed: Int,
+    nBlocks: Int,
+    nHead: Int
+    ) extends BigramLanguageModel: 
+
+    // each token directly reads off the logits for the next token from a lookup table
+    val token_embedding_table = register( nn.Embedding(vocabSize, nEmbed) )
+    val position_embedding_table = register( nn.Embedding(blockSize, nEmbed) )
+    val blocks_i = 0 until nBlocks map { i => Block_4(nEmbed, nHead, blockSize, vocabSize) }
+    val blocks = register(  nn.Sequential( blocks_i:_* ) )
+    val ln_f = register( nn.LayerNorm(Seq(nEmbed)) )
+    val lm_head = register( nn.Linear(nEmbed, vocabSize) )
+
+    def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
+      val Seq(b,t) = idx.shape
+
+      // idx and targets are both (B,T) tensor of integers
+      // idx is (B,T)
+      val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
+      // positions of tokens
+      val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
+      val pos_embed = position_embedding_table( pos ) // (T,C)
+      // Add the position embeddings
+      val x0 = token_embed + pos_embed // (B,T,C)
+      val x1 = blocks(x0) // apply blocks of self-attention (B,T,C) - C = nEmbed
+      val x2 = ln_f(x1) // (B,T,C) layer norm
+      val logits = lm_head( x2 ) // (B,T,C) @ (C,vocabSize) -> (B,T,vocabSize)
+
+      if targets.isEmpty
+      then
+        val zero = torch.Tensor(0.0f) 
+        (logits, zero)
+      else
+        val Seq(b,t,c) = logits.shape
+        val logitsV = logits.view(b*t, c)  // batch size x number of classes
+        val targetsV = targets.get.view(b*t) 
+        // NOTE: we are using all of the time-steps (symbols) to calculate error
+        // Why do we not use only the last one, the prediction?
+        val loss = F.crossEntropy(logitsV, targetsV)
+        (logitsV, loss)
+
+
+    def generate(idx: Tensor[Int64], max_new_tokens: Int) =
+      var idx_ = idx.copy_(idx)
+      // idx is (B, T) array of indices in the current context
+      for i <- 0 until max_new_tokens
+      do
+        // crop idx to the last block_size tokens
+        val idx_cond = idx_(`:`, (-blockSize`:`º))
+        // println(s"idx_ ${idx_.shape} -> idx_cond ${idx_cond.shape}")
+        // println(s"idx_ |${idx_.toSeq.takeRight(blockSize)}| -> idx_cond |${idx_cond.toSeq}|")
+        // get the predictions
+        val (logits_t, loss) = apply(idx_cond)
+        // focus only on the last time step
+        val logits = logits_t(`:`, -1, `:`) // becomes (B, C)
+        // apply softmax to get probabilities
+        val probs = F.softmax(logits, dim = -1L) // (B, C)
+        // sample from the distribution
+        val idx_next = torch.multinomial(probs, numSamples=1) // (B, 1)
+        // append sampled index to the running sequence
+        idx_ = torch.cat(Seq(idx_, idx_next), dim=1) // (B, T+1)
+      idx_
+
+    def apply(x: Tensor[Int64], y: Tensor[Int64]) =
+      forward(x, Some(y) )
+
+    def apply(x: Tensor[Int64]) =
+      forward(x, None )
+
+
+  end BigramLanguageModel9
+
+  // nohup ./mill examples.runMain gpt.BiGram > expm5_1_5a.txt 2>&1 &
+  // Andrej karpathy gets 2.0607 @ 5000 (train loss is at 1.9829 which shows overfitting) 
+  // We get 3.1151032 @ 4500 
+  // Solution is more stable but convergence irratic. 
+  torch.manualSeed(1337)
+  println("Self attention Blocks + Residual connections + layer norm + Dropout - BigramLanguageModel9")
+  val m11 = BigramLanguageModel9( vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = 3, nHead = 4)
+  println(totalNuParameters(m11))
+  println(moduleInfoString(m11))
+  // train1(m11, 9.0e-6, 75000)  // GPU drop=0.5
+  // train1(m11, 9.0e-6, 75000)  // GPU drop=0.2
+  // train1(m11, 1.0e-5, 75000)  // GPU drop=0.2
+  train1(m11, 1.0e-4, 75000)  // GPU drop=0.2
+  val next13 = m11.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
+  val decoded13 = decode(next13.toSeq)
+  println(s"decode 13:'$decoded13'")
   1/0
+
 
   // https://stackoverflow.com/questions/16809134/how-to-get-a-list-of-programs-running-with-nohup
   
