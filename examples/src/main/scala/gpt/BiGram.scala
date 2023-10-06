@@ -2639,10 +2639,15 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
   val m11 = BigramLanguageModel9( vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = 3, nHead = 4)
   println(totalNuParameters(m11))
   println(moduleInfoString(m11))
-  // train1(m11, 9.0e-6, 75000)  // GPU drop=0.5
-  // train1(m11, 9.0e-6, 75000)  // GPU drop=0.2
-  // train1(m11, 1.0e-5, 75000)  // GPU drop=0.2
-  train1(m11, 1.0e-4, 75000)  // GPU drop=0.2
+  // train1(m11, 9.0e-6, 75000)  // GPU drop=0.5 step 75000: train loss 2.4913714, val loss 2.4972136, @ 00 00:23:17.986, mean 00 00:00:00.018
+  // train1(m11, 9.0e-6, 75000)  // GPU drop=0.2 step 75000: train loss 2.4140882, val loss 2.4158578, @ 00 00:23:23.490, mean 00 00:00:00.018
+  // train1(m11, 1.0e-5, 75000)  // GPU drop=0.2 step 75000: train loss 2.3861165, val loss 2.386866, @ 00 00:23:27.533, mean 00 00:00:00.018
+  // train1(m11, 1.0e-4, 75000)  // GPU drop=0.2 du«iverges at step 7000: train loss 3.6449912, val loss 3.4009697, mem 1.8 GiB @ 00 00:02:10.283, mean 00 00:00:00.018
+  // train1(m11, 5.0e-5, 75000)  // GPU drop=0.2 
+  // train1(m11, 6.0e-5, 75000)  // GPU drop=0.2 
+  // train1(m11, 7.0e-5, 75000)  // GPU drop=0.2 
+  // train1(m11, 8.0e-5, 75000)  // GPU drop=0.2 
+  train1(m11, 9.0e-5, 75000)  // GPU drop=0.2 
   val next13 = m11.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   val decoded13 = decode(next13.toSeq)
   println(s"decode 13:'$decoded13'")

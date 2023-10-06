@@ -1,4 +1,8 @@
 nohup: ignoring input
+Could not start a Mill server process.
+This could be caused by too many already running Mill instances or by an unsupported platform.
+
+Trying to run Mill in-process ...
 [info] compiling 1 Scala source to /workspaces/storch/out/examples/compile.dest/classes ...
 [warn] there were 8 deprecation warnings; re-run with -deprecation for details
 [warn] one warning found
@@ -1255,186 +1259,14 @@ BigramLanguageModel9: #108 51585 (
 )
 Device = Device(CUDA,-1)
 51585 parameters
-learningRate = 9.0E-6
+learningRate = 9.0E-5
 maxIterations = 75000
 dropout = 0.2
 step 0: train loss 4.3045254, val loss 4.314669, mem 1.2 GiB @ 00 00:00:00.000, mean 00 00:00:00.000
-step 500: train loss 4.0179386, val loss 4.035458, mem 1.2 GiB @ 00 00:00:09.207, mean 00 00:00:00.018
-step 1000: train loss 3.790268, val loss 3.8154268, mem 1.2 GiB @ 00 00:00:18.347, mean 00 00:00:00.018
-step 1500: train loss 3.6606555, val loss 3.6760533, mem 1.2 GiB @ 00 00:00:27.524, mean 00 00:00:00.018
-step 2000: train loss 3.5632544, val loss 3.591045, mem 1.2 GiB @ 00 00:00:36.666, mean 00 00:00:00.018
-step 2500: train loss 3.4891796, val loss 3.5148027, mem 1.2 GiB @ 00 00:00:45.517, mean 00 00:00:00.017
-step 3000: train loss 3.4254045, val loss 3.4540417, mem 1.2 GiB @ 00 00:00:54.158, mean 00 00:00:00.017
-step 3500: train loss 3.3741837, val loss 3.3950675, mem 1.2 GiB @ 00 00:01:03.461, mean 00 00:00:00.018
-step 4000: train loss 3.3451245, val loss 3.3991668, mem 1.2 GiB @ 00 00:01:12.919, mean 00 00:00:00.018
-step 4500: train loss 3.311128, val loss 3.3433897, mem 1.2 GiB @ 00 00:01:22.453, mean 00 00:00:00.019
-step 5000: train loss 3.2569964, val loss 3.3108919, mem 1.2 GiB @ 00 00:01:31.233, mean 00 00:00:00.017
-step 5500: train loss 3.2404394, val loss 3.281453, mem 1.2 GiB @ 00 00:01:40.380, mean 00 00:00:00.018
-step 6000: train loss 3.201138, val loss 3.2441165, mem 1.2 GiB @ 00 00:01:49.631, mean 00 00:00:00.018
-step 6500: train loss 3.1895905, val loss 3.2281978, mem 1.2 GiB @ 00 00:01:59.158, mean 00 00:00:00.019
-step 7000: train loss 3.1670861, val loss 3.2069695, mem 1.2 GiB @ 00 00:02:08.708, mean 00 00:00:00.019
-step 7500: train loss 3.1474283, val loss 3.1855798, mem 1.2 GiB @ 00 00:02:18.125, mean 00 00:00:00.018
-step 8000: train loss 3.120222, val loss 3.171538, mem 1.2 GiB @ 00 00:02:27.437, mean 00 00:00:00.018
-step 8500: train loss 3.1121013, val loss 3.146049, mem 1.2 GiB @ 00 00:02:36.937, mean 00 00:00:00.018
-step 9000: train loss 3.0961294, val loss 3.1350675, mem 1.2 GiB @ 00 00:02:46.674, mean 00 00:00:00.019
-step 9500: train loss 3.0833275, val loss 3.123784, mem 1.2 GiB @ 00 00:02:56.015, mean 00 00:00:00.018
-step 10000: train loss 3.0545752, val loss 3.1087067, mem 1.2 GiB @ 00 00:03:05.356, mean 00 00:00:00.018
-step 10500: train loss 3.0386236, val loss 3.0848522, mem 1.2 GiB @ 00 00:03:14.470, mean 00 00:00:00.018
-step 11000: train loss 3.0537376, val loss 3.06744, mem 1.2 GiB @ 00 00:03:23.619, mean 00 00:00:00.018
-step 11500: train loss 3.0217125, val loss 3.051997, mem 1.2 GiB @ 00 00:03:32.777, mean 00 00:00:00.018
-step 12000: train loss 3.0024931, val loss 3.0238278, mem 1.2 GiB @ 00 00:03:41.863, mean 00 00:00:00.018
-step 12500: train loss 2.9802434, val loss 2.9905224, mem 1.2 GiB @ 00 00:03:51.130, mean 00 00:00:00.018
-step 13000: train loss 2.965401, val loss 3.0096729, mem 1.2 GiB @ 00 00:04:00.378, mean 00 00:00:00.018
-step 13500: train loss 2.962411, val loss 2.9793046, mem 1.2 GiB @ 00 00:04:09.990, mean 00 00:00:00.019
-step 14000: train loss 2.9592524, val loss 2.9735112, mem 1.2 GiB @ 00 00:04:19.386, mean 00 00:00:00.018
-step 14500: train loss 2.927204, val loss 2.959757, mem 1.2 GiB @ 00 00:04:28.659, mean 00 00:00:00.018
-step 15000: train loss 2.916311, val loss 2.9499059, mem 1.2 GiB @ 00 00:04:38.100, mean 00 00:00:00.018
-step 15500: train loss 2.8992832, val loss 2.9444766, mem 1.2 GiB @ 00 00:04:47.289, mean 00 00:00:00.018
-step 16000: train loss 2.9064653, val loss 2.9171743, mem 1.2 GiB @ 00 00:04:56.521, mean 00 00:00:00.018
-step 16500: train loss 2.8765595, val loss 2.8890953, mem 1.2 GiB @ 00 00:05:06.054, mean 00 00:00:00.019
-step 17000: train loss 2.8498592, val loss 2.8958826, mem 1.2 GiB @ 00 00:05:15.474, mean 00 00:00:00.018
-step 17500: train loss 2.8453448, val loss 2.8789952, mem 1.2 GiB @ 00 00:05:24.730, mean 00 00:00:00.018
-step 18000: train loss 2.8463342, val loss 2.8743813, mem 1.2 GiB @ 00 00:05:34.380, mean 00 00:00:00.019
-step 18500: train loss 2.847494, val loss 2.878479, mem 1.2 GiB @ 00 00:05:43.922, mean 00 00:00:00.019
-step 19000: train loss 2.8089187, val loss 2.8490233, mem 1.2 GiB @ 00 00:05:53.360, mean 00 00:00:00.018
-step 19500: train loss 2.8226068, val loss 2.8418322, mem 1.2 GiB @ 00 00:06:02.726, mean 00 00:00:00.018
-step 20000: train loss 2.824234, val loss 2.825476, mem 1.2 GiB @ 00 00:06:12.297, mean 00 00:00:00.019
-step 20500: train loss 2.808453, val loss 2.8148096, mem 1.2 GiB @ 00 00:06:21.599, mean 00 00:00:00.018
-step 21000: train loss 2.7961867, val loss 2.8133667, mem 1.2 GiB @ 00 00:06:31.297, mean 00 00:00:00.019
-step 21500: train loss 2.804123, val loss 2.8265245, mem 1.2 GiB @ 00 00:06:40.672, mean 00 00:00:00.018
-step 22000: train loss 2.7740357, val loss 2.8083794, mem 1.2 GiB @ 00 00:06:50.112, mean 00 00:00:00.018
-step 22500: train loss 2.7726958, val loss 2.8121197, mem 1.2 GiB @ 00 00:06:59.444, mean 00 00:00:00.018
-step 23000: train loss 2.7617252, val loss 2.7821138, mem 1.2 GiB @ 00 00:07:08.951, mean 00 00:00:00.019
-step 23500: train loss 2.7665758, val loss 2.7755542, mem 1.2 GiB @ 00 00:07:18.405, mean 00 00:00:00.018
-step 24000: train loss 2.740954, val loss 2.765855, mem 1.2 GiB @ 00 00:07:27.871, mean 00 00:00:00.018
-step 24500: train loss 2.7309616, val loss 2.743423, mem 1.2 GiB @ 00 00:07:37.273, mean 00 00:00:00.018
-step 25000: train loss 2.7220397, val loss 2.7351587, mem 1.2 GiB @ 00 00:07:46.792, mean 00 00:00:00.019
-step 25500: train loss 2.7116473, val loss 2.7273917, mem 1.2 GiB @ 00 00:07:56.212, mean 00 00:00:00.018
-step 26000: train loss 2.7119482, val loss 2.7278354, mem 1.2 GiB @ 00 00:08:05.483, mean 00 00:00:00.018
-step 26500: train loss 2.6974077, val loss 2.718943, mem 1.2 GiB @ 00 00:08:14.978, mean 00 00:00:00.018
-step 27000: train loss 2.690542, val loss 2.6882036, mem 1.2 GiB @ 00 00:08:24.426, mean 00 00:00:00.018
-step 27500: train loss 2.6841695, val loss 2.714278, mem 1.2 GiB @ 00 00:08:34.100, mean 00 00:00:00.019
-step 28000: train loss 2.6767802, val loss 2.6909084, mem 1.2 GiB @ 00 00:08:43.668, mean 00 00:00:00.019
-step 28500: train loss 2.6722026, val loss 2.7048705, mem 1.2 GiB @ 00 00:08:53.244, mean 00 00:00:00.019
-step 29000: train loss 2.6737819, val loss 2.675015, mem 1.2 GiB @ 00 00:09:02.572, mean 00 00:00:00.018
-step 29500: train loss 2.6625226, val loss 2.6857948, mem 1.2 GiB @ 00 00:09:12.158, mean 00 00:00:00.019
-step 30000: train loss 2.6472921, val loss 2.6676147, mem 1.2 GiB @ 00 00:09:21.734, mean 00 00:00:00.019
-step 30500: train loss 2.653312, val loss 2.657157, mem 1.2 GiB @ 00 00:09:31.286, mean 00 00:00:00.019
-step 31000: train loss 2.6433773, val loss 2.664839, mem 1.2 GiB @ 00 00:09:40.721, mean 00 00:00:00.018
-step 31500: train loss 2.6276352, val loss 2.6730475, mem 1.2 GiB @ 00 00:09:50.226, mean 00 00:00:00.019
-step 32000: train loss 2.6140153, val loss 2.6456544, mem 1.2 GiB @ 00 00:09:59.769, mean 00 00:00:00.019
-step 32500: train loss 2.6171606, val loss 2.640539, mem 1.2 GiB @ 00 00:10:09.083, mean 00 00:00:00.018
-step 33000: train loss 2.6266744, val loss 2.6397054, mem 1.2 GiB @ 00 00:10:18.355, mean 00 00:00:00.018
-step 33500: train loss 2.6089041, val loss 2.6257062, mem 1.2 GiB @ 00 00:10:27.746, mean 00 00:00:00.018
-step 34000: train loss 2.6152399, val loss 2.6220996, mem 1.2 GiB @ 00 00:10:37.063, mean 00 00:00:00.018
-step 34500: train loss 2.6136813, val loss 2.5997102, mem 1.2 GiB @ 00 00:10:46.348, mean 00 00:00:00.018
-step 35000: train loss 2.5841787, val loss 2.6140194, mem 1.2 GiB @ 00 00:10:55.793, mean 00 00:00:00.018
-step 35500: train loss 2.584522, val loss 2.599031, mem 1.2 GiB @ 00 00:11:05.189, mean 00 00:00:00.018
-step 36000: train loss 2.6021338, val loss 2.5748394, mem 1.2 GiB @ 00 00:11:14.783, mean 00 00:00:00.019
-step 36500: train loss 2.5854595, val loss 2.601921, mem 1.2 GiB @ 00 00:11:24.209, mean 00 00:00:00.018
-step 37000: train loss 2.576726, val loss 2.5916107, mem 1.2 GiB @ 00 00:11:33.663, mean 00 00:00:00.018
-step 37500: train loss 2.5791028, val loss 2.593469, mem 1.2 GiB @ 00 00:11:43.341, mean 00 00:00:00.019
-step 38000: train loss 2.577482, val loss 2.5810277, mem 1.2 GiB @ 00 00:11:52.880, mean 00 00:00:00.019
-step 38500: train loss 2.5712655, val loss 2.5782213, mem 1.2 GiB @ 00 00:12:02.353, mean 00 00:00:00.018
-step 39000: train loss 2.5653481, val loss 2.5714166, mem 1.2 GiB @ 00 00:12:11.628, mean 00 00:00:00.018
-step 39500: train loss 2.5592651, val loss 2.5702863, mem 1.2 GiB @ 00 00:12:21.145, mean 00 00:00:00.019
-step 40000: train loss 2.5438902, val loss 2.5786803, mem 1.2 GiB @ 00 00:12:30.497, mean 00 00:00:00.018
-step 40500: train loss 2.545428, val loss 2.5663042, mem 1.2 GiB @ 00 00:12:40.041, mean 00 00:00:00.019
-step 41000: train loss 2.5426497, val loss 2.5451272, mem 1.2 GiB @ 00 00:12:49.316, mean 00 00:00:00.018
-step 41500: train loss 2.580199, val loss 2.5709524, mem 1.2 GiB @ 00 00:12:58.843, mean 00 00:00:00.019
-step 42000: train loss 2.5831308, val loss 2.5894847, mem 1.2 GiB @ 00 00:13:08.183, mean 00 00:00:00.018
-step 42500: train loss 2.5699494, val loss 2.5773144, mem 1.2 GiB @ 00 00:13:17.421, mean 00 00:00:00.018
-step 43000: train loss 2.5482297, val loss 2.578034, mem 1.2 GiB @ 00 00:13:26.806, mean 00 00:00:00.018
-step 43500: train loss 2.5554543, val loss 2.572679, mem 1.2 GiB @ 00 00:13:36.266, mean 00 00:00:00.018
-step 44000: train loss 2.5578833, val loss 2.559603, mem 1.2 GiB @ 00 00:13:45.613, mean 00 00:00:00.018
-step 44500: train loss 2.53225, val loss 2.5457897, mem 1.2 GiB @ 00 00:13:54.986, mean 00 00:00:00.018
-step 45000: train loss 2.520626, val loss 2.5570955, mem 1.2 GiB @ 00 00:14:04.312, mean 00 00:00:00.018
-step 45500: train loss 2.5397577, val loss 2.5445998, mem 1.2 GiB @ 00 00:14:13.713, mean 00 00:00:00.018
-step 46000: train loss 2.52038, val loss 2.5236976, mem 1.2 GiB @ 00 00:14:23.310, mean 00 00:00:00.019
-step 46500: train loss 2.5263515, val loss 2.5323694, mem 1.2 GiB @ 00 00:14:32.905, mean 00 00:00:00.019
-step 47000: train loss 2.5232832, val loss 2.5158794, mem 1.2 GiB @ 00 00:14:42.213, mean 00 00:00:00.018
-step 47500: train loss 2.509363, val loss 2.5184233, mem 1.2 GiB @ 00 00:14:51.520, mean 00 00:00:00.018
-step 48000: train loss 2.5052452, val loss 2.525329, mem 1.2 GiB @ 00 00:15:00.891, mean 00 00:00:00.018
-step 48500: train loss 2.50762, val loss 2.5015254, mem 1.2 GiB @ 00 00:15:10.410, mean 00 00:00:00.019
-step 49000: train loss 2.5039806, val loss 2.516693, mem 1.2 GiB @ 00 00:15:19.734, mean 00 00:00:00.018
-step 49500: train loss 2.503189, val loss 2.509087, mem 1.2 GiB @ 00 00:15:29.128, mean 00 00:00:00.018
-step 50000: train loss 2.4843433, val loss 2.5169861, mem 1.2 GiB @ 00 00:15:38.518, mean 00 00:00:00.018
-step 50500: train loss 2.4969037, val loss 2.4992194, mem 1.2 GiB @ 00 00:15:48.065, mean 00 00:00:00.019
-step 51000: train loss 2.4926374, val loss 2.5099757, mem 1.2 GiB @ 00 00:15:57.645, mean 00 00:00:00.019
-step 51500: train loss 2.4971404, val loss 2.5025573, mem 1.2 GiB @ 00 00:16:07.130, mean 00 00:00:00.018
-step 52000: train loss 2.5038962, val loss 2.4907331, mem 1.2 GiB @ 00 00:16:16.667, mean 00 00:00:00.019
-step 52500: train loss 2.5100365, val loss 2.4906437, mem 1.2 GiB @ 00 00:16:26.158, mean 00 00:00:00.018
-step 53000: train loss 2.490211, val loss 2.4933693, mem 1.2 GiB @ 00 00:16:35.489, mean 00 00:00:00.018
-step 53500: train loss 2.5004282, val loss 2.4917402, mem 1.2 GiB @ 00 00:16:44.789, mean 00 00:00:00.018
-step 54000: train loss 2.4800022, val loss 2.4910042, mem 1.2 GiB @ 00 00:16:53.950, mean 00 00:00:00.018
-step 54500: train loss 2.4814322, val loss 2.4888363, mem 1.2 GiB @ 00 00:17:03.356, mean 00 00:00:00.018
-step 55000: train loss 2.480537, val loss 2.4929001, mem 1.2 GiB @ 00 00:17:12.744, mean 00 00:00:00.018
-step 55500: train loss 2.4677422, val loss 2.4865127, mem 1.2 GiB @ 00 00:17:21.967, mean 00 00:00:00.018
-step 56000: train loss 2.4704905, val loss 2.4841137, mem 1.2 GiB @ 00 00:17:31.221, mean 00 00:00:00.018
-step 56500: train loss 2.4744573, val loss 2.4795382, mem 1.2 GiB @ 00 00:17:40.479, mean 00 00:00:00.018
-step 57000: train loss 2.4696875, val loss 2.4663346, mem 1.2 GiB @ 00 00:17:49.619, mean 00 00:00:00.018
-step 57500: train loss 2.478049, val loss 2.4613547, mem 1.2 GiB @ 00 00:17:59.038, mean 00 00:00:00.018
-step 58000: train loss 2.4557793, val loss 2.4672792, mem 1.2 GiB @ 00 00:18:08.318, mean 00 00:00:00.018
-step 58500: train loss 2.4618905, val loss 2.4654758, mem 1.2 GiB @ 00 00:18:17.710, mean 00 00:00:00.018
-step 59000: train loss 2.4495027, val loss 2.4620528, mem 1.2 GiB @ 00 00:18:27.144, mean 00 00:00:00.018
-step 59500: train loss 2.449648, val loss 2.4576259, mem 1.2 GiB @ 00 00:18:36.640, mean 00 00:00:00.018
-step 60000: train loss 2.4751167, val loss 2.4735718, mem 1.2 GiB @ 00 00:18:46.277, mean 00 00:00:00.019
-step 60500: train loss 2.4535947, val loss 2.451936, mem 1.2 GiB @ 00 00:18:55.713, mean 00 00:00:00.018
-step 61000: train loss 2.4396765, val loss 2.453139, mem 1.2 GiB @ 00 00:19:04.975, mean 00 00:00:00.018
-step 61500: train loss 2.4580534, val loss 2.4608939, mem 1.2 GiB @ 00 00:19:14.189, mean 00 00:00:00.018
-step 62000: train loss 2.446538, val loss 2.4568894, mem 1.2 GiB @ 00 00:19:23.521, mean 00 00:00:00.018
-step 62500: train loss 2.4370482, val loss 2.4490051, mem 1.2 GiB @ 00 00:19:32.992, mean 00 00:00:00.018
-step 63000: train loss 2.4385283, val loss 2.453982, mem 1.2 GiB @ 00 00:19:42.453, mean 00 00:00:00.018
-step 63500: train loss 2.4238536, val loss 2.4560382, mem 1.2 GiB @ 00 00:19:52.113, mean 00 00:00:00.019
-step 64000: train loss 2.419967, val loss 2.4445915, mem 1.2 GiB @ 00 00:20:01.689, mean 00 00:00:00.019
-step 64500: train loss 2.4311914, val loss 2.4397113, mem 1.2 GiB @ 00 00:20:10.796, mean 00 00:00:00.018
-step 65000: train loss 2.4362097, val loss 2.449304, mem 1.2 GiB @ 00 00:20:20.368, mean 00 00:00:00.019
-step 65500: train loss 2.4348373, val loss 2.4561381, mem 1.2 GiB @ 00 00:20:29.502, mean 00 00:00:00.018
-step 66000: train loss 2.42038, val loss 2.4341598, mem 1.2 GiB @ 00 00:20:38.439, mean 00 00:00:00.017
-step 66500: train loss 2.4440088, val loss 2.4189925, mem 1.2 GiB @ 00 00:20:47.724, mean 00 00:00:00.018
-step 67000: train loss 2.428676, val loss 2.4159772, mem 1.2 GiB @ 00 00:20:57.066, mean 00 00:00:00.018
-step 67500: train loss 2.4348366, val loss 2.4318416, mem 1.2 GiB @ 00 00:21:06.163, mean 00 00:00:00.018
-step 68000: train loss 2.4192278, val loss 2.4412491, mem 1.2 GiB @ 00 00:21:15.122, mean 00 00:00:00.017
-step 68500: train loss 2.4276428, val loss 2.429696, mem 1.2 GiB @ 00 00:21:24.367, mean 00 00:00:00.018
-step 69000: train loss 2.429201, val loss 2.4383688, mem 1.2 GiB @ 00 00:21:33.406, mean 00 00:00:00.018
-step 69500: train loss 2.4180307, val loss 2.4290175, mem 1.2 GiB @ 00 00:21:42.853, mean 00 00:00:00.018
-step 70000: train loss 2.4098966, val loss 2.4091167, mem 1.2 GiB @ 00 00:21:52.069, mean 00 00:00:00.018
-step 70500: train loss 2.4017186, val loss 2.4190643, mem 1.2 GiB @ 00 00:22:01.218, mean 00 00:00:00.018
-step 71000: train loss 2.4406378, val loss 2.4352884, mem 1.2 GiB @ 00 00:22:10.422, mean 00 00:00:00.018
-step 71500: train loss 2.4054544, val loss 2.4203331, mem 1.2 GiB @ 00 00:22:19.591, mean 00 00:00:00.018
-step 72000: train loss 2.4040537, val loss 2.414177, mem 1.2 GiB @ 00 00:22:28.533, mean 00 00:00:00.017
-step 72500: train loss 2.40354, val loss 2.430518, mem 1.2 GiB @ 00 00:22:37.575, mean 00 00:00:00.018
-step 73000: train loss 2.4050548, val loss 2.4069269, mem 1.2 GiB @ 00 00:22:46.742, mean 00 00:00:00.018
-step 73500: train loss 2.4034212, val loss 2.4260302, mem 1.2 GiB @ 00 00:22:55.993, mean 00 00:00:00.018
-step 74000: train loss 2.4259028, val loss 2.4134142, mem 1.2 GiB @ 00 00:23:04.978, mean 00 00:00:00.017
-step 74500: train loss 2.4139261, val loss 2.4099855, mem 1.2 GiB @ 00 00:23:14.190, mean 00 00:00:00.018
-step 74999: train loss 2.414335, val loss 2.4184015, mem 1.2 GiB @ 00 00:23:23.476, mean 00 00:00:00.018
-step 75000: train loss 2.4140882, val loss 2.4158578, @ 00 00:23:23.490, mean 00 00:00:00.018
-decode 13:'
-
-
-
-
-
-
-
-Th gou be wun,
-Atheay err've I obPou yrimy xpint th surghallik iet solmerdd.
-capllH elall scerstisite to fuswswadan's amen le theltros oune; G ald m'r?
-
-ARomusstlsen yhe-eal's
-Thighers toeee ut prish.
-
-Srimeend thee howern.
-
-WKORI mSe meponcrelan falivipom we mye my
-Lhadn eath-iche donees tond so hearoud I fothmf sout sinet dog, sin grok oug she outh br fno'ly ode tald min tad are? ming to thea tiss Ciy gonst, had domdkerei phe it seelg theagry alerd tanis banss'y !, nou
-Cat yrf
-Shar teveour he,'
-Exception in thread "main" java.lang.ExceptionInInitializerError
-	at gpt.BiGram.main(BiGram.scala)
-Caused by: java.lang.ArithmeticException: / by zero
-	at gpt.BiGram$.<clinit>(BiGram.scala:2646)
-	... 1 more
-1 targets failed
-examples.runMain subprocess failed
+step 500: train loss 3.3296, val loss 3.3733008, mem 1.2 GiB @ 00 00:00:09.568, mean 00 00:00:00.019
+step 1000: train loss 3.4134674, val loss 3.37828, mem 1.2 GiB @ 00 00:00:19.270, mean 00 00:00:00.019
+step 1500: train loss 3.445549, val loss 3.3465161, mem 1.2 GiB @ 00 00:00:28.856, mean 00 00:00:00.019
+step 2000: train loss 5.2903037, val loss 3.2641366, mem 1.2 GiB @ 00 00:00:38.590, mean 00 00:00:00.019
+step 2500: train loss 5.6316495, val loss 3.2532659, mem 1.2 GiB @ 00 00:00:48.108, mean 00 00:00:00.019
+step 3000: train loss 4.0997033, val loss 3.4462004, mem 1.2 GiB @ 00 00:00:57.642, mean 00 00:00:00.019
+step 3500: train loss 60.94859, val loss 42.41455, mem 1.2 GiB @ 00 00:01:07.142, mean 00 00:00:00.018
