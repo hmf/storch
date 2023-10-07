@@ -2533,7 +2533,8 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def forward(x: Tensor[D]): Tensor[D] = 
       val x1 = x + sa( ln1(x) )
-      x1 + ffwd( ln2(x) )
+      // TODO: BUG - x1 + ffwd( ln2(x) )
+      x1 + ffwd( ln2(x1) )
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
@@ -2577,6 +2578,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
       // idx and targets are both (B,T) tensor of integers
       // idx is (B,T)
       val token_embed = token_embedding_table( idx ) // (B,T,C) where C is nEmbed
+      // TODO: move pos to initialization?
       // positions of tokens
       val pos = torch.arange(0L,t, device=device) // (T) were T is the block size?
       val pos_embed = position_embedding_table( pos ) // (T,C)
@@ -2588,6 +2590,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
       if targets.isEmpty
       then
+        // TODO make constant?
         val zero = torch.Tensor(0.0f) 
         (logits, zero)
       else
