@@ -315,10 +315,9 @@ object V2:
   val learning_rate = 1e-3 // 1e-2
   //val device = 'cuda' if torch.cuda.is_available() else 'cpu'
   val eval_iters = 200
-  val n_embed = 32 // 64
-  val head_size = 16
-  val n_head = 4
-  val n_layer = 4
+  val n_embed = 384 // 64 // #~3
+  val n_head = 6    // #~2
+  val n_layer = 6  // #~1
   val dropout = 0.2
 
 
@@ -1041,7 +1040,8 @@ object V2:
   val dropout = 0.2
 */
 
-    val model = GPTLanguageModel(vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = 3, nHead = 4, dropout= dropout)
+    // val model = GPTLanguageModel(vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = 3, nHead = 4, dropout= dropout)
+    val model = GPTLanguageModel(vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = n_layer, nHead = n_head, dropout= dropout)
     // val model = GPTLanguageModel(vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = n_layer, nHead = n_head, dropout= dropout)
     // val model = BiGram.BigramLanguageModel9( vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = 3, nHead = 4)
     println(totalNuParameters(model))
@@ -1073,6 +1073,38 @@ object V2:
   
 end V2
 
+
+/*
+
+
+#~2
+
+Device = Device(CUDA,-1)
+95937 parameters
+learningRate = 1.1E-5
+maxIterations = 450000
+dropout = 0.2
+step 0: train loss 4.2899413, val loss 4.2902613, mem 1.3 GiB @ 00 00:00:00.000, mean 00 00:00:00.000
+step 500: train loss 3.8862078, val loss 3.891418, mem 1.6 GiB @ 00 00:00:18.112, mean 00 00:00:00.036
+step 1000: train loss 3.728491, val loss 3.7295227, mem 1.6 GiB @ 00 00:00:36.133, mean 00 00:00:00.036
+step 1500: train loss 3.6288931, val loss 3.626859, mem 1.6 GiB @ 00 00:00:55.364, mean 00 00:00:00.038
+step 2000: train loss 3.5194693, val loss 3.5491323, mem 1.6 GiB @ 00 00:01:14.251, mean 00 00:00:00.037
+step 2500: train loss 3.4499502, val loss 3.4583037, mem 1.6 GiB @ 00 00:01:32.808, mean 00 00:00:00.037
+
+#~1
+
+1585 parameters
+learningRate = 1.1E-5
+maxIterations = 450000
+dropout = 0.2
+step 0: train loss 4.423659, val loss 4.4229326, mem 801.4 MiB @ 00 00:00:00.000, mean 00 00:00:00.000
+step 500: train loss 4.1128616, val loss 4.127762, mem 1000.7 MiB @ 00 00:00:09.007, mean 00 00:00:00.018
+step 1000: train loss 3.8567889, val loss 3.8830547, mem 1001.2 MiB @ 00 00:00:18.007, mean 00 00:00:00.017
+step 1500: train loss 3.705913, val loss 3.73203, mem 1009.9 MiB @ 00 00:00:27.009, mean 00 00:00:00.018
+step 2000: train loss 3.6056633, val loss 3.633715, mem 1010.9 MiB @ 00 00:00:35.788, mean 00 00:00:00.017
+step 2500: train loss 3.5196228, val loss 3.545664, mem 1015.3 MiB @ 00 00:00:44.607, mean 00 
+
+*/
 
 /*
 
@@ -1160,5 +1192,6 @@ frame #22: [0x7f75b89a053a]
 1 targets failed
 examples.runMain subprocess failed
 vscode ➜ /workspaces/storch (explore_1) $ 
+
 
 */
