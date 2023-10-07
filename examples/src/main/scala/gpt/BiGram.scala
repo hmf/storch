@@ -2653,7 +2653,8 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
   // train1(m11, 4.0e-5, 75000)  // GPU drop=0.2 diverges at step 6000: train loss 4.7299194, val loss 3.5654094, mem 1.2 GiB @ 00 00:01:50.933, mean 00 00:00:00.018
   // train1(m11, 1.1e-5, 75000)  // GPU step 75000: train loss 2.3822658, val loss 2.3795679, @ 00 00:21:57.124, mean 00 00:00:00.017
   // train1(m11, 1.1e-5, 125_000)  // GPU step 125000: train loss 2.2779074, val loss 2.2849174, @ 00 00:37:16.068, mean 00 00:00:00.017
-  train1(m11, 1.1e-5, 250_000)  // GPU 
+  // train1(m11, 1.1e-5, 250_000)  // GPU step 250000: train loss 2.1529706, val loss 2.1667058, @ 00 01:15:29.355, mean 00 00:00:00.018
+  train1(m11, 1.1e-5, 350_000)  // GPU 
   val next13 = m11.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   val decoded13 = decode(next13.toSeq)
   println(s"decode 13:'$decoded13'")
