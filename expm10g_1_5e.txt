@@ -1274,3 +1274,167 @@ step 6000: train loss 4.6023626, val loss 3.5970361, mem 1.8 GiB @ 00 00:01:52.0
 step 6500: train loss 8.965195, val loss 4.4524245, mem 1.8 GiB @ 00 00:02:01.530, mean 00 00:00:00.018
 step 7000: train loss 9.870474, val loss 6.2102246, mem 1.8 GiB @ 00 00:02:11.085, mean 00 00:00:00.019
 step 7500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:02:20.771, mean 00 00:00:00.019
+step 8000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:02:30.491, mean 00 00:00:00.019
+step 8500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:02:40.275, mean 00 00:00:00.019
+step 9000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:02:49.948, mean 00 00:00:00.019
+step 9500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:02:59.710, mean 00 00:00:00.019
+step 10000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:09.463, mean 00 00:00:00.019
+step 10500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:19.174, mean 00 00:00:00.019
+step 11000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:28.845, mean 00 00:00:00.019
+step 11500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:38.431, mean 00 00:00:00.019
+step 12000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:48.029, mean 00 00:00:00.019
+step 12500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:03:57.816, mean 00 00:00:00.019
+step 13000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:07.505, mean 00 00:00:00.019
+step 13500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:17.256, mean 00 00:00:00.019
+step 14000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:27.023, mean 00 00:00:00.019
+step 14500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:36.710, mean 00 00:00:00.019
+step 15000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:46.561, mean 00 00:00:00.019
+step 15500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:04:56.368, mean 00 00:00:00.019
+step 16000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:06.094, mean 00 00:00:00.019
+step 16500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:15.873, mean 00 00:00:00.019
+step 17000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:25.461, mean 00 00:00:00.019
+step 17500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:35.378, mean 00 00:00:00.019
+step 18000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:45.265, mean 00 00:00:00.019
+step 18500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:05:54.945, mean 00 00:00:00.019
+step 19000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:04.561, mean 00 00:00:00.019
+step 19500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:14.341, mean 00 00:00:00.019
+step 20000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:23.982, mean 00 00:00:00.019
+step 20500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:33.681, mean 00 00:00:00.019
+step 21000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:43.322, mean 00 00:00:00.019
+step 21500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:06:53.014, mean 00 00:00:00.019
+step 22000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:02.736, mean 00 00:00:00.019
+step 22500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:12.476, mean 00 00:00:00.019
+step 23000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:22.233, mean 00 00:00:00.019
+step 23500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:31.948, mean 00 00:00:00.019
+step 24000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:41.609, mean 00 00:00:00.019
+step 24500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:07:51.392, mean 00 00:00:00.019
+step 25000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:01.228, mean 00 00:00:00.019
+step 25500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:11.081, mean 00 00:00:00.019
+step 26000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:20.682, mean 00 00:00:00.019
+step 26500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:30.606, mean 00 00:00:00.019
+step 27000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:40.274, mean 00 00:00:00.019
+step 27500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:50.044, mean 00 00:00:00.019
+step 28000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:08:59.686, mean 00 00:00:00.019
+step 28500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:09:09.441, mean 00 00:00:00.019
+step 29000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:09:19.167, mean 00 00:00:00.019
+step 29500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:09:28.780, mean 00 00:00:00.019
+step 30000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:09:38.547, mean 00 00:00:00.019
+step 30500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:09:48.264, mean 00 00:00:00.019
+step 31000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:09:58.113, mean 00 00:00:00.019
+step 31500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:07.788, mean 00 00:00:00.019
+step 32000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:17.722, mean 00 00:00:00.019
+step 32500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:27.338, mean 00 00:00:00.019
+step 33000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:37.085, mean 00 00:00:00.019
+step 33500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:46.941, mean 00 00:00:00.019
+step 34000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:10:56.701, mean 00 00:00:00.019
+step 34500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:06.661, mean 00 00:00:00.019
+step 35000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:16.612, mean 00 00:00:00.019
+step 35500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:26.527, mean 00 00:00:00.019
+step 36000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:36.360, mean 00 00:00:00.019
+step 36500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:46.199, mean 00 00:00:00.019
+step 37000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:11:56.020, mean 00 00:00:00.019
+step 37500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:05.711, mean 00 00:00:00.019
+step 38000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:15.533, mean 00 00:00:00.019
+step 38500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:25.431, mean 00 00:00:00.019
+step 39000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:35.282, mean 00 00:00:00.019
+step 39500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:45.041, mean 00 00:00:00.019
+step 40000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:12:54.901, mean 00 00:00:00.019
+step 40500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:04.702, mean 00 00:00:00.019
+step 41000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:14.516, mean 00 00:00:00.019
+step 41500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:24.267, mean 00 00:00:00.019
+step 42000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:34.284, mean 00 00:00:00.020
+step 42500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:44.356, mean 00 00:00:00.020
+step 43000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:13:54.137, mean 00 00:00:00.019
+step 43500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:03.949, mean 00 00:00:00.019
+step 44000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:13.975, mean 00 00:00:00.020
+step 44500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:23.901, mean 00 00:00:00.019
+step 45000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:33.691, mean 00 00:00:00.019
+step 45500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:43.654, mean 00 00:00:00.019
+step 46000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:14:53.644, mean 00 00:00:00.019
+step 46500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:03.519, mean 00 00:00:00.019
+step 47000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:13.327, mean 00 00:00:00.019
+step 47500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:23.299, mean 00 00:00:00.019
+step 48000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:33.263, mean 00 00:00:00.019
+step 48500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:43.041, mean 00 00:00:00.019
+step 49000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:15:52.938, mean 00 00:00:00.019
+step 49500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:02.943, mean 00 00:00:00.020
+step 50000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:12.888, mean 00 00:00:00.019
+step 50500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:22.725, mean 00 00:00:00.019
+step 51000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:32.612, mean 00 00:00:00.019
+step 51500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:42.489, mean 00 00:00:00.019
+step 52000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:16:52.324, mean 00 00:00:00.019
+step 52500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:02.167, mean 00 00:00:00.019
+step 53000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:11.973, mean 00 00:00:00.019
+step 53500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:21.910, mean 00 00:00:00.019
+step 54000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:31.775, mean 00 00:00:00.019
+step 54500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:41.591, mean 00 00:00:00.019
+step 55000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:17:51.455, mean 00 00:00:00.019
+step 55500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:01.166, mean 00 00:00:00.019
+step 56000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:11.017, mean 00 00:00:00.019
+step 56500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:20.893, mean 00 00:00:00.019
+step 57000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:30.752, mean 00 00:00:00.019
+step 57500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:40.486, mean 00 00:00:00.019
+step 58000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:18:50.280, mean 00 00:00:00.019
+step 58500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:00.219, mean 00 00:00:00.019
+step 59000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:09.880, mean 00 00:00:00.019
+step 59500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:19.676, mean 00 00:00:00.019
+step 60000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:29.551, mean 00 00:00:00.019
+step 60500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:39.642, mean 00 00:00:00.020
+step 61000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:49.448, mean 00 00:00:00.019
+step 61500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:19:59.143, mean 00 00:00:00.019
+step 62000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:08.965, mean 00 00:00:00.019
+step 62500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:18.758, mean 00 00:00:00.019
+step 63000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:28.576, mean 00 00:00:00.019
+step 63500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:38.461, mean 00 00:00:00.019
+step 64000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:48.249, mean 00 00:00:00.019
+step 64500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:20:58.049, mean 00 00:00:00.019
+step 65000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:21:07.929, mean 00 00:00:00.019
+step 65500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:21:17.716, mean 00 00:00:00.019
+step 66000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:21:27.224, mean 00 00:00:00.019
+step 66500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:21:36.903, mean 00 00:00:00.019
+step 67000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:21:46.713, mean 00 00:00:00.019
+step 67500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:21:56.579, mean 00 00:00:00.019
+step 68000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:22:06.239, mean 00 00:00:00.019
+step 68500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:22:15.929, mean 00 00:00:00.019
+step 69000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:22:25.688, mean 00 00:00:00.019
+step 69500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:22:35.532, mean 00 00:00:00.019
+step 70000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:22:45.276, mean 00 00:00:00.019
+step 70500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:22:55.065, mean 00 00:00:00.019
+step 71000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:23:05.036, mean 00 00:00:00.019
+step 71500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:23:14.863, mean 00 00:00:00.019
+step 72000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:23:24.644, mean 00 00:00:00.019
+step 72500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:23:34.333, mean 00 00:00:00.019
+step 73000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:23:44.077, mean 00 00:00:00.019
+step 73500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:23:53.903, mean 00 00:00:00.019
+step 74000: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:24:03.804, mean 00 00:00:00.019
+step 74500: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:24:13.580, mean 00 00:00:00.019
+step 74999: train loss NaN, val loss NaN, mem 1.8 GiB @ 00 00:24:23.388, mean 00 00:00:00.019
+step 75000: train loss NaN, val loss NaN, @ 00 00:24:23.404, mean 00 00:00:00.019
+Exception in thread "main" java.lang.ExceptionInInitializerError
+	at gpt.BiGram.main(BiGram.scala)
+Caused by: java.lang.RuntimeException: probability tensor contains either `inf`, `nan` or element < 0
+Exception raised from multinomial_out at /home/runner/work/javacpp-presets/javacpp-presets/pytorch/cppbuild/linux-x86_64-gpu/pytorch/aten/src/ATen/native/Distributions.cpp:617 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x6c (0x7f96887b7d8c in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10.so)
+frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, char const*) + 0x84 (0x7f968877e07e in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10.so)
+frame #2: at::native::multinomial_out(at::Tensor const&, long, bool, c10::optional<at::Generator>, at::Tensor&) + 0xe9a (0x7f95c09e9a1a in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #3: at::native::multinomial(at::Tensor const&, long, bool, c10::optional<at::Generator>) + 0xb7 (0x7f95c09e9cd7 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #4: <unknown function> + 0x2cd6a84 (0x7f95cd38da84 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
+frame #5: <unknown function> + 0x2cd6bbd (0x7f95cd38dbbd in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
+frame #6: at::_ops::multinomial::redispatch(c10::DispatchKeySet, at::Tensor const&, long, bool, c10::optional<at::Generator>) + 0x133 (0x7f95c121d333 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #7: <unknown function> + 0x3c566d7 (0x7f95c2f9c6d7 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #8: at::_ops::multinomial::call(at::Tensor const&, long, bool, c10::optional<at::Generator>) + 0x207 (0x7f95c12c0017 in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #9: Java_org_bytedeco_pytorch_global_torch_multinomial__Lorg_bytedeco_pytorch_Tensor_2JZLorg_bytedeco_pytorch_GeneratorOptional_2 + 0x10b (0x7f9659e077ab in /home/vscode/.javacpp/cache/pytorch-2.0.1-1.5.10-20230923.234018-54-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libjnitorch.so)
+frame #10: [0x7f9891076fb6]
+
+	at org.bytedeco.pytorch.global.torch.multinomial(Native Method)
+	at torch.ops.RandomSamplingOps.multinomial(RandomSamplingOps.scala:48)
+	at torch.ops.RandomSamplingOps.multinomial$(RandomSamplingOps.scala:32)
+	at torch.package$.multinomial(package.scala:30)
+	at gpt.BiGram$BigramLanguageModel9.generate$$anonfun$10(BiGram.scala:2619)
+	at scala.runtime.java8.JFunction1$mcVI$sp.apply(JFunction1$mcVI$sp.scala:18)
+	at scala.collection.immutable.Range.foreach(Range.scala:190)
+	at gpt.BiGram$BigramLanguageModel9.generate(BiGram.scala:2621)
+	at gpt.BiGram$.<clinit>(BiGram.scala:2647)
+	... 1 more
+1 targets failed
+examples.runMain subprocess failed

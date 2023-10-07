@@ -2642,12 +2642,18 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
   // train1(m11, 9.0e-6, 75000)  // GPU drop=0.5 step 75000: train loss 2.4913714, val loss 2.4972136, @ 00 00:23:17.986, mean 00 00:00:00.018
   // train1(m11, 9.0e-6, 75000)  // GPU drop=0.2 step 75000: train loss 2.4140882, val loss 2.4158578, @ 00 00:23:23.490, mean 00 00:00:00.018
   // train1(m11, 1.0e-5, 75000)  // GPU drop=0.2 step 75000: train loss 2.3861165, val loss 2.386866, @ 00 00:23:27.533, mean 00 00:00:00.018
-  // train1(m11, 1.0e-4, 75000)  // GPU drop=0.2 du«iverges at step 7000: train loss 3.6449912, val loss 3.4009697, mem 1.8 GiB @ 00 00:02:10.283, mean 00 00:00:00.018
-  // train1(m11, 5.0e-5, 75000)  // GPU drop=0.2 
-  // train1(m11, 6.0e-5, 75000)  // GPU drop=0.2 
-  // train1(m11, 7.0e-5, 75000)  // GPU drop=0.2 
-  // train1(m11, 8.0e-5, 75000)  // GPU drop=0.2 
-  train1(m11, 9.0e-5, 75000)  // GPU drop=0.2 
+  // train1(m11, 1.0e-4, 75000)  // GPU drop=0.2 diverges at step 7000: train loss 3.6449912, val loss 3.4009697, mem 1.8 GiB @ 00 00:02:10.283, mean 00 00:00:00.018
+  // train1(m11, 5.0e-5, 75000)  // GPU drop=0.2 diverges at step 6500: train loss 8.965195, val loss 4.4524245, mem 1.8 GiB @ 00 00:02:01.530, mean 00 00:00:00.018
+  // train1(m11, 6.0e-5, 75000)  // GPU drop=0.2 diverges at step 6500: train loss 8.563631, val loss 3.5817394, mem 1.8 GiB @ 00 00:02:02.323, mean 00 00:00:00.019
+  // train1(m11, 7.0e-5, 75000)  // GPU drop=0.2 diverges at step 4000: train loss 5.7142167, val loss 3.479627, mem 1.8 GiB @ 00 00:01:15.774, mean 00 00:00:00.019
+  // train1(m11, 8.0e-5, 75000)  // GPU drop=0.2 diverges at step 4000: train loss 7.507929, val loss 3.6451683, mem 1.8 GiB @ 00 00:01:17.433, mean 00 00:00:00.019
+  // train1(m11, 9.0e-5, 75000)  // GPU drop=0.2 diverges at step 3000: train loss 4.0997033, val loss 3.4462004, mem 1.2 GiB @ 00 00:00:57.642, mean 00 00:00:00.019
+  // train1(m11, 2.0e-5, 75000)  // GPU drop=0.2 diverges at step 8500: train loss 3.4637582, val loss 3.4743652, mem 1.8 GiB @ 00 00:02:34.598, mean 00 00:00:00.018
+  // train1(m11, 3.0e-5, 75000)  // GPU drop=0.2 diverges at step 4000: train loss 3.1569095, val loss 3.1908731, mem 1.8 GiB @ 00 00:01:16.400, mean 00 00:00:00.018
+  // train1(m11, 4.0e-5, 75000)  // GPU drop=0.2 diverges at step 6000: train loss 4.7299194, val loss 3.5654094, mem 1.2 GiB @ 00 00:01:50.933, mean 00 00:00:00.018
+  // train1(m11, 1.1e-5, 75000)  // GPU step 75000: train loss 2.3822658, val loss 2.3795679, @ 00 00:21:57.124, mean 00 00:00:00.017
+  // train1(m11, 1.1e-5, 125_000)  // GPU step 125000: train loss 2.2779074, val loss 2.2849174, @ 00 00:37:16.068, mean 00 00:00:00.017
+  train1(m11, 1.1e-5, 250_000)  // GPU 
   val next13 = m11.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   val decoded13 = decode(next13.toSeq)
   println(s"decode 13:'$decoded13'")
