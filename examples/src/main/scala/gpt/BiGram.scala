@@ -1279,8 +1279,6 @@ object BiGram:
       val units = " KMGTPE".charAt(z)
       String.format("%.1f %sB", v.toDouble / (1L << (z*10)), units)
 
-  def timeOf() =
-    ???
 
   // https://users.scala-lang.org/t/timing-a-computation/5361/4
   inline def elapsed[R](inline block: => R): (Long, R) = {
@@ -2657,7 +2655,8 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
   // train1(m11, 1.1e-5, 75000)  // GPU step 75000: train loss 2.3822658, val loss 2.3795679, @ 00 00:21:57.124, mean 00 00:00:00.017
   // train1(m11, 1.1e-5, 125_000)  // GPU step 125000: train loss 2.2779074, val loss 2.2849174, @ 00 00:37:16.068, mean 00 00:00:00.017
   // train1(m11, 1.1e-5, 250_000)  // GPU step 250000: train loss 2.1529706, val loss 2.1667058, @ 00 01:15:29.355, mean 00 00:00:00.018
-  train1(m11, 1.1e-5, 350_000)  // GPU 
+  // train1(m11, 1.1e-5, 350_000)  // GPU step 350000: train loss 2.104257, val loss 2.142352, @ 00 01:45:35.966, mean 00 00:00:00.018
+  train1(m11, 1.1e-5, 450_000)  // GPU
   val next13 = m11.generate(idx = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device), max_new_tokens=500)(0)
   val decoded13 = decode(next13.toSeq)
   println(s"decode 13:'$decoded13'")

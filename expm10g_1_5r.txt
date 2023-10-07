@@ -1,0 +1,1812 @@
+nohup: ignoring input
+[info] compiling 2 Scala sources to /workspaces/storch/out/examples/compile.dest/classes ...
+[warn] there were 8 deprecation warnings; re-run with -deprecation for details
+[warn] one warning found
+[info] done compiling
+BiGram
+Using device: Device(CUDA,-1)
+File /workspaces/storch/data/input.txt already exists.
+chars = 
+,  , !, $, &, ', ,, -, ., 3, :, ;, ?, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
+vocab_size = 65
+"BiGram!" = "BiGram!"
+inputs:
+ArraySeq(16, 8)
+tensor dtype=int64, shape=[16, 8], device=CUDA 
+[[24, 43, 58, ..., 1, 46, 43],
+ [44, 53, 56, ..., 46, 39, 58],
+ [52, 58, 1, ..., 39, 58, 1],
+ ...,
+ [56, 53, 63, ..., 47, 42, 1],
+ [39, 51, 1, ..., 56, 39, 47],
+ [17, 24, 21, ..., 14, 17, 32]]
+targets:
+ArraySeq(16, 8)
+tensor dtype=int64, shape=[16, 8], device=CUDA 
+[[43, 58, 5, ..., 46, 43, 39],
+ [53, 56, 1, ..., 39, 58, 1],
+ [58, 1, 58, ..., 58, 1, 46],
+ ...,
+ [53, 63, 1, ..., 42, 1, 57],
+ [51, 1, 39, ..., 39, 47, 42],
+ [24, 21, 38, ..., 17, 32, 20]]
+----
+xb:
+Let's he
+.
+for that
+yb:
+et's hea
+.
+or that 
+when input is [24] the target: 43
+when input is [24, 43] the target: 58
+when input is [24, 43, 58] the target: 5
+when input is [24, 43, 58, 5] the target: 57
+when input is [24, 43, 58, 5, 57] the target: 1
+when input is [24, 43, 58, 5, 57, 1] the target: 46
+when input is [24, 43, 58, 5, 57, 1, 46] the target: 43
+when input is [24, 43, 58, 5, 57, 1, 46, 43] the target: 39
+when input is [44] the target: 53
+when input is [44, 53] the target: 56
+when input is [44, 53, 56] the target: 1
+when input is [44, 53, 56, 1] the target: 58
+when input is [44, 53, 56, 1, 58] the target: 46
+when input is [44, 53, 56, 1, 58, 46] the target: 39
+when input is [44, 53, 56, 1, 58, 46, 39] the target: 58
+when input is [44, 53, 56, 1, 58, 46, 39, 58] the target: 1
+when input is [52] the target: 58
+when input is [52, 58] the target: 1
+when input is [52, 58, 1] the target: 58
+when input is [52, 58, 1, 58] the target: 46
+when input is [52, 58, 1, 58, 46] the target: 39
+when input is [52, 58, 1, 58, 46, 39] the target: 58
+when input is [52, 58, 1, 58, 46, 39, 58] the target: 1
+when input is [52, 58, 1, 58, 46, 39, 58, 1] the target: 46
+when input is [25] the target: 17
+when input is [25, 17] the target: 27
+when input is [25, 17, 27] the target: 10
+when input is [25, 17, 27, 10] the target: 0
+when input is [25, 17, 27, 10, 0] the target: 21
+when input is [25, 17, 27, 10, 0, 21] the target: 1
+when input is [25, 17, 27, 10, 0, 21, 1] the target: 54
+when input is [25, 17, 27, 10, 0, 21, 1, 54] the target: 39
+when input is [57] the target: 43
+when input is [57, 43] the target: 60
+when input is [57, 43, 60] the target: 43
+when input is [57, 43, 60, 43] the target: 52
+when input is [57, 43, 60, 43, 52] the target: 1
+when input is [57, 43, 60, 43, 52, 1] the target: 63
+when input is [57, 43, 60, 43, 52, 1, 63] the target: 43
+when input is [57, 43, 60, 43, 52, 1, 63, 43] the target: 39
+when input is [60] the target: 43
+when input is [60, 43] the target: 42
+when input is [60, 43, 42] the target: 8
+when input is [60, 43, 42, 8] the target: 0
+when input is [60, 43, 42, 8, 0] the target: 25
+when input is [60, 43, 42, 8, 0, 25] the target: 63
+when input is [60, 43, 42, 8, 0, 25, 63] the target: 1
+when input is [60, 43, 42, 8, 0, 25, 63, 1] the target: 45
+when input is [56] the target: 42
+when input is [56, 42] the target: 5
+when input is [56, 42, 5] the target: 57
+when input is [56, 42, 5, 57] the target: 1
+when input is [56, 42, 5, 57, 1] the target: 57
+when input is [56, 42, 5, 57, 1, 57] the target: 39
+when input is [56, 42, 5, 57, 1, 57, 39] the target: 49
+when input is [56, 42, 5, 57, 1, 57, 39, 49] the target: 43
+when input is [43] the target: 57
+when input is [43, 57] the target: 58
+when input is [43, 57, 58] the target: 63
+when input is [43, 57, 58, 63] the target: 6
+when input is [43, 57, 58, 63, 6] the target: 1
+when input is [43, 57, 58, 63, 6, 1] the target: 58
+when input is [43, 57, 58, 63, 6, 1, 58] the target: 46
+when input is [43, 57, 58, 63, 6, 1, 58, 46] the target: 47
+when input is [43] the target: 1
+when input is [43, 1] the target: 51
+when input is [43, 1, 51] the target: 39
+when input is [43, 1, 51, 39] the target: 63
+when input is [43, 1, 51, 39, 63] the target: 1
+when input is [43, 1, 51, 39, 63, 1] the target: 40
+when input is [43, 1, 51, 39, 63, 1, 40] the target: 43
+when input is [43, 1, 51, 39, 63, 1, 40, 43] the target: 1
+when input is [58] the target: 46
+when input is [58, 46] the target: 43
+when input is [58, 46, 43] the target: 1
+when input is [58, 46, 43, 1] the target: 43
+when input is [58, 46, 43, 1, 43] the target: 39
+when input is [58, 46, 43, 1, 43, 39] the target: 56
+when input is [58, 46, 43, 1, 43, 39, 56] the target: 57
+when input is [58, 46, 43, 1, 43, 39, 56, 57] the target: 10
+when input is [39] the target: 58
+when input is [39, 58] the target: 47
+when input is [39, 58, 47] the target: 53
+when input is [39, 58, 47, 53] the target: 52
+when input is [39, 58, 47, 53, 52] the target: 12
+when input is [39, 58, 47, 53, 52, 12] the target: 1
+when input is [39, 58, 47, 53, 52, 12, 1] the target: 37
+when input is [39, 58, 47, 53, 52, 12, 1, 37] the target: 53
+when input is [53] the target: 56
+when input is [53, 56] the target: 43
+when input is [53, 56, 43] the target: 1
+when input is [53, 56, 43, 1] the target: 21
+when input is [53, 56, 43, 1, 21] the target: 1
+when input is [53, 56, 43, 1, 21, 1] the target: 41
+when input is [53, 56, 43, 1, 21, 1, 41] the target: 39
+when input is [53, 56, 43, 1, 21, 1, 41, 39] the target: 51
+when input is [50] the target: 39
+when input is [50, 39] the target: 52
+when input is [50, 39, 52] the target: 63
+when input is [50, 39, 52, 63] the target: 1
+when input is [50, 39, 52, 63, 1] the target: 47
+when input is [50, 39, 52, 63, 1, 47] the target: 58
+when input is [50, 39, 52, 63, 1, 47, 58] the target: 57
+when input is [50, 39, 52, 63, 1, 47, 58, 57] the target: 43
+when input is [56] the target: 53
+when input is [56, 53] the target: 63
+when input is [56, 53, 63] the target: 1
+when input is [56, 53, 63, 1] the target: 42
+when input is [56, 53, 63, 1, 42] the target: 47
+when input is [56, 53, 63, 1, 42, 47] the target: 42
+when input is [56, 53, 63, 1, 42, 47, 42] the target: 1
+when input is [56, 53, 63, 1, 42, 47, 42, 1] the target: 57
+when input is [39] the target: 51
+when input is [39, 51] the target: 1
+when input is [39, 51, 1] the target: 39
+when input is [39, 51, 1, 39] the target: 44
+when input is [39, 51, 1, 39, 44] the target: 56
+when input is [39, 51, 1, 39, 44, 56] the target: 39
+when input is [39, 51, 1, 39, 44, 56, 39] the target: 47
+when input is [39, 51, 1, 39, 44, 56, 39, 47] the target: 42
+when input is [17] the target: 24
+when input is [17, 24] the target: 21
+when input is [17, 24, 21] the target: 38
+when input is [17, 24, 21, 38] the target: 13
+when input is [17, 24, 21, 38, 13] the target: 14
+when input is [17, 24, 21, 38, 13, 14] the target: 17
+when input is [17, 24, 21, 38, 13, 14, 17] the target: 32
+when input is [17, 24, 21, 38, 13, 14, 17, 32] the target: 20
+xb (default CUDA if it exists):
+tensor dtype=int64, shape=[16, 8], device=CUDA 
+[[24, 43, 58, ..., 1, 46, 43],
+ [44, 53, 56, ..., 46, 39, 58],
+ [52, 58, 1, ..., 39, 58, 1],
+ ...,
+ [56, 53, 63, ..., 47, 42, 1],
+ [39, 51, 1, ..., 56, 39, 47],
+ [17, 24, 21, ..., 14, 17, 32]]
+yb (default CUDA if it exists):
+tensor dtype=int64, shape=[16, 8], device=CUDA 
+[[43, 58, 5, ..., 46, 43, 39],
+ [53, 56, 1, ..., 39, 58, 1],
+ [58, 1, 58, ..., 58, 1, 46],
+ ...,
+ [53, 63, 1, ..., 42, 1, 57],
+ [51, 1, 39, ..., 39, 47, 42],
+ [24, 21, 38, ..., 17, 32, 20]]
+xb (set Device(CUDA,-1)):
+tensor dtype=int64, shape=[16, 8], device=CUDA 
+[[24, 43, 58, ..., 1, 46, 43],
+ [44, 53, 56, ..., 46, 39, 58],
+ [52, 58, 1, ..., 39, 58, 1],
+ ...,
+ [56, 53, 63, ..., 47, 42, 1],
+ [39, 51, 1, ..., 56, 39, 47],
+ [17, 24, 21, ..., 14, 17, 32]]
+loss0 = tensor dtype=float32, shape=[], device=CPU 
+2.1746
+loss1 = tensor dtype=float32, shape=[], device=CPU 
+1.9668
+loss2 = tensor dtype=float32, shape=[], device=CPU 
+1.8103
+batch_size * block_size = 128
+logits.shape = ArraySeq(128, 65)
+loss m0 = 4.6391506
+decode:'
+y
+lX$fDkRZ,
+dco?f,Zh,OLFb,e&sK
+;:iPTCmLBbzA$3:.aS&JO-3GSMwF?gLTaUhXFY'X3FhhMNuwq&J,K$.t?VrYdX3rDoa'e'
+4.624553
+decode 2:'
+NAwMEQPgKWxvfDEZa3rxzkkNQ:
+YoR&$FMtofVimE;q$!BAm$W;$dYlM!Rueg ixveesY3hcieOlxS&HFG?Zrov E;,,,BeqWk Gn&hD!.vrWjco!pkAJljndGUVQu.C-Ax;ZqPScwlDN:pSsO;?Oee&X3Uwty.vwlvBmUHI.
+Bm&pjXPggvwE;qPgDGyqwJ'l
+lXSkkqyoaW-;s;&FbrVCeIib3Hr'Tab-&fM$HZqETCgK
+hieKqyOp-Lj3gAg-;T3H
+hohkOxvFvFrkgW&A Lkk;3Hrkh!Bm:f't,Cdy$flMUE;,wYfMfMPrD?UqY'S?U.JaHK-NLbE!ar,
+yb&h&:w:adspbWP$!BE;DxsYBtuicJKNtk&Jar?Any-Rr-Ibs-I&fym&EZ!NMJk'QNEZFEAk3RJ3&.JA-IXq'RO3GROePm !BCy
+;emWsNBmeXnxugpVqweV-e&ArXaJR?;$HOzx;jWX$.Ct'cUlugUbxQEOT$Tqrc'
+step 0: train loss 4.593183, val loss 4.556398
+decode 3:'
+$ Dfspy&psStz&$UD l..N
+EEiasAvJ?mVp ijqsjEoYSWXpPxAbN
+Ymov3tL-Z?ACa3!3LxXCPxsFHkp-vm;YHKieHP-HnmdgufWxVO?eRUC$;Lx:yhD$ZYCCN3gscUFw?c$YmSu3idhMUeUq,FXoxlgqKG!ZcS?'3aak-&OcXavzc-E&F''3:O k ! .vDCBUmlxnFm,CMqJ:N
+ZlgWS?'PCkvy,wNF'vkdIiGZ-ADNpIHxdk
+$HqZC&X$GiU,LxXCD?mFyvkeHRI,zHoJxMiuGoKtQDCn?DKt.e C3tm, kYpQ;tG!oJPs-b.AengdgNtyc$zkDU3EFBlTQJbkeHPYcUrAqMO
+FwD;SLx.gTBwht-g&LXvY$W'ZtT
+TWL:Jc;qylxkpw?GoCeMTI3tyLBv.NuwpA.NaFQiWScQOwHRnu;wg.PSLMRd&c&UD ,CL3g,X LYf;a;SDXan$:CKayNuJIs?E
+g
+
+EM:,Fme&3vvmSBLsO'
+a=tensor dtype=float32, shape=[3, 3], device=CPU 
+[[1.0000, 0.0000, 0.0000],
+ [0.5000, 0.5000, 0.0000],
+ [0.3333, 0.3333, 0.3333]]
+--
+b=tensor dtype=float32, shape=[3, 2], device=CPU 
+[[2.0000, 7.0000],
+ [6.0000, 4.0000],
+ [6.0000, 5.0000]]
+--
+c=tensor dtype=float32, shape=[3, 2], device=CPU 
+[[2.0000, 7.0000],
+ [4.0000, 5.5000],
+ [4.6667, 5.3333]]
+ArraySeq(4, 8, 2)
+wei0.shape = ArraySeq(8, 8)
+true
+true
+Token embedding: BigramLanguageModel1
+4225 parameters
+BigramLanguageModel1: #3 4225 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+step 0: train loss 4.346576, val loss 4.3445053
+decode 4:'
+?q$;xfDkRZkNdc'wb,ZTkOLOT,eCtK
+bHxPj&kMBbzA$3:.aSKgO-33SMBc?gcTa
+hX;YV HtpXeNuwqcPkxv.tbar dXl!DZaLeWuwccHPmREx,fDEdnYzxzCWNuX
+Yo3&$LMtofXiEIvBE!&V!$W;Kd!lHx,ae3 irweYERnIciK;lSW;HFGAZroG EsSXUB;qWklJ.gGD-.CyWjbH!pelJlinFAp;av.C-huDZqoVchvVy:pUup;Mais'X3UwtyfMJ'vBPUuI.3BmTpaY-iMvIEjqkpD:lqwJclmBtSkklmoaW-nNA&QPdVCeIib3Tw'TSEG&fM$HZLETcg$
+hxJ$AsLC-LK3gAN-xTrA
+XeLkXMmnvnrufWqA s
+;;3;QDLWTm:fvtwgdy.vlMUE$Tw,fMfMPrD?CXYIS?B.KrHK-NLbE!rs,dyb&i&a
+aadKabWPh!JEgDFHYBhuihVKN.M?DUrAAnyHRrxfbsmc&fy &Ec!NMJ'
+Token + positional embedding: BigramLanguageModel2
+4481 parameters
+BigramLanguageModel2: #4 4481 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+decode 5:'
+k'nEEPFrPkULmKYy.AYHXq'WO3;R
+S?m !b&Hx;EgWsNB-r?KXm;FVqqrxmiYArSaJR?;$H-zgKjOhBGC?' EwugybxIE.T$Jmuc$ yfv:y&tsSFD&cYsgJ.m 
+EEiasmGJtlMpKSjTkXxsLueIpPTAbN'kmlvMkL-Z?AC-?!3LRoCPTmFFkm-vX;YHKieO:PHuEEgusGxVO?gRz,XALI:ytb$ZGCCI!gscPkn?iKYUj,; QhRUedq,FsoxmgqjGhZcE!HbAakw!O?gwvzc-E.
+'ww3C k ! .vPCBuml3NFm,CRz!:NUZlhWIvNPGiIyBOYFkvLhIisZ-A?NdI3idk
+bHpZF&XnGenmLzXCD?tFymk?HLIYzqoY3MiuGdKtLoCnijTv.e A3AmN xYpDytGFoxPwMbLC?KgviPt c$zkDG3EiBlTQlbkmHl!P&sSqMO
+F&X;fL,.cTjwrtc,&LiuY$WxZtTXTWO;!u;qylCkW;gGoSe'
+ArraySeq(4, 8, 16)
+tensor dtype=float32, shape=[8, 8], device=CPU 
+[[1.0000, 0.0000, 0.0000, ..., 0.0000, 0.0000, 0.0000],
+ [0.1574, 0.8426, 0.0000, ..., 0.0000, 0.0000, 0.0000],
+ [0.2088, 0.1646, 0.6266, ..., 0.0000, 0.0000, 0.0000],
+ ...,
+ [0.0176, 0.2689, 0.0215, ..., 0.0019, 0.0000, 0.0000],
+ [0.1691, 0.4066, 0.0438, ..., 0.2012, 0.0329, 0.0000],
+ [0.0210, 0.0843, 0.0555, ..., 0.0709, 0.2423, 0.2391]]
+tensor dtype=float32, shape=[], device=CPU 
+1.0449
+tensor dtype=float32, shape=[], device=CPU 
+1.0700
+tensor dtype=float32, shape=[], device=CPU 
+17.4690
+tensor dtype=float32, shape=[], device=CPU 
+1.0918
+tensor dtype=float64, shape=[5], device=CPU 
+[0.1925, 0.1426, 0.2351, 0.1426, 0.2872]
+tensor dtype=float64, shape=[5], device=CPU 
+[0.0326, 0.0030, 0.1615, 0.0030, 0.8000]
+Single head attention: BigramLanguageModel3
+4977 parameters
+BigramLanguageModel3: #7 4977 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  sa_head: Head_1(n_embed=32, head_size=16, block_size=8): #3 1536 (
+    key: Linear(inFeatures=32, outFeatures=16, bias=false): #1 <512> 
+    query: Linear(inFeatures=32, outFeatures=16, bias=false): #1 <512> 
+    value: Linear(inFeatures=32, outFeatures=16, bias=false): #1 <512> 
+  )
+  lm_head: Linear(inFeatures=16, outFeatures=65, bias=true): #2 <1040,65> 
+)
+step 0: train loss 4.1745915, val loss 4.1752186
+step 0: train loss 4.166315, val loss 4.169002
+decode 6:'
+
+
+
+
+
+
+
+?qfXxfDkRZkNwc.wj,ZTkOLFT,ebtK
+b:!PjCkMBbzA$3:.aSvgO-33SM:F?gLTa
+hX:YVXJthXfNuwqcPMxG.tbar dXl!DZaLeWFwccHPmRWk,fDEZaYzxzCImuX
+YoR&$LMtofViEIvB!!&V!$W;KdYlNZ,ue3 ixYeYEYnkciK;lxW;HFGEZroG EsSXUB;qWk G..GD!.FyWjbm!pelJljnFFUVcu.C-huD3qcnchvVy:?Uup;Mnis'X3Uwty.OJlvBPUHI.yBfTpjY-lgvIEjqk:DGyqwJdlNBtSkklmoaW-CNA&QPdVCeIib3sI'TStG&dE$HZLETxN$Fhx&$FsgC-LKKgAe-xT3H
+hexkNVmnvnrufW&A '
+;;3;QDL!Tm:fEE,Cey$alPUE$tw,fMFEPRD?UqYIS?m.UrHK-NLuk!aK,iyb&i&:
+aadsaUWG$!VE'DFsYBvuihVKN.k?Dar?AnyHRr-utsmI&fn VEc!NMJ'
+Single head attention (b): BigramLanguageModel3
+4977 parameters
+BigramLanguageModel3: #7 4977 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  sa_head: Head_1(n_embed=32, head_size=16, block_size=8): #3 1536 (
+    key: Linear(inFeatures=32, outFeatures=16, bias=false): #1 <512> 
+    query: Linear(inFeatures=32, outFeatures=16, bias=false): #1 <512> 
+    value: Linear(inFeatures=32, outFeatures=16, bias=false): #1 <512> 
+  )
+  lm_head: Linear(inFeatures=16, outFeatures=65, bias=true): #2 <1040,65> 
+)
+Multi-head attention BigramLanguageModel4
+MultiHeadAttention_1 registering hs_0:Head_1
+MultiHeadAttention_1 registering hs_1:Head_1
+MultiHeadAttention_1 registering hs_2:Head_1
+MultiHeadAttention_1 registering hs_3:Head_1
+10625 parameters
+BigramLanguageModel4: #28 10625 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  sa_heads: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
+    hs_0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    hs_1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    hs_2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    hs_3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    heads: ModuleList: #12 3072 (
+      0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+      1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+      2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+      3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+    )
+  )
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+Multi-head attention + FFWD BigramLanguageModel5
+MultiHeadAttention_1 registering hs_0:Head_1
+MultiHeadAttention_1 registering hs_1:Head_1
+MultiHeadAttention_1 registering hs_2:Head_1
+MultiHeadAttention_1 registering hs_3:Head_1
+11681 parameters
+BigramLanguageModel5: #30 11681 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  sa_heads: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
+    hs_0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    hs_1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    hs_2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    hs_3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+      key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+    )
+    heads: ModuleList: #12 3072 (
+      0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+      1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+      2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+      3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+        key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+      )
+    )
+  )
+  ffwd: FeedFoward(nEmbed = 32): #2 1056 (
+    net: Sequential: #2 1056 (
+      0: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+      1: ReLU: #0 <> 
+    )
+  )
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+Self attention Blocks BigramLanguageModel6
+MultiHeadAttention_1 registering hs_0:Head_1
+MultiHeadAttention_1 registering hs_1:Head_1
+MultiHeadAttention_1 registering hs_2:Head_1
+MultiHeadAttention_1 registering hs_3:Head_1
+MultiHeadAttention_1 registering hs_0:Head_1
+MultiHeadAttention_1 registering hs_1:Head_1
+MultiHeadAttention_1 registering hs_2:Head_1
+MultiHeadAttention_1 registering hs_3:Head_1
+MultiHeadAttention_1 registering hs_0:Head_1
+MultiHeadAttention_1 registering hs_1:Head_1
+MultiHeadAttention_1 registering hs_2:Head_1
+MultiHeadAttention_1 registering hs_3:Head_1
+26081 parameters
+BigramLanguageModel6: #82 26081 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  blocks: Sequential: #78 21600 (
+    0: Block(nEmbed = 32): #26 7200 (
+      sa: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
+        hs_0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+      )
+      ffwd: FeedFoward(nEmbed = 32): #2 1056 (
+        net: Sequential: #2 1056 (
+          0: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+          1: ReLU: #0 <> 
+        )
+      )
+    )
+    1: Block(nEmbed = 32): #26 7200 (
+      sa: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
+        hs_0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+      )
+      ffwd: FeedFoward(nEmbed = 32): #2 1056 (
+        net: Sequential: #2 1056 (
+          0: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+          1: ReLU: #0 <> 
+        )
+      )
+    )
+    2: Block(nEmbed = 32): #26 7200 (
+      sa: MultiHeadAttention_1(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #24 6144 (
+        hs_0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+      )
+      ffwd: FeedFoward(nEmbed = 32): #2 1056 (
+        net: Sequential: #2 1056 (
+          0: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+          1: ReLU: #0 <> 
+        )
+      )
+    )
+  )
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+Self attention Blocks + Residual connections - BigramLanguageModel7
+MultiHeadAttention_2 registering hs_0:Head_1
+MultiHeadAttention_2 registering hs_1:Head_1
+MultiHeadAttention_2 registering hs_2:Head_1
+MultiHeadAttention_2 registering hs_3:Head_1
+MultiHeadAttention_2 registering hs_0:Head_1
+MultiHeadAttention_2 registering hs_1:Head_1
+MultiHeadAttention_2 registering hs_2:Head_1
+MultiHeadAttention_2 registering hs_3:Head_1
+MultiHeadAttention_2 registering hs_0:Head_1
+MultiHeadAttention_2 registering hs_1:Head_1
+MultiHeadAttention_2 registering hs_2:Head_1
+MultiHeadAttention_2 registering hs_3:Head_1
+51137 parameters
+BigramLanguageModel7: #94 51137 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  blocks: Sequential: #90 46656 (
+    0: Block_2(nEmbed = 32): #30 15552 (
+      sa: MultiHeadAttention_2(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #26 7200 (
+        hs_0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+        proj: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+      )
+      ffwd: FeedFoward_2(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+        )
+      )
+    )
+    1: Block_2(nEmbed = 32): #30 15552 (
+      sa: MultiHeadAttention_2(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #26 7200 (
+        hs_0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+        proj: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+      )
+      ffwd: FeedFoward_2(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+        )
+      )
+    )
+    2: Block_2(nEmbed = 32): #30 15552 (
+      sa: MultiHeadAttention_2(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #26 7200 (
+        hs_0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        hs_3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          1: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          2: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+          3: Head_1(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          )
+        )
+        proj: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+      )
+      ffwd: FeedFoward_2(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+        )
+      )
+    )
+  )
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+Self attention Blocks + Residual connections + layer norm - BigramLanguageModel8
+MultiHeadAttention_3 registering hs_0:Head_2
+MultiHeadAttention_3 registering hs_1:Head_2
+MultiHeadAttention_3 registering hs_2:Head_2
+MultiHeadAttention_3 registering hs_3:Head_2
+MultiHeadAttention_3 registering hs_0:Head_2
+MultiHeadAttention_3 registering hs_1:Head_2
+MultiHeadAttention_3 registering hs_2:Head_2
+MultiHeadAttention_3 registering hs_3:Head_2
+MultiHeadAttention_3 registering hs_0:Head_2
+MultiHeadAttention_3 registering hs_1:Head_2
+MultiHeadAttention_3 registering hs_2:Head_2
+MultiHeadAttention_3 registering hs_3:Head_2
+51585 parameters
+BigramLanguageModel8: #108 51585 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  blocks: Sequential: #104 47104 (
+    0: Block_3(nEmbed = 32): #34 15680 (
+      sa: MultiHeadAttention_3(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #26 7200 (
+        hs_0: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedFoward_2(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+        )
+      )
+      ln1: LayerNorm: #2 <32,32> 
+      ln2: LayerNorm: #2 <32,32> 
+    )
+    1: Block_3(nEmbed = 32): #34 15680 (
+      sa: MultiHeadAttention_3(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #26 7200 (
+        hs_0: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedFoward_2(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+        )
+      )
+      ln1: LayerNorm: #2 <32,32> 
+      ln2: LayerNorm: #2 <32,32> 
+    )
+    2: Block_3(nEmbed = 32): #34 15680 (
+      sa: MultiHeadAttention_3(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #26 7200 (
+        hs_0: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedFoward_2(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+        )
+      )
+      ln1: LayerNorm: #2 <32,32> 
+      ln2: LayerNorm: #2 <32,32> 
+    )
+    3: LayerNorm: #2 <32,32> 
+  )
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+Self attention Blocks + Residual connections + layer norm + Dropout - BigramLanguageModel9
+MultiHeadAttention_3 registering hs_0:Head_2
+MultiHeadAttention_3 registering hs_1:Head_2
+MultiHeadAttention_3 registering hs_2:Head_2
+MultiHeadAttention_3 registering hs_3:Head_2
+MultiHeadAttention_3 registering hs_0:Head_2
+MultiHeadAttention_3 registering hs_1:Head_2
+MultiHeadAttention_3 registering hs_2:Head_2
+MultiHeadAttention_3 registering hs_3:Head_2
+MultiHeadAttention_3 registering hs_0:Head_2
+MultiHeadAttention_3 registering hs_1:Head_2
+MultiHeadAttention_3 registering hs_2:Head_2
+MultiHeadAttention_3 registering hs_3:Head_2
+51585 parameters
+BigramLanguageModel9: #108 51585 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <2080> 
+  position_embedding_table: Embedding(numEmbeddings=8, embeddingDim=32, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <256> 
+  blocks: Sequential: #102 47040 (
+    0: Block_4(nEmbed = 32): #34 15680 (
+      sa: MultiHeadAttention_3(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #26 7200 (
+        hs_0: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedFoward_3(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: LayerNorm: #2 <32,32> 
+      ln2: LayerNorm: #2 <32,32> 
+    )
+    1: Block_4(nEmbed = 32): #34 15680 (
+      sa: MultiHeadAttention_3(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #26 7200 (
+        hs_0: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedFoward_3(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: LayerNorm: #2 <32,32> 
+      ln2: LayerNorm: #2 <32,32> 
+    )
+    2: Block_4(nEmbed = 32): #34 15680 (
+      sa: MultiHeadAttention_3(numHeads=4, nEmbed=32, headSize=8, blockSize=8): #26 7200 (
+        hs_0: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+          key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #12 3072 (
+          0: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=32, head_size=8, block_size=8): #3 768 (
+            key: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            query: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            value: Linear(inFeatures=32, outFeatures=8, bias=false): #1 <256> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=32, outFeatures=32, bias=true): #2 <1024,32> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedFoward_3(nEmbed = 32): #4 8352 (
+        net: Sequential: #4 8352 (
+          0: Linear(inFeatures=32, outFeatures=128, bias=true): #2 <4096,128> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=128, outFeatures=32, bias=true): #2 <4096,32> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: LayerNorm: #2 <32,32> 
+      ln2: LayerNorm: #2 <32,32> 
+    )
+  )
+  ln_f: LayerNorm: #2 <32,32> 
+  lm_head: Linear(inFeatures=32, outFeatures=65, bias=true): #2 <2080,65> 
+)
+Device = Device(CUDA,-1)
+51585 parameters
+learningRate = 1.1E-5
+maxIterations = 450000
+dropout = 0.2
+step 0: train loss 4.3073688, val loss 4.316937, mem 1.2 GiB @ 00 00:00:00.000, mean 00 00:00:00.000
+step 500: train loss 3.9592516, val loss 3.977592, mem 1.3 GiB @ 00 00:00:09.175, mean 00 00:00:00.018
+step 1000: train loss 3.715615, val loss 3.7437103, mem 1.4 GiB @ 00 00:00:18.344, mean 00 00:00:00.018
+step 1500: train loss 3.596614, val loss 3.6149218, mem 1.6 GiB @ 00 00:00:27.623, mean 00 00:00:00.018
+step 2000: train loss 3.4998028, val loss 3.5305223, mem 1.8 GiB @ 00 00:00:36.500, mean 00 00:00:00.017
+step 2500: train loss 3.4294884, val loss 3.458459, mem 1.8 GiB @ 00 00:00:45.735, mean 00 00:00:00.018
+step 3000: train loss 3.370824, val loss 3.4028509, mem 1.8 GiB @ 00 00:00:54.828, mean 00 00:00:00.018
+step 3500: train loss 3.3235397, val loss 3.3447766, mem 1.8 GiB @ 00 00:01:04.054, mean 00 00:00:00.018
+step 4000: train loss 3.2978084, val loss 3.3568785, mem 1.8 GiB @ 00 00:01:13.218, mean 00 00:00:00.018
+step 4500: train loss 3.2660065, val loss 3.3018878, mem 1.8 GiB @ 00 00:01:22.409, mean 00 00:00:00.018
+step 5000: train loss 3.2109761, val loss 3.2667475, mem 1.8 GiB @ 00 00:01:31.540, mean 00 00:00:00.018
+step 5500: train loss 3.1943944, val loss 3.2382536, mem 1.8 GiB @ 00 00:01:40.566, mean 00 00:00:00.018
+step 6000: train loss 3.1540446, val loss 3.1984346, mem 1.8 GiB @ 00 00:01:49.753, mean 00 00:00:00.018
+step 6500: train loss 3.1436038, val loss 3.1818268, mem 1.8 GiB @ 00 00:01:58.941, mean 00 00:00:00.018
+step 7000: train loss 3.1223052, val loss 3.162098, mem 1.8 GiB @ 00 00:02:08.091, mean 00 00:00:00.018
+step 7500: train loss 3.115147, val loss 3.155515, mem 1.8 GiB @ 00 00:02:17.241, mean 00 00:00:00.018
+step 8000: train loss 3.0966313, val loss 3.152597, mem 1.8 GiB @ 00 00:02:25.975, mean 00 00:00:00.017
+step 8500: train loss 3.0898612, val loss 3.126668, mem 1.8 GiB @ 00 00:02:34.735, mean 00 00:00:00.017
+step 9000: train loss 3.0684192, val loss 3.1087983, mem 1.8 GiB @ 00 00:02:43.960, mean 00 00:00:00.018
+step 9500: train loss 3.0516574, val loss 3.092061, mem 1.8 GiB @ 00 00:02:52.895, mean 00 00:00:00.017
+step 10000: train loss 3.021613, val loss 3.075371, mem 1.8 GiB @ 00 00:03:01.877, mean 00 00:00:00.017
+step 10500: train loss 3.0006518, val loss 3.0479271, mem 1.8 GiB @ 00 00:03:10.991, mean 00 00:00:00.018
+step 11000: train loss 3.0383403, val loss 3.0510216, mem 1.8 GiB @ 00 00:03:20.262, mean 00 00:00:00.018
+step 11500: train loss 3.0418565, val loss 3.0783265, mem 1.8 GiB @ 00 00:03:29.465, mean 00 00:00:00.018
+step 12000: train loss 3.0426192, val loss 3.0730977, mem 1.8 GiB @ 00 00:03:38.636, mean 00 00:00:00.018
+step 12500: train loss 3.0170755, val loss 3.0353246, mem 1.8 GiB @ 00 00:03:47.631, mean 00 00:00:00.017
+step 13000: train loss 3.0042543, val loss 3.0601287, mem 1.8 GiB @ 00 00:03:56.864, mean 00 00:00:00.018
+step 13500: train loss 2.993733, val loss 3.0222845, mem 1.8 GiB @ 00 00:04:05.955, mean 00 00:00:00.018
+step 14000: train loss 2.9869788, val loss 3.008951, mem 1.8 GiB @ 00 00:04:15.022, mean 00 00:00:00.018
+step 14500: train loss 2.9511907, val loss 2.9963062, mem 1.8 GiB @ 00 00:04:23.865, mean 00 00:00:00.017
+step 15000: train loss 2.9429016, val loss 2.9817522, mem 1.8 GiB @ 00 00:04:32.768, mean 00 00:00:00.017
+step 15500: train loss 2.9223013, val loss 2.9756987, mem 1.8 GiB @ 00 00:04:42.048, mean 00 00:00:00.018
+step 16000: train loss 2.9328365, val loss 2.9463506, mem 1.8 GiB @ 00 00:04:51.182, mean 00 00:00:00.018
+step 16500: train loss 2.9015386, val loss 2.9193578, mem 1.8 GiB @ 00 00:05:00.360, mean 00 00:00:00.018
+step 17000: train loss 2.873179, val loss 2.9265108, mem 1.8 GiB @ 00 00:05:09.494, mean 00 00:00:00.018
+step 17500: train loss 2.8658159, val loss 2.9062383, mem 1.8 GiB @ 00 00:05:18.534, mean 00 00:00:00.018
+step 18000: train loss 2.865797, val loss 2.9027765, mem 1.8 GiB @ 00 00:05:27.511, mean 00 00:00:00.017
+step 18500: train loss 2.86601, val loss 2.9082897, mem 1.8 GiB @ 00 00:05:36.707, mean 00 00:00:00.018
+step 19000: train loss 2.829333, val loss 2.8761284, mem 1.8 GiB @ 00 00:05:45.785, mean 00 00:00:00.018
+step 19500: train loss 2.8465242, val loss 2.868509, mem 1.8 GiB @ 00 00:05:54.964, mean 00 00:00:00.018
+step 20000: train loss 2.8443859, val loss 2.8489935, mem 1.8 GiB @ 00 00:06:04.057, mean 00 00:00:00.018
+step 20500: train loss 2.8270953, val loss 2.8378568, mem 1.8 GiB @ 00 00:06:13.288, mean 00 00:00:00.018
+step 21000: train loss 2.7999272, val loss 2.8219116, mem 1.8 GiB @ 00 00:06:22.439, mean 00 00:00:00.018
+step 21500: train loss 2.8045897, val loss 2.8286037, mem 1.8 GiB @ 00 00:06:31.575, mean 00 00:00:00.018
+step 22000: train loss 2.773002, val loss 2.811199, mem 1.8 GiB @ 00 00:06:40.690, mean 00 00:00:00.018
+step 22500: train loss 2.7767754, val loss 2.8159413, mem 1.8 GiB @ 00 00:06:49.878, mean 00 00:00:00.018
+step 23000: train loss 2.762655, val loss 2.7874453, mem 1.8 GiB @ 00 00:06:59.122, mean 00 00:00:00.018
+step 23500: train loss 2.7637787, val loss 2.7817037, mem 1.8 GiB @ 00 00:07:08.383, mean 00 00:00:00.018
+step 24000: train loss 2.7372284, val loss 2.7716873, mem 1.8 GiB @ 00 00:07:17.672, mean 00 00:00:00.018
+step 24500: train loss 2.7274992, val loss 2.7483497, mem 1.8 GiB @ 00 00:07:26.986, mean 00 00:00:00.018
+step 25000: train loss 2.7187293, val loss 2.7450135, mem 1.8 GiB @ 00 00:07:36.035, mean 00 00:00:00.018
+step 25500: train loss 2.7084513, val loss 2.7314165, mem 1.8 GiB @ 00 00:07:45.096, mean 00 00:00:00.018
+step 26000: train loss 2.7068517, val loss 2.731223, mem 1.8 GiB @ 00 00:07:54.242, mean 00 00:00:00.018
+step 26500: train loss 2.690652, val loss 2.7197495, mem 1.8 GiB @ 00 00:08:03.384, mean 00 00:00:00.018
+step 27000: train loss 2.6831949, val loss 2.686125, mem 1.8 GiB @ 00 00:08:12.676, mean 00 00:00:00.018
+step 27500: train loss 2.6752384, val loss 2.7125823, mem 1.8 GiB @ 00 00:08:21.381, mean 00 00:00:00.017
+step 28000: train loss 2.6659114, val loss 2.6888177, mem 1.8 GiB @ 00 00:08:30.138, mean 00 00:00:00.017
+step 28500: train loss 2.6615272, val loss 2.7007318, mem 1.8 GiB @ 00 00:08:38.890, mean 00 00:00:00.017
+step 29000: train loss 2.6656833, val loss 2.6711822, mem 1.8 GiB @ 00 00:08:47.525, mean 00 00:00:00.017
+step 29500: train loss 2.6509368, val loss 2.6808245, mem 1.8 GiB @ 00 00:08:56.666, mean 00 00:00:00.018
+step 30000: train loss 2.6369956, val loss 2.6631114, mem 1.8 GiB @ 00 00:09:05.832, mean 00 00:00:00.018
+step 30500: train loss 2.641143, val loss 2.65175, mem 1.8 GiB @ 00 00:09:15.019, mean 00 00:00:00.018
+step 31000: train loss 2.6302168, val loss 2.6616206, mem 1.8 GiB @ 00 00:09:24.080, mean 00 00:00:00.018
+step 31500: train loss 2.6138964, val loss 2.6667273, mem 1.8 GiB @ 00 00:09:32.598, mean 00 00:00:00.017
+step 32000: train loss 2.5994961, val loss 2.641593, mem 1.8 GiB @ 00 00:09:41.957, mean 00 00:00:00.018
+step 32500: train loss 2.6433585, val loss 2.6718073, mem 1.8 GiB @ 00 00:09:51.145, mean 00 00:00:00.018
+step 33000: train loss 2.7551706, val loss 2.7609503, mem 1.8 GiB @ 00 00:10:00.303, mean 00 00:00:00.018
+step 33500: train loss 2.7306383, val loss 2.7558124, mem 1.8 GiB @ 00 00:10:09.490, mean 00 00:00:00.018
+step 34000: train loss 2.698046, val loss 2.7147593, mem 1.8 GiB @ 00 00:10:18.700, mean 00 00:00:00.018
+step 34500: train loss 2.6830144, val loss 2.6744595, mem 1.8 GiB @ 00 00:10:27.596, mean 00 00:00:00.017
+step 35000: train loss 2.6519732, val loss 2.6827936, mem 1.8 GiB @ 00 00:10:36.737, mean 00 00:00:00.018
+step 35500: train loss 2.6398041, val loss 2.6583354, mem 1.8 GiB @ 00 00:10:45.914, mean 00 00:00:00.018
+step 36000: train loss 2.6431286, val loss 2.6221435, mem 1.8 GiB @ 00 00:10:54.999, mean 00 00:00:00.018
+step 36500: train loss 2.6269207, val loss 2.642417, mem 1.8 GiB @ 00 00:11:04.147, mean 00 00:00:00.018
+step 37000: train loss 2.6165063, val loss 2.6312854, mem 1.8 GiB @ 00 00:11:13.239, mean 00 00:00:00.018
+step 37500: train loss 2.6062055, val loss 2.6246195, mem 1.8 GiB @ 00 00:11:22.412, mean 00 00:00:00.018
+step 38000: train loss 2.6054747, val loss 2.616462, mem 1.8 GiB @ 00 00:11:31.493, mean 00 00:00:00.018
+step 38500: train loss 2.5955696, val loss 2.6119874, mem 1.8 GiB @ 00 00:11:40.662, mean 00 00:00:00.018
+step 39000: train loss 2.5806978, val loss 2.5928185, mem 1.8 GiB @ 00 00:11:49.839, mean 00 00:00:00.018
+step 39500: train loss 2.569532, val loss 2.5891259, mem 1.8 GiB @ 00 00:11:58.877, mean 00 00:00:00.018
+step 40000: train loss 2.5526125, val loss 2.5957406, mem 1.8 GiB @ 00 00:12:07.554, mean 00 00:00:00.017
+step 40500: train loss 2.552939, val loss 2.5824096, mem 1.8 GiB @ 00 00:12:16.281, mean 00 00:00:00.017
+step 41000: train loss 2.5520825, val loss 2.5569441, mem 1.8 GiB @ 00 00:12:25.254, mean 00 00:00:00.017
+step 41500: train loss 2.562965, val loss 2.5623662, mem 1.8 GiB @ 00 00:12:34.411, mean 00 00:00:00.018
+step 42000: train loss 2.551798, val loss 2.5599592, mem 1.8 GiB @ 00 00:12:43.671, mean 00 00:00:00.018
+step 42500: train loss 2.541356, val loss 2.55509, mem 1.8 GiB @ 00 00:12:52.785, mean 00 00:00:00.018
+step 43000: train loss 2.525011, val loss 2.5562851, mem 1.8 GiB @ 00 00:13:01.974, mean 00 00:00:00.018
+step 43500: train loss 2.5328538, val loss 2.5567296, mem 1.8 GiB @ 00 00:13:10.796, mean 00 00:00:00.017
+step 44000: train loss 2.538048, val loss 2.5479329, mem 1.8 GiB @ 00 00:13:19.764, mean 00 00:00:00.017
+step 44500: train loss 2.5158126, val loss 2.5333498, mem 1.8 GiB @ 00 00:13:28.954, mean 00 00:00:00.018
+step 45000: train loss 2.5041509, val loss 2.5455177, mem 1.8 GiB @ 00 00:13:38.028, mean 00 00:00:00.018
+step 45500: train loss 2.521844, val loss 2.5334342, mem 1.8 GiB @ 00 00:13:47.208, mean 00 00:00:00.018
+step 46000: train loss 2.5047042, val loss 2.51085, mem 1.8 GiB @ 00 00:13:56.209, mean 00 00:00:00.018
+step 46500: train loss 2.5154817, val loss 2.5255446, mem 1.8 GiB @ 00 00:14:04.971, mean 00 00:00:00.017
+step 47000: train loss 2.5132585, val loss 2.5144482, mem 1.8 GiB @ 00 00:14:14.122, mean 00 00:00:00.018
+step 47500: train loss 2.4986033, val loss 2.513545, mem 1.8 GiB @ 00 00:14:23.306, mean 00 00:00:00.018
+step 48000: train loss 2.4974039, val loss 2.5194957, mem 1.8 GiB @ 00 00:14:32.412, mean 00 00:00:00.018
+step 48500: train loss 2.499077, val loss 2.4979317, mem 1.8 GiB @ 00 00:14:41.508, mean 00 00:00:00.018
+step 49000: train loss 2.494089, val loss 2.5135453, mem 1.8 GiB @ 00 00:14:50.588, mean 00 00:00:00.018
+step 49500: train loss 2.4918337, val loss 2.5041833, mem 1.8 GiB @ 00 00:14:59.664, mean 00 00:00:00.018
+step 50000: train loss 2.4759288, val loss 2.510464, mem 1.8 GiB @ 00 00:15:08.734, mean 00 00:00:00.018
+step 50500: train loss 2.6310718, val loss 2.6383982, mem 1.8 GiB @ 00 00:15:18.064, mean 00 00:00:00.018
+step 51000: train loss 2.6470892, val loss 2.6748931, mem 1.8 GiB @ 00 00:15:27.281, mean 00 00:00:00.018
+step 51500: train loss 2.6358736, val loss 2.6528823, mem 1.8 GiB @ 00 00:15:36.401, mean 00 00:00:00.018
+step 52000: train loss 2.6157653, val loss 2.6131263, mem 1.8 GiB @ 00 00:15:45.277, mean 00 00:00:00.017
+step 52500: train loss 2.607855, val loss 2.5906339, mem 1.8 GiB @ 00 00:15:54.352, mean 00 00:00:00.018
+step 53000: train loss 2.5855749, val loss 2.5907097, mem 1.8 GiB @ 00 00:16:03.219, mean 00 00:00:00.017
+step 53500: train loss 2.5880632, val loss 2.5796597, mem 1.8 GiB @ 00 00:16:12.134, mean 00 00:00:00.017
+step 54000: train loss 2.5629332, val loss 2.5718193, mem 1.8 GiB @ 00 00:16:21.341, mean 00 00:00:00.018
+step 54500: train loss 2.5452766, val loss 2.5525646, mem 1.8 GiB @ 00 00:16:30.672, mean 00 00:00:00.018
+step 55000: train loss 3.197227, val loss 3.2244627, mem 1.8 GiB @ 00 00:16:40.171, mean 00 00:00:00.018
+step 55500: train loss 3.3303974, val loss 3.3461277, mem 1.8 GiB @ 00 00:16:49.302, mean 00 00:00:00.018
+step 56000: train loss 3.353302, val loss 3.3867157, mem 1.8 GiB @ 00 00:16:58.494, mean 00 00:00:00.018
+step 56500: train loss 3.3490622, val loss 3.3741145, mem 1.8 GiB @ 00 00:17:07.487, mean 00 00:00:00.017
+step 57000: train loss 3.3295305, val loss 3.355035, mem 1.8 GiB @ 00 00:17:16.478, mean 00 00:00:00.017
+step 57500: train loss 3.3329644, val loss 3.3216076, mem 1.8 GiB @ 00 00:17:25.396, mean 00 00:00:00.017
+step 58000: train loss 3.2971609, val loss 3.348957, mem 1.8 GiB @ 00 00:17:34.177, mean 00 00:00:00.017
+step 58500: train loss 3.3010714, val loss 3.3314412, mem 1.8 GiB @ 00 00:17:43.199, mean 00 00:00:00.018
+step 59000: train loss 3.2932336, val loss 3.3057666, mem 1.8 GiB @ 00 00:17:51.988, mean 00 00:00:00.017
+step 59500: train loss 3.2595775, val loss 3.3144655, mem 1.8 GiB @ 00 00:18:01.054, mean 00 00:00:00.018
+step 60000: train loss 3.2889044, val loss 3.3138356, mem 1.8 GiB @ 00 00:18:10.316, mean 00 00:00:00.018
+step 60500: train loss 3.2576146, val loss 3.311734, mem 1.8 GiB @ 00 00:18:19.528, mean 00 00:00:00.018
+step 61000: train loss 3.2537472, val loss 3.298773, mem 1.8 GiB @ 00 00:18:28.421, mean 00 00:00:00.017
+step 61500: train loss 3.2550368, val loss 3.2964923, mem 1.8 GiB @ 00 00:18:37.521, mean 00 00:00:00.018
+step 62000: train loss 3.2465417, val loss 3.2837818, mem 1.8 GiB @ 00 00:18:46.695, mean 00 00:00:00.018
+step 62500: train loss 3.2310824, val loss 3.2696264, mem 1.8 GiB @ 00 00:18:55.879, mean 00 00:00:00.018
+step 63000: train loss 3.2145374, val loss 3.254098, mem 1.8 GiB @ 00 00:19:05.058, mean 00 00:00:00.018
+step 63500: train loss 3.2275226, val loss 3.259315, mem 1.8 GiB @ 00 00:19:14.280, mean 00 00:00:00.018
+step 64000: train loss 3.2203043, val loss 3.2300975, mem 1.8 GiB @ 00 00:19:23.583, mean 00 00:00:00.018
+step 64500: train loss 3.219921, val loss 3.2258348, mem 1.8 GiB @ 00 00:19:32.791, mean 00 00:00:00.018
+step 65000: train loss 3.2368999, val loss 3.2454708, mem 1.8 GiB @ 00 00:19:42.005, mean 00 00:00:00.018
+step 65500: train loss 3.2492743, val loss 3.2489429, mem 1.8 GiB @ 00 00:19:51.260, mean 00 00:00:00.018
+step 66000: train loss 3.170556, val loss 3.2157943, mem 1.8 GiB @ 00 00:20:00.276, mean 00 00:00:00.018
+step 66500: train loss 3.1974034, val loss 3.2048967, mem 1.8 GiB @ 00 00:20:09.411, mean 00 00:00:00.018
+step 67000: train loss 3.1939056, val loss 3.1933115, mem 1.8 GiB @ 00 00:20:18.586, mean 00 00:00:00.018
+step 67500: train loss 3.1850555, val loss 3.2009404, mem 1.8 GiB @ 00 00:20:27.770, mean 00 00:00:00.018
+step 68000: train loss 3.201627, val loss 3.2040443, mem 1.8 GiB @ 00 00:20:36.840, mean 00 00:00:00.018
+step 68500: train loss 3.1707454, val loss 3.1812968, mem 1.8 GiB @ 00 00:20:45.665, mean 00 00:00:00.017
+step 69000: train loss 3.159153, val loss 3.1796515, mem 1.8 GiB @ 00 00:20:54.795, mean 00 00:00:00.018
+step 69500: train loss 3.147832, val loss 3.1806521, mem 1.8 GiB @ 00 00:21:03.919, mean 00 00:00:00.018
+step 70000: train loss 3.1764967, val loss 3.1623132, mem 1.8 GiB @ 00 00:21:12.874, mean 00 00:00:00.017
+step 70500: train loss 3.1450958, val loss 3.1487372, mem 1.8 GiB @ 00 00:21:21.720, mean 00 00:00:00.017
+step 71000: train loss 3.1394732, val loss 3.1614947, mem 1.8 GiB @ 00 00:21:30.718, mean 00 00:00:00.017
+step 71500: train loss 3.1103215, val loss 3.1541479, mem 1.8 GiB @ 00 00:21:39.510, mean 00 00:00:00.017
+step 72000: train loss 3.1044252, val loss 3.146626, mem 1.8 GiB @ 00 00:21:48.384, mean 00 00:00:00.017
+step 72500: train loss 3.0982955, val loss 3.1416392, mem 1.8 GiB @ 00 00:21:57.607, mean 00 00:00:00.018
+step 73000: train loss 3.1109335, val loss 3.0992322, mem 1.8 GiB @ 00 00:22:06.582, mean 00 00:00:00.017
+step 73500: train loss 3.0978112, val loss 3.1393933, mem 1.8 GiB @ 00 00:22:15.533, mean 00 00:00:00.017
+step 74000: train loss 3.118739, val loss 3.1292796, mem 1.8 GiB @ 00 00:22:24.759, mean 00 00:00:00.018
+step 74500: train loss 3.098095, val loss 3.1075485, mem 1.8 GiB @ 00 00:22:33.668, mean 00 00:00:00.017
+step 75000: train loss 3.0903409, val loss 3.1078382, mem 1.8 GiB @ 00 00:22:42.809, mean 00 00:00:00.018
+step 75500: train loss 3.0711548, val loss 3.08694, mem 1.8 GiB @ 00 00:22:51.898, mean 00 00:00:00.018
+step 76000: train loss 3.0921483, val loss 3.0783706, mem 1.8 GiB @ 00 00:23:01.113, mean 00 00:00:00.018
+step 76500: train loss 3.064862, val loss 3.0862775, mem 1.8 GiB @ 00 00:23:10.200, mean 00 00:00:00.018
+step 77000: train loss 3.0591455, val loss 3.0698123, mem 1.8 GiB @ 00 00:23:19.305, mean 00 00:00:00.018
+step 77500: train loss 3.0384552, val loss 3.0596204, mem 1.8 GiB @ 00 00:23:28.398, mean 00 00:00:00.018
+step 78000: train loss 3.028604, val loss 3.068567, mem 1.8 GiB @ 00 00:23:37.456, mean 00 00:00:00.018
+step 78500: train loss 3.0443594, val loss 3.0423698, mem 1.8 GiB @ 00 00:23:46.442, mean 00 00:00:00.017
+step 79000: train loss 3.0815897, val loss 3.040118, mem 1.8 GiB @ 00 00:23:55.257, mean 00 00:00:00.017
+step 79500: train loss 3.021563, val loss 3.0343835, mem 1.8 GiB @ 00 00:24:04.071, mean 00 00:00:00.017
+step 80000: train loss 3.0129397, val loss 3.0080264, mem 1.8 GiB @ 00 00:24:12.945, mean 00 00:00:00.017
+step 80500: train loss 2.996956, val loss 3.0067034, mem 1.8 GiB @ 00 00:24:21.995, mean 00 00:00:00.018
+step 81000: train loss 2.9955175, val loss 2.9818687, mem 1.8 GiB @ 00 00:24:31.355, mean 00 00:00:00.018
+step 81500: train loss 2.986988, val loss 2.9879792, mem 1.8 GiB @ 00 00:24:40.631, mean 00 00:00:00.018
+step 82000: train loss 2.9778666, val loss 2.9750686, mem 1.8 GiB @ 00 00:24:49.673, mean 00 00:00:00.018
+step 82500: train loss 2.9654553, val loss 2.9855912, mem 1.8 GiB @ 00 00:24:58.740, mean 00 00:00:00.018
+step 83000: train loss 2.9540637, val loss 2.9629607, mem 1.8 GiB @ 00 00:25:07.895, mean 00 00:00:00.018
+step 83500: train loss 2.9475336, val loss 2.9545007, mem 1.8 GiB @ 00 00:25:17.163, mean 00 00:00:00.018
+step 84000: train loss 2.9419594, val loss 2.9637988, mem 1.8 GiB @ 00 00:25:26.223, mean 00 00:00:00.018
+step 84500: train loss 2.934215, val loss 2.9419675, mem 1.8 GiB @ 00 00:25:35.296, mean 00 00:00:00.018
+step 85000: train loss 2.9262726, val loss 2.9354088, mem 1.8 GiB @ 00 00:25:44.334, mean 00 00:00:00.018
+step 85500: train loss 2.9108417, val loss 2.937922, mem 1.8 GiB @ 00 00:25:53.110, mean 00 00:00:00.017
+step 86000: train loss 2.920247, val loss 2.923422, mem 1.8 GiB @ 00 00:26:02.354, mean 00 00:00:00.018
+step 86500: train loss 2.9191928, val loss 2.9207947, mem 1.8 GiB @ 00 00:26:11.535, mean 00 00:00:00.018
+step 87000: train loss 2.896528, val loss 2.9041326, mem 1.8 GiB @ 00 00:26:20.387, mean 00 00:00:00.017
+step 87500: train loss 2.894516, val loss 2.914386, mem 1.8 GiB @ 00 00:26:29.120, mean 00 00:00:00.017
+step 88000: train loss 2.9018626, val loss 2.9127057, mem 1.8 GiB @ 00 00:26:38.148, mean 00 00:00:00.018
+step 88500: train loss 2.8924115, val loss 2.89776, mem 1.8 GiB @ 00 00:26:47.363, mean 00 00:00:00.018
+step 89000: train loss 2.8885083, val loss 2.8989053, mem 1.8 GiB @ 00 00:26:56.599, mean 00 00:00:00.018
+step 89500: train loss 2.8878338, val loss 2.8918962, mem 1.8 GiB @ 00 00:27:05.788, mean 00 00:00:00.018
+step 90000: train loss 2.8727672, val loss 2.8881645, mem 1.8 GiB @ 00 00:27:14.890, mean 00 00:00:00.018
+step 90500: train loss 2.8695486, val loss 2.8823712, mem 1.8 GiB @ 00 00:27:23.966, mean 00 00:00:00.018
+step 91000: train loss 2.8722076, val loss 2.8811336, mem 1.8 GiB @ 00 00:27:33.110, mean 00 00:00:00.018
+step 91500: train loss 2.8518605, val loss 2.8708966, mem 1.8 GiB @ 00 00:27:42.295, mean 00 00:00:00.018
+step 92000: train loss 2.8481207, val loss 2.863853, mem 1.8 GiB @ 00 00:27:51.513, mean 00 00:00:00.018
+step 92500: train loss 2.8494465, val loss 2.8410676, mem 1.8 GiB @ 00 00:28:00.873, mean 00 00:00:00.018
+step 93000: train loss 2.8404894, val loss 2.8720582, mem 1.8 GiB @ 00 00:28:10.283, mean 00 00:00:00.018
+step 93500: train loss 2.8300219, val loss 2.8543532, mem 1.8 GiB @ 00 00:28:19.549, mean 00 00:00:00.018
+step 94000: train loss 2.8470733, val loss 2.8322735, mem 1.8 GiB @ 00 00:28:28.804, mean 00 00:00:00.018
+step 94500: train loss 2.8314776, val loss 2.830786, mem 1.8 GiB @ 00 00:28:37.742, mean 00 00:00:00.017
+step 95000: train loss 2.8254597, val loss 2.828233, mem 1.8 GiB @ 00 00:28:46.806, mean 00 00:00:00.018
+step 95500: train loss 2.8124263, val loss 2.8328753, mem 1.8 GiB @ 00 00:28:55.991, mean 00 00:00:00.018
+step 96000: train loss 2.8072019, val loss 2.840381, mem 1.8 GiB @ 00 00:29:05.171, mean 00 00:00:00.018
+step 96500: train loss 2.7974772, val loss 2.8279347, mem 1.8 GiB @ 00 00:29:14.250, mean 00 00:00:00.018
+step 97000: train loss 2.8009362, val loss 2.7884665, mem 1.8 GiB @ 00 00:29:22.945, mean 00 00:00:00.017
+step 97500: train loss 2.8017845, val loss 2.8089318, mem 1.8 GiB @ 00 00:29:31.654, mean 00 00:00:00.017
+step 98000: train loss 2.7868304, val loss 2.810138, mem 1.8 GiB @ 00 00:29:40.503, mean 00 00:00:00.017
+step 98500: train loss 2.7835379, val loss 2.7994335, mem 1.8 GiB @ 00 00:29:49.318, mean 00 00:00:00.017
+step 99000: train loss 2.78406, val loss 2.7957091, mem 1.8 GiB @ 00 00:29:58.468, mean 00 00:00:00.018
+step 99500: train loss 2.8020122, val loss 2.7949417, mem 1.8 GiB @ 00 00:30:07.618, mean 00 00:00:00.018
+step 100000: train loss 2.7799675, val loss 2.7856262, mem 1.8 GiB @ 00 00:30:16.799, mean 00 00:00:00.018
+step 100500: train loss 2.7662616, val loss 2.7756882, mem 1.8 GiB @ 00 00:30:25.662, mean 00 00:00:00.017
+step 101000: train loss 2.7687566, val loss 2.7597785, mem 1.8 GiB @ 00 00:30:34.348, mean 00 00:00:00.017
+step 101500: train loss 2.7700038, val loss 2.7598734, mem 1.8 GiB @ 00 00:30:43.342, mean 00 00:00:00.017
+step 102000: train loss 2.7589343, val loss 2.756806, mem 1.8 GiB @ 00 00:30:52.566, mean 00 00:00:00.018
+step 102500: train loss 2.7529461, val loss 2.7709734, mem 1.8 GiB @ 00 00:31:01.768, mean 00 00:00:00.018
+step 103000: train loss 2.7329144, val loss 2.7561607, mem 1.8 GiB @ 00 00:31:10.857, mean 00 00:00:00.018
+step 103500: train loss 2.7445312, val loss 2.760907, mem 1.8 GiB @ 00 00:31:20.030, mean 00 00:00:00.018
+step 104000: train loss 2.7445226, val loss 2.7512395, mem 1.8 GiB @ 00 00:31:29.252, mean 00 00:00:00.018
+step 104500: train loss 2.7324665, val loss 2.7486663, mem 1.8 GiB @ 00 00:31:38.465, mean 00 00:00:00.018
+step 105000: train loss 2.742105, val loss 2.737151, mem 1.8 GiB @ 00 00:31:47.635, mean 00 00:00:00.018
+step 105500: train loss 2.7379863, val loss 2.743405, mem 1.8 GiB @ 00 00:31:56.885, mean 00 00:00:00.018
+step 106000: train loss 2.7416973, val loss 2.7395911, mem 1.8 GiB @ 00 00:32:06.055, mean 00 00:00:00.018
+step 106500: train loss 2.7266572, val loss 2.7246938, mem 1.8 GiB @ 00 00:32:15.134, mean 00 00:00:00.018
+step 107000: train loss 2.7212937, val loss 2.727163, mem 1.8 GiB @ 00 00:32:24.356, mean 00 00:00:00.018
+step 107500: train loss 2.7251775, val loss 2.7276816, mem 1.8 GiB @ 00 00:32:33.522, mean 00 00:00:00.018
+step 108000: train loss 2.7336512, val loss 2.725909, mem 1.8 GiB @ 00 00:32:42.641, mean 00 00:00:00.018
+step 108500: train loss 2.7226007, val loss 2.720756, mem 1.8 GiB @ 00 00:32:51.735, mean 00 00:00:00.018
+step 109000: train loss 2.7352026, val loss 2.7113037, mem 1.8 GiB @ 00 00:33:00.964, mean 00 00:00:00.018
+step 109500: train loss 2.7170486, val loss 2.7304528, mem 1.8 GiB @ 00 00:33:10.403, mean 00 00:00:00.018
+step 110000: train loss 2.703827, val loss 2.6971893, mem 1.8 GiB @ 00 00:33:19.387, mean 00 00:00:00.017
+step 110500: train loss 2.6998398, val loss 2.7095728, mem 1.8 GiB @ 00 00:33:28.481, mean 00 00:00:00.018
+step 111000: train loss 2.704338, val loss 2.7185974, mem 1.8 GiB @ 00 00:33:37.681, mean 00 00:00:00.018
+step 111500: train loss 2.6989648, val loss 2.697435, mem 1.8 GiB @ 00 00:33:46.851, mean 00 00:00:00.018
+step 112000: train loss 2.7212393, val loss 2.6892204, mem 1.8 GiB @ 00 00:33:56.035, mean 00 00:00:00.018
+step 112500: train loss 2.691427, val loss 2.6963959, mem 1.8 GiB @ 00 00:34:05.252, mean 00 00:00:00.018
+step 113000: train loss 2.690155, val loss 2.701145, mem 1.8 GiB @ 00 00:34:14.471, mean 00 00:00:00.018
+step 113500: train loss 2.6925054, val loss 2.6719885, mem 1.8 GiB @ 00 00:34:23.661, mean 00 00:00:00.018
+step 114000: train loss 2.685029, val loss 2.6903565, mem 1.8 GiB @ 00 00:34:32.840, mean 00 00:00:00.018
+step 114500: train loss 2.6855054, val loss 2.6902013, mem 1.8 GiB @ 00 00:34:41.905, mean 00 00:00:00.018
+step 115000: train loss 2.687055, val loss 2.692568, mem 1.8 GiB @ 00 00:34:51.101, mean 00 00:00:00.018
+step 115500: train loss 2.6740947, val loss 2.68078, mem 1.8 GiB @ 00 00:35:00.136, mean 00 00:00:00.018
+step 116000: train loss 2.670398, val loss 2.6673086, mem 1.8 GiB @ 00 00:35:09.027, mean 00 00:00:00.017
+step 116500: train loss 2.6906726, val loss 2.6748016, mem 1.8 GiB @ 00 00:35:17.949, mean 00 00:00:00.017
+step 117000: train loss 2.66376, val loss 2.665943, mem 1.8 GiB @ 00 00:35:26.960, mean 00 00:00:00.018
+step 117500: train loss 2.667401, val loss 2.6714613, mem 1.8 GiB @ 00 00:35:36.202, mean 00 00:00:00.018
+step 118000: train loss 2.6574073, val loss 2.6692786, mem 1.8 GiB @ 00 00:35:45.154, mean 00 00:00:00.017
+step 118500: train loss 2.6561391, val loss 2.6662934, mem 1.8 GiB @ 00 00:35:54.004, mean 00 00:00:00.017
+step 119000: train loss 2.6627417, val loss 2.662669, mem 1.8 GiB @ 00 00:36:03.024, mean 00 00:00:00.018
+step 119500: train loss 2.6686978, val loss 2.6553879, mem 1.8 GiB @ 00 00:36:11.928, mean 00 00:00:00.017
+step 120000: train loss 2.6554027, val loss 2.6615672, mem 1.8 GiB @ 00 00:36:21.099, mean 00 00:00:00.018
+step 120500: train loss 2.6669497, val loss 2.6447644, mem 1.8 GiB @ 00 00:36:30.283, mean 00 00:00:00.018
+step 121000: train loss 2.6409009, val loss 2.6528614, mem 1.8 GiB @ 00 00:36:39.505, mean 00 00:00:00.018
+step 121500: train loss 2.655092, val loss 2.659728, mem 1.8 GiB @ 00 00:36:48.682, mean 00 00:00:00.018
+step 122000: train loss 2.6470232, val loss 2.6408494, mem 1.8 GiB @ 00 00:36:57.989, mean 00 00:00:00.018
+step 122500: train loss 2.6467505, val loss 2.6435692, mem 1.8 GiB @ 00 00:37:07.234, mean 00 00:00:00.018
+step 123000: train loss 2.6969445, val loss 2.6382928, mem 1.8 GiB @ 00 00:37:16.021, mean 00 00:00:00.017
+step 123500: train loss 2.6392453, val loss 2.6458783, mem 1.8 GiB @ 00 00:37:25.186, mean 00 00:00:00.018
+step 124000: train loss 2.6396778, val loss 2.6427372, mem 1.8 GiB @ 00 00:37:34.104, mean 00 00:00:00.017
+step 124500: train loss 2.6494963, val loss 2.64337, mem 1.8 GiB @ 00 00:37:43.326, mean 00 00:00:00.018
+step 125000: train loss 2.6549847, val loss 2.6395855, mem 1.8 GiB @ 00 00:37:52.159, mean 00 00:00:00.017
+step 125500: train loss 2.6417181, val loss 2.6459734, mem 1.8 GiB @ 00 00:38:01.017, mean 00 00:00:00.017
+step 126000: train loss 2.6424465, val loss 2.6258795, mem 1.8 GiB @ 00 00:38:09.787, mean 00 00:00:00.017
+step 126500: train loss 2.6383464, val loss 2.6106415, mem 1.8 GiB @ 00 00:38:18.848, mean 00 00:00:00.018
+step 127000: train loss 2.647812, val loss 2.64037, mem 1.8 GiB @ 00 00:38:28.163, mean 00 00:00:00.018
+step 127500: train loss 2.6320179, val loss 2.6224773, mem 1.8 GiB @ 00 00:38:37.398, mean 00 00:00:00.018
+step 128000: train loss 2.6224353, val loss 2.6174212, mem 1.8 GiB @ 00 00:38:46.610, mean 00 00:00:00.018
+step 128500: train loss 2.635921, val loss 2.6375527, mem 1.8 GiB @ 00 00:38:55.566, mean 00 00:00:00.017
+step 129000: train loss 2.628443, val loss 2.6293542, mem 1.8 GiB @ 00 00:39:04.767, mean 00 00:00:00.018
+step 129500: train loss 2.6117558, val loss 2.6332061, mem 1.8 GiB @ 00 00:39:13.553, mean 00 00:00:00.017
+step 130000: train loss 2.6458576, val loss 2.6209345, mem 1.8 GiB @ 00 00:39:22.720, mean 00 00:00:00.018
+step 130500: train loss 2.6283147, val loss 2.601507, mem 1.8 GiB @ 00 00:39:31.892, mean 00 00:00:00.018
+step 131000: train loss 2.6283495, val loss 2.622672, mem 1.8 GiB @ 00 00:39:41.116, mean 00 00:00:00.018
+step 131500: train loss 2.6195898, val loss 2.606389, mem 1.8 GiB @ 00 00:39:50.143, mean 00 00:00:00.018
+step 132000: train loss 2.608028, val loss 2.610834, mem 1.8 GiB @ 00 00:39:59.548, mean 00 00:00:00.018
+step 132500: train loss 2.6182234, val loss 2.6141667, mem 1.8 GiB @ 00 00:40:08.687, mean 00 00:00:00.018
+step 133000: train loss 2.6430285, val loss 2.6055565, mem 1.8 GiB @ 00 00:40:17.887, mean 00 00:00:00.018
+step 133500: train loss 2.6241195, val loss 2.5952888, mem 1.8 GiB @ 00 00:40:27.096, mean 00 00:00:00.018
+step 134000: train loss 2.6134267, val loss 2.6113317, mem 1.8 GiB @ 00 00:40:36.269, mean 00 00:00:00.018
+step 134500: train loss 2.6023073, val loss 2.604655, mem 1.8 GiB @ 00 00:40:45.602, mean 00 00:00:00.018
+step 135000: train loss 2.6072943, val loss 2.5992455, mem 1.8 GiB @ 00 00:40:54.780, mean 00 00:00:00.018
+step 135500: train loss 2.6104877, val loss 2.600059, mem 1.8 GiB @ 00 00:41:03.531, mean 00 00:00:00.017
+step 136000: train loss 2.61171, val loss 2.591893, mem 1.8 GiB @ 00 00:41:12.376, mean 00 00:00:00.017
+step 136500: train loss 2.6170137, val loss 2.601796, mem 1.8 GiB @ 00 00:41:21.497, mean 00 00:00:00.018
+step 137000: train loss 2.6042721, val loss 2.6012225, mem 1.8 GiB @ 00 00:41:30.667, mean 00 00:00:00.018
+step 137500: train loss 2.6132684, val loss 2.5947213, mem 1.8 GiB @ 00 00:41:39.360, mean 00 00:00:00.017
+step 138000: train loss 2.6081252, val loss 2.595448, mem 1.8 GiB @ 00 00:41:48.149, mean 00 00:00:00.017
+step 138500: train loss 2.593008, val loss 2.5980675, mem 1.8 GiB @ 00 00:41:56.964, mean 00 00:00:00.017
+step 139000: train loss 2.6057806, val loss 2.59741, mem 1.8 GiB @ 00 00:42:05.713, mean 00 00:00:00.017
+step 139500: train loss 2.590303, val loss 2.5966754, mem 1.8 GiB @ 00 00:42:14.754, mean 00 00:00:00.018
+step 140000: train loss 2.5940082, val loss 2.6105554, mem 1.8 GiB @ 00 00:42:23.902, mean 00 00:00:00.018
+step 140500: train loss 2.5841503, val loss 2.5857613, mem 1.8 GiB @ 00 00:42:33.037, mean 00 00:00:00.018
+step 141000: train loss 2.5978224, val loss 2.581309, mem 1.8 GiB @ 00 00:42:42.242, mean 00 00:00:00.018
+step 141500: train loss 2.5954795, val loss 2.5794225, mem 1.8 GiB @ 00 00:42:51.521, mean 00 00:00:00.018
+step 142000: train loss 2.5803726, val loss 2.576414, mem 1.8 GiB @ 00 00:43:00.782, mean 00 00:00:00.018
+step 142500: train loss 2.5952208, val loss 2.5876477, mem 1.8 GiB @ 00 00:43:09.827, mean 00 00:00:00.018
+step 143000: train loss 2.5769129, val loss 2.581501, mem 1.8 GiB @ 00 00:43:19.162, mean 00 00:00:00.018
+step 143500: train loss 2.5981457, val loss 2.560415, mem 1.8 GiB @ 00 00:43:28.378, mean 00 00:00:00.018
+step 144000: train loss 2.5821059, val loss 2.5765252, mem 1.8 GiB @ 00 00:43:37.462, mean 00 00:00:00.018
+step 144500: train loss 2.5853877, val loss 2.5866516, mem 1.8 GiB @ 00 00:43:46.684, mean 00 00:00:00.018
+step 145000: train loss 2.5822363, val loss 2.5734568, mem 1.8 GiB @ 00 00:43:55.881, mean 00 00:00:00.018
+step 145500: train loss 2.5786865, val loss 2.568757, mem 1.8 GiB @ 00 00:44:04.678, mean 00 00:00:00.017
+step 146000: train loss 2.5775313, val loss 2.59477, mem 1.8 GiB @ 00 00:44:13.528, mean 00 00:00:00.017
+step 146500: train loss 2.573758, val loss 2.570093, mem 1.8 GiB @ 00 00:44:22.705, mean 00 00:00:00.018
+step 147000: train loss 2.580183, val loss 2.5605047, mem 1.8 GiB @ 00 00:44:31.607, mean 00 00:00:00.017
+step 147500: train loss 2.5683665, val loss 2.5671697, mem 1.8 GiB @ 00 00:44:40.779, mean 00 00:00:00.018
+step 148000: train loss 2.573531, val loss 2.5674462, mem 1.8 GiB @ 00 00:44:49.968, mean 00 00:00:00.018
+step 148500: train loss 2.5596342, val loss 2.5740325, mem 1.8 GiB @ 00 00:44:59.176, mean 00 00:00:00.018
+step 149000: train loss 2.5924914, val loss 2.5674274, mem 1.8 GiB @ 00 00:45:08.207, mean 00 00:00:00.018
+step 149500: train loss 2.5921347, val loss 2.5564914, mem 1.8 GiB @ 00 00:45:16.902, mean 00 00:00:00.017
+step 150000: train loss 2.5900805, val loss 2.5568197, mem 1.8 GiB @ 00 00:45:25.927, mean 00 00:00:00.018
+step 150500: train loss 2.580689, val loss 2.5748851, mem 1.8 GiB @ 00 00:45:35.116, mean 00 00:00:00.018
+step 151000: train loss 2.557488, val loss 2.5621867, mem 1.8 GiB @ 00 00:45:44.130, mean 00 00:00:00.018
+step 151500: train loss 2.557669, val loss 2.5579085, mem 1.8 GiB @ 00 00:45:53.159, mean 00 00:00:00.018
+step 152000: train loss 2.5579257, val loss 2.5772893, mem 1.8 GiB @ 00 00:46:02.364, mean 00 00:00:00.018
+step 152500: train loss 2.574652, val loss 2.5495148, mem 1.8 GiB @ 00 00:46:11.422, mean 00 00:00:00.018
+step 153000: train loss 2.5530126, val loss 2.5730114, mem 1.8 GiB @ 00 00:46:20.572, mean 00 00:00:00.018
+step 153500: train loss 2.5552585, val loss 2.5499167, mem 1.8 GiB @ 00 00:46:29.782, mean 00 00:00:00.018
+step 154000: train loss 2.557756, val loss 2.560433, mem 1.8 GiB @ 00 00:46:38.975, mean 00 00:00:00.018
+step 154500: train loss 2.5555925, val loss 2.5524707, mem 1.8 GiB @ 00 00:46:48.124, mean 00 00:00:00.018
+step 155000: train loss 2.548258, val loss 2.547407, mem 1.8 GiB @ 00 00:46:57.207, mean 00 00:00:00.018
+step 155500: train loss 2.546521, val loss 2.5444102, mem 1.8 GiB @ 00 00:47:06.123, mean 00 00:00:00.017
+step 156000: train loss 2.5437052, val loss 2.5510385, mem 1.8 GiB @ 00 00:47:15.368, mean 00 00:00:00.018
+step 156500: train loss 2.5493915, val loss 2.5528522, mem 1.8 GiB @ 00 00:47:24.208, mean 00 00:00:00.017
+step 157000: train loss 2.5381615, val loss 2.541591, mem 1.8 GiB @ 00 00:47:32.992, mean 00 00:00:00.017
+step 157500: train loss 2.6442618, val loss 2.5435646, mem 1.8 GiB @ 00 00:47:41.778, mean 00 00:00:00.017
+step 158000: train loss 2.5618637, val loss 2.533423, mem 1.8 GiB @ 00 00:47:50.753, mean 00 00:00:00.017
+step 158500: train loss 2.5516768, val loss 2.5312085, mem 1.8 GiB @ 00 00:47:59.975, mean 00 00:00:00.018
+step 159000: train loss 2.6240737, val loss 2.5502584, mem 1.8 GiB @ 00 00:48:09.166, mean 00 00:00:00.018
+step 159500: train loss 2.5466914, val loss 2.5447245, mem 1.8 GiB @ 00 00:48:18.330, mean 00 00:00:00.018
+step 160000: train loss 2.54093, val loss 2.5552385, mem 1.8 GiB @ 00 00:48:27.428, mean 00 00:00:00.018
+step 160500: train loss 2.5627043, val loss 2.527057, mem 1.8 GiB @ 00 00:48:36.539, mean 00 00:00:00.018
+step 161000: train loss 2.539045, val loss 2.5430613, mem 1.8 GiB @ 00 00:48:45.615, mean 00 00:00:00.018
+step 161500: train loss 2.5590665, val loss 2.5375698, mem 1.8 GiB @ 00 00:48:54.814, mean 00 00:00:00.018
+step 162000: train loss 2.527223, val loss 2.5527897, mem 1.8 GiB @ 00 00:49:03.813, mean 00 00:00:00.017
+step 162500: train loss 2.5441654, val loss 2.5447793, mem 1.8 GiB @ 00 00:49:12.974, mean 00 00:00:00.018
+step 163000: train loss 2.5348036, val loss 2.5425344, mem 1.8 GiB @ 00 00:49:21.835, mean 00 00:00:00.017
+step 163500: train loss 2.535797, val loss 2.5472846, mem 1.8 GiB @ 00 00:49:30.771, mean 00 00:00:00.017
+step 164000: train loss 2.5525765, val loss 2.5548623, mem 1.8 GiB @ 00 00:49:39.800, mean 00 00:00:00.018
+step 164500: train loss 2.543605, val loss 2.5387998, mem 1.8 GiB @ 00 00:49:48.492, mean 00 00:00:00.017
+step 165000: train loss 2.5368884, val loss 2.5341053, mem 1.8 GiB @ 00 00:49:57.688, mean 00 00:00:00.018
+step 165500: train loss 2.5271544, val loss 2.5279486, mem 1.8 GiB @ 00 00:50:06.708, mean 00 00:00:00.018
+step 166000: train loss 2.5519428, val loss 2.5401773, mem 1.8 GiB @ 00 00:50:15.868, mean 00 00:00:00.018
+step 166500: train loss 2.5404048, val loss 2.54687, mem 1.8 GiB @ 00 00:50:25.054, mean 00 00:00:00.018
+step 167000: train loss 2.5358007, val loss 2.5329196, mem 1.8 GiB @ 00 00:50:34.260, mean 00 00:00:00.018
+step 167500: train loss 2.5352387, val loss 2.5358474, mem 1.8 GiB @ 00 00:50:43.529, mean 00 00:00:00.018
+step 168000: train loss 2.5617735, val loss 2.5437577, mem 1.8 GiB @ 00 00:50:52.547, mean 00 00:00:00.018
+step 168500: train loss 2.5336206, val loss 2.5206435, mem 1.8 GiB @ 00 00:51:01.690, mean 00 00:00:00.018
+step 169000: train loss 2.514014, val loss 2.5402973, mem 1.8 GiB @ 00 00:51:10.853, mean 00 00:00:00.018
+step 169500: train loss 2.5285003, val loss 2.527598, mem 1.8 GiB @ 00 00:51:19.980, mean 00 00:00:00.018
+step 170000: train loss 2.526706, val loss 2.5235028, mem 1.8 GiB @ 00 00:51:29.137, mean 00 00:00:00.018
+step 170500: train loss 2.557615, val loss 2.5180004, mem 1.8 GiB @ 00 00:51:38.320, mean 00 00:00:00.018
+step 171000: train loss 2.5209045, val loss 2.5137818, mem 1.8 GiB @ 00 00:51:47.523, mean 00 00:00:00.018
+step 171500: train loss 2.526214, val loss 2.516703, mem 1.8 GiB @ 00 00:51:56.675, mean 00 00:00:00.018
+step 172000: train loss 2.5283027, val loss 2.5299675, mem 1.8 GiB @ 00 00:52:05.667, mean 00 00:00:00.017
+step 172500: train loss 2.5154245, val loss 2.517723, mem 1.8 GiB @ 00 00:52:14.835, mean 00 00:00:00.018
+step 173000: train loss 2.5166047, val loss 2.5148559, mem 1.8 GiB @ 00 00:52:24.027, mean 00 00:00:00.018
+step 173500: train loss 2.526689, val loss 2.502134, mem 1.8 GiB @ 00 00:52:33.019, mean 00 00:00:00.017
+step 174000: train loss 2.5273664, val loss 2.5055194, mem 1.8 GiB @ 00 00:52:42.064, mean 00 00:00:00.018
+step 174500: train loss 2.5251281, val loss 2.5148578, mem 1.8 GiB @ 00 00:52:51.239, mean 00 00:00:00.018
+step 175000: train loss 2.5138183, val loss 2.5150354, mem 1.8 GiB @ 00 00:53:00.438, mean 00 00:00:00.018
+step 175500: train loss 2.5220757, val loss 2.498464, mem 1.8 GiB @ 00 00:53:09.649, mean 00 00:00:00.018
+step 176000: train loss 2.5313504, val loss 2.512738, mem 1.8 GiB @ 00 00:53:18.781, mean 00 00:00:00.018
+step 176500: train loss 2.5240066, val loss 2.5046458, mem 1.8 GiB @ 00 00:53:27.772, mean 00 00:00:00.017
+step 177000: train loss 2.5020943, val loss 2.5271697, mem 1.8 GiB @ 00 00:53:37.226, mean 00 00:00:00.018
+step 177500: train loss 2.5142105, val loss 2.507526, mem 1.8 GiB @ 00 00:53:46.431, mean 00 00:00:00.018
+step 178000: train loss 2.5214717, val loss 2.5008574, mem 1.8 GiB @ 00 00:53:55.737, mean 00 00:00:00.018
+step 178500: train loss 2.5199673, val loss 2.5107973, mem 1.8 GiB @ 00 00:54:04.931, mean 00 00:00:00.018
+step 179000: train loss 2.5000296, val loss 2.5194066, mem 1.8 GiB @ 00 00:54:14.105, mean 00 00:00:00.018
+step 179500: train loss 2.5067203, val loss 2.4974456, mem 1.8 GiB @ 00 00:54:23.204, mean 00 00:00:00.018
+step 180000: train loss 2.5056288, val loss 2.497915, mem 1.8 GiB @ 00 00:54:32.408, mean 00 00:00:00.018
+step 180500: train loss 2.594002, val loss 2.4996915, mem 1.8 GiB @ 00 00:54:41.681, mean 00 00:00:00.018
+step 181000: train loss 2.5193682, val loss 2.510895, mem 1.8 GiB @ 00 00:54:50.659, mean 00 00:00:00.017
+step 181500: train loss 2.5053945, val loss 2.501033, mem 1.8 GiB @ 00 00:54:59.335, mean 00 00:00:00.017
+step 182000: train loss 2.5003684, val loss 2.509502, mem 1.8 GiB @ 00 00:55:08.458, mean 00 00:00:00.018
+step 182500: train loss 2.5168636, val loss 2.5045457, mem 1.8 GiB @ 00 00:55:17.055, mean 00 00:00:00.017
+step 183000: train loss 2.5087895, val loss 2.5074468, mem 1.8 GiB @ 00 00:55:26.268, mean 00 00:00:00.018
+step 183500: train loss 2.4820862, val loss 2.494611, mem 1.8 GiB @ 00 00:55:35.444, mean 00 00:00:00.018
+step 184000: train loss 2.502267, val loss 2.5066352, mem 1.8 GiB @ 00 00:55:44.597, mean 00 00:00:00.018
+step 184500: train loss 2.5026727, val loss 2.4899154, mem 1.8 GiB @ 00 00:55:53.747, mean 00 00:00:00.018
+step 185000: train loss 2.5578895, val loss 2.4956203, mem 1.8 GiB @ 00 00:56:02.897, mean 00 00:00:00.018
+step 185500: train loss 2.503206, val loss 2.4801965, mem 1.8 GiB @ 00 00:56:12.046, mean 00 00:00:00.018
+step 186000: train loss 2.6391988, val loss 2.6496222, mem 1.8 GiB @ 00 00:56:21.229, mean 00 00:00:00.018
+step 186500: train loss 2.7605357, val loss 2.8101664, mem 1.8 GiB @ 00 00:56:30.403, mean 00 00:00:00.018
+step 187000: train loss 2.747298, val loss 2.7703528, mem 1.8 GiB @ 00 00:56:39.575, mean 00 00:00:00.018
+step 187500: train loss 2.7035546, val loss 2.7561557, mem 1.8 GiB @ 00 00:56:48.744, mean 00 00:00:00.018
+step 188000: train loss 2.694725, val loss 2.7074792, mem 1.8 GiB @ 00 00:56:57.883, mean 00 00:00:00.018
+step 188500: train loss 2.660415, val loss 2.6848052, mem 1.8 GiB @ 00 00:57:07.010, mean 00 00:00:00.018
+step 189000: train loss 2.6699243, val loss 2.686576, mem 1.8 GiB @ 00 00:57:16.163, mean 00 00:00:00.018
+step 189500: train loss 2.6505117, val loss 2.6860864, mem 1.8 GiB @ 00 00:57:25.306, mean 00 00:00:00.018
+step 190000: train loss 2.6276734, val loss 2.6521409, mem 1.8 GiB @ 00 00:57:34.446, mean 00 00:00:00.018
+step 190500: train loss 2.614098, val loss 2.6136324, mem 1.8 GiB @ 00 00:57:43.590, mean 00 00:00:00.018
+step 191000: train loss 2.6185927, val loss 2.6000452, mem 1.8 GiB @ 00 00:57:52.641, mean 00 00:00:00.018
+step 191500: train loss 2.61393, val loss 2.6150014, mem 1.8 GiB @ 00 00:58:01.818, mean 00 00:00:00.018
+step 192000: train loss 2.5688295, val loss 2.5952506, mem 1.8 GiB @ 00 00:58:10.975, mean 00 00:00:00.018
+step 192500: train loss 2.6315835, val loss 2.5830283, mem 1.8 GiB @ 00 00:58:20.112, mean 00 00:00:00.018
+step 193000: train loss 2.5459197, val loss 2.5620086, mem 1.8 GiB @ 00 00:58:29.251, mean 00 00:00:00.018
+step 193500: train loss 2.5539908, val loss 2.53785, mem 1.8 GiB @ 00 00:58:38.450, mean 00 00:00:00.018
+step 194000: train loss 2.5357075, val loss 2.5282996, mem 1.8 GiB @ 00 00:58:47.682, mean 00 00:00:00.018
+step 194500: train loss 2.5252588, val loss 2.5360034, mem 1.8 GiB @ 00 00:58:56.872, mean 00 00:00:00.018
+step 195000: train loss 2.9602966, val loss 3.0015907, mem 1.8 GiB @ 00 00:59:06.072, mean 00 00:00:00.018
+step 195500: train loss 3.226125, val loss 3.32104, mem 1.8 GiB @ 00 00:59:15.185, mean 00 00:00:00.018
+step 196000: train loss 3.207851, val loss 3.2976449, mem 1.8 GiB @ 00 00:59:24.490, mean 00 00:00:00.018
+step 196500: train loss 3.147855, val loss 3.2276843, mem 1.8 GiB @ 00 00:59:33.582, mean 00 00:00:00.018
+step 197000: train loss 3.1404169, val loss 3.181102, mem 1.8 GiB @ 00 00:59:42.358, mean 00 00:00:00.017
+step 197500: train loss 3.0707848, val loss 3.1309063, mem 1.8 GiB @ 00 00:59:51.139, mean 00 00:00:00.017
+step 198000: train loss 3.0371509, val loss 3.1090806, mem 1.8 GiB @ 00 00:59:59.924, mean 00 00:00:00.017
+step 198500: train loss 3.0718253, val loss 3.0589926, mem 1.8 GiB @ 00 01:00:09.101, mean 00 00:00:00.018
+step 199000: train loss 3.013269, val loss 3.0497398, mem 1.8 GiB @ 00 01:00:18.173, mean 00 00:00:00.018
+step 199500: train loss 2.9890387, val loss 3.053209, mem 1.8 GiB @ 00 01:00:27.114, mean 00 00:00:00.017
+step 200000: train loss 2.978158, val loss 3.0194566, mem 1.8 GiB @ 00 01:00:36.076, mean 00 00:00:00.017
+step 200500: train loss 2.971471, val loss 3.0188708, mem 1.8 GiB @ 00 01:00:44.777, mean 00 00:00:00.017
+step 201000: train loss 2.9284942, val loss 2.9707778, mem 1.8 GiB @ 00 01:00:53.566, mean 00 00:00:00.017
+step 201500: train loss 2.9202826, val loss 2.9918785, mem 1.8 GiB @ 00 01:01:02.376, mean 00 00:00:00.017
+step 202000: train loss 2.9046416, val loss 2.9635227, mem 1.8 GiB @ 00 01:01:11.435, mean 00 00:00:00.018
+step 202500: train loss 2.9099188, val loss 2.9574237, mem 1.8 GiB @ 00 01:01:20.496, mean 00 00:00:00.018
+step 203000: train loss 2.8745813, val loss 2.919703, mem 1.8 GiB @ 00 01:01:29.688, mean 00 00:00:00.018
+step 203500: train loss 2.8767095, val loss 2.9057343, mem 1.8 GiB @ 00 01:01:38.886, mean 00 00:00:00.018
+step 204000: train loss 2.863193, val loss 2.9001672, mem 1.8 GiB @ 00 01:01:47.950, mean 00 00:00:00.018
+step 204500: train loss 2.8453667, val loss 2.886128, mem 1.8 GiB @ 00 01:01:57.080, mean 00 00:00:00.018
+step 205000: train loss 2.8517902, val loss 2.8715935, mem 1.8 GiB @ 00 01:02:06.226, mean 00 00:00:00.018
+step 205500: train loss 2.8430014, val loss 2.8557227, mem 1.8 GiB @ 00 01:02:15.119, mean 00 00:00:00.017
+step 206000: train loss 2.8376007, val loss 2.8653963, mem 1.8 GiB @ 00 01:02:24.164, mean 00 00:00:00.018
+step 206500: train loss 2.8420525, val loss 2.8656938, mem 1.8 GiB @ 00 01:02:32.842, mean 00 00:00:00.017
+step 207000: train loss 2.7989218, val loss 2.8503268, mem 1.8 GiB @ 00 01:02:41.553, mean 00 00:00:00.017
+step 207500: train loss 2.788247, val loss 2.8346767, mem 1.8 GiB @ 00 01:02:50.291, mean 00 00:00:00.017
+step 208000: train loss 2.7960534, val loss 2.8220644, mem 1.8 GiB @ 00 01:02:58.965, mean 00 00:00:00.017
+step 208500: train loss 2.7643561, val loss 2.8100643, mem 1.8 GiB @ 00 01:03:07.885, mean 00 00:00:00.017
+step 209000: train loss 2.7690794, val loss 2.8051195, mem 1.8 GiB @ 00 01:03:16.897, mean 00 00:00:00.018
+step 209500: train loss 2.823078, val loss 2.7799718, mem 1.8 GiB @ 00 01:03:25.920, mean 00 00:00:00.018
+step 210000: train loss 2.7465246, val loss 2.7820885, mem 1.8 GiB @ 00 01:03:34.699, mean 00 00:00:00.017
+step 210500: train loss 2.7599597, val loss 2.7759554, mem 1.8 GiB @ 00 01:03:43.873, mean 00 00:00:00.018
+step 211000: train loss 2.7265472, val loss 2.7441819, mem 1.8 GiB @ 00 01:03:53.042, mean 00 00:00:00.018
+step 211500: train loss 2.7245493, val loss 2.744273, mem 1.8 GiB @ 00 01:04:02.224, mean 00 00:00:00.018
+step 212000: train loss 2.7160375, val loss 2.743356, mem 1.8 GiB @ 00 01:04:11.406, mean 00 00:00:00.018
+step 212500: train loss 2.7301092, val loss 2.741784, mem 1.8 GiB @ 00 01:04:20.595, mean 00 00:00:00.018
+step 213000: train loss 2.724351, val loss 2.7546093, mem 1.8 GiB @ 00 01:04:29.591, mean 00 00:00:00.017
+step 213500: train loss 2.7380147, val loss 2.7332876, mem 1.8 GiB @ 00 01:04:38.351, mean 00 00:00:00.017
+step 214000: train loss 2.722359, val loss 2.7512848, mem 1.8 GiB @ 00 01:04:47.176, mean 00 00:00:00.017
+step 214500: train loss 2.7270098, val loss 2.729644, mem 1.8 GiB @ 00 01:04:56.377, mean 00 00:00:00.018
+step 215000: train loss 2.7138848, val loss 2.7413082, mem 1.8 GiB @ 00 01:05:05.292, mean 00 00:00:00.017
+step 215500: train loss 2.7238328, val loss 2.7209575, mem 1.8 GiB @ 00 01:05:14.185, mean 00 00:00:00.017
+step 216000: train loss 2.7460608, val loss 2.7202165, mem 1.8 GiB @ 00 01:05:23.424, mean 00 00:00:00.018
+step 216500: train loss 2.6782904, val loss 2.7043123, mem 1.8 GiB @ 00 01:05:32.450, mean 00 00:00:00.018
+step 217000: train loss 2.6803453, val loss 2.700168, mem 1.8 GiB @ 00 01:05:41.177, mean 00 00:00:00.017
+step 217500: train loss 2.6650314, val loss 2.6773944, mem 1.8 GiB @ 00 01:05:50.263, mean 00 00:00:00.018
+step 218000: train loss 2.6522179, val loss 2.6590064, mem 1.8 GiB @ 00 01:05:59.410, mean 00 00:00:00.018
+step 218500: train loss 2.7171233, val loss 2.6695492, mem 1.8 GiB @ 00 01:06:08.777, mean 00 00:00:00.018
+step 219000: train loss 2.6555552, val loss 2.6603386, mem 1.8 GiB @ 00 01:06:17.935, mean 00 00:00:00.018
+step 219500: train loss 2.646396, val loss 2.6657827, mem 1.8 GiB @ 00 01:06:27.121, mean 00 00:00:00.018
+step 220000: train loss 2.6443288, val loss 2.665458, mem 1.8 GiB @ 00 01:06:36.330, mean 00 00:00:00.018
+step 220500: train loss 2.6325238, val loss 2.659098, mem 1.8 GiB @ 00 01:06:45.123, mean 00 00:00:00.017
+step 221000: train loss 2.631106, val loss 2.6308534, mem 1.8 GiB @ 00 01:06:53.843, mean 00 00:00:00.017
+step 221500: train loss 2.6211464, val loss 2.6254497, mem 1.8 GiB @ 00 01:07:03.075, mean 00 00:00:00.018
+step 222000: train loss 2.618364, val loss 2.6232421, mem 1.8 GiB @ 00 01:07:12.336, mean 00 00:00:00.018
+step 222500: train loss 2.64242, val loss 2.626619, mem 1.8 GiB @ 00 01:07:21.593, mean 00 00:00:00.018
+step 223000: train loss 2.622974, val loss 2.643144, mem 1.8 GiB @ 00 01:07:30.783, mean 00 00:00:00.018
+step 223500: train loss 2.619074, val loss 2.5995605, mem 1.8 GiB @ 00 01:07:39.974, mean 00 00:00:00.018
+step 224000: train loss 2.6008372, val loss 2.6041062, mem 1.8 GiB @ 00 01:07:49.135, mean 00 00:00:00.018
+step 224500: train loss 2.5877063, val loss 2.596571, mem 1.8 GiB @ 00 01:07:58.028, mean 00 00:00:00.017
+step 225000: train loss 2.5759888, val loss 2.615086, mem 1.8 GiB @ 00 01:08:07.002, mean 00 00:00:00.017
+step 225500: train loss 2.5810564, val loss 2.588485, mem 1.8 GiB @ 00 01:08:16.043, mean 00 00:00:00.018
+step 226000: train loss 2.5848305, val loss 2.5928824, mem 1.8 GiB @ 00 01:08:24.836, mean 00 00:00:00.017
+step 226500: train loss 2.5751898, val loss 2.5849037, mem 1.8 GiB @ 00 01:08:33.652, mean 00 00:00:00.017
+step 227000: train loss 2.591604, val loss 2.5864542, mem 1.8 GiB @ 00 01:08:42.386, mean 00 00:00:00.017
+step 227500: train loss 2.6020916, val loss 2.5821967, mem 1.8 GiB @ 00 01:08:51.148, mean 00 00:00:00.017
+step 228000: train loss 2.581245, val loss 2.5862474, mem 1.8 GiB @ 00 01:08:59.934, mean 00 00:00:00.017
+step 228500: train loss 2.5789819, val loss 2.5769308, mem 1.8 GiB @ 00 01:09:08.746, mean 00 00:00:00.017
+step 229000: train loss 2.5734887, val loss 2.579993, mem 1.8 GiB @ 00 01:09:17.502, mean 00 00:00:00.017
+step 229500: train loss 2.5725763, val loss 2.5729287, mem 1.8 GiB @ 00 01:09:26.263, mean 00 00:00:00.017
+step 230000: train loss 2.5711606, val loss 2.5626154, mem 1.8 GiB @ 00 01:09:35.043, mean 00 00:00:00.017
+step 230500: train loss 2.578496, val loss 2.5641565, mem 1.8 GiB @ 00 01:09:43.832, mean 00 00:00:00.017
+step 231000: train loss 2.5806177, val loss 2.554535, mem 1.8 GiB @ 00 01:09:52.663, mean 00 00:00:00.017
+step 231500: train loss 2.5879025, val loss 2.578955, mem 1.8 GiB @ 00 01:10:01.486, mean 00 00:00:00.017
+step 232000: train loss 2.5690203, val loss 2.5557141, mem 1.8 GiB @ 00 01:10:10.282, mean 00 00:00:00.017
+step 232500: train loss 2.5799181, val loss 2.567418, mem 1.8 GiB @ 00 01:10:19.261, mean 00 00:00:00.017
+step 233000: train loss 2.5601456, val loss 2.5528748, mem 1.8 GiB @ 00 01:10:28.232, mean 00 00:00:00.017
+step 233500: train loss 2.5713599, val loss 2.5511606, mem 1.8 GiB @ 00 01:10:37.442, mean 00 00:00:00.018
+step 234000: train loss 2.5697093, val loss 2.5643713, mem 1.8 GiB @ 00 01:10:46.715, mean 00 00:00:00.018
+step 234500: train loss 2.5583985, val loss 2.5598552, mem 1.8 GiB @ 00 01:10:55.815, mean 00 00:00:00.018
+step 235000: train loss 2.5685735, val loss 2.563855, mem 1.8 GiB @ 00 01:11:05.094, mean 00 00:00:00.018
+step 235500: train loss 2.5593753, val loss 2.5496728, mem 1.8 GiB @ 00 01:11:14.273, mean 00 00:00:00.018
+step 236000: train loss 2.6019444, val loss 2.5773997, mem 1.8 GiB @ 00 01:11:23.439, mean 00 00:00:00.018
+step 236500: train loss 2.5580127, val loss 2.5664618, mem 1.8 GiB @ 00 01:11:32.533, mean 00 00:00:00.018
+step 237000: train loss 2.539511, val loss 2.5564046, mem 1.8 GiB @ 00 01:11:41.734, mean 00 00:00:00.018
+step 237500: train loss 2.5433125, val loss 2.5383692, mem 1.8 GiB @ 00 01:11:50.918, mean 00 00:00:00.018
+step 238000: train loss 2.558301, val loss 2.5474987, mem 1.8 GiB @ 00 01:12:00.037, mean 00 00:00:00.018
+step 238500: train loss 2.5359893, val loss 2.5403142, mem 1.8 GiB @ 00 01:12:09.222, mean 00 00:00:00.018
+step 239000: train loss 2.5567253, val loss 2.5473704, mem 1.8 GiB @ 00 01:12:18.285, mean 00 00:00:00.018
+step 239500: train loss 2.5437763, val loss 2.5465395, mem 1.8 GiB @ 00 01:12:27.522, mean 00 00:00:00.018
+step 240000: train loss 2.5371137, val loss 2.5481472, mem 1.8 GiB @ 00 01:12:36.613, mean 00 00:00:00.018
+step 240500: train loss 2.5547137, val loss 2.5480523, mem 1.8 GiB @ 00 01:12:45.637, mean 00 00:00:00.018
+step 241000: train loss 2.5429409, val loss 2.5392156, mem 1.8 GiB @ 00 01:12:54.916, mean 00 00:00:00.018
+step 241500: train loss 2.5523057, val loss 2.525458, mem 1.8 GiB @ 00 01:13:03.980, mean 00 00:00:00.018
+step 242000: train loss 2.5401464, val loss 2.5298932, mem 1.8 GiB @ 00 01:13:12.861, mean 00 00:00:00.017
+step 242500: train loss 2.5281923, val loss 2.5299575, mem 1.8 GiB @ 00 01:13:22.056, mean 00 00:00:00.018
+step 243000: train loss 2.5336003, val loss 2.5257037, mem 1.8 GiB @ 00 01:13:31.185, mean 00 00:00:00.018
+step 243500: train loss 2.5390625, val loss 2.5334558, mem 1.8 GiB @ 00 01:13:40.170, mean 00 00:00:00.017
+step 244000: train loss 2.522012, val loss 2.5230331, mem 1.8 GiB @ 00 01:13:49.280, mean 00 00:00:00.018
+step 244500: train loss 2.5535512, val loss 2.5162625, mem 1.8 GiB @ 00 01:13:58.430, mean 00 00:00:00.018
+step 245000: train loss 2.5219536, val loss 2.5350945, mem 1.8 GiB @ 00 01:14:07.373, mean 00 00:00:00.017
+step 245500: train loss 2.5400603, val loss 2.5226333, mem 1.8 GiB @ 00 01:14:16.290, mean 00 00:00:00.017
+step 246000: train loss 2.5211527, val loss 2.5209093, mem 1.8 GiB @ 00 01:14:25.051, mean 00 00:00:00.017
+step 246500: train loss 2.5326288, val loss 2.517763, mem 1.8 GiB @ 00 01:14:34.134, mean 00 00:00:00.018
+step 247000: train loss 2.5239825, val loss 2.5237296, mem 1.8 GiB @ 00 01:14:43.436, mean 00 00:00:00.018
+step 247500: train loss 2.5342746, val loss 2.5316978, mem 1.8 GiB @ 00 01:14:52.598, mean 00 00:00:00.018
+step 248000: train loss 2.5418677, val loss 2.5229464, mem 1.8 GiB @ 00 01:15:01.520, mean 00 00:00:00.017
+step 248500: train loss 2.5208218, val loss 2.5226378, mem 1.8 GiB @ 00 01:15:10.703, mean 00 00:00:00.018
+step 249000: train loss 2.5205505, val loss 2.5156775, mem 1.8 GiB @ 00 01:15:19.766, mean 00 00:00:00.018
+step 249500: train loss 2.5135543, val loss 2.5137305, mem 1.8 GiB @ 00 01:15:28.953, mean 00 00:00:00.018
+step 250000: train loss 2.5198588, val loss 2.5200772, mem 1.8 GiB @ 00 01:15:38.190, mean 00 00:00:00.018
+step 250500: train loss 2.5099273, val loss 2.5215304, mem 1.8 GiB @ 00 01:15:47.414, mean 00 00:00:00.018
+step 251000: train loss 2.528972, val loss 2.5394728, mem 1.8 GiB @ 00 01:15:56.673, mean 00 00:00:00.018
+step 251500: train loss 2.5411782, val loss 2.50811, mem 1.8 GiB @ 00 01:16:05.749, mean 00 00:00:00.018
+step 252000: train loss 2.522227, val loss 2.5041661, mem 1.8 GiB @ 00 01:16:14.496, mean 00 00:00:00.017
+step 252500: train loss 2.5129066, val loss 2.5064766, mem 1.8 GiB @ 00 01:16:23.608, mean 00 00:00:00.018
+step 253000: train loss 2.5152698, val loss 2.5204523, mem 1.8 GiB @ 00 01:16:32.417, mean 00 00:00:00.017
+step 253500: train loss 2.5003397, val loss 2.4902773, mem 1.8 GiB @ 00 01:16:41.189, mean 00 00:00:00.017
+step 254000: train loss 2.4988005, val loss 2.5167823, mem 1.8 GiB @ 00 01:16:49.839, mean 00 00:00:00.017
+step 254500: train loss 2.5055013, val loss 2.4984376, mem 1.8 GiB @ 00 01:16:58.605, mean 00 00:00:00.017
+step 255000: train loss 2.505079, val loss 2.5132554, mem 1.8 GiB @ 00 01:17:07.414, mean 00 00:00:00.017
+step 255500: train loss 2.5095673, val loss 2.5038614, mem 1.8 GiB @ 00 01:17:16.634, mean 00 00:00:00.018
+step 256000: train loss 2.5126374, val loss 2.5136561, mem 1.8 GiB @ 00 01:17:25.946, mean 00 00:00:00.018
+step 256500: train loss 2.4952636, val loss 2.5063396, mem 1.8 GiB @ 00 01:17:35.208, mean 00 00:00:00.018
+step 257000: train loss 2.5047023, val loss 2.5217605, mem 1.8 GiB @ 00 01:17:44.452, mean 00 00:00:00.018
+step 257500: train loss 2.4988713, val loss 2.5067458, mem 1.8 GiB @ 00 01:17:53.652, mean 00 00:00:00.018
+step 258000: train loss 2.5093448, val loss 2.5069857, mem 1.8 GiB @ 00 01:18:02.828, mean 00 00:00:00.018
+step 258500: train loss 2.505372, val loss 2.4963632, mem 1.8 GiB @ 00 01:18:12.019, mean 00 00:00:00.018
+step 259000: train loss 2.499518, val loss 2.5130494, mem 1.8 GiB @ 00 01:18:21.235, mean 00 00:00:00.018
+step 259500: train loss 2.515798, val loss 2.5166612, mem 1.8 GiB @ 00 01:18:30.109, mean 00 00:00:00.017
+step 260000: train loss 2.4852397, val loss 2.4907644, mem 1.8 GiB @ 00 01:18:38.914, mean 00 00:00:00.017
+step 260500: train loss 2.5120816, val loss 2.5052261, mem 1.8 GiB @ 00 01:18:47.802, mean 00 00:00:00.017
+step 261000: train loss 2.5111852, val loss 2.4863603, mem 1.8 GiB @ 00 01:18:56.887, mean 00 00:00:00.018
+step 261500: train loss 2.5562885, val loss 2.4973514, mem 1.8 GiB @ 00 01:19:06.066, mean 00 00:00:00.018
+step 262000: train loss 2.5115092, val loss 2.4853299, mem 1.8 GiB @ 00 01:19:15.119, mean 00 00:00:00.018
+step 262500: train loss 2.4925854, val loss 2.5083647, mem 1.8 GiB @ 00 01:19:24.322, mean 00 00:00:00.018
+step 263000: train loss 2.4957507, val loss 2.495994, mem 1.8 GiB @ 00 01:19:33.517, mean 00 00:00:00.018
+step 263500: train loss 2.4846494, val loss 2.499709, mem 1.8 GiB @ 00 01:19:42.691, mean 00 00:00:00.018
+step 264000: train loss 2.5441103, val loss 2.4874752, mem 1.8 GiB @ 00 01:19:51.871, mean 00 00:00:00.018
+step 264500: train loss 2.4835744, val loss 2.4986813, mem 1.8 GiB @ 00 01:20:00.978, mean 00 00:00:00.018
+step 265000: train loss 2.5109034, val loss 2.496733, mem 1.8 GiB @ 00 01:20:10.165, mean 00 00:00:00.018
+step 265500: train loss 2.4943607, val loss 2.496507, mem 1.8 GiB @ 00 01:20:19.362, mean 00 00:00:00.018
+step 266000: train loss 2.5062056, val loss 2.4891384, mem 1.8 GiB @ 00 01:20:28.531, mean 00 00:00:00.018
+step 266500: train loss 2.498169, val loss 2.4821136, mem 1.8 GiB @ 00 01:20:37.701, mean 00 00:00:00.018
+step 267000: train loss 2.5506854, val loss 2.4896333, mem 1.8 GiB @ 00 01:20:46.873, mean 00 00:00:00.018
+step 267500: train loss 2.4845703, val loss 2.492978, mem 1.8 GiB @ 00 01:20:56.044, mean 00 00:00:00.018
+step 268000: train loss 2.49685, val loss 2.4753346, mem 1.8 GiB @ 00 01:21:05.105, mean 00 00:00:00.018
+step 268500: train loss 2.4785745, val loss 2.492923, mem 1.8 GiB @ 00 01:21:14.286, mean 00 00:00:00.018
+step 269000: train loss 2.4962626, val loss 2.4833417, mem 1.8 GiB @ 00 01:21:23.467, mean 00 00:00:00.018
+step 269500: train loss 2.4844522, val loss 2.480994, mem 1.8 GiB @ 00 01:21:32.501, mean 00 00:00:00.018
+step 270000: train loss 2.5374827, val loss 2.4813194, mem 1.8 GiB @ 00 01:21:41.247, mean 00 00:00:00.017
+step 270500: train loss 2.4997509, val loss 2.487495, mem 1.8 GiB @ 00 01:21:49.929, mean 00 00:00:00.017
+step 271000: train loss 2.4972954, val loss 2.4815006, mem 1.8 GiB @ 00 01:21:59.081, mean 00 00:00:00.018
+step 271500: train loss 2.4859962, val loss 2.4815052, mem 1.8 GiB @ 00 01:22:08.317, mean 00 00:00:00.018
+step 272000: train loss 2.4977422, val loss 2.4779897, mem 1.8 GiB @ 00 01:22:17.186, mean 00 00:00:00.017
+step 272500: train loss 2.4801755, val loss 2.4828565, mem 1.8 GiB @ 00 01:22:26.295, mean 00 00:00:00.018
+step 273000: train loss 2.4902484, val loss 2.4964962, mem 1.8 GiB @ 00 01:22:35.571, mean 00 00:00:00.018
+step 273500: train loss 2.4856274, val loss 2.4726913, mem 1.8 GiB @ 00 01:22:44.568, mean 00 00:00:00.017
+step 274000: train loss 2.4846637, val loss 2.473841, mem 1.8 GiB @ 00 01:22:53.816, mean 00 00:00:00.018
+step 274500: train loss 2.4785647, val loss 2.470437, mem 1.8 GiB @ 00 01:23:03.044, mean 00 00:00:00.018
+step 275000: train loss 2.4843326, val loss 2.4909556, mem 1.8 GiB @ 00 01:23:12.341, mean 00 00:00:00.018
+step 275500: train loss 2.4734778, val loss 2.4840093, mem 1.8 GiB @ 00 01:23:21.493, mean 00 00:00:00.018
