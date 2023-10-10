@@ -128,7 +128,7 @@ private[torch] trait Loss {
       input: Tensor[I],
       target: Tensor[O]
   ): Tensor[I] =
-    Tensor(
+    fromNative(
       torchNative.cross_entropy(
         input.native,
         target.native

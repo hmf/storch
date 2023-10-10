@@ -27,7 +27,7 @@ import sourcecode.Name
 import org.bytedeco.pytorch.DropoutImpl
 import org.bytedeco.pytorch.DropoutOptions
 import torch.nn.modules.{HasParams, HasWeight, TensorModule}
-import torch.internal.NativeConverters.toNative
+import torch.internal.NativeConverters.fromNative
 
 // format: off
 /** During training, randomly zeroes some of the elements of the input tensor with probability `p` 
@@ -81,7 +81,6 @@ final class Dropout[ParamType <: FloatNN | ComplexNN: Default](
   override private[torch] val nativeModule: DropoutImpl = DropoutImpl(options)
   nativeModule.to(paramType.toScalarType, false)
 
-  def apply(t: Tensor[ParamType]): Tensor[ParamType] =
-    Tensor[ParamType](nativeModule.forward(t.native))
+  def apply(t: Tensor[ParamType]): Tensor[ParamType] = fromNative(nativeModule.forward(t.native))
 
   override def toString(): String = s"${getClass().getSimpleName()}(p=$p, inplace=$inplace)"

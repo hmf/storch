@@ -811,7 +811,7 @@ private[torch] trait ReductionOps {
     * the output tensor.
     */
   def tril[D <: DType](input: Tensor[D], diagonal: Int = 0): Tensor[D] =
-    Tensor(torchNative.tril(input.native, diagonal.toLong))    
+    fromNative(torchNative.tril(input.native, diagonal.toLong))    
 
     // TODO unique Returns the unique elements of the `input` tensor.
     // seems to be implemented in https://github.com/pytorch/pytorch/blob/main/torch/functional.py

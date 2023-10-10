@@ -447,7 +447,7 @@ sealed abstract class Tensor[D <: DType]( /* private[torch]  */ val native: pyto
     *   Tensor with masked elements set to `value`
     */
   def maskedFill[S <: ScalaType](mask: Tensor[Bool], value: S): Tensor[Promoted[D, ScalaToDType[S]]] =
-    Tensor(native.masked_fill(mask.native, toScalar(value)))
+    fromNative(native.masked_fill(mask.native, toScalar(value)))
 
 
   /** Returns the maximum value of all elements of this tensor. */
@@ -570,6 +570,22 @@ sealed abstract class Tensor[D <: DType]( /* private[torch]  */ val native: pyto
 
   /** Returns the sum of all elements of this tensor. */
   def sum: Tensor[Sum[D]] = fromNative(native.sum())
+  def sum[D2 <: DType | Derive](
+        dim: Int | Seq[Int] = Seq.empty,
+        keepdim: Boolean = false,
+        dtype: D2 = derive
+    ): Tensor[DTypeOrDeriveFromTensor[D, D2]] =
+      val derivedDType = dtype match
+        case _: Derive => this.dtype
+        case d: DType  => d
+      fromNative(
+        torchNative.sum(
+          native,
+          dim.toArray,
+          keepdim,
+          new ScalarTypeOptional(derivedDType.toScalarType)
+        )
+      )
 
   /** Expects `input` to be \<= 2-D tensor and transposes dimensions 0 and 1.
     *
@@ -616,7 +632,7 @@ sealed abstract class Tensor[D <: DType]( /* private[torch]  */ val native: pyto
     * @see [[Tensor.mT]]
     * 
     */
-  def transpose(dim0: Int, dim1: Int): Tensor[D] = Tensor(native.transpose(dim0, dim1))
+  def transpose(dim0: Int, dim1: Int): Tensor[D] = fromNative(native.transpose(dim0, dim1))
 
   /** Calculates the variance of all elements of this tensor. */
   def variance = fromNative(native.`var`())

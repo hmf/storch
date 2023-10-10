@@ -85,13 +85,15 @@ abstract class Module {
       name: sourcecode.Name
   ): Tensor[D] =
     val name_ = if n.trim().isEmpty() then name.value else n.trim()
-    Tensor( nativeModule.register_parameter(name_, t.native, requiresGrad) )
+    nativeModule.register_parameter(name_, t.native, requiresGrad)
+    t
 
   def registerBuffer[D <: DType](t: Tensor[D], n: String = "")(using
       name: sourcecode.Name
   ): Tensor[D] =
     val name_ = if n.trim().isEmpty() then name.value else n.trim()
-    Tensor( nativeModule.register_buffer(name_, t.native) )
+    nativeModule.register_buffer(name_, t.native)
+    t
 
   /** Adds a buffer to the module. */
   def registerBuffer[D <: DType](name: String, tensor: Tensor[D]): Tensor[D] =
