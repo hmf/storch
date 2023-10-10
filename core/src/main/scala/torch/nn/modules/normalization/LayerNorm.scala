@@ -22,9 +22,9 @@ package modules
 package normalization
 
 import org.bytedeco.pytorch
-import org.bytedeco.pytorch.{LayerNormImpl, LayerNormOptions}
-import torch.{DType, Tensor}
-import org.bytedeco.pytorch.LongVector
+import org.bytedeco.pytorch.{LayerNormImpl, LayerNormOptions, LongVector}
+import torch.nn.modules.TensorModule
+import internal.NativeConverters.fromNative
 
 /** Applies Layer Normalization over a mini-batch of inputs as described in the paper 
  * [[Layer Normalization https://arxiv.org/abs/1607.06450]]
@@ -92,11 +92,8 @@ final class LayerNorm[ParamType <: FloatNN | ComplexNN: Default](
 
   override private[torch] val nativeModule: LayerNormImpl = LayerNormImpl(options)
 
-  val weight: Tensor[ParamType] = Tensor[ParamType](nativeModule.weight)
-  val bias: Tensor[ParamType] = Tensor[ParamType](nativeModule.bias)
+  val weight: Tensor[ParamType] = fromNative[ParamType](nativeModule.weight)
+  val bias: Tensor[ParamType] = fromNative[ParamType](nativeModule.bias)
 
   def apply(t: Tensor[ParamType]): Tensor[ParamType] =
-    Tensor[ParamType](nativeModule.forward(t.native))
-
-  override def toString = getClass().getSimpleName()
-
+    fromNative[ParamType](nativeModule.forward(t.native))
