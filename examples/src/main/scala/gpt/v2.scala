@@ -6,13 +6,12 @@ import torch.nn as nn
 from torch.nn import functional as F
 */
 
-
 // cSpell: ignore gpt, hyperparameters, logits, softmax
 // cSpell: ignore CUDA, torchvision
 // cSpell: ignore dtype
 // cSpell: ignore stoi, itos
-// cSpell: ignore nn, probs
-// cSpell: ignore xbow, xprev
+// cSpell: ignore nn, probs, numel, itemsize, nbytes
+// cSpell: ignore xbow, xprev, isinstance, idx, tok_emb
 
 import java.nio.file.Paths
 import java.nio.file.Files
@@ -40,286 +39,125 @@ import org.bytedeco.javacpp.Pointer
 
 
 
-/*
-# wget https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
-with open('input.txt', 'r', encoding='utf-8') as f:
-    text = f.read()
-*/
-
-/*
-# here are all the unique characters that occur in this text
-chars = sorted(list(set(text)))
-vocab_size = len(chars)
-# create a mapping from characters to integers
-stoi = { ch:i for i,ch in enumerate(chars) }
-itos = { i:ch for i,ch in enumerate(chars) }
-encode = lambda s: [stoi[c] for c in s] # encoder: take a string, output a list of integers
-decode = lambda l: ''.join([itos[i] for i in l]) # decoder: take a list of integers, output a string
-*/
-
-/*
-# Train and test splits
-data = torch.tensor(encode(text), dtype=torch.long)
-n = int(0.9*len(data)) # first 90% will be train, rest val
-train_data = data[:n]
-val_data = data[n:]
-*/
-
-/*
-# data loading
-def get_batch(split):
-    # generate a small batch of data of inputs x and targets y
-    data = train_data if split == 'train' else val_data
-    ix = torch.randint(len(data) - block_size, (batch_size,))
-    x = torch.stack([data[i:i+block_size] for i in ix])
-    y = torch.stack([data[i+1:i+block_size+1] for i in ix])
-    x, y = x.to(device), y.to(device)
-    return x, y
-*/
-
-/*
-@torch.no_grad()
-def estimate_loss():
-    out = {}
-    model.eval()
-    for split in ['train', 'val']:
-        losses = torch.zeros(eval_iters)
-        for k in range(eval_iters):
-            X, Y = get_batch(split)
-            logits, loss = model(X, Y)
-            losses[k] = loss.item()
-        out[split] = losses.mean()
-    model.train()
-    return out
-*/
-
-
-/*
-class Head(nn.Module):
-    """ one head of self-attention """
-
-    def __init__(self, head_size):
-        super().__init__()
-        self.key = nn.Linear(n_embd, head_size, bias=False)
-        self.query = nn.Linear(n_embd, head_size, bias=False)
-        self.value = nn.Linear(n_embd, head_size, bias=False)
-        self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size)))
-
-        self.dropout = nn.Dropout(dropout)
-
-    def forward(self, x):
-        # input of size (batch, time-step, channels)
-        # output of size (batch, time-step, head size)
-        B,T,C = x.shape
-        k = self.key(x)   # (B,T,hs)
-        q = self.query(x) # (B,T,hs)
-        # compute attention scores ("affinities")
-        wei = q @ k.transpose(-2,-1) * k.shape[-1]**-0.5 # (B, T, hs) @ (B, hs, T) -> (B, T, T)
-        wei = wei.masked_fill(self.tril[:T, :T] == 0, float('-inf')) # (B, T, T)
-        wei = F.softmax(wei, dim=-1) # (B, T, T)
-        wei = self.dropout(wei)
-        # perform the weighted aggregation of the values
-        v = self.value(x) # (B,T,hs)
-        out = wei @ v # (B, T, T) @ (B, T, hs) -> (B, T, hs)
-        return out
-*/
-
-/*
-class MultiHeadAttention(nn.Module):
-    """ multiple heads of self-attention in parallel """
-
-    def __init__(self, num_heads, head_size):
-        super().__init__()
-        self.heads = nn.ModuleList([Head(head_size) for _ in range(num_heads)])
-        self.proj = nn.Linear(head_size * num_heads, n_embd)
-        self.dropout = nn.Dropout(dropout)
-
-    def forward(self, x):
-        out = torch.cat([h(x) for h in self.heads], dim=-1)
-        out = self.dropout(self.proj(out))
-        return out
-*/
-
-/*
-class FeedFoward(nn.Module):
-    """ a simple linear layer followed by a non-linearity """
-
-    def __init__(self, n_embd):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(n_embd, 4 * n_embd),
-            nn.ReLU(),
-            nn.Linear(4 * n_embd, n_embd),
-            nn.Dropout(dropout),
-        )
-
-    def forward(self, x):
-        return self.net(x)
-*/
-
-/*
-class Block(nn.Module):
-    """ Transformer block: communication followed by computation """
-
-    def __init__(self, n_embd, n_head):
-        # n_embd: embedding dimension, n_head: the number of heads we'd like
-        super().__init__()
-        head_size = n_embd // n_head
-        self.sa = MultiHeadAttention(n_head, head_size)
-        self.ffwd = FeedFoward(n_embd)
-        self.ln1 = nn.LayerNorm(n_embd)
-        self.ln2 = nn.LayerNorm(n_embd)
-
-    def forward(self, x):
-        x = x + self.sa(self.ln1(x))
-        x = x + self.ffwd(self.ln2(x))
-        return x
-*/
-
-/*
-class GPTLanguageModel(nn.Module):
-
-    def __init__(self):
-        super().__init__()
-        # each token directly reads off the logits for the next token from a lookup table
-        self.token_embedding_table = nn.Embedding(vocab_size, n_embd)
-        self.position_embedding_table = nn.Embedding(block_size, n_embd)
-        self.blocks = nn.Sequential(*[Block(n_embd, n_head=n_head) for _ in range(n_layer)])
-        self.ln_f = nn.LayerNorm(n_embd) # final layer norm
-        self.lm_head = nn.Linear(n_embd, vocab_size)
-
-        # better init, not covered in the original GPT video, but important, will cover in followup video
-        self.apply(self._init_weights)
-
-    def _init_weights(self, module):
-        if isinstance(module, nn.Linear):
-            torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
-            if module.bias is not None:
-                torch.nn.init.zeros_(module.bias)
-        elif isinstance(module, nn.Embedding):
-            torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
-
-    def forward(self, idx, targets=None):
-        B, T = idx.shape
-
-        # idx and targets are both (B,T) tensor of integers
-        tok_emb = self.token_embedding_table(idx) # (B,T,C)
-        pos_emb = self.position_embedding_table(torch.arange(T, device=device)) # (T,C)
-        x = tok_emb + pos_emb # (B,T,C)
-        x = self.blocks(x) # (B,T,C)
-        x = self.ln_f(x) # (B,T,C)
-        logits = self.lm_head(x) # (B,T,vocab_size)
-
-        if targets is None:
-            loss = None
-        else:
-            B, T, C = logits.shape
-            logits = logits.view(B*T, C)
-            targets = targets.view(B*T)
-            loss = F.cross_entropy(logits, targets)
-
-        return logits, loss
-
-    def generate(self, idx, max_new_tokens):
-        # idx is (B, T) array of indices in the current context
-        for _ in range(max_new_tokens):
-            # crop idx to the last block_size tokens
-            idx_cond = idx[:, -block_size:]
-            # get the predictions
-            logits, loss = self(idx_cond)
-            # focus only on the last time step
-            logits = logits[:, -1, :] # becomes (B, C)
-            # apply softmax to get probabilities
-            probs = F.softmax(logits, dim=-1) # (B, C)
-            # sample from the distribution
-            idx_next = torch.multinomial(probs, num_samples=1) # (B, 1)
-            # append sampled index to the running sequence
-            idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
-        return idx
-*/
-
-/*
-model = GPTLanguageModel()
-m = model.to(device)
-# print the number of parameters in the model
-print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
-
-# create a PyTorch optimizer
-optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
-*/
-
-/*
-for iter in range(max_iters):
-
-    # every once in a while evaluate the loss on train and val sets
-    if iter % eval_interval == 0 or iter == max_iters - 1:
-        losses = estimate_loss()
-        print(f"step {iter}: train loss {losses['train']:.4f}, val loss {losses['val']:.4f}")
-
-    # sample a batch of data
-    xb, yb = get_batch('train')
-
-    # evaluate the loss
-    logits, loss = model(xb, yb)
-    optimizer.zero_grad(set_to_none=True)
-    loss.backward()
-    optimizer.step()
-
-# generate from the model
-context = torch.zeros((1, 1), dtype=torch.long, device=device)
-print(decode(m.generate(context, max_new_tokens=500)[0].tolist()))
-#open('more.txt', 'w').write(decode(m.generate(context, max_new_tokens=10000)[0].tolist()))
-*/
-
-
-
 /**
   * ./mill examples.runMain gpt.V2
+  * nohup ./mill examples.runMain gpt.V2 > v2_0.txt 2>&1 &
   * 
+  * @see https://github.com/karpathy/ng-video-lecture/blob/master/gpt.py
   */
 object V2:
 
-  /*
-  # hyperparameters
-  batch_size = 64 # how many independent sequences will we process in parallel?
-  block_size = 256 # what is the maximum context length for predictions?
-  max_iters = 5000
-  eval_interval = 500
-  learning_rate = 3e-4
-  device = 'cuda' if torch.cuda.is_available() else 'cpu'
-  eval_iters = 200
-  n_embd = 384
-  n_head = 6
-  n_layer = 6
-  dropout = 0.2
-  # ------------
-  */
 
-  // hyperparameters
-  // val batch_size = 64 // how many independent sequences will we process in parallel?
-  // val block_size = 256 // what is the maximum context length for predictions?
-  // val max_iters = 5000
-  // val eval_interval = 500
-  // val learning_rate = 3e-4
-  // val device = if torch.cuda.isAvailable then CUDA else CPU
-  // val eval_iters = 200
-  // val n_embd = 384
-  // val n_head = 6
-  // val n_layer = 6
-  // val dropout = 0.2
+  // TODO: memory profiling
+  // https://docs.scala-lang.org/scala3/reference/experimental/cc.html
+  // https://stackoverflow.com/questions/43944949/is-it-possible-to-reference-count-call-location
+  // https://www.toptal.com/software/eliminating-garbage-collector
+  // https://verdagon.dev/blog/single-ownership-without-borrow-checking-rc-gc
+  // https://www.eddywm.com/modern-approaches-to-automatic-memory-management/
+  // https://news.ycombinator.com/item?id=31139610
+  // https://stackoverflow.com/questions/12429091/smart-pointers-and-ref-counting-in-java
+  // https://sites.cs.ucsb.edu/~ckrintz/racelab/gc/papers/levanoni-on-the-fly-rc.pdf
+  // https://www.baeldung.com/java-destructor
 
-  val batch_size = 64 // 64 #~4 16 // 16 // how many independent sequences will we process in parallel?
-  val block_size = 256 // 256 #~5 // 8 // 32 // what is the maximum context length for predictions?
-  val max_iters = 5000  // 3000
-  val eval_interval = 500  // 300
-  val learning_rate = 3e-4 // 1e-3 // 1e-2
-  //val device = 'cuda' if torch.cuda.is_available() else 'cpu'
-  val eval_iters = 200
-  val n_embed = 384 // 64 // #~3
-  val n_head = 6    // #~2
-  val n_layer = 6  // #~1
-  val dropout = 0.2
+  // https://saturncloud.io/blog/how-to-monitor-gpu-memory-usage-in-pytorch/
+  // Retrieve maximum GPU memory allocated by PyTorch
+  // max_memory_allocated = torch.cuda.max_memory_allocated()
+  //
+  // https://pytorch.org/docs/stable/generated/torch.cuda.memory_stats.html
+  // # Retrieve GPU memory statistics
+  // memory_stats = torch.cuda.memory_stats()
+  // 
+  // # Calculate available GPU memory
+  // total_memory = torch.cuda.get_device_properties(0).total_memory
+  // available_memory = total_memory - memory_stats["allocated_bytes.all.current"]
+  // 
+  // # Print the result
+  // print(f"Available GPU memory: {available_memory / 1024**3:.2f} GB")    
 
+  /**
+    * 
+    *
+    * @param availablePhysicalBytes
+    * @param totalPhysicalBytes
+    * @param maxPhysicalBytes
+    * @param maxBytes
+    * @param physicalBytes
+    * @param totalBytes
+    * @param totalCount
+    * 
+    * @see org.bytedeco.javacpp.Pointer
+    */
+  case class PointerInfo(
+    availablePhysicalBytes: BigInt,
+    totalPhysicalBytes: BigInt,
+    maxPhysicalBytes: BigInt,
+    maxBytes: BigInt,
+    physicalBytes: BigInt,
+    totalBytes: BigInt,
+    totalCount: BigInt,
+  ):
+    def -(o: PointerInfo): PointerInfo =
+      PointerInfo(
+        availablePhysicalBytes - o.availablePhysicalBytes,
+        totalPhysicalBytes     - o.totalPhysicalBytes,
+        maxPhysicalBytes       - o.maxPhysicalBytes,
+        maxBytes               - o.maxBytes,
+        physicalBytes          - o.physicalBytes,
+        totalBytes             - o.totalBytes,
+        totalCount             - o.totalCount,
+      )
+  
+    def +(o: PointerInfo): PointerInfo =
+      PointerInfo(
+        availablePhysicalBytes + o.availablePhysicalBytes,
+        totalPhysicalBytes     + o.totalPhysicalBytes,
+        maxPhysicalBytes       + o.maxPhysicalBytes,
+        maxBytes               + o.maxBytes,
+        physicalBytes          + o.physicalBytes,
+        totalBytes             + o.totalBytes,
+        totalCount             + o.totalCount,
+      )
+
+  object PointerInfo:
+    def apply(): PointerInfo =
+      val z = BigInt(0)
+      PointerInfo(z, z, z, z, z, z, z)
+
+  // nvidia-smi -l 1
+  // No parity between pointer and nvidia-smi values
+  // Do no seem to worK
+  // x.native.referenceCount()  // 1 
+  // y.native.referenceCount()  // 1
+  // x.native.deallocate()
+  // y.native.deallocate()
+
+  def getMemoryInfo() =
+    PointerInfo(
+      Pointer.availablePhysicalBytes(),
+      Pointer.totalPhysicalBytes(),
+      Pointer.maxPhysicalBytes(),
+      Pointer.maxBytes(),
+      Pointer.physicalBytes(),
+      Pointer.totalBytes(),
+      Pointer.totalCount()
+    )
+
+  def printAllMemoryInfo(info: PointerInfo, inUseOnly : Boolean = false) =
+    if !inUseOnly
+    then
+      println(s"PointerInfo.availablePhysicalBytes ${humanReadableSize(info.availablePhysicalBytes)}")
+      println(s"PointerInfo.totalPhysicalBytes ${humanReadableSize(info.totalPhysicalBytes)}")
+      println(s"PointerInfo.maxPhysicalBytes ${humanReadableSize(info.maxPhysicalBytes)}")
+      println(s"PointerInfo.maxBytes ${humanReadableSize(info.maxBytes)}")
+    println(s"PointerInfo.physicalBytes ${humanReadableSize(info.physicalBytes)}")
+    println(s"PointerInfo.totalBytes ${humanReadableSize(info.totalBytes)}")
+    println(s"PointerInfo.totalCount ${humanReadableSize(info.totalCount)}")
+    
+  def printMemoryInfo(info: PointerInfo) =
+    printAllMemoryInfo(info, inUseOnly = true)
+
+  
+  // Utility functions
 
 
   def len[T <: torch.DType](t: Tensor[T]): Int = 
@@ -410,6 +248,37 @@ object V2:
     val (d, hh, mm, ss, ms, ns) = durationParts(nanoSeconds)
     String.format("%02d %02d:%02d:%02d.%03d", d, hh, mm, ss, ms)
 
+  // Code starts here
+
+  /*
+  # hyperparameters
+  batch_size = 64 # how many independent sequences will we process in parallel?
+  block_size = 256 # what is the maximum context length for predictions?
+  max_iters = 5000
+  eval_interval = 500
+  learning_rate = 3e-4
+  device = 'cuda' if torch.cuda.is_available() else 'cpu'
+  eval_iters = 200
+  n_embd = 384
+  n_head = 6
+  n_layer = 6
+  dropout = 0.2
+  # ------------
+  */
+
+  val batch_size = 64 // how many independent sequences will we process in parallel?
+  val block_size = 256 // what is the maximum context length for predictions?
+  val max_iters = 5000  
+  val eval_interval = 500
+  val learning_rate = 3e-4
+  val device = if torch.cuda.isAvailable then CUDA else CPU
+  val eval_iters = 200
+  val n_embed = 384
+  val n_head = 6
+  val n_layer = 6
+  val dropout = 0.2
+
+
   /*
   torch.manual_seed(1337)
   */
@@ -457,6 +326,7 @@ object V2:
   encode = lambda s: [stoi[c] for c in s] # encoder: take a string, output a list of integers
   decode = lambda l: ''.join([itos[i] for i in l]) # decoder: take a list of integers, output a string
   */
+
   // here are all the unique characters that occur in this text
   val chars = SortedSet(text:_*)
   println(s"chars = ${chars.mkString(", ")}")
@@ -478,6 +348,7 @@ object V2:
   train_data = data[:n]
   val_data = data[n:]
   */
+
   // Train and test splits
   val data = torch.Tensor(encode(text)).long
   val n = (0.9 * len(data)).toInt // first 90% will be train, rest val
@@ -495,6 +366,7 @@ object V2:
       x, y = x.to(device), y.to(device)
       return x, y
   */
+
   // data loading
   def getBatch(split: String) = 
     // generate a small batch of data of inputs x and targets y
@@ -518,99 +390,6 @@ object V2:
     def apply(x: Tensor[Int64], y: Tensor[Int64]): (Tensor[Float32], Tensor[Float32])
     def apply(x: Tensor[Int64]): (Tensor[Float32], Tensor[Float32])
 
-  // TODO: memory profiling
-  // https://docs.scala-lang.org/scala3/reference/experimental/cc.html
-  // https://stackoverflow.com/questions/43944949/is-it-possible-to-reference-count-call-location
-  // https://www.toptal.com/software/eliminating-garbage-collector
-  // https://verdagon.dev/blog/single-ownership-without-borrow-checking-rc-gc
-  // https://www.eddywm.com/modern-approaches-to-automatic-memory-management/
-  // https://news.ycombinator.com/item?id=31139610
-  // https://stackoverflow.com/questions/12429091/smart-pointers-and-ref-counting-in-java
-  // https://sites.cs.ucsb.edu/~ckrintz/racelab/gc/papers/levanoni-on-the-fly-rc.pdf
-  // https://www.baeldung.com/java-destructor
-
-  /**
-    * 
-    *
-    * @param availablePhysicalBytes
-    * @param totalPhysicalBytes
-    * @param maxPhysicalBytes
-    * @param maxBytes
-    * @param physicalBytes
-    * @param totalBytes
-    * @param totalCount
-    * 
-    * @see org.bytedeco.javacpp.Pointer
-    */
-  case class PointerInfo(
-    availablePhysicalBytes: BigInt,
-    totalPhysicalBytes: BigInt,
-    maxPhysicalBytes: BigInt,
-    maxBytes: BigInt,
-    physicalBytes: BigInt,
-    totalBytes: BigInt,
-    totalCount: BigInt,
-  ):
-    def -(o: PointerInfo): PointerInfo =
-      PointerInfo(
-        availablePhysicalBytes - o.availablePhysicalBytes,
-        totalPhysicalBytes     - o.totalPhysicalBytes,
-        maxPhysicalBytes       - o.maxPhysicalBytes,
-        maxBytes               - o.maxBytes,
-        physicalBytes          - o.physicalBytes,
-        totalBytes             - o.totalBytes,
-        totalCount             - o.totalCount,
-      )
-  
-    def +(o: PointerInfo): PointerInfo =
-      PointerInfo(
-        availablePhysicalBytes + o.availablePhysicalBytes,
-        totalPhysicalBytes     + o.totalPhysicalBytes,
-        maxPhysicalBytes       + o.maxPhysicalBytes,
-        maxBytes               + o.maxBytes,
-        physicalBytes          + o.physicalBytes,
-        totalBytes             + o.totalBytes,
-        totalCount             + o.totalCount,
-      )
-
-  object PointerInfo:
-    def apply(): PointerInfo =
-      val z = BigInt(0)
-      PointerInfo(z, z, z, z, z, z, z)
-
-
-  // nvidia-smi -l 1
-  // No parity between pointer and nvidia-smi values
-  // Do no seem to worK
-  // x.native.referenceCount()  // 1 
-  // y.native.referenceCount()  // 1
-  // x.native.deallocate()
-  // y.native.deallocate()
-
-  def getMemoryInfo() =
-    PointerInfo(
-      Pointer.availablePhysicalBytes(),
-      Pointer.totalPhysicalBytes(),
-      Pointer.maxPhysicalBytes(),
-      Pointer.maxBytes(),
-      Pointer.physicalBytes(),
-      Pointer.totalBytes(),
-      Pointer.totalCount()
-    )
-
-  def printAllMemoryInfo(info: PointerInfo, inUseOnly : Boolean = false) =
-    if !inUseOnly
-    then
-      println(s"PointerInfo.availablePhysicalBytes ${humanReadableSize(info.availablePhysicalBytes)}")
-      println(s"PointerInfo.totalPhysicalBytes ${humanReadableSize(info.totalPhysicalBytes)}")
-      println(s"PointerInfo.maxPhysicalBytes ${humanReadableSize(info.maxPhysicalBytes)}")
-      println(s"PointerInfo.maxBytes ${humanReadableSize(info.maxBytes)}")
-    println(s"PointerInfo.physicalBytes ${humanReadableSize(info.physicalBytes)}")
-    println(s"PointerInfo.totalBytes ${humanReadableSize(info.totalBytes)}")
-    println(s"PointerInfo.totalCount ${humanReadableSize(info.totalCount)}")
-    
-  def printMemoryInfo(info: PointerInfo) =
-    printAllMemoryInfo(info, inUseOnly = true)
 
   /*
   @torch.no_grad()
@@ -627,7 +406,7 @@ object V2:
       model.train()
       return out
   */
-  // https://pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html
+
   def estimateLoss(model: BiGram.BigramLanguageModel) = 
     val out = scala.collection.mutable.Map[String, Float]()
     model.eval()
@@ -969,6 +748,8 @@ object V2:
               idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
           return idx
   */
+
+  // https://pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html
   class GPTLanguageModel(
     vocabSize: Int, 
     blockSize:Int, 
@@ -1066,6 +847,7 @@ object V2:
 
   def train(m : BiGram.BigramLanguageModel, learningRate: Double, maxIterations: Int): Unit =
     m.to(device)
+
     // print the number of parameters in the model
     val nuParams = m.parameters.map(_.numel).sum
     //println(s"${nuParams/1e6}M parameters")
@@ -1074,29 +856,15 @@ object V2:
     println(s"learningRate = ${learningRate}")
     println(s"maxIterations = ${maxIterations}")
     println(s"dropout = ${dropout}")
+    // Get values from nvidia-smi -l 1
     val gpuTotal: BigInt = BigInt(24576) * BINARY._1 * BINARY._1
     println(s"GPU total = ${humanReadableSize(gpuTotal)}") // MiB
-    val gpuUsed: BigInt = BigInt(18848) * BINARY._1 * BINARY._1
+    val gpuUsed: BigInt = BigInt(7056) * BINARY._1 * BINARY._1
     println(s"GPU used = ${humanReadableSize(gpuUsed)}") // MiB
     // numel() * itemsize() = nbytes
     val nBytes = m.parameters.map(t => t.native.nbytes()).sum
     println(s"${nuParams} parameters >= ${nBytes} bytes = ${humanReadableSize(nBytes)}")
     
-
-    // https://saturncloud.io/blog/how-to-monitor-gpu-memory-usage-in-pytorch/
-    // Retrieve maximum GPU memory allocated by PyTorch
-    // max_memory_allocated = torch.cuda.max_memory_allocated()
-    //
-    // https://pytorch.org/docs/stable/generated/torch.cuda.memory_stats.html
-    // # Retrieve GPU memory statistics
-    // memory_stats = torch.cuda.memory_stats()
-    // 
-    // # Calculate available GPU memory
-    // total_memory = torch.cuda.get_device_properties(0).total_memory
-    // available_memory = total_memory - memory_stats["allocated_bytes.all.current"]
-    // 
-    // # Print the result
-    // print(f"Available GPU memory: {available_memory / 1024**3:.2f} GB")    
 
     m.train()
     // create a PyTorch optimizer
@@ -1108,9 +876,11 @@ object V2:
     do
       // make sure we deallocate intermediate tensors in time
       Using.resource(new PointerScope()) { p => 
+
+        // every once in a while evaluate the loss on train and val sets
         if (iter % eval_interval == 0) || (iter == maxIterations - 1)
         then
-          val losses = estimateLoss(m)  // 18644MiB
+          val losses = estimateLoss(m)
           val memoryBytes = humanReadableSize( Pointer.physicalBytes() )
           delta = delta / eval_interval
           val accumulated = humanReadableDuration(total)
@@ -1131,7 +901,7 @@ object V2:
         delta = delta + elapsed
         total = total + elapsed
       }
-      // every once in a while evaluate the loss on train and val sets
+      
     val losses = estimateLoss(m)
     val accumulated = humanReadableDuration(total)
     val perIteration = humanReadableDuration(total / maxIterations)
@@ -1147,24 +917,8 @@ object V2:
     # print the number of parameters in the model
     print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
     */
-/*
-  val batch_size = 64 // how many independent sequences will we process in parallel?
-  val block_size = 256 // what is the maximum context length for predictions?
-  val max_iters = 5000
-  val eval_interval = 500
-  val learning_rate = 3e-4
-  val device = if torch.cuda.isAvailable then CUDA else CPU
-  val eval_iters = 200
-  val n_embd = 384
-  val n_head = 6
-  val n_layer = 6
-  val dropout = 0.2
-*/
 
-    // val model = GPTLanguageModel(vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = 3, nHead = 4, dropout= dropout)
     val model = GPTLanguageModel(vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = n_layer, nHead = n_head, dropout= dropout)
-    // val model = GPTLanguageModel(vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = n_layer, nHead = n_head, dropout= dropout)
-    // val model = BiGram.BigramLanguageModel9( vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = 3, nHead = 4)
     println(totalNuParameters(model))
     println(moduleInfoString(model))
 
@@ -1174,11 +928,8 @@ object V2:
 
     See train loop above
     */
-    // train(model, 1.0e-6, 450_000)  // GPU
-    // train(model, 1.0e-6, 67000)  // GPU
-    train(model, learning_rate, 67000)  // GPU
-    // BiGram.train1(model, 1.1e-5, 450_000)
-    // train(model, learning_rate, 450_000)  // GPU; NaN
+
+    train(model, learning_rate, 67000)
 
     /*    
     # generate from the model

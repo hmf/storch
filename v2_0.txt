@@ -1,0 +1,593 @@
+nohup: ignoring input
+[info] compiling 1 Scala source to /workspaces/storch/out/examples/compile.dest/classes ...
+[info] done compiling
+File /workspaces/storch/data/input.txt already exists.
+chars = 
+,  , !, $, &, ', ,, -, ., 3, :, ;, ?, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
+vocab_size = 65
+"BiGram!" = "BiGram!"
+xb:
+
+Not Gloucester's death, nor Hereford's banishment
+Not Gaunt's rebukes, nor England's private wrongs,
+Nor the prevention of poor Bolingbroke
+About his marriage, nor my own disgrace,
+Have ever made me sour my patient cheek,
+Or bend one wrinkle on my soverei
+yb:
+Not Gloucester's death, nor Hereford's banishment
+Not Gaunt's rebukes, nor England's private wrongs,
+Nor the prevention of poor Bolingbroke
+About his marriage, nor my own disgrace,
+Have ever made me sour my patient cheek,
+Or bend one wrinkle on my sovereig
+V2
+13.443137M parameters
+GPTLanguageModel: #282 13443137 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=384, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <24960> 
+  position_embedding_table: Embedding(numEmbeddings=256, embeddingDim=384, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <98304> 
+  blocks: Sequential: #276 13294080 (
+    0: Block(nEmbed = 384): #46 2215680 (
+      sa: MultiHeadAttention(numHeads=6, nEmbed=384, headSize=64, blockSize=256): #38 1032576 (
+        hs_0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #18 442368 (
+          0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=384, outFeatures=384, bias=true): #2 <147456,384> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedForward(nEmbed = 384): #4 1181568 (
+        net: Sequential: #4 1181568 (
+          0: Linear(inFeatures=384, outFeatures=1536, bias=true): #2 <589824,1536> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=1536, outFeatures=384, bias=true): #2 <589824,384> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: TensorModule: #2 <384,384> 
+      ln2: TensorModule: #2 <384,384> 
+    )
+    1: Block(nEmbed = 384): #46 2215680 (
+      sa: MultiHeadAttention(numHeads=6, nEmbed=384, headSize=64, blockSize=256): #38 1032576 (
+        hs_0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #18 442368 (
+          0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=384, outFeatures=384, bias=true): #2 <147456,384> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedForward(nEmbed = 384): #4 1181568 (
+        net: Sequential: #4 1181568 (
+          0: Linear(inFeatures=384, outFeatures=1536, bias=true): #2 <589824,1536> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=1536, outFeatures=384, bias=true): #2 <589824,384> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: TensorModule: #2 <384,384> 
+      ln2: TensorModule: #2 <384,384> 
+    )
+    2: Block(nEmbed = 384): #46 2215680 (
+      sa: MultiHeadAttention(numHeads=6, nEmbed=384, headSize=64, blockSize=256): #38 1032576 (
+        hs_0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #18 442368 (
+          0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=384, outFeatures=384, bias=true): #2 <147456,384> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedForward(nEmbed = 384): #4 1181568 (
+        net: Sequential: #4 1181568 (
+          0: Linear(inFeatures=384, outFeatures=1536, bias=true): #2 <589824,1536> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=1536, outFeatures=384, bias=true): #2 <589824,384> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: TensorModule: #2 <384,384> 
+      ln2: TensorModule: #2 <384,384> 
+    )
+    3: Block(nEmbed = 384): #46 2215680 (
+      sa: MultiHeadAttention(numHeads=6, nEmbed=384, headSize=64, blockSize=256): #38 1032576 (
+        hs_0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #18 442368 (
+          0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=384, outFeatures=384, bias=true): #2 <147456,384> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedForward(nEmbed = 384): #4 1181568 (
+        net: Sequential: #4 1181568 (
+          0: Linear(inFeatures=384, outFeatures=1536, bias=true): #2 <589824,1536> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=1536, outFeatures=384, bias=true): #2 <589824,384> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: TensorModule: #2 <384,384> 
+      ln2: TensorModule: #2 <384,384> 
+    )
+    4: Block(nEmbed = 384): #46 2215680 (
+      sa: MultiHeadAttention(numHeads=6, nEmbed=384, headSize=64, blockSize=256): #38 1032576 (
+        hs_0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #18 442368 (
+          0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=384, outFeatures=384, bias=true): #2 <147456,384> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedForward(nEmbed = 384): #4 1181568 (
+        net: Sequential: #4 1181568 (
+          0: Linear(inFeatures=384, outFeatures=1536, bias=true): #2 <589824,1536> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=1536, outFeatures=384, bias=true): #2 <589824,384> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: TensorModule: #2 <384,384> 
+      ln2: TensorModule: #2 <384,384> 
+    )
+    5: Block(nEmbed = 384): #46 2215680 (
+      sa: MultiHeadAttention(numHeads=6, nEmbed=384, headSize=64, blockSize=256): #38 1032576 (
+        hs_0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #18 442368 (
+          0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=384, outFeatures=384, bias=true): #2 <147456,384> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedForward(nEmbed = 384): #4 1181568 (
+        net: Sequential: #4 1181568 (
+          0: Linear(inFeatures=384, outFeatures=1536, bias=true): #2 <589824,1536> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=1536, outFeatures=384, bias=true): #2 <589824,384> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: TensorModule: #2 <384,384> 
+      ln2: TensorModule: #2 <384,384> 
+    )
+  )
+  ln_f: TensorModule: #2 <384,384> 
+  lm_head: Linear(inFeatures=384, outFeatures=65, bias=true): #2 <24960,65> 
+)
+Device = Device(CUDA,-1)
+13443137 parameters
+learningRate = 3.0E-4
+maxIterations = 67000
+dropout = 0.2
+GPU total = 24.0 GiB
+GPU used = 18.4 GiB
+13443137 parameters >= 53772548 bytes = 51.3 MiB
+step 0: train loss 4.335848, val loss 4.332262, mem 707.9 MiB @ 00 00:00:00.000, mean 00 00:00:00.000
+step 500: train loss 2.4768853, val loss 2.495778, mem 848.8 MiB @ 00 00:01:01.672, mean 00 00:00:00.123
+step 1000: train loss 2.4580023, val loss 2.4817343, mem 849.1 MiB @ 00 00:02:03.042, mean 00 00:00:00.122
+step 1500: train loss 2.4604855, val loss 2.4858513, mem 849.3 MiB @ 00 00:03:04.387, mean 00 00:00:00.122
+step 2000: train loss 2.461503, val loss 2.4955227, mem 849.3 MiB @ 00 00:04:05.639, mean 00 00:00:00.122
+step 2500: train loss 2.464144, val loss 2.504891, mem 849.3 MiB @ 00 00:05:06.860, mean 00 00:00:00.122
+step 3000: train loss 2.476917, val loss 2.5133054, mem 849.3 MiB @ 00 00:06:08.066, mean 00 00:00:00.122
+step 3500: train loss 2.4822998, val loss 2.5171218, mem 849.3 MiB @ 00 00:07:09.208, mean 00 00:00:00.122
+step 4000: train loss 2.492752, val loss 2.517541, mem 849.3 MiB @ 00 00:08:10.335, mean 00 00:00:00.122
+step 4500: train loss 2.4951596, val loss 2.5245032, mem 849.3 MiB @ 00 00:09:11.468, mean 00 00:00:00.122
+step 5000: train loss 2.5510364, val loss 2.5824773, mem 849.6 MiB @ 00 00:10:12.598, mean 00 00:00:00.122
+step 5500: train loss 2.5750656, val loss 2.5950534, mem 849.6 MiB @ 00 00:11:13.712, mean 00 00:00:00.122
