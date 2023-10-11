@@ -308,8 +308,8 @@ object V2:
   // val n_layer = 6
   // val dropout = 0.2
 
-  val batch_size = 64 // 64 #~4 16 // 16 // how many independent sequences will we process in parallel?
-  val block_size = 256 // 256 #~5 // 8 // 32 // what is the maximum context length for predictions?
+  val batch_size = 32 // 64 #~4 16 // 16 // how many independent sequences will we process in parallel?
+  val block_size = 32 // 256 #~5 // 8 // 32 // what is the maximum context length for predictions?
   val max_iters = 5000  // 3000
   val eval_interval = 500  // 300
   val learning_rate = 3e-4 // 1e-3 // 1e-2
@@ -518,100 +518,6 @@ object V2:
     def apply(x: Tensor[Int64], y: Tensor[Int64]): (Tensor[Float32], Tensor[Float32])
     def apply(x: Tensor[Int64]): (Tensor[Float32], Tensor[Float32])
 
-  // TODO: memory profiling
-  // https://docs.scala-lang.org/scala3/reference/experimental/cc.html
-  // https://stackoverflow.com/questions/43944949/is-it-possible-to-reference-count-call-location
-  // https://www.toptal.com/software/eliminating-garbage-collector
-  // https://verdagon.dev/blog/single-ownership-without-borrow-checking-rc-gc
-  // https://www.eddywm.com/modern-approaches-to-automatic-memory-management/
-  // https://news.ycombinator.com/item?id=31139610
-  // https://stackoverflow.com/questions/12429091/smart-pointers-and-ref-counting-in-java
-  // https://sites.cs.ucsb.edu/~ckrintz/racelab/gc/papers/levanoni-on-the-fly-rc.pdf
-  // https://www.baeldung.com/java-destructor
-
-  /**
-    * 
-    *
-    * @param availablePhysicalBytes
-    * @param totalPhysicalBytes
-    * @param maxPhysicalBytes
-    * @param maxBytes
-    * @param physicalBytes
-    * @param totalBytes
-    * @param totalCount
-    * 
-    * @see org.bytedeco.javacpp.Pointer
-    */
-  case class PointerInfo(
-    availablePhysicalBytes: BigInt,
-    totalPhysicalBytes: BigInt,
-    maxPhysicalBytes: BigInt,
-    maxBytes: BigInt,
-    physicalBytes: BigInt,
-    totalBytes: BigInt,
-    totalCount: BigInt,
-  ):
-    def -(o: PointerInfo): PointerInfo =
-      PointerInfo(
-        availablePhysicalBytes - o.availablePhysicalBytes,
-        totalPhysicalBytes     - o.totalPhysicalBytes,
-        maxPhysicalBytes       - o.maxPhysicalBytes,
-        maxBytes               - o.maxBytes,
-        physicalBytes          - o.physicalBytes,
-        totalBytes             - o.totalBytes,
-        totalCount             - o.totalCount,
-      )
-  
-    def +(o: PointerInfo): PointerInfo =
-      PointerInfo(
-        availablePhysicalBytes + o.availablePhysicalBytes,
-        totalPhysicalBytes     + o.totalPhysicalBytes,
-        maxPhysicalBytes       + o.maxPhysicalBytes,
-        maxBytes               + o.maxBytes,
-        physicalBytes          + o.physicalBytes,
-        totalBytes             + o.totalBytes,
-        totalCount             + o.totalCount,
-      )
-
-  object PointerInfo:
-    def apply(): PointerInfo =
-      val z = BigInt(0)
-      PointerInfo(z, z, z, z, z, z, z)
-
-
-  // nvidia-smi -l 1
-  // No parity between pointer and nvidia-smi values
-  // Do no seem to worK
-  // x.native.referenceCount()  // 1 
-  // y.native.referenceCount()  // 1
-  // x.native.deallocate()
-  // y.native.deallocate()
-
-  def getMemoryInfo() =
-    PointerInfo(
-      Pointer.availablePhysicalBytes(),
-      Pointer.totalPhysicalBytes(),
-      Pointer.maxPhysicalBytes(),
-      Pointer.maxBytes(),
-      Pointer.physicalBytes(),
-      Pointer.totalBytes(),
-      Pointer.totalCount()
-    )
-
-  def printAllMemoryInfo(info: PointerInfo, inUseOnly : Boolean = false) =
-    if !inUseOnly
-    then
-      println(s"PointerInfo.availablePhysicalBytes ${humanReadableSize(info.availablePhysicalBytes)}")
-      println(s"PointerInfo.totalPhysicalBytes ${humanReadableSize(info.totalPhysicalBytes)}")
-      println(s"PointerInfo.maxPhysicalBytes ${humanReadableSize(info.maxPhysicalBytes)}")
-      println(s"PointerInfo.maxBytes ${humanReadableSize(info.maxBytes)}")
-    println(s"PointerInfo.physicalBytes ${humanReadableSize(info.physicalBytes)}")
-    println(s"PointerInfo.totalBytes ${humanReadableSize(info.totalBytes)}")
-    println(s"PointerInfo.totalCount ${humanReadableSize(info.totalCount)}")
-    
-  def printMemoryInfo(info: PointerInfo) =
-    printAllMemoryInfo(info, inUseOnly = true)
-
   /*
   @torch.no_grad()
   def estimate_loss():
@@ -631,24 +537,31 @@ object V2:
   def estimateLoss(model: BiGram.BigramLanguageModel) = 
     val out = scala.collection.mutable.Map[String, Float]()
     model.eval()
-
     for 
       split <- List("train", "val")
     do
       // println(s"Estimate '$split' loss")
       val losses: Tensor[Float32] = torch.zeros(eval_iters, device=device)
+      // nvidia-smi -l 1
+      println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
       for 
         k <- 0 until eval_iters
       do
-        // Need to release memory
-        Using.resource(new PointerScope()) { p =>
-          val (x, y) = getBatch(split)
-          val (logits, loss) = model(x, y)
-          losses(Seq(k)) = loss.item
-        }
-
+        val (x, y) = getBatch(split)
+        println(s"$k bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+        val (logits, loss) = model(x, y)
+        println(s"$k ccccccccccccccccccccccccccccccccccccc")
+        losses(Seq(k)) = loss.item
+        println(s"${x.native.referenceCount()}")
+        println(s"${y.native.referenceCount()}")
+        Thread.sleep(5_000)
+        println(s"$k ddddddddddddddddddddddddddddddddddddd")
+        // x.native.deallocate()
+        // y.native.deallocate()
+        Thread.sleep(5_000)
+        // val px = x.native.getPointer[org.bytedeco.javacpp.LongPointer]()
+        // px.deallocate()
       out(split) = losses.mean.item
-
     model.train()
     out
 
@@ -1087,7 +1000,6 @@ object V2:
     // Retrieve maximum GPU memory allocated by PyTorch
     // max_memory_allocated = torch.cuda.max_memory_allocated()
     //
-    // https://pytorch.org/docs/stable/generated/torch.cuda.memory_stats.html
     // # Retrieve GPU memory statistics
     // memory_stats = torch.cuda.memory_stats()
     // 
@@ -1102,6 +1014,8 @@ object V2:
     // create a PyTorch optimizer
     val optimizer = torch.optim.AdamW(m.parameters, lr=learningRate)
     
+    // 316MiB
+
     var delta = 0L
     var total = 0L
     for iter <- 0 until maxIterations
@@ -1110,17 +1024,28 @@ object V2:
       Using.resource(new PointerScope()) { p => 
         if (iter % eval_interval == 0) || (iter == maxIterations - 1)
         then
+          println("1111111111111111111111111111111111")
           val losses = estimateLoss(m)  // 18644MiB
+          println("2222222222222222222222222222222")
           val memoryBytes = humanReadableSize( Pointer.physicalBytes() )
           delta = delta / eval_interval
           val accumulated = humanReadableDuration(total)
           val perIteration = humanReadableDuration(delta)
           println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}, mem $memoryBytes @ ${accumulated}, mean $perIteration")
           delta = 0L
+          println(s"Pointer.availablePhysicalBytes() ${humanReadableSize(Pointer.availablePhysicalBytes())}")
+          println(s"Pointer.totalPhysicalBytes() ${humanReadableSize(Pointer.totalPhysicalBytes())}")
+          println(s"Pointer.maxPhysicalBytes() ${humanReadableSize(Pointer.maxPhysicalBytes())}")
+          println(s"Pointer.totalBytes() ${humanReadableSize(Pointer.totalBytes())}")
+          println(s"Pointer.maxBytes() ${humanReadableSize(Pointer.maxBytes())}")
+
+          // https://github.com/tensorflow/java/issues/208
 
         val elapsed = elapsedOnly {
           // sample a batch of datas
           val (xb, yb) = getBatch("train")
+          // TODO: BUG - not required
+          //val losses = estimateLoss(m)  // 18644MiB
 
           // evaluate the loss
           val (logits, loss) = m(xb, yb)
@@ -1175,8 +1100,7 @@ object V2:
     See train loop above
     */
     // train(model, 1.0e-6, 450_000)  // GPU
-    // train(model, 1.0e-6, 67000)  // GPU
-    train(model, learning_rate, 67000)  // GPU
+    train(model, 1.0e-6, 67000)  // GPU
     // BiGram.train1(model, 1.1e-5, 450_000)
     // train(model, learning_rate, 450_000)  // GPU; NaN
 
