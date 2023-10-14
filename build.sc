@@ -413,6 +413,8 @@ trait CommonSettings extends SbtModule with Bloop.Module {
   // val javaCppPlatform = org.bytedeco.sbt.javacpp.Platform.current
   def javaCPPPlatform = T{ org.bytedeco.javacpp.Loader.Detector.getPlatform }
 
+  // https://github.com/scalameta/metals/issues/2493
+  // https://github.com/scalameta/metals/issues/5642
   override def ivyDeps = Agg(
       // https://github.com/bytedeco/javacpp-presets/tree/master/pytorch
       ivy"org.bytedeco:pytorch:$pytorchVersion-${javaCppVersion};classifier=${javaCPPPlatform()}",

@@ -769,6 +769,26 @@ object V2:
     val lm_head = register( nn.Linear(nEmbed, vocabSize) )
 
     // TODO: _init_weights
+//     # better init, not covered in the original GPT video, but important, will cover in followup video
+//     self.apply(self._init_weights)
+// 
+//     def _init_weights(self, module):
+//         if isinstance(module, nn.Linear):
+//             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
+//             if module.bias is not None:
+//                 torch.nn.init.zeros_(module.bias)
+//         elif isinstance(module, nn.Embedding):
+//             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
+
+    private def init_weights(m: Module): Unit = 
+      m match
+        // case _ : nn.modules.linear.Linear[_] => ???
+        case _ : nn.Linear[_] => 
+          ???
+        case _ : nn.Embedding[_] => 
+          ???
+        case _ => ???
+      ???
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
       val Seq(b,t) = idx.shape
@@ -930,7 +950,7 @@ object V2:
     */
 
     // train(model, learning_rate, 67000)
-    train(model, 1e-4, 67000)
+    train(model, 1e-4, 41500)
 
     /*    
     # generate from the model
@@ -940,7 +960,8 @@ object V2:
     */
     
     // TODO: Bug just (1,1) ?
-    val context = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device)
+    // val context = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device)
+    val context = torch.zeros(Seq(1, 1), dtype=torch.int64, device=device)
     val embedding = model.generate(idx = context, max_new_tokens=500)(0)
     val decoded = decode(embedding.toSeq)
     println(s"decode:'$decoded'")

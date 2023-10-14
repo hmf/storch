@@ -71,6 +71,12 @@ abstract class Module {
   def namedModules: SeqMap[String, Module] =
     namedChildren.flatMap((name, module) => module.namedModules)
 
+  def apply(fn: Module => Unit): this.type =
+    for (_, module) <- namedModules
+    do
+      module(fn)
+    this
+
   def register[M <: Module](child: M, n: String = "")(using name: sourcecode.Name): M =
     val name_ = if n.trim().isEmpty() then name.value else n.trim()
     // println(s"registering ${name_}:$child")
