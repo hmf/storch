@@ -780,7 +780,6 @@ object V2:
 //                 torch.nn.init.zeros_(module.bias)
 //         elif isinstance(module, nn.Embedding):
 //             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
-
     private def init_weights_2[D <: FloatNN | ComplexNN](m: Module with HasWeight[D]): Unit = 
       m match
         // case _ : nn.modules.linear.Linear[_] => 
