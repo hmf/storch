@@ -53,6 +53,7 @@ final class Linear[ParamType <: FloatNN: Default](
     hasBias: Boolean = true
     // dtype: ParamType = defaultDType[ParamType]
 ) extends HasParams[ParamType]
+    with HasWeight[ParamType]
     with TensorModule[ParamType]:
   private val options = new LinearOptions(inFeatures, outFeatures)
   options.bias().put(hasBias)

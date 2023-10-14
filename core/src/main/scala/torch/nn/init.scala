@@ -69,7 +69,7 @@ object init:
     * 
     * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1abfccc1bd475b9a8c9505f46353e02c90.html#exhale-function-namespacetorch-1-1nn-1-1init-1abfccc1bd475b9a8c9505f46353e02c90
     */
-  def calculate_gain(
+  def calculateGain(
       nonlinearity: NonLinearity = NonLinearity.LeakyReLU,
       param: Double = 0.01
   ): Double =
@@ -197,7 +197,7 @@ object init:
     * @param gain – an optional scaling factor
     * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1a86191a828a085e1c720dbce185d6c307.html#exhale-function-namespacetorch-1-1nn-1-1init-1a86191a828a085e1c720dbce185d6c307
     */
-  def xavier_normal_(
+  def xavierNormal_(
       t: Tensor[?],
       gain: Double = 1.0
   ): Unit =
@@ -217,7 +217,7 @@ object init:
     * @param gain
     * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1ace282f75916a862c9678343dfd4d5ffe.html#exhale-function-namespacetorch-1-1nn-1-1init-1ace282f75916a862c9678343dfd4d5ffe
     */
-  def xavier_uniform_(
+  def xavierUniform_(
       t: Tensor[?],
       gain: Double = 1.0
   ): Unit =
@@ -306,8 +306,6 @@ object init:
   ): Unit =
     torchNative.orthogonal_(t.native, gain)
 
-  // TODO: not implemented
-  // TODO: see https://discuss.pytorch.org/t/torchvision-warnings-after-updating-pytorch-to-version-0-4-0/18453 (deprecated)
   /**
     * Fills the 2D input Tensor as a sparse matrix, where the non-zero elements will be drawn from the normal 
     * distribution $N(0,0.01)$, as described in "Deep learning via Hessian-free optimization" - Martens, J. (2010).
@@ -322,9 +320,10 @@ object init:
     */
   def sparse_(
       t: Tensor[?],
-      sparsity: Double
+      sparsity: Double,
+      std: Double = 0.01
   ): Unit =
-    torchNative.sparse_(t.native, sparsity)
+    torchNative.sparse_(t.native, sparsity, std)
 
 
   enum Mode:

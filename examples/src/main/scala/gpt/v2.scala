@@ -36,6 +36,7 @@ import torch.{---, Slice}
 import torch.optim.Adam
 import torch.DType.float32
 import org.bytedeco.javacpp.Pointer
+import torch.nn.modules.HasWeight
 
 
 
@@ -780,15 +781,20 @@ object V2:
 //         elif isinstance(module, nn.Embedding):
 //             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
 
-    private def init_weights(m: Module): Unit = 
+    private def init_weights_2[D <: FloatNN | ComplexNN](m: Module with HasWeight[D]): Unit = 
       m match
-        // case _ : nn.modules.linear.Linear[_] => ???
-        case _ : nn.Linear[_] => 
-          ???
+        // case _ : nn.modules.linear.Linear[_] => 
+        //   ???
+        case lm : nn.Linear[_] => 
+          torch.nn.init.normal_(lm.weight, mean=0.0, std=0.02)
+          if true // lm.options.bias()
+          then
+            torch.nn.init.zeros_(lm.bias)
         case _ : nn.Embedding[_] => 
           ???
         case _ => ???
       ???
+
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
       val Seq(b,t) = idx.shape
