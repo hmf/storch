@@ -35,32 +35,72 @@ import org.bytedeco.pytorch.kLeakyReLU
 import org.bytedeco.pytorch.Scalar
 
 // TODO implement remaining init functions
+/**
+  * No gradientes will be recorded for these operation. 
+  * 
+  * @see [[File init.h https://pytorch.org/cppdocs/api/file_torch_csrc_api_include_torch_nn_init.h.html#file-torch-csrc-api-include-torch-nn-init-h]]
+  */
 object init:
 
+  // TODO: missing. How do we extract the tuple from the LongPointer?
+  // @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1ac77cdd61e014948ab8118e946c6d1d31.html#exhale-function-namespacetorch-1-1nn-1-1init-1ac77cdd61e014948ab8118e946c6d1d31
+
   /**
-    * Fills the input Tensor with values drawn from the uniform distribution U(a,b)U(a,b).
+    * Return the recommended gain value for the given nonlinearity function. The values are as follows:
+    *
+    * nonlinearity                       gain
+    * 
+    * Linear / Identity                  1
+    * Conv{1,2,3}D                       1
+    * Sigmoid                            1
+    * Tanh                               \frac{5}{3}
+    * ReLU                               $sqrt{r}$
+    * Leaky Relu                         $\sqrt{\frac{1}{1+\text{negative_slope}^2​}}$
+    * SELU                               \frac{3}{4}
+    * 
+    * @note
+    * In order to implement [[Self-Normalizing Neural Networks https://papers.nips.cc/paper/2017/hash/5d44ee6f2c3f71b73125876103c8f6c4-Abstract.html]],
+    * you should use `nonlinearity='linear'` instead of `nonlinearity='selu'`. This gives the initial weights a variance of 
+    * 1/N, which is necessary to induce a stable fixed point in the forward pass. In contrast, the default gain for `SELU`
+    * sacrifices the normalization effect for more stable gradient flow in rectangular layers.
+    * 
+    * @param nonlinearity – the non-linear function (nn.functional name)
+    * @param param – optional parameter for the non-linear function
+    * 
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1abfccc1bd475b9a8c9505f46353e02c90.html#exhale-function-namespacetorch-1-1nn-1-1init-1abfccc1bd475b9a8c9505f46353e02c90
+    */
+  def calculate_gain(
+      nonlinearity: NonLinearity = NonLinearity.LeakyReLU,
+      param: Double = 0.01
+  ): Double =
+    torchNative.calculate_gain(nonlinearity.toNative, param)
+
+
+  /**
+    * Fills the given 2-dimensional input Tensor with values drawn from the uniform distribution $U(a,b)$.
+    * No gradient will be recorded for this operation. 
     *
     * @param t – an n-dimensional torch.Tensor
     * @param a – the lower bound of the uniform distribution
     * @param b – the upper bound of the uniform distribution
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1ab0aeccca28b2225ee9aab809ec38a801.html#exhale-function-namespacetorch-1-1nn-1-1init-1ab0aeccca28b2225ee9aab809ec38a801
     */  
   def uniform_(
       t: Tensor[?],
       a: Double = 0,
-      b: Double = 0
+      b: Double = 1
   ): Unit =
     torchNative.uniform_(t.native, a, b)
 
 
-  // TODO: https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1a105c2a8ef81c6faa82a01cf35ce9f3b1.html
-  // TODO: https://pytorch.org/cppdocs/api/file_torch_csrc_api_include_torch_nn_init.h.html#file-torch-csrc-api-include-torch-nn-init-h
   /**
-    * 
-    * Fills the input Tensor with values drawn from the normal distribution N(mean,std2)N(mean,std2).
+    * Fills the he given 2-dimensional input Tensor with values drawn from the normal distribution $N(\text{mean},\text{std}^2)$.
+    * No gradient will be recorded for this operation. 
     *
     * @param t – an n-dimensional torch.Tensor
     * @param mean – the mean of the normal distribution
     * @param std – the standard deviation of the normal distribution
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1a105c2a8ef81c6faa82a01cf35ce9f3b1.html#exhale-function-namespacetorch-1-1nn-1-1init-1a105c2a8ef81c6faa82a01cf35ce9f3b1
     */  
   def normal_(
       t: Tensor[?],
@@ -75,14 +115,18 @@ object init:
     *
     * @param t – an n-dimensional torch.Tensor
     * @param fillValue – the value to fill the tensor with
+    * 
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1a9c886724aac3a487553dc0a406565c83.html#exhale-function-namespacetorch-1-1nn-1-1init-1a9c886724aac3a487553dc0a406565c83
     */
   def constant_(t: Tensor[?], fillValue: Double): Unit =
     torchNative.constant_(t.native, Scalar(fillValue)): Unit
 
   /**
     * Fills the input Tensor with the scalar value 1.
+    * No gradient will be recorded for this operation.
     *
     * @param t – an n-dimensional torch.Tensor
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1a9dcc2051aadbe8ddb37d58bbd2b7943a.html#exhale-function-namespacetorch-1-1nn-1-1init-1a9dcc2051aadbe8ddb37d58bbd2b7943a
     */
   def ones_(
       t: Tensor[?]
@@ -92,8 +136,10 @@ object init:
 
   /**
     * Fills the input Tensor with the scalar value 0.
+    * No gradient will be recorded for this operation. 
     *
     * @param t – an n-dimensional torch.Tensor
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1af7e7736ba2d050adc0523d84285564e8.html#exhale-function-namespacetorch-1-1nn-1-1init-1af7e7736ba2d050adc0523d84285564e8
     */
   def zeros_(
       t: Tensor[?]
@@ -101,10 +147,15 @@ object init:
     torchNative.zeros_(t.native)
 
   /**
+    * 
+    * Fills the given 2-dimensional matrix with an identity matrix.
+    * No gradient will be recorded for this operation.
+    * 
     * Fills the 2-dimensional input [[Tensor]] with the identity matrix. Preserves the identity of 
     * the inputs in Linear layers, where as many inputs are preserved as possible.
     *
     * @param t – a 2-dimensional torch.Tensor
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1a77eb9bba76a93da5b33e7770f9113015.html#exhale-function-namespacetorch-1-1nn-1-1init-1a77eb9bba76a93da5b33e7770f9113015
     */
   def eye_(
       t: Tensor[?]
@@ -114,12 +165,18 @@ object init:
   
   // TODO: no groups available
   /**
-    * ills the {3, 4, 5}-dimensional input [[Tensor]] with the Dirac delta function. Preserves the identity 
+    * From libTorch
+    * Fills the given tensor with the Dirac delta function in-place, and returns it.
+    * No gradient will be recorded for this operation.
+    * 
+    * From Pytorch
+    * Fills the {3, 4, 5}-dimensional input [[Tensor]] with the Dirac delta function. Preserves the identity 
     * of the inputs in Convolutional layers, where as many input channels are preserved as possible. In case 
     * of groups>1, each group of channels preserves identity
     * 
     * @param t – a {3, 4, 5}-dimensional torch.Tensor
     * @param groups (int, optional) – number of groups in the conv layer (default: 1)
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1ab9fa9ea51c05df8a5c9dcca7a54dd628.html#exhale-function-namespacetorch-1-1nn-1-1init-1ab9fa9ea51c05df8a5c9dcca7a54dd628
     */
   def dirac_(
       t: Tensor[?]
@@ -128,22 +185,43 @@ object init:
   
 
   /**
-    * Fills the input [[Tensor]] with values according to the method described in Understanding the difficulty
-    * of training deep feedforward neural networks - Glorot, X. & Bengio, Y. (2010), using a uniform 
-    * distribution. The resulting tensor will have values sampled from $U(−a,a)$ where
+    * Fills the input [[Tensor]] with values according to the method described in "Understanding the difficulty
+    * of training deep feedforward neural networks"" - Glorot, X. & Bengio, Y. (2010), using a uniform 
+    * distribution.  Values are scaled by the gain parameter.  The resulting tensor will have values sampled 
+    * from $U(−a,a)$ where
     *  $a=gain \times \sqrt{\frac{6}{fan_in+fan_out$}}
     * 
     * Also known as Glorot initialization.
     *
     * @param t – an n-dimensional torch.Tensor
     * @param gain – an optional scaling factor
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1a86191a828a085e1c720dbce185d6c307.html#exhale-function-namespacetorch-1-1nn-1-1init-1a86191a828a085e1c720dbce185d6c307
     */
   def xavier_normal_(
       t: Tensor[?],
       gain: Double = 1.0
   ): Unit =
     torchNative.xavier_normal_(t.native, gain)
-  
+
+
+  /**
+    * Fills the input [[Tensor]] with values according to the method described in "Understanding the difficulty
+    * of training deep feedforward neural networks"" - Glorot, X. & Bengio, Y. (2010), using a normal 
+    * distribution.  Values are scaled by the gain parameter.  The resulting tensor will have values sampled 
+    * from $N(0,\text{std}^2) $ where
+    *  $a=gain \times \sqrt{\frac{2}{fan_in+fan_out$}}
+    * 
+    * Also known as Glorot initialization.
+    *
+    * @param t
+    * @param gain
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1ace282f75916a862c9678343dfd4d5ffe.html#exhale-function-namespacetorch-1-1nn-1-1init-1ace282f75916a862c9678343dfd4d5ffe
+    */
+  def xavier_uniform_(
+      t: Tensor[?],
+      gain: Double = 1.0
+  ): Unit =
+    torchNative.xavier_uniform_(t.native, gain)
 
   /**
     * Fills the input Tensor with values according to the method described in Delving deep into 
@@ -153,11 +231,13 @@ object init:
     * $\text{bound} = \text{gain} \times \sqrt{\frac{3}{fan_mode}}
     * 
     * Also known as He initialization.
+    * No gradient will be recorded for this operation. 
     * 
     * @param t – an n-dimensional torch.Tensor
     * @param a – the negative slope of the rectifier used after this layer (only used with 'leaky_relu')
     * @param mode – either 'fan_in' (default) or 'fan_out'. Choosing 'fan_in' preserves the magnitude of the variance of the weights in the forward pass. Choosing 'fan_out' preserves the magnitudes in the backwards pass.
     * @param nonlinearity – the non-linear function (nn.functional name), recommended to use only with 'relu' or 'leaky_relu' (default).
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1a5e807af188fc8542c487d50d81cb1aa1.html#exhale-function-namespacetorch-1-1nn-1-1init-1a5e807af188fc8542c487d50d81cb1aa1
     */
   def kaimingUniform_(
       t: Tensor[?],
@@ -175,11 +255,13 @@ object init:
   *    $$std = \frac{gain}{\sqrt{fan_mode}}
   *
   * Also known as He initialization.
+    * No gradient will be recorded for this operation. 
   * 
   * @param t – an n-dimensional torch.Tensor
   * @param a – the negative slope of the rectifier used after this layer (only used with 'leaky_relu')
   * @param mode – either 'fan_in' (default) or 'fan_out'. Choosing 'fan_in' preserves the magnitude of the variance of the weights in the forward pass. Choosing 'fan_out' preserves the magnitudes in the backwards pass.
   * @param nonlinearity – the non-linear function (nn.functional name), recommended to use only with 'relu' or 'leaky_relu' (default).
+  * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1ac8a913c051976a3f41f20df7d6126e57.html#exhale-function-namespacetorch-1-1nn-1-1init-1ac8a913c051976a3f41f20df7d6126e57
   */
   def kaimingNormal_(
       t: Tensor[?],
@@ -189,7 +271,7 @@ object init:
   ): Unit =
     torchNative.kaiming_normal_(t.native, a, mode.toNative, nonlinearity.toNative)
 
-  // TODO: no trunc normal. No docs found on C++
+  // TODO: no trunc normal as per the PyTorch API. C++ docs not commented. Not part of init but of function
   // /**
   //   * Fills the input Tensor with values drawn from a truncated normal distribution. The values are 
   //   * effectively drawn from the normal distribution $N(\text{mean},\text{std}^2)$ with values outside 
@@ -201,21 +283,22 @@ object init:
   //   * @param std (float) – the standard deviation of the normal distribution
   //   * @param a (float) – the minimum cutoff value
   //   * @param b (float) – the maximum cutoff value
+  //   * @see https://pytorch.org/cppdocs/api/function_namespaceat_1aa604fcef7ea09fc379dc92c5d92a06ab.html
   //   */
   def trunc_(
       t: Tensor[?]
   ): Unit =
     torchNative.trunc_(t.native)
 
-  // TODO: not implemented
   /**
     * Fills the input Tensor with a (semi) orthogonal matrix, as described in Exact solutions to the nonlinear 
     * dynamics of learning in deep linear neural networks - Saxe, A. et al. (2013). The input tensor must have
     * at least 2 dimensions, and for tensors with more than 2 dimensions the trailing dimensions are flattened.
-    * 
+    * No gradient will be recorded for this operation.
     *
     * @param t – an n-dimensional torch.Tensor, where n≥2n≥2
     * @param gain – optional scaling factor
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1a5978fcc257460475f635b5960e892a8e.html#exhale-function-namespacetorch-1-1nn-1-1init-1a5978fcc257460475f635b5960e892a8e
     */  
   def orthogonal_(
       t: Tensor[?],
@@ -227,11 +310,15 @@ object init:
   // TODO: see https://discuss.pytorch.org/t/torchvision-warnings-after-updating-pytorch-to-version-0-4-0/18453 (deprecated)
   /**
     * Fills the 2D input Tensor as a sparse matrix, where the non-zero elements will be drawn from the normal 
-    * distribution $N(0,0.01)$, as described in Deep learning via Hessian-free optimization - Martens, J. (2010).
-    *
+    * distribution $N(0,0.01)$, as described in "Deep learning via Hessian-free optimization" - Martens, J. (2010).
+    * The sparsity is a real value between 0 and 1 that controls the fraction of elements in each column to be set to 
+    * zero. 
+    * No gradient will be recorded for this operation.
+    * 
     * @param t – an n-dimensional torch.Tensor
     * @param gain – The fraction of elements in each column to be set to zero
     * @param std – the standard deviation of the normal distribution used to generate the non-zero values
+    * @see https://pytorch.org/cppdocs/api/function_namespacetorch_1_1nn_1_1init_1a82f2e5810880c7cc60c84516eb283be6.html#exhale-function-namespacetorch-1-1nn-1-1init-1a82f2e5810880c7cc60c84516eb283be6
     */
   def sparse_(
       t: Tensor[?],
