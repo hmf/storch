@@ -105,6 +105,8 @@ abstract class Module {
   def registerBuffer[D <: DType](name: String, tensor: Tensor[D]): Tensor[D] =
     fromNative(nativeModule.register_buffer(name, tensor.native))
 
+  def hasBias(): Boolean
+
   def eval(): Unit = nativeModule.eval()
 
   def isTraining: Boolean = nativeModule.is_training
@@ -140,9 +142,6 @@ trait HasParams[ParamType <: FloatNN | ComplexNN: Default] extends Module:
 
 trait HasWeight[ParamType <: FloatNN | ComplexNN]:
   def weight: Tensor[ParamType]
-
-trait HasBias[ParamType <: FloatNN | ComplexNN]:
-  def bias: Tensor[ParamType]
 
 /** Transforms a single tensor into another one of the same type. */
 trait TensorModule[D <: DType] extends Module with (Tensor[D] => Tensor[D]):

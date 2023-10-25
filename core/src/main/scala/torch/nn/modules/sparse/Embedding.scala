@@ -82,6 +82,8 @@ final class Embedding[ParamType <: FloatNN | ComplexNN: Default](
   override val nativeModule: EmbeddingImpl = EmbeddingImpl(options)
   nativeModule.to(paramType.toScalarType, false)
 
+  override def hasBias(): Boolean = false
+
   def weight: Tensor[ParamType] = fromNative(nativeModule.weight)
   def weight_=(w: Tensor[ParamType]): Unit = nativeModule.weight(w.native)
 

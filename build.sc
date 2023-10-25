@@ -369,6 +369,8 @@ val cudaVersion =  "12.1-8.9" //  (11.8-8.6-1.5.8), "12.1-8.9" (12.1-8.9-1.5.9)
 val openblasVersion = "0.3.23"
 val mklVersion = "2023.1"
 val ScalaVersion = "3.3.0"
+// http://bytedeco.org/builds/
+// https://github.com/sbrunk/storch/issues/61
 val javaCppVersion = "1.5.10-SNAPSHOT" // "1.5.8", "1.5.9"
 // ThisBuild / resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 

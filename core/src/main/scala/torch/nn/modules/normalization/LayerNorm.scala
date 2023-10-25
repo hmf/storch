@@ -95,5 +95,7 @@ final class LayerNorm[ParamType <: FloatNN | ComplexNN: Default](
   val weight: Tensor[ParamType] = fromNative[ParamType](nativeModule.weight)
   val bias: Tensor[ParamType] = fromNative[ParamType](nativeModule.bias)
 
+  override def hasBias(): Boolean = true
+
   def apply(t: Tensor[ParamType]): Tensor[ParamType] =
     fromNative[ParamType](nativeModule.forward(t.native))

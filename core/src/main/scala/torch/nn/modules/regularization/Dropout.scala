@@ -83,4 +83,6 @@ final class Dropout[ParamType <: FloatNN | ComplexNN: Default](
 
   def apply(t: Tensor[ParamType]): Tensor[ParamType] = fromNative(nativeModule.forward(t.native))
 
+  override def hasBias(): Boolean = false
+
   override def toString(): String = s"${getClass().getSimpleName()}(p=$p, inplace=$inplace)"
