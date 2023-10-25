@@ -54,6 +54,8 @@ class LeNet2[D <: BFloat16 | Float32: Default] extends HasParams[D] {
     x = F.relu(fc2(x))
     x = fc3(x)
     x
+
+  override def hasBias(): Boolean = modules.exists(_.hasBias())
 }
 
 /** 
@@ -63,6 +65,7 @@ class LeNet2[D <: BFloat16 | Float32: Default] extends HasParams[D] {
  * ./mill examples.runMain LeNetApp
  * Run this version
  * ./mill examples.runMain LeNetApp2
+ * ./millw __.prepareOffline
  */
 object LeNetApp2 extends App {
   val device = if torch.cuda.isAvailable then CUDA else CPU

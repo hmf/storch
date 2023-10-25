@@ -469,9 +469,9 @@ object V2:
           dropout: Double
           ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
 
-    val key = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
-    val query = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
-    val value = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
+    val key = register( nn.Linear[D](n_embed, head_size, addBias=false) )
+    val query = register( nn.Linear[D](n_embed, head_size, addBias=false) )
+    val value = register( nn.Linear[D](n_embed, head_size, addBias=false) )
     val ones = torch.ones[D](Seq(block_size, block_size), dtype=key.paramType)
     val tril = registerBuffer(torch.tril(ones), "tril")
     val drop = register( nn.Dropout( dropout ) )
@@ -498,6 +498,8 @@ object V2:
       val out = wei `@` v // (B, T, T) @ (B, T, H) -> (B, T, H)
       out
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
+
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
     override def toString(): String = s"${getClass.getSimpleName()}(n_embed=$n_embed, head_size=$head_size, block_size=$block_size)"
@@ -510,9 +512,9 @@ object V2:
           //drop: Double
           ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
 
-    val key = register( nn.Linear[D](nEmbed, headSize, hasBias=false) )
-    val query = register( nn.Linear[D](nEmbed, headSize, hasBias=false) )
-    val value = register( nn.Linear[D](nEmbed, headSize, hasBias=false) )
+    val key = register( nn.Linear[D](nEmbed, headSize, addBias=false) )
+    val query = register( nn.Linear[D](nEmbed, headSize, addBias=false) )
+    val value = register( nn.Linear[D](nEmbed, headSize, addBias=false) )
     val ones = torch.ones[D](Seq(blockSize, blockSize), dtype=key.paramType)
     val tril = registerBuffer(torch.tril(ones), "tril")
     val drop = register( nn.Dropout( dropout ) )
@@ -546,6 +548,7 @@ object V2:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(n_embed=$nEmbed, head_size=$headSize, block_size=$blockSize)"
   end Head_2
 
@@ -594,6 +597,7 @@ object V2:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass().getSimpleName()}(numHeads=$numHeads, nEmbed=$nEmbed, headSize=$headSize, blockSize=$blockSize)"
 
 
@@ -632,6 +636,7 @@ object V2:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass().getSimpleName()}(nEmbed = $nEmbed)"
 
   end FeedForward
@@ -684,6 +689,7 @@ object V2:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(nEmbed = $nEmbed)"
 
   end Block
@@ -848,6 +854,7 @@ object V2:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end GPTLanguageModel
 

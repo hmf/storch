@@ -362,10 +362,18 @@ object StorchSitePlugin {
 }
 
 
+// ./millw __.prepareOffline
+//  nvcc --version
+// nvidia-smi
+// https://github.com/devcontainers/features/blob/main/src/nvidia-cuda/devcontainer-feature.json
+// https://oss.sonatype.org/content/repositories/snapshots/org/bytedeco/
+// https://oss.sonatype.org/content/repositories/snapshots/org/bytedeco/cuda-platform-redist/
+// https://repo1.maven.org/maven2/org/bytedeco/
+// https://repo1.maven.org/maven2/org/bytedeco/cuda-platform-redist/
 
 val scrImageVersion = "4.0.34"
-val pytorchVersion = "2.0.1"   //  "1.12.1" (1.12.1-1.5.8), "2.0.1" (2.0.1-1.5.9)
-val cudaVersion =  "12.1-8.9" //  (11.8-8.6-1.5.8), "12.1-8.9" (12.1-8.9-1.5.9)
+val pytorchVersion = "2.0.1"   //  "2.0.1" (2.0.1-1.5.10-SNAPSHOT), "2.0.1" (2.0.1-1.5.9)
+val cudaVersion =   "12.3-8.9" //  "12.1-8.9" (1.5.10-SNAPSHOT), 12.1-8.9-1.5.9
 val openblasVersion = "0.3.23"
 val mklVersion = "2023.1"
 val ScalaVersion = "3.3.0"
@@ -383,6 +391,7 @@ val enableGPU = false
 val sonatypeReleases = Seq(
   MavenRepository("https://oss.sonatype.org/content/repositories/releases")
 )
+// https://oss.sonatype.org/content/repositories/snapshots/org/bytedeco/cuda-platform-redist/
 val sonatypeSnapshots = Seq(
   MavenRepository("https://oss.sonatype.org/content/repositories/snapshots")
 )

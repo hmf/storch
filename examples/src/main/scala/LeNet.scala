@@ -54,6 +54,9 @@ class LeNet[D <: BFloat16 | Float32: Default] extends HasParams[D] {
     x = F.relu(fc2(x))
     x = fc3(x)
     x
+
+  override def hasBias(): Boolean = modules.exists(_.hasBias())
+
 }
 
 /** Shows how to train a simple LeNet on the MNIST dataset */

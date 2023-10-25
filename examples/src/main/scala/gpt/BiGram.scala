@@ -474,6 +474,7 @@ object BiGram:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel0
 
@@ -693,6 +694,7 @@ object BiGram:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel1
 
@@ -799,6 +801,7 @@ object BiGram:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel2
 
@@ -844,9 +847,9 @@ object BiGram:
     
   // let's see a single Head perform self-attention
   val head_size_1 = 16
-  val key = nn.Linear(c1, head_size_1, hasBias=false)
-  val query = nn.Linear(c1, head_size_1, hasBias=false)
-  val value = nn.Linear(c1, head_size_1, hasBias=false)
+  val key = nn.Linear(c1, head_size_1, addBias=false)
+  val query = nn.Linear(c1, head_size_1, addBias=false)
+  val value = nn.Linear(c1, head_size_1, addBias=false)
   val k = key(x)   // (B, T, 16)
   val q = query(x) // (B, T, 16)
   // TODO. https://math.stackexchange.com/questions/63074/is-there-a-3-dimensional-matrix-by-matrix-product
@@ -939,9 +942,9 @@ object BiGram:
           block_size: Int
           ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
 
-    val key = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
-    val query = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
-    val value = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
+    val key = register( nn.Linear[D](n_embed, head_size, addBias=false) )
+    val query = register( nn.Linear[D](n_embed, head_size, addBias=false) )
+    val value = register( nn.Linear[D](n_embed, head_size, addBias=false) )
     val ones = torch.ones[D](Seq(block_size, block_size), dtype=key.paramType)
     val tril = registerBuffer(torch.tril(ones), "tril")
 
@@ -973,6 +976,7 @@ object BiGram:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(n_embed=$n_embed, head_size=$head_size, block_size=$block_size)"
 
 
@@ -1052,6 +1056,7 @@ object BiGram:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel3
 
@@ -1424,6 +1429,7 @@ object BiGram:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"MultiHeadAttention_1(numHeads=$numHeads, nEmbed=$nEmbed, headSize=$headSize, blockSize=$blockSize)"
 
 
@@ -1507,6 +1513,7 @@ object BiGram:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel4
 
@@ -1720,6 +1727,7 @@ object BiGram:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"FeedFoward(nEmbed = $nEmbed)"
 
   end FeedFoward
@@ -1805,6 +1813,7 @@ object BiGram:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel5
 
@@ -1884,6 +1893,7 @@ class Block(nn.Module):
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(nEmbed = $nEmbed)"
 
   end Block
@@ -1972,6 +1982,7 @@ class Block(nn.Module):
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel6
 
@@ -2038,6 +2049,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(nEmbed = $nEmbed)"
 
   end Block_2
@@ -2073,6 +2085,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass().getSimpleName()}(numHeads=$numHeads, nEmbed=$nEmbed, headSize=$headSize, blockSize=$blockSize)"
 
 
@@ -2104,6 +2117,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass().getSimpleName()}(nEmbed = $nEmbed)"
 
   end FeedFoward_2
@@ -2192,6 +2206,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel7
 
@@ -2259,8 +2274,10 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
         // linear combination of out back into path - should this not be on x?
         drop( proj(out) )
 
+    
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass().getSimpleName()}(numHeads=$numHeads, nEmbed=$nEmbed, headSize=$headSize, blockSize=$blockSize)"
 
 
@@ -2296,6 +2313,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(nEmbed = $nEmbed)"
 
   end Block_3
@@ -2382,6 +2400,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel8
 
@@ -2432,9 +2451,9 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
           //drop: Double
           ) extends torch.nn.modules.TensorModule[D]: // extends nn.Module:
 
-    val key = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
-    val query = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
-    val value = register( nn.Linear[D](n_embed, head_size, hasBias=false) )
+    val key = register( nn.Linear[D](n_embed, head_size, addBias=false) )
+    val query = register( nn.Linear[D](n_embed, head_size, addBias=false) )
+    val value = register( nn.Linear[D](n_embed, head_size, addBias=false) )
     val ones = torch.ones[D](Seq(block_size, block_size), dtype=key.paramType)
     val tril = registerBuffer(torch.tril(ones), "tril")
     val drop = register( nn.Dropout( dropout ) )
@@ -2467,8 +2486,10 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
       val out = wei `@` v // (B, T, T) @ (B, T, H) -> (B, T, H)
       out
 
+
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(n_embed=$n_embed, head_size=$head_size, block_size=$block_size)"
   end Head_2
 
@@ -2499,6 +2520,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass().getSimpleName()}(nEmbed = $nEmbed)"
 
   end FeedFoward_3
@@ -2536,6 +2558,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(nEmbed = $nEmbed)"
 
   end Block_4
@@ -2628,6 +2651,7 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel9
 

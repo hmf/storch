@@ -141,6 +141,8 @@ object resnet:
       out = relu(out)
 
       out
+
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = getClass().getSimpleName()
   }
 
@@ -195,6 +197,9 @@ object resnet:
       out = relu(out)
 
       out
+
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
+
     override def toString(): String = getClass().getSimpleName()
 
   class ResNet[D <: BFloat16 | Float32 | Float64](
@@ -316,6 +321,8 @@ object resnet:
       x = avgpool(x)
       x = x.flatten(1)
       fc(x)
+
+    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
     def apply(x: Tensor[D]): Tensor[D] = forwardImpl(x)
   }
