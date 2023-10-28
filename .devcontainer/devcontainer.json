@@ -26,8 +26,9 @@
 		// https://github.com/devcontainers/features/tree/main/src/nvidia-cuda
 		// https://github.com/devcontainers/features/blob/main/src/nvidia-cuda/devcontainer-feature.json
 		"ghcr.io/devcontainers/features/nvidia-cuda:1": {
-			// "cudaVersion": "11.8",
-			"cudaVersion": "12.2",
+			//"cudaVersion": "12.3",
+			"cudaVersion": "11.8",
+			//"cudaVersion": "12.2",
 			"installCudnn": true,
 			"installCudnnDev": true,
 			"cudnnVersion": "8.9.5.29",

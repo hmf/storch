@@ -66,6 +66,7 @@ class LeNet2[D <: BFloat16 | Float32: Default] extends HasParams[D] {
  * Run this version
  * ./mill examples.runMain LeNetApp2
  * ./millw __.prepareOffline
+ * nohup ./millw __.prepareOffline > prep_offline.txt 2>&1 &
  */
 object LeNetApp2 extends App {
   val device = if torch.cuda.isAvailable then CUDA else CPU

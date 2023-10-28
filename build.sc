@@ -373,7 +373,7 @@ object StorchSitePlugin {
 
 val scrImageVersion = "4.0.34"
 val pytorchVersion = "2.0.1"   //  "2.0.1" (2.0.1-1.5.10-SNAPSHOT), "2.0.1" (2.0.1-1.5.9)
-val cudaVersion =   "12.3-8.9" //  "12.1-8.9" (1.5.10-SNAPSHOT), 12.1-8.9-1.5.9
+val cudaVersion =   "12.3-8.9" // "12.3-8.9" //  "12.1-8.9" (1.5.10-SNAPSHOT), 12.1-8.9-1.5.9
 val openblasVersion = "0.3.23"
 val mklVersion = "2023.1"
 val ScalaVersion = "3.3.0"
