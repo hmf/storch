@@ -25,15 +25,21 @@
 		// https://containers.dev/features
 		// https://github.com/devcontainers/features/tree/main/src/nvidia-cuda
 		// https://github.com/devcontainers/features/blob/main/src/nvidia-cuda/devcontainer-feature.json
+		// https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/
+		// https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/
+		// libcudnn8-8.9.3.28-1.cuda12.1.x86_64.rpm
+		// libcudnn8_8.9.3.28-1+cuda12.1_amd64.deb
 		"ghcr.io/devcontainers/features/nvidia-cuda:1": {
 			//"cudaVersion": "12.3",
-			"cudaVersion": "11.8",
+			// "cudaVersion": "11.8",
 			//"cudaVersion": "12.2",
+			//"cudnnVersion": "8.9.5.29",
+			"cudaVersion": "12.1",
 			"installCudnn": true,
 			"installCudnnDev": true,
-			"cudnnVersion": "8.9.5.29",
+			"cudnnVersion": "8.9.3.28",
 			"installToolkit": true,
-			"installNvtx": true
+			//"installNvtx": true
 		},
 		// "ghcr.io/devcontainers/features/python:1": {},
 		"ghcr.io/devcontainers/features/java:1": {
@@ -60,7 +66,7 @@
 	// hmf@cc-cese-52:~$ mkdir kagglecatsanddogs_3367a
 	// hmf@cc-cese-52:~$ mv PetImages/ kagglecatsanddogs_3367a/PetImages/
 	 "mounts": [
-    "source=${localEnv:HOME}/mvtec_ad,target=${containerWorkspaceFolder}/../mvtec_ad,type=bind,consistency=cached",
+    //"source=${localEnv:HOME}/mvtec_ad,target=${containerWorkspaceFolder}/../mvtec_ad,type=bind,consistency=cached",
     "source=${localEnv:HOME}/kagglecatsanddogs_3367a/PetImages,target=${containerWorkspaceFolder}/../kagglecatsanddogs_3367a/PetImages,type=bind,consistency=cached"
 	],
   "waitFor": "onCreateCommand",
