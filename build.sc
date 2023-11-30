@@ -372,11 +372,11 @@ object StorchSitePlugin {
 // https://repo1.maven.org/maven2/org/bytedeco/cuda-platform-redist/
 
 val scrImageVersion = "4.0.34"
-val pytorchVersion = "2.0.1"   //  "2.0.1" (2.0.1-1.5.10-SNAPSHOT), "2.0.1" (2.0.1-1.5.9)
+val pytorchVersion = "2.1.0"   //  "2.0.1" (2.0.1-1.5.10-SNAPSHOT), "2.0.1" (2.0.1-1.5.9)
 val cudaVersion =   "12.3-8.9" // "12.3-8.9" //  "12.1-8.9" (1.5.10-SNAPSHOT), 12.1-8.9-1.5.9
 val openblasVersion = "0.3.23"
 val mklVersion = "2023.1"
-val ScalaVersion = "3.3.0"
+val ScalaVersion = "3.3.1"
 // http://bytedeco.org/builds/
 // https://github.com/sbrunk/storch/issues/61
 val javaCppVersion = "1.5.10-SNAPSHOT" // "1.5.8", "1.5.9"

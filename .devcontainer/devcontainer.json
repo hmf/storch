@@ -30,15 +30,15 @@
 		// libcudnn8-8.9.3.28-1.cuda12.1.x86_64.rpm
 		// libcudnn8_8.9.3.28-1+cuda12.1_amd64.deb
 		"ghcr.io/devcontainers/features/nvidia-cuda:1": {
-			//"cudaVersion": "12.3",
+			// "cudaVersion": "12.3",
 			// "cudaVersion": "11.8",
-			//"cudaVersion": "12.2",
-			//"cudnnVersion": "8.9.5.29",
-			"cudaVersion": "12.1",
-			"installCudnn": true,
-			"installCudnnDev": true,
-			"cudnnVersion": "8.9.3.28",
-			"installToolkit": true,
+			"cudaVersion": "12.2",
+			"cudnnVersion": "8.9.5.29",
+			// "cudaVersion": "12.1",
+			// "installCudnn": true,
+			// "installCudnnDev": true,
+			// "cudnnVersion": "8.9.3.28",
+			"installToolkit": true
 			//"installNvtx": true
 		},
 		// "ghcr.io/devcontainers/features/python:1": {},
@@ -71,7 +71,7 @@
 	],
   "waitFor": "onCreateCommand",
   //"updateContentCommand": "python3 -m pip install -r requirements.txt",
-  //"updateContentCommand": "bash .devcontainer/install-dev-tools.sh",
+  "updateContentCommand": "bash .devcontainer/install-dev-tools.sh",
   "postCreateCommand": [
     "nvidia-smi"
   ],
