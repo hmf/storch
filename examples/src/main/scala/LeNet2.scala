@@ -61,11 +61,11 @@ class LeNet2[D <: BFloat16 | Float32: Default] extends HasParams[D] {
  * Shows how to train a simple LeNet on the MNIST dataset 
  * 
  * Run original code:
- * ./mill examples.runMain LeNetApp
+ * ./mill -i examples.runMain LeNetApp
  * Run this version
- * ./mill examples.runMain LeNetApp2
- * ./millw __.prepareOffline
- * nohup ./millw __.prepareOffline > prep_offline.txt 2>&1 &
+ * ./mill -i examples.runMain LeNetApp2
+ * ./millw -i __.prepareOffline
+ * nohup ./millw -i __.prepareOffline > prep_offline.txt 2>&1 &
  */
 object LeNetApp2 extends App {
   val device = if torch.cuda.isAvailable then CUDA else CPU

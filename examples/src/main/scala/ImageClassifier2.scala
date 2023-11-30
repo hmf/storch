@@ -323,9 +323,9 @@ object Commands:
       println(s"Class: $label, confidence: $confidence")
 
 /**
- * ./mill examples.runMain commands.Train -h
- * ./mill examples.runMain commands.Train --dataset-dir /mnt/ssd2/hmf/datasets/computer_vision/kaggle_cats_and_dogs/pet_images --checkpoint-dir ~/.cache/storch/hub/checkpoints
- * ./mill examples.runMain commands.Train --dataset-dir ../kagglecatsanddogs_3367a/PetImages --checkpoint-dir ~/.cache/storch/hub/checkpoints
+ * ./mill -i examples.runMain commands.Train -h
+ * ./mill -i examples.runMain commands.Train --dataset-dir /mnt/ssd2/hmf/datasets/computer_vision/kaggle_cats_and_dogs/pet_images --checkpoint-dir ~/.cache/storch/hub/checkpoints
+ * ./mill -i examples.runMain commands.Train --dataset-dir ../kagglecatsanddogs_3367a/PetImages --checkpoint-dir ~/.cache/storch/hub/checkpoints
  * 
  * 
  * Caused by: java.lang.ExceptionInInitializerError: Exception java.lang.UnsatisfiedLinkError: /usr/local/sdkman/candidates/java/17.0.8-ms/lib/libawt_xawt.so: libXext.so.6: cannot open shared object file: No such file or directory [in thread "scala-execution-context-global-22"]
@@ -357,7 +357,7 @@ object Train extends Command[TrainOptions]:
 
 
 /**
- * $ ./mill examples.runMain commands.Predict --dataset-dir ./data/mnist
+ * $ ./mill -i examples.runMain commands.Predict --dataset-dir ./data/mnist
  */
 object Predict extends Command[PredictOptions]:
   override def run(options: PredictOptions, remainingArgs: RemainingArgs): Unit =
