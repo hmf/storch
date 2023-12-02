@@ -37,12 +37,20 @@ import torch.optim.Adam
 import torch.DType.float32
 import org.bytedeco.javacpp.Pointer
 import torch.nn.modules.HasWeight
+import org.bytedeco.pytorch.cuda.Stat
+import org.bytedeco.pytorch.cuda.CheckpointDelta
+import org.bytedeco.pytorch.cuda.SnapshotInfo
+import org.bytedeco.pytorch.cuda.CUDAAllocator
+import org.bytedeco.pytorch.cuda.SegmentInfo
+import org.bytedeco.pytorch.cuda.BlockInfo
+import org.bytedeco.pytorch.cuda.DeviceStats
+import org.bytedeco.javacpp.BoolPointer
 
 
 
 /**
-  * ./mill examples.runMain gpt.V2
-  * nohup ./mill examples.runMain gpt.V2 > v2_0.txt 2>&1 &
+  * ./mill -i examples.runMain gpt.V2
+  * nohup ./mill -i examples.runMain gpt.V2 > v2_0.txt 2>&1 &
   * 
   * @see https://github.com/karpathy/ng-video-lecture/blob/master/gpt.py
   */
@@ -156,6 +164,67 @@ object V2:
     
   def printMemoryInfo(info: PointerInfo) =
     printAllMemoryInfo(info, inUseOnly = true)
+
+  
+  def statToDict(stat: Stat, dict: Map[String, Long]) =
+    dict + ("current" -> stat.current())
+         + ("peak" -> stat.peak())
+         + ("allocated" -> stat.allocated())
+         + ("freed" -> stat.freed())
+
+
+  def printMemoryInfo() =
+    // CUDACachingAllocator
+    // https://github.com/bytedeco/javacpp-presets/issues/1422
+    // https://github.com/bytedeco/javacpp-presets/tree/master/pytorch
+    // https://github.com/bytedeco/javacpp-presets/blob/7629ea48be0a3a368c74fe43ef70577bee091010/pytorch/src/gen/java/org/bytedeco/pytorch/cuda/DeviceStats.java#L26
+
+
+    // https://discuss.pytorch.org/t/how-can-i-use-the-cudacachingallocator-api/173258
+    // https://pytorch.org/docs/stable/notes/cuda.html
+    // val s = Stat()
+    // val allocated = s.allocated()
+    // val current = s.current()
+    // val peak = s.peak()
+    // val freed = s.freed()
+    // val capacity = s.capacity()
+    // val limit = s.limit()
+    // println(humanReadableSize(allocated))
+    // println(humanReadableSize(current))
+    // println(humanReadableSize(peak))
+    // println(humanReadableSize(freed))
+    // println(humanReadableSize(capacity))
+    // println(humanReadableSize(limit))
+
+    // TODO: how do we get array of stat?
+    // https://github.com/pytorch/pytorch/blob/af5a3bda4518be89239623a5490ca3392cc0fcbd/torch/csrc/cuda/Module.cpp#L587    
+    // https://github.com/pytorch/pytorch/blob/main/torch/csrc/cuda/Module.cpp#L587
+    // val ds = DeviceStats()
+    // val allocation = ds.allocation()
+    // val devS = CUDAAllocator(Pointer()).getDeviceStats(1)
+    // val devAllocation: BoolPointer = devS.allocation()
+    // //val p = devAllocation.getPointer[Stat]()
+    // val oversize_allocation = devS.oversize_allocations()
+
+    //val memory_stats = torch.cuda.memory_stats()
+    // val cp = CheckpointDelta()
+    // val snap = SnapshotInfo()
+    // val segment = SegmentInfo()
+    // val block = BlockInfo()
+    // val cudaS = CUDAAllocator()
+    // https://discuss.pytorch.org/t/obtaining-memory-stats-in-libtorch/105119
+    // val alloc = CUDAAllocator(Pointer())
+    // val stats = alloc.getDeviceStats(1)
+    // val gpuAllocated = stats.allocated_bytes()
+    // println(humanReadableSize(allocated))
+    // https://discuss.pytorch.org/t/libtorch-equivalent-of-torch-cuda-memory-reserved/165995
+    // https://github.com/pytorch/pytorch/issues/85436
+    // https://stackoverflow.com/questions/58216000/get-total-amount-of-free-gpu-memory-and-available-using-pytorch
+    // https://pytorch.org/docs/stable/generated/torch.cuda.memory_stats.html
+    // https://github.com/pytorch/pytorch/blob/af5a3bda4518be89239623a5490ca3392cc0fcbd/torch/csrc/cuda/Module.cpp#L1435
+    ()
+    
+
 
   
   // Utility functions
@@ -918,6 +987,7 @@ object V2:
           val accumulated = humanReadableDuration(total)
           val perIteration = humanReadableDuration(delta)
           println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}, mem $memoryBytes @ ${accumulated}, mean $perIteration")
+          printMemoryInfo()
           delta = 0L
 
         val elapsed = elapsedOnly {
@@ -953,6 +1023,7 @@ object V2:
     val model = GPTLanguageModel(vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = n_layer, nHead = n_head, dropout= dropout)
     println(totalNuParameters(model))
     println(moduleInfoString(model))
+    printMemoryInfo()
 
     /*
     # create a PyTorch optimizer
@@ -972,8 +1043,8 @@ object V2:
     */
     
     // TODO: Bug just (1,1) ?
-    // val context = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device)
-    val context = torch.zeros(Seq(1, 1), dtype=torch.int64, device=device)
+    val context = torch.zeros(Seq(1, block_size), dtype=torch.int64, device=device)
+    // val context = torch.zeros(Seq(1, 1), dtype=torch.int64, device=device)
     val embedding = model.generate(idx = context, max_new_tokens=500)(0)
     val decoded = decode(embedding.toSeq)
     println(s"decode:'$decoded'")
