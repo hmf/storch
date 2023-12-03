@@ -581,3 +581,361 @@ GPU used = 6.9 GiB
 13443137 parameters >= 53772548 bytes = 51.3 MiB
 step 0: train loss 4.335848, val loss 4.332262, mem 628.4 MiB @ 00 00:00:00.000, mean 00 00:00:00.000
 step 500: train loss 2.5476382, val loss 2.5570214, mem 728.4 MiB @ 00 00:01:01.495, mean 00 00:00:00.122
+step 1000: train loss 2.508413, val loss 2.5130005, mem 728.7 MiB @ 00 00:02:02.998, mean 00 00:00:00.123
+step 1500: train loss 2.4970562, val loss 2.495719, mem 728.9 MiB @ 00 00:03:04.436, mean 00 00:00:00.122
+step 2000: train loss 2.469262, val loss 2.4932768, mem 728.9 MiB @ 00 00:04:05.849, mean 00 00:00:00.122
+step 2500: train loss 2.4545126, val loss 2.4732363, mem 728.9 MiB @ 00 00:05:07.250, mean 00 00:00:00.122
+step 3000: train loss 2.4397492, val loss 2.4652252, mem 732.4 MiB @ 00 00:06:08.632, mean 00 00:00:00.122
+step 3500: train loss 2.4432235, val loss 2.4631853, mem 732.4 MiB @ 00 00:07:10.020, mean 00 00:00:00.122
+step 4000: train loss 2.4328675, val loss 2.457826, mem 732.7 MiB @ 00 00:08:11.406, mean 00 00:00:00.122
+step 4500: train loss 2.4265091, val loss 2.4551604, mem 732.7 MiB @ 00 00:09:12.776, mean 00 00:00:00.122
+step 5000: train loss 2.4185965, val loss 2.450682, mem 732.7 MiB @ 00 00:10:14.148, mean 00 00:00:00.122
+step 5500: train loss 2.4081905, val loss 2.447644, mem 732.7 MiB @ 00 00:11:15.517, mean 00 00:00:00.122
+step 6000: train loss 2.3958697, val loss 2.4314053, mem 732.9 MiB @ 00 00:12:16.875, mean 00 00:00:00.122
+step 6500: train loss 2.381643, val loss 2.4313533, mem 732.9 MiB @ 00 00:13:18.222, mean 00 00:00:00.122
+step 7000: train loss 2.364158, val loss 2.4134161, mem 732.9 MiB @ 00 00:14:19.562, mean 00 00:00:00.122
+step 7500: train loss 2.3529167, val loss 2.4074175, mem 733.0 MiB @ 00 00:15:20.909, mean 00 00:00:00.122
+step 8000: train loss 2.328031, val loss 2.3847246, mem 733.0 MiB @ 00 00:16:22.261, mean 00 00:00:00.122
+step 8500: train loss 2.292856, val loss 2.351461, mem 733.0 MiB @ 00 00:17:23.594, mean 00 00:00:00.122
+step 9000: train loss 2.2544227, val loss 2.321474, mem 733.3 MiB @ 00 00:18:24.945, mean 00 00:00:00.122
+step 9500: train loss 2.219748, val loss 2.2897422, mem 733.3 MiB @ 00 00:19:26.292, mean 00 00:00:00.122
+step 10000: train loss 2.1745658, val loss 2.2487366, mem 733.3 MiB @ 00 00:20:27.639, mean 00 00:00:00.122
+step 10500: train loss 2.1545537, val loss 2.235534, mem 733.3 MiB @ 00 00:21:28.974, mean 00 00:00:00.122
+step 11000: train loss 2.13079, val loss 2.2194557, mem 733.3 MiB @ 00 00:22:30.310, mean 00 00:00:00.122
+step 11500: train loss 2.107516, val loss 2.1982605, mem 733.5 MiB @ 00 00:23:31.644, mean 00 00:00:00.122
+step 12000: train loss 2.085714, val loss 2.1769443, mem 733.8 MiB @ 00 00:24:32.976, mean 00 00:00:00.122
+step 12500: train loss 2.0651603, val loss 2.1682646, mem 734.1 MiB @ 00 00:25:34.308, mean 00 00:00:00.122
+step 13000: train loss 2.04403, val loss 2.145483, mem 734.4 MiB @ 00 00:26:35.643, mean 00 00:00:00.122
+step 13500: train loss 2.0215368, val loss 2.1287656, mem 734.4 MiB @ 00 00:27:36.976, mean 00 00:00:00.122
+step 14000: train loss 2.073082, val loss 2.1562624, mem 734.4 MiB @ 00 00:28:38.314, mean 00 00:00:00.122
+step 14500: train loss 2.0549197, val loss 2.1463277, mem 734.4 MiB @ 00 00:29:39.655, mean 00 00:00:00.122
+step 15000: train loss 2.0292356, val loss 2.1369631, mem 734.4 MiB @ 00 00:30:40.990, mean 00 00:00:00.122
+step 15500: train loss 2.0073128, val loss 2.1167858, mem 734.7 MiB @ 00 00:31:42.322, mean 00 00:00:00.122
+step 16000: train loss 1.987694, val loss 2.1022239, mem 734.7 MiB @ 00 00:32:43.649, mean 00 00:00:00.122
+step 16500: train loss 1.9841061, val loss 2.0968378, mem 734.7 MiB @ 00 00:33:44.963, mean 00 00:00:00.122
+step 17000: train loss 1.964174, val loss 2.0827105, mem 734.7 MiB @ 00 00:34:46.267, mean 00 00:00:00.122
+step 17500: train loss 1.9512877, val loss 2.0708296, mem 734.7 MiB @ 00 00:35:47.584, mean 00 00:00:00.122
+step 18000: train loss 1.9287692, val loss 2.0533903, mem 734.7 MiB @ 00 00:36:48.883, mean 00 00:00:00.122
+step 18500: train loss 1.9105072, val loss 2.0451093, mem 734.7 MiB @ 00 00:37:50.192, mean 00 00:00:00.122
+step 19000: train loss 1.8970441, val loss 2.0320392, mem 734.7 MiB @ 00 00:38:51.496, mean 00 00:00:00.122
+step 19500: train loss 1.8854179, val loss 2.0191305, mem 734.7 MiB @ 00 00:39:52.806, mean 00 00:00:00.122
+step 20000: train loss 1.8791237, val loss 2.0184035, mem 734.7 MiB @ 00 00:40:54.111, mean 00 00:00:00.122
+step 20500: train loss 1.8812588, val loss 2.0221977, mem 734.7 MiB @ 00 00:41:55.396, mean 00 00:00:00.122
+step 21000: train loss 1.903744, val loss 2.030137, mem 734.7 MiB @ 00 00:42:56.690, mean 00 00:00:00.122
+step 21500: train loss 1.8765324, val loss 2.0156875, mem 734.8 MiB @ 00 00:43:57.978, mean 00 00:00:00.122
+step 22000: train loss 1.8608563, val loss 2.0002515, mem 734.8 MiB @ 00 00:44:59.266, mean 00 00:00:00.122
+step 22500: train loss 1.8509007, val loss 1.9926138, mem 734.8 MiB @ 00 00:46:00.547, mean 00 00:00:00.122
+step 23000: train loss 1.8334926, val loss 1.9830146, mem 734.8 MiB @ 00 00:47:01.820, mean 00 00:00:00.122
+step 23500: train loss 1.8383644, val loss 1.9679743, mem 734.8 MiB @ 00 00:48:03.129, mean 00 00:00:00.122
+step 24000: train loss 1.8247951, val loss 1.9709209, mem 734.8 MiB @ 00 00:49:04.446, mean 00 00:00:00.122
+step 24500: train loss 1.8079953, val loss 1.9558063, mem 734.9 MiB @ 00 00:50:05.767, mean 00 00:00:00.122
+step 25000: train loss 1.8013923, val loss 1.9549898, mem 734.9 MiB @ 00 00:51:07.087, mean 00 00:00:00.122
+step 25500: train loss 1.7907901, val loss 1.945321, mem 734.9 MiB @ 00 00:52:08.394, mean 00 00:00:00.122
+step 26000: train loss 1.7799153, val loss 1.939117, mem 734.9 MiB @ 00 00:53:09.713, mean 00 00:00:00.122
+step 26500: train loss 1.7685446, val loss 1.9267551, mem 734.9 MiB @ 00 00:54:11.034, mean 00 00:00:00.122
+step 27000: train loss 1.7624547, val loss 1.9231879, mem 734.9 MiB @ 00 00:55:12.360, mean 00 00:00:00.122
+step 27500: train loss 1.7491188, val loss 1.9149151, mem 734.9 MiB @ 00 00:56:13.678, mean 00 00:00:00.122
+step 28000: train loss 1.7429442, val loss 1.9086628, mem 734.9 MiB @ 00 00:57:14.995, mean 00 00:00:00.122
+step 28500: train loss 1.7355636, val loss 1.9029418, mem 735.1 MiB @ 00 00:58:16.315, mean 00 00:00:00.122
+step 29000: train loss 1.7248852, val loss 1.8960071, mem 735.4 MiB @ 00 00:59:17.631, mean 00 00:00:00.122
+step 29500: train loss 1.7195947, val loss 1.8904512, mem 735.4 MiB @ 00 01:00:18.952, mean 00 00:00:00.122
+step 30000: train loss 1.7153524, val loss 1.8848493, mem 735.4 MiB @ 00 01:01:20.261, mean 00 00:00:00.122
+step 30500: train loss 1.7048767, val loss 1.8789163, mem 735.4 MiB @ 00 01:02:21.564, mean 00 00:00:00.122
+step 31000: train loss 1.694385, val loss 1.870024, mem 735.4 MiB @ 00 01:03:22.876, mean 00 00:00:00.122
+step 31500: train loss 1.6884319, val loss 1.8608154, mem 735.4 MiB @ 00 01:04:24.160, mean 00 00:00:00.122
+step 32000: train loss 1.6768422, val loss 1.8586318, mem 735.6 MiB @ 00 01:05:25.444, mean 00 00:00:00.122
+step 32500: train loss 1.6761434, val loss 1.8587543, mem 735.6 MiB @ 00 01:06:26.728, mean 00 00:00:00.122
+step 33000: train loss 1.6758552, val loss 1.8544992, mem 735.6 MiB @ 00 01:07:28.010, mean 00 00:00:00.122
+step 33500: train loss 1.67037, val loss 1.8574976, mem 735.6 MiB @ 00 01:08:29.301, mean 00 00:00:00.122
+step 34000: train loss 1.6646343, val loss 1.8511721, mem 735.6 MiB @ 00 01:09:30.599, mean 00 00:00:00.122
+step 34500: train loss 1.6610796, val loss 1.8486292, mem 735.6 MiB @ 00 01:10:31.906, mean 00 00:00:00.122
+step 35000: train loss 1.6537488, val loss 1.8431506, mem 735.6 MiB @ 00 01:11:33.202, mean 00 00:00:00.122
+step 35500: train loss 1.6544412, val loss 1.843468, mem 735.6 MiB @ 00 01:12:34.495, mean 00 00:00:00.122
+step 36000: train loss 1.6563864, val loss 1.842051, mem 735.6 MiB @ 00 01:13:35.787, mean 00 00:00:00.122
+step 36500: train loss 1.6723832, val loss 1.8542444, mem 735.6 MiB @ 00 01:14:37.077, mean 00 00:00:00.122
+step 37000: train loss 1.6729113, val loss 1.8599828, mem 735.6 MiB @ 00 01:15:38.365, mean 00 00:00:00.122
+step 37500: train loss 1.657896, val loss 1.8432986, mem 735.6 MiB @ 00 01:16:39.651, mean 00 00:00:00.122
+step 38000: train loss 1.6419864, val loss 1.8300749, mem 735.7 MiB @ 00 01:17:40.946, mean 00 00:00:00.122
+step 38500: train loss 1.6395802, val loss 1.831336, mem 735.7 MiB @ 00 01:18:42.228, mean 00 00:00:00.122
+step 39000: train loss 1.6333517, val loss 1.8239709, mem 736.0 MiB @ 00 01:19:43.514, mean 00 00:00:00.122
+step 39500: train loss 1.6248128, val loss 1.8159283, mem 736.0 MiB @ 00 01:20:44.805, mean 00 00:00:00.122
+step 40000: train loss 1.6188323, val loss 1.8165076, mem 736.2 MiB @ 00 01:21:46.091, mean 00 00:00:00.122
+step 40500: train loss 1.6140128, val loss 1.8128036, mem 736.2 MiB @ 00 01:22:47.377, mean 00 00:00:00.122
+step 41000: train loss 1.6085365, val loss 1.8036649, mem 741.6 MiB @ 00 01:23:48.667, mean 00 00:00:00.122
+step 41499: train loss 1.6006061, val loss 1.8010614, mem 741.6 MiB @ 00 01:24:49.842, mean 00 00:00:00.122
+step 41500: train loss 1.6008276, val loss 1.7987113, @ 00 01:24:49.965, mean 00 00:00:00.122
+decode:'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GLOUCESTER:
+Meaved:
+Le, loopeak thather miscapio, and Caps noues?
+Buch willift my freat I r'd did
+
+LANDWAGLOUD INA:
+Foolvest Hapry, shall he no cacinf it pake thou.
+Are withe ret withsks shat usant:
+Why somein so, helly how.
+G Edwars haven, af of my unt: and,
+To douer naty and babt! age she woun wilcy stith fabasten ther na s,
+To beethe n as ave thigh bid sty are in in is
+To nevirly thed, and our aft shal well, couser's be thringe.
+
+ROMET:
+For that ther sthing the meet is than him!
+'s.
+
+HMOPSAMP'

@@ -45,6 +45,7 @@ import org.bytedeco.pytorch.cuda.SegmentInfo
 import org.bytedeco.pytorch.cuda.BlockInfo
 import org.bytedeco.pytorch.cuda.DeviceStats
 import org.bytedeco.javacpp.BoolPointer
+import org.bytedeco.pytorch.global.torch_cuda
 
 
 
@@ -166,11 +167,21 @@ object V2:
     printAllMemoryInfo(info, inUseOnly = true)
 
   
-  def statToDict(stat: Stat, dict: Map[String, Long]) =
-    dict + ("current" -> stat.current())
-         + ("peak" -> stat.peak())
-         + ("allocated" -> stat.allocated())
-         + ("freed" -> stat.freed())
+  def statToDict(stat: Stat, name: String, dict: scala.collection.mutable.Map[String, Long]) =
+    dict(s"$name.current")   = stat.current()
+    dict(s"$name.peak")      = stat.peak()
+    dict(s"$name.allocated") = stat.allocated()
+    dict(s"$name.freed")     = stat.freed()
+
+  def statArrayToDict(
+          statArray: Stat, 
+          name: String, 
+          dict: scala.collection.mutable.Map[String, Long]) =
+
+    val statTypeNames = Array("all", "small_pool", "large_pool")
+    for i <- 0 until statTypeNames.length
+    do
+      statToDict(statArray.position(i), s"$name.${statTypeNames(i)}", dict)
 
 
   def printMemoryInfo() =
@@ -179,6 +190,49 @@ object V2:
     // https://github.com/bytedeco/javacpp-presets/tree/master/pytorch
     // https://github.com/bytedeco/javacpp-presets/blob/7629ea48be0a3a368c74fe43ef70577bee091010/pytorch/src/gen/java/org/bytedeco/pytorch/cuda/DeviceStats.java#L26
 
+    // https://github.com/bytedeco/javacpp-presets/blob/master/pytorch/src/gen/java/org/bytedeco/pytorch/global/torch_cuda.java#L766
+    // https://github.com/pytorch/pytorch/blob/main/torch/cuda/memory.py#L165
+    val cudaAllocator = torch_cuda.getAllocator()
+    println( cudaAllocator.initialized() )
+    val stats = cudaAllocator.getDeviceStats(0)
+
+    val result = scala.collection.mutable.Map[String, Long]()
+    result("num_alloc_retries") = stats.num_alloc_retries
+    result("num_ooms") = stats.num_ooms
+    result("max_split_size") = stats.max_split_size
+
+    statArrayToDict(Stat(stats.allocation),           "allocation",           result)
+    statArrayToDict(Stat(stats.segment),              "segment",              result)
+    statArrayToDict(Stat(stats.active),               "active",               result)
+    statArrayToDict(Stat(stats.inactive_split),       "inactive_split",       result)
+    statArrayToDict(Stat(stats.allocated_bytes),      "allocated_bytes",      result)
+    statArrayToDict(Stat(stats.reserved_bytes),       "reserved_bytes",       result)
+    statArrayToDict(Stat(stats.active_bytes),         "active_bytes",         result)
+    statArrayToDict(Stat(stats.inactive_split_bytes), "inactive_split_bytes", result)
+    statArrayToDict(Stat(stats.requested_bytes),      "requested_bytes",      result)
+
+    statToDict(stats.oversize_allocations, "oversize_allocations", result)
+    statToDict(stats.oversize_segments,    "oversize_segments",    result)
+
+    // val devAllocation: BoolPointer = stats.allocation()
+    // println(devAllocation.capacity())
+    // val statArray = Stat( devAllocation )
+    // println(statArray.capacity())
+    // println(statArray.sizeof())
+    // val c = statArray.position(4).current()
+    // val z = statArray.position(4)
+    // println(c)
+    println(result.mkString(",\n"))
+    ???
+
+    // TODO: et device properties
+    // https://github.com/pytorch/pytorch/blob/main/torch/csrc/cuda/Module.cpp#L1243
+    // https://stackoverflow.com/questions/58216000/get-total-amount-of-free-gpu-memory-and-available-using-pytorch
+
+    // https://discuss.pytorch.org/t/how-to-check-the-gpu-memory-being-used/131220/3
+    // https://stackoverflow.com/questions/58216000/get-total-amount-of-free-gpu-memory-and-available-using-pytorch
+    // https://pytorch.org/docs/stable/generated/torch.cuda.mem_get_info.html#torch.cuda.mem_get_info
+    // https://discuss.pytorch.org/t/how-to-calculate-the-gpu-memory-that-a-model-uses/157486/4
 
     // https://discuss.pytorch.org/t/how-can-i-use-the-cudacachingallocator-api/173258
     // https://pytorch.org/docs/stable/notes/cuda.html
