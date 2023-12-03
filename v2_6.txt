@@ -1,0 +1,3484 @@
+nohup: ignoring input
+[info] compiling 1 Scala source to /workspaces/storch/out/examples/compile.dest/classes ...
+[info] done compiling
+File /workspaces/storch/data/input.txt already exists.
+chars = 
+,  , !, $, &, ', ,, -, ., 3, :, ;, ?, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
+vocab_size = 65
+"BiGram!" = "BiGram!"
+xb:
+
+Not Gloucester's death, nor Hereford's banishment
+Not Gaunt's rebukes, nor England's private wrongs,
+Nor the prevention of poor Bolingbroke
+About his marriage, nor my own disgrace,
+Have ever made me sour my patient cheek,
+Or bend one wrinkle on my soverei
+yb:
+Not Gloucester's death, nor Hereford's banishment
+Not Gaunt's rebukes, nor England's private wrongs,
+Nor the prevention of poor Bolingbroke
+About his marriage, nor my own disgrace,
+Have ever made me sour my patient cheek,
+Or bend one wrinkle on my sovereig
+V2
+13.443137M parameters
+GPTLanguageModel: #282 13443137 (
+  token_embedding_table: Embedding(numEmbeddings=65, embeddingDim=384, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <24960> 
+  position_embedding_table: Embedding(numEmbeddings=256, embeddingDim=384, paddingIdx=None, maxNorm=None, normType=Some(2.0), scaleGradByFreq=false, sparse=false ): #1 <98304> 
+  blocks: Sequential: #276 13294080 (
+    0: Block(nEmbed = 384): #46 2215680 (
+      sa: MultiHeadAttention(numHeads=6, nEmbed=384, headSize=64, blockSize=256): #38 1032576 (
+        hs_0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #18 442368 (
+          0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=384, outFeatures=384, bias=true): #2 <147456,384> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedForward(nEmbed = 384): #4 1181568 (
+        net: Sequential: #4 1181568 (
+          0: Linear(inFeatures=384, outFeatures=1536, bias=true): #2 <589824,1536> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=1536, outFeatures=384, bias=true): #2 <589824,384> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: TensorModule: #2 <384,384> 
+      ln2: TensorModule: #2 <384,384> 
+    )
+    1: Block(nEmbed = 384): #46 2215680 (
+      sa: MultiHeadAttention(numHeads=6, nEmbed=384, headSize=64, blockSize=256): #38 1032576 (
+        hs_0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #18 442368 (
+          0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=384, outFeatures=384, bias=true): #2 <147456,384> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedForward(nEmbed = 384): #4 1181568 (
+        net: Sequential: #4 1181568 (
+          0: Linear(inFeatures=384, outFeatures=1536, bias=true): #2 <589824,1536> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=1536, outFeatures=384, bias=true): #2 <589824,384> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: TensorModule: #2 <384,384> 
+      ln2: TensorModule: #2 <384,384> 
+    )
+    2: Block(nEmbed = 384): #46 2215680 (
+      sa: MultiHeadAttention(numHeads=6, nEmbed=384, headSize=64, blockSize=256): #38 1032576 (
+        hs_0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #18 442368 (
+          0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=384, outFeatures=384, bias=true): #2 <147456,384> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedForward(nEmbed = 384): #4 1181568 (
+        net: Sequential: #4 1181568 (
+          0: Linear(inFeatures=384, outFeatures=1536, bias=true): #2 <589824,1536> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=1536, outFeatures=384, bias=true): #2 <589824,384> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: TensorModule: #2 <384,384> 
+      ln2: TensorModule: #2 <384,384> 
+    )
+    3: Block(nEmbed = 384): #46 2215680 (
+      sa: MultiHeadAttention(numHeads=6, nEmbed=384, headSize=64, blockSize=256): #38 1032576 (
+        hs_0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #18 442368 (
+          0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=384, outFeatures=384, bias=true): #2 <147456,384> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedForward(nEmbed = 384): #4 1181568 (
+        net: Sequential: #4 1181568 (
+          0: Linear(inFeatures=384, outFeatures=1536, bias=true): #2 <589824,1536> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=1536, outFeatures=384, bias=true): #2 <589824,384> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: TensorModule: #2 <384,384> 
+      ln2: TensorModule: #2 <384,384> 
+    )
+    4: Block(nEmbed = 384): #46 2215680 (
+      sa: MultiHeadAttention(numHeads=6, nEmbed=384, headSize=64, blockSize=256): #38 1032576 (
+        hs_0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #18 442368 (
+          0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=384, outFeatures=384, bias=true): #2 <147456,384> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedForward(nEmbed = 384): #4 1181568 (
+        net: Sequential: #4 1181568 (
+          0: Linear(inFeatures=384, outFeatures=1536, bias=true): #2 <589824,1536> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=1536, outFeatures=384, bias=true): #2 <589824,384> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: TensorModule: #2 <384,384> 
+      ln2: TensorModule: #2 <384,384> 
+    )
+    5: Block(nEmbed = 384): #46 2215680 (
+      sa: MultiHeadAttention(numHeads=6, nEmbed=384, headSize=64, blockSize=256): #38 1032576 (
+        hs_0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        hs_5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+          key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+          drop: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+        heads: ModuleList: #18 442368 (
+          0: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          1: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          2: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          3: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          4: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+          5: Head_2(n_embed=384, head_size=64, block_size=256): #3 73728 (
+            key: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            query: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            value: Linear(inFeatures=384, outFeatures=64, bias=false): #1 <24576> 
+            drop: Dropout(p=0.2, inplace=false): #0 <> 
+          )
+        )
+        proj: Linear(inFeatures=384, outFeatures=384, bias=true): #2 <147456,384> 
+        drop: Dropout(p=0.2, inplace=false): #0 <> 
+      )
+      ffwd: FeedForward(nEmbed = 384): #4 1181568 (
+        net: Sequential: #4 1181568 (
+          0: Linear(inFeatures=384, outFeatures=1536, bias=true): #2 <589824,1536> 
+          1: ReLU: #0 <> 
+          2: Linear(inFeatures=1536, outFeatures=384, bias=true): #2 <589824,384> 
+          3: Dropout(p=0.2, inplace=false): #0 <> 
+        )
+      )
+      ln1: TensorModule: #2 <384,384> 
+      ln2: TensorModule: #2 <384,384> 
+    )
+  )
+  ln_f: TensorModule: #2 <384,384> 
+  lm_head: Linear(inFeatures=384, outFeatures=65, bias=true): #2 <24960,65> 
+)
+true
+active.all.allocated : 2.0 B
+active.all.current : 2.0 B
+active.all.freed : 0.0 B
+active.all.peak : 2.0 B
+active.large_pool.allocated : 0.0 B
+active.large_pool.current : 0.0 B
+active.large_pool.freed : 0.0 B
+active.large_pool.peak : 0.0 B
+active.small_pool.allocated : 2.0 B
+active.small_pool.current : 2.0 B
+active.small_pool.freed : 0.0 B
+active.small_pool.peak : 2.0 B
+active_bytes.all.allocated : 256.0 KiB
+active_bytes.all.current : 256.0 KiB
+active_bytes.all.freed : 0.0 B
+active_bytes.all.peak : 256.0 KiB
+active_bytes.large_pool.allocated : 0.0 B
+active_bytes.large_pool.current : 0.0 B
+active_bytes.large_pool.freed : 0.0 B
+active_bytes.large_pool.peak : 0.0 B
+active_bytes.small_pool.allocated : 256.0 KiB
+active_bytes.small_pool.current : 256.0 KiB
+active_bytes.small_pool.freed : 0.0 B
+active_bytes.small_pool.peak : 256.0 KiB
+allocated_bytes.all.allocated : 256.0 KiB
+allocated_bytes.all.current : 256.0 KiB
+allocated_bytes.all.freed : 0.0 B
+allocated_bytes.all.peak : 256.0 KiB
+allocated_bytes.large_pool.allocated : 0.0 B
+allocated_bytes.large_pool.current : 0.0 B
+allocated_bytes.large_pool.freed : 0.0 B
+allocated_bytes.large_pool.peak : 0.0 B
+allocated_bytes.small_pool.allocated : 256.0 KiB
+allocated_bytes.small_pool.current : 256.0 KiB
+allocated_bytes.small_pool.freed : 0.0 B
+allocated_bytes.small_pool.peak : 256.0 KiB
+allocation.all.allocated : 2.0 B
+allocation.all.current : 2.0 B
+allocation.all.freed : 0.0 B
+allocation.all.peak : 2.0 B
+allocation.large_pool.allocated : 0.0 B
+allocation.large_pool.current : 0.0 B
+allocation.large_pool.freed : 0.0 B
+allocation.large_pool.peak : 0.0 B
+allocation.small_pool.allocated : 2.0 B
+allocation.small_pool.current : 2.0 B
+allocation.small_pool.freed : 0.0 B
+allocation.small_pool.peak : 2.0 B
+inactive_split.all.allocated : 1.0 B
+inactive_split.all.current : 1.0 B
+inactive_split.all.freed : 0.0 B
+inactive_split.all.peak : 1.0 B
+inactive_split.large_pool.allocated : 0.0 B
+inactive_split.large_pool.current : 0.0 B
+inactive_split.large_pool.freed : 0.0 B
+inactive_split.large_pool.peak : 0.0 B
+inactive_split.small_pool.allocated : 1.0 B
+inactive_split.small_pool.current : 1.0 B
+inactive_split.small_pool.freed : 0.0 B
+inactive_split.small_pool.peak : 1.0 B
+inactive_split_bytes.all.allocated : 1.9 MiB
+inactive_split_bytes.all.current : 1.8 MiB
+inactive_split_bytes.all.freed : 128.0 KiB
+inactive_split_bytes.all.peak : 1.9 MiB
+inactive_split_bytes.large_pool.allocated : 0.0 B
+inactive_split_bytes.large_pool.current : 0.0 B
+inactive_split_bytes.large_pool.freed : 0.0 B
+inactive_split_bytes.large_pool.peak : 0.0 B
+inactive_split_bytes.small_pool.allocated : 1.9 MiB
+inactive_split_bytes.small_pool.current : 1.8 MiB
+inactive_split_bytes.small_pool.freed : 128.0 KiB
+inactive_split_bytes.small_pool.peak : 1.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 256.0 KiB
+requested_bytes.all.current : 256.0 KiB
+requested_bytes.all.freed : 0.0 B
+requested_bytes.all.peak : 256.0 KiB
+requested_bytes.large_pool.allocated : 0.0 B
+requested_bytes.large_pool.current : 0.0 B
+requested_bytes.large_pool.freed : 0.0 B
+requested_bytes.large_pool.peak : 0.0 B
+requested_bytes.small_pool.allocated : 256.0 KiB
+requested_bytes.small_pool.current : 256.0 KiB
+requested_bytes.small_pool.freed : 0.0 B
+requested_bytes.small_pool.peak : 256.0 KiB
+reserved_bytes.all.allocated : 2.0 MiB
+reserved_bytes.all.current : 2.0 MiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 2.0 MiB
+reserved_bytes.large_pool.allocated : 0.0 B
+reserved_bytes.large_pool.current : 0.0 B
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 0.0 B
+reserved_bytes.small_pool.allocated : 2.0 MiB
+reserved_bytes.small_pool.current : 2.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 2.0 MiB
+segment.all.allocated : 1.0 B
+segment.all.current : 1.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 1.0 B
+segment.large_pool.allocated : 0.0 B
+segment.large_pool.current : 0.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 0.0 B
+segment.small_pool.allocated : 1.0 B
+segment.small_pool.current : 1.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 1.0 B
+Device = Device(CUDA,-1)
+13443137 parameters
+learningRate = 1.0E-4
+maxIterations = 41500
+dropout = 0.2
+GPU total = 24.0 GiB
+GPU used = 6.9 GiB
+13443137 parameters >= 53772548 bytes = 51.3 MiB
+step 0: train loss 4.335848, val loss 4.332262, mem 616.1 MiB @ 00 00:00:00.000, mean 00 00:00:00.000
+true
+active.all.allocated : 162.3 KiB
+active.all.current : 217.0 B
+active.all.freed : 162.1 KiB
+active.all.peak : 631.0 B
+active.large_pool.allocated : 135.6 KiB
+active.large_pool.current : 13.0 B
+active.large_pool.freed : 135.5 KiB
+active.large_pool.peak : 360.0 B
+active.small_pool.allocated : 26.8 KiB
+active.small_pool.current : 204.0 B
+active.small_pool.freed : 26.6 KiB
+active.small_pool.peak : 271.0 B
+active_bytes.all.allocated : 2.0 TiB
+active_bytes.all.current : 58.5 MiB
+active_bytes.all.freed : 2.0 TiB
+active_bytes.all.peak : 5.1 GiB
+active_bytes.large_pool.allocated : 2.0 TiB
+active_bytes.large_pool.current : 35.1 MiB
+active_bytes.large_pool.freed : 2.0 TiB
+active_bytes.large_pool.peak : 5.0 GiB
+active_bytes.small_pool.allocated : 1.8 GiB
+active_bytes.small_pool.current : 23.4 MiB
+active_bytes.small_pool.freed : 1.8 GiB
+active_bytes.small_pool.peak : 27.9 MiB
+allocated_bytes.all.allocated : 2.0 TiB
+allocated_bytes.all.current : 58.5 MiB
+allocated_bytes.all.freed : 2.0 TiB
+allocated_bytes.all.peak : 5.1 GiB
+allocated_bytes.large_pool.allocated : 2.0 TiB
+allocated_bytes.large_pool.current : 35.1 MiB
+allocated_bytes.large_pool.freed : 2.0 TiB
+allocated_bytes.large_pool.peak : 5.0 GiB
+allocated_bytes.small_pool.allocated : 1.8 GiB
+allocated_bytes.small_pool.current : 23.4 MiB
+allocated_bytes.small_pool.freed : 1.8 GiB
+allocated_bytes.small_pool.peak : 27.9 MiB
+allocation.all.allocated : 162.3 KiB
+allocation.all.current : 217.0 B
+allocation.all.freed : 162.1 KiB
+allocation.all.peak : 631.0 B
+allocation.large_pool.allocated : 135.6 KiB
+allocation.large_pool.current : 13.0 B
+allocation.large_pool.freed : 135.5 KiB
+allocation.large_pool.peak : 360.0 B
+allocation.small_pool.allocated : 26.8 KiB
+allocation.small_pool.current : 204.0 B
+allocation.small_pool.freed : 26.6 KiB
+allocation.small_pool.peak : 271.0 B
+inactive_split.all.allocated : 56.0 KiB
+inactive_split.all.current : 11.0 B
+inactive_split.all.freed : 56.0 KiB
+inactive_split.all.peak : 16.0 B
+inactive_split.large_pool.allocated : 48.4 KiB
+inactive_split.large_pool.current : 3.0 B
+inactive_split.large_pool.freed : 48.4 KiB
+inactive_split.large_pool.peak : 8.0 B
+inactive_split.small_pool.allocated : 7.6 KiB
+inactive_split.small_pool.current : 8.0 B
+inactive_split.small_pool.freed : 7.6 KiB
+inactive_split.small_pool.peak : 11.0 B
+inactive_split_bytes.all.allocated : 377.4 GiB
+inactive_split_bytes.all.current : 25.5 MiB
+inactive_split_bytes.all.freed : 377.4 GiB
+inactive_split_bytes.all.peak : 38.8 MiB
+inactive_split_bytes.large_pool.allocated : 373.7 GiB
+inactive_split_bytes.large_pool.current : 24.9 MiB
+inactive_split_bytes.large_pool.freed : 373.7 GiB
+inactive_split_bytes.large_pool.peak : 36.8 MiB
+inactive_split_bytes.small_pool.allocated : 3.7 GiB
+inactive_split_bytes.small_pool.current : 604.5 KiB
+inactive_split_bytes.small_pool.freed : 3.7 GiB
+inactive_split_bytes.small_pool.peak : 2.2 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 2.0 TiB
+requested_bytes.all.current : 58.5 MiB
+requested_bytes.all.freed : 2.0 TiB
+requested_bytes.all.peak : 5.1 GiB
+requested_bytes.large_pool.allocated : 2.0 TiB
+requested_bytes.large_pool.current : 35.1 MiB
+requested_bytes.large_pool.freed : 2.0 TiB
+requested_bytes.large_pool.peak : 5.0 GiB
+requested_bytes.small_pool.allocated : 1.8 GiB
+requested_bytes.small_pool.current : 23.4 MiB
+requested_bytes.small_pool.freed : 1.8 GiB
+requested_bytes.small_pool.peak : 27.9 MiB
+reserved_bytes.all.allocated : 5.1 GiB
+reserved_bytes.all.current : 5.1 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 5.1 GiB
+reserved_bytes.large_pool.allocated : 5.1 GiB
+reserved_bytes.large_pool.current : 5.1 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 5.1 GiB
+reserved_bytes.small_pool.allocated : 30.0 MiB
+reserved_bytes.small_pool.current : 30.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 30.0 MiB
+segment.all.allocated : 247.0 B
+segment.all.current : 247.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 247.0 B
+segment.large_pool.allocated : 232.0 B
+segment.large_pool.current : 232.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 232.0 B
+segment.small_pool.allocated : 15.0 B
+segment.small_pool.current : 15.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 15.0 B
+step 500: train loss 2.5476382, val loss 2.5570214, mem 719.5 MiB @ 00 00:01:01.618, mean 00 00:00:00.123
+true
+active.all.allocated : 1.2 MiB
+active.all.current : 740.0 B
+active.all.freed : 1.2 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 771.1 KiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 771.1 KiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 446.7 KiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 446.0 KiB
+active.small_pool.peak : 757.0 B
+active_bytes.all.allocated : 11.6 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 11.6 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 11.6 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 11.6 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 37.3 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 37.2 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 11.6 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 11.6 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 11.6 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 11.6 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 37.3 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 37.2 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 1.2 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 1.2 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 771.1 KiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 771.1 KiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 446.7 KiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 446.0 KiB
+allocation.small_pool.peak : 757.0 B
+inactive_split.all.allocated : 496.1 KiB
+inactive_split.all.current : 129.0 B
+inactive_split.all.freed : 496.0 KiB
+inactive_split.all.peak : 141.0 B
+inactive_split.large_pool.allocated : 324.2 KiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 324.1 KiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 171.9 KiB
+inactive_split.small_pool.current : 66.0 B
+inactive_split.small_pool.freed : 171.9 KiB
+inactive_split.small_pool.peak : 75.0 B
+inactive_split_bytes.all.allocated : 5.8 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 5.8 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 5.7 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 5.7 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 40.6 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 40.6 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 11.6 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 11.6 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 11.6 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 11.6 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 37.3 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 37.2 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 1000: train loss 2.508413, val loss 2.5130005, mem 719.7 MiB @ 00 00:02:03.184, mean 00 00:00:00.123
+true
+active.all.allocated : 2.2 MiB
+active.all.current : 740.0 B
+active.all.freed : 2.2 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 1.4 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 1.4 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 866.3 KiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 865.7 KiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 21.3 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 21.3 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 21.2 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 21.2 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 72.7 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 72.7 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 21.3 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 21.3 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 21.2 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 21.2 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 72.7 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 72.7 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 2.2 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 2.2 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 1.4 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 1.4 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 866.3 KiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 865.7 KiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 933.3 KiB
+inactive_split.all.current : 126.0 B
+inactive_split.all.freed : 933.2 KiB
+inactive_split.all.peak : 141.0 B
+inactive_split.large_pool.allocated : 600.2 KiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 600.1 KiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 333.1 KiB
+inactive_split.small_pool.current : 63.0 B
+inactive_split.small_pool.freed : 333.0 KiB
+inactive_split.small_pool.peak : 75.0 B
+inactive_split_bytes.all.allocated : 11.2 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 11.2 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 11.1 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 11.1 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 77.2 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 77.2 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 21.3 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 21.3 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 21.2 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 21.2 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 72.7 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 72.7 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 1500: train loss 2.4970562, val loss 2.495719, mem 720.1 MiB @ 00 00:03:04.610, mean 00 00:00:00.122
+true
+active.all.allocated : 3.3 MiB
+active.all.current : 740.0 B
+active.all.freed : 3.2 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 2.0 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 2.0 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 1.3 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 1.3 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 30.9 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 30.9 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 30.8 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 30.8 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 108.2 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 108.1 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 30.9 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 30.9 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 30.8 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 30.8 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 108.2 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 108.1 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 3.3 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 3.2 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 2.0 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 2.0 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 1.3 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 1.3 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 1.3 MiB
+inactive_split.all.current : 129.0 B
+inactive_split.all.freed : 1.3 MiB
+inactive_split.all.peak : 141.0 B
+inactive_split.large_pool.allocated : 876.2 KiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 876.1 KiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 496.6 KiB
+inactive_split.small_pool.current : 66.0 B
+inactive_split.small_pool.freed : 496.5 KiB
+inactive_split.small_pool.peak : 75.0 B
+inactive_split_bytes.all.allocated : 16.6 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 16.6 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 16.5 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 16.5 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 114.0 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 114.0 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 30.9 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 30.9 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 30.8 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 30.8 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 108.2 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 108.1 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 2000: train loss 2.469262, val loss 2.4932768, mem 720.2 MiB @ 00 00:04:06.011, mean 00 00:00:00.122
+true
+active.all.allocated : 4.3 MiB
+active.all.current : 740.0 B
+active.all.freed : 4.3 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 2.6 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 2.6 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 1.7 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 1.7 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 40.6 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 40.6 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 40.4 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 40.4 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 143.7 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 143.6 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 40.6 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 40.6 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 40.4 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 40.4 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 143.7 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 143.6 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 4.3 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 4.3 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 2.6 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 2.6 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 1.7 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 1.7 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 1.8 MiB
+inactive_split.all.current : 131.0 B
+inactive_split.all.freed : 1.8 MiB
+inactive_split.all.peak : 141.0 B
+inactive_split.large_pool.allocated : 1.1 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 1.1 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 656.8 KiB
+inactive_split.small_pool.current : 68.0 B
+inactive_split.small_pool.freed : 656.8 KiB
+inactive_split.small_pool.peak : 75.0 B
+inactive_split_bytes.all.allocated : 22.0 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 22.0 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 21.9 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 21.9 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 150.7 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 150.7 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 40.6 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 40.6 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 40.4 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 40.4 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 143.6 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 143.6 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 2500: train loss 2.4545126, val loss 2.4732363, mem 720.3 MiB @ 00 00:05:07.398, mean 00 00:00:00.122
+true
+active.all.allocated : 5.3 MiB
+active.all.current : 740.0 B
+active.all.freed : 5.3 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 3.2 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 3.2 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 2.1 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 2.1 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 50.2 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 50.2 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 50.0 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 50.0 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 179.1 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 179.1 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 50.2 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 50.2 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 50.0 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 50.0 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 179.1 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 179.1 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 5.3 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 5.3 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 3.2 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 3.2 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 2.1 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 2.1 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 2.2 MiB
+inactive_split.all.current : 130.0 B
+inactive_split.all.freed : 2.2 MiB
+inactive_split.all.peak : 142.0 B
+inactive_split.large_pool.allocated : 1.4 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 1.4 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 817.7 KiB
+inactive_split.small_pool.current : 67.0 B
+inactive_split.small_pool.freed : 817.7 KiB
+inactive_split.small_pool.peak : 77.0 B
+inactive_split_bytes.all.allocated : 27.5 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 27.5 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 27.3 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 27.3 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 187.7 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 187.7 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 50.2 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 50.2 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 50.0 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 50.0 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 179.1 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 179.0 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 3000: train loss 2.4397492, val loss 2.4652252, mem 720.5 MiB @ 00 00:06:08.754, mean 00 00:00:00.122
+true
+active.all.allocated : 6.3 MiB
+active.all.current : 740.0 B
+active.all.freed : 6.3 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 3.9 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 3.9 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 2.5 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 2.5 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 59.9 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 59.9 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 59.7 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 59.7 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 214.6 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 214.5 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 59.9 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 59.9 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 59.7 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 59.7 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 214.6 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 214.5 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 6.3 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 6.3 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 3.9 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 3.9 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 2.5 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 2.5 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 2.6 MiB
+inactive_split.all.current : 130.0 B
+inactive_split.all.freed : 2.6 MiB
+inactive_split.all.peak : 142.0 B
+inactive_split.large_pool.allocated : 1.7 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 1.7 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 980.2 KiB
+inactive_split.small_pool.current : 67.0 B
+inactive_split.small_pool.freed : 980.2 KiB
+inactive_split.small_pool.peak : 77.0 B
+inactive_split_bytes.all.allocated : 32.9 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 32.9 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 32.7 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 32.7 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 224.6 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 224.5 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 59.9 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 59.9 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 59.6 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 59.6 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 214.6 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 214.5 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 3500: train loss 2.4432235, val loss 2.4631853, mem 724.5 MiB @ 00 00:07:10.118, mean 00 00:00:00.122
+true
+active.all.allocated : 7.4 MiB
+active.all.current : 740.0 B
+active.all.freed : 7.4 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 4.5 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 4.5 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 2.9 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 2.9 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 69.5 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 69.5 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 69.3 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 69.3 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 250.1 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 250.0 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 69.5 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 69.5 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 69.3 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 69.3 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 250.1 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 250.0 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 7.4 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 7.4 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 4.5 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 4.5 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 2.9 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 2.9 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 3.1 MiB
+inactive_split.all.current : 131.0 B
+inactive_split.all.freed : 3.1 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 1.9 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 1.9 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 1.1 MiB
+inactive_split.small_pool.current : 68.0 B
+inactive_split.small_pool.freed : 1.1 MiB
+inactive_split.small_pool.peak : 79.0 B
+inactive_split_bytes.all.allocated : 38.3 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 38.3 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 38.1 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 38.1 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 261.4 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 261.4 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 69.5 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 69.5 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 69.3 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 69.3 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 250.0 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 250.0 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 4000: train loss 2.4328675, val loss 2.457826, mem 725.0 MiB @ 00 00:08:11.462, mean 00 00:00:00.122
+true
+active.all.allocated : 8.4 MiB
+active.all.current : 740.0 B
+active.all.freed : 8.4 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 5.1 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 5.1 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 3.3 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 3.3 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 79.2 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 79.2 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 78.9 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 78.9 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 285.5 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 285.5 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 79.2 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 79.2 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 78.9 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 78.9 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 285.5 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 285.5 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 8.4 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 8.4 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 5.1 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 5.1 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 3.3 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 3.3 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 3.5 MiB
+inactive_split.all.current : 132.0 B
+inactive_split.all.freed : 3.5 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 2.2 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 2.2 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 1.3 MiB
+inactive_split.small_pool.current : 69.0 B
+inactive_split.small_pool.freed : 1.3 MiB
+inactive_split.small_pool.peak : 79.0 B
+inactive_split_bytes.all.allocated : 43.7 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 43.7 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 43.4 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 43.4 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 298.2 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 298.2 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 79.2 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 79.2 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 78.9 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 78.9 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 285.5 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 285.4 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 4500: train loss 2.4265091, val loss 2.4551604, mem 725.0 MiB @ 00 00:09:12.802, mean 00 00:00:00.122
+true
+active.all.allocated : 9.4 MiB
+active.all.current : 740.0 B
+active.all.freed : 9.4 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 5.7 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 5.7 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 3.7 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 3.7 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 88.8 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 88.8 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 88.5 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 88.5 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 321.0 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 320.9 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 88.8 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 88.8 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 88.5 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 88.5 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 321.0 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 320.9 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 9.4 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 9.4 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 5.7 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 5.7 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 3.7 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 3.7 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 3.9 MiB
+inactive_split.all.current : 127.0 B
+inactive_split.all.freed : 3.9 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 2.5 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 2.5 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 1.4 MiB
+inactive_split.small_pool.current : 64.0 B
+inactive_split.small_pool.freed : 1.4 MiB
+inactive_split.small_pool.peak : 79.0 B
+inactive_split_bytes.all.allocated : 49.1 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 49.1 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 48.8 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 48.8 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 334.8 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 334.8 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 88.8 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 88.8 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 88.5 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 88.5 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 320.9 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 320.9 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 5000: train loss 2.4185965, val loss 2.450682, mem 725.5 MiB @ 00 00:10:14.144, mean 00 00:00:00.122
+true
+active.all.allocated : 10.5 MiB
+active.all.current : 740.0 B
+active.all.freed : 10.5 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 6.3 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 6.3 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 4.1 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 4.1 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 98.5 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 98.5 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 98.1 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 98.1 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 356.5 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 356.4 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 98.5 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 98.5 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 98.1 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 98.1 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 356.5 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 356.4 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 10.5 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 10.5 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 6.3 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 6.3 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 4.1 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 4.1 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 4.3 MiB
+inactive_split.all.current : 132.0 B
+inactive_split.all.freed : 4.3 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 2.7 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 2.7 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 1.6 MiB
+inactive_split.small_pool.current : 69.0 B
+inactive_split.small_pool.freed : 1.6 MiB
+inactive_split.small_pool.peak : 79.0 B
+inactive_split_bytes.all.allocated : 54.6 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 54.6 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 54.2 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 54.2 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 371.6 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 371.6 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 98.5 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 98.5 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 98.1 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 98.1 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 356.4 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 356.3 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 5500: train loss 2.4081905, val loss 2.447644, mem 725.6 MiB @ 00 00:11:15.484, mean 00 00:00:00.122
+true
+active.all.allocated : 11.5 MiB
+active.all.current : 740.0 B
+active.all.freed : 11.5 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 7.0 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 7.0 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 4.5 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 4.5 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 108.1 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 108.1 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 107.7 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 107.7 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 391.9 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 391.9 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 108.1 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 108.1 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 107.7 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 107.7 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 391.9 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 391.9 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 11.5 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 11.5 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 7.0 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 7.0 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 4.5 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 4.5 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 4.8 MiB
+inactive_split.all.current : 133.0 B
+inactive_split.all.freed : 4.8 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 3.0 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 3.0 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 1.8 MiB
+inactive_split.small_pool.current : 70.0 B
+inactive_split.small_pool.freed : 1.8 MiB
+inactive_split.small_pool.peak : 79.0 B
+inactive_split_bytes.all.allocated : 60.0 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 60.0 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 59.6 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 59.6 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 408.9 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 408.9 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 108.1 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 108.1 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 107.7 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 107.7 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 391.8 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 391.8 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 6000: train loss 2.3958697, val loss 2.4314053, mem 725.6 MiB @ 00 00:12:16.831, mean 00 00:00:00.122
+true
+active.all.allocated : 12.5 MiB
+active.all.current : 740.0 B
+active.all.freed : 12.5 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 7.6 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 7.6 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 4.9 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 4.9 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 117.8 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 117.8 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 117.4 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 117.4 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 427.4 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 427.3 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 117.8 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 117.8 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 117.4 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 117.4 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 427.4 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 427.3 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 12.5 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 12.5 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 7.6 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 7.6 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 4.9 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 4.9 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 5.2 MiB
+inactive_split.all.current : 136.0 B
+inactive_split.all.freed : 5.2 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 3.3 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 3.3 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 1.9 MiB
+inactive_split.small_pool.current : 73.0 B
+inactive_split.small_pool.freed : 1.9 MiB
+inactive_split.small_pool.peak : 81.0 B
+inactive_split_bytes.all.allocated : 65.4 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 65.4 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 65.0 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 65.0 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 446.7 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 446.7 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 117.8 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 117.8 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 117.3 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 117.3 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 427.3 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 427.2 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 6500: train loss 2.381643, val loss 2.4313533, mem 725.9 MiB @ 00 00:13:18.157, mean 00 00:00:00.122
+true
+active.all.allocated : 13.6 MiB
+active.all.current : 740.0 B
+active.all.freed : 13.6 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 8.2 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 8.2 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 5.4 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 5.4 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 127.4 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 127.4 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 127.0 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 127.0 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 462.9 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 462.8 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 127.4 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 127.4 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 127.0 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 127.0 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 462.9 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 462.8 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 13.6 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 13.6 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 8.2 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 8.2 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 5.4 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 5.4 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 5.6 MiB
+inactive_split.all.current : 133.0 B
+inactive_split.all.freed : 5.6 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 3.6 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 3.6 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 2.1 MiB
+inactive_split.small_pool.current : 70.0 B
+inactive_split.small_pool.freed : 2.1 MiB
+inactive_split.small_pool.peak : 81.0 B
+inactive_split_bytes.all.allocated : 70.8 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 70.8 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 70.4 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 70.4 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 484.5 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 484.5 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 127.4 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 127.4 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 127.0 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 127.0 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 462.8 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 462.7 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 7000: train loss 2.364158, val loss 2.4134161, mem 725.9 MiB @ 00 00:14:19.486, mean 00 00:00:00.122
+true
+active.all.allocated : 14.6 MiB
+active.all.current : 740.0 B
+active.all.freed : 14.6 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 8.8 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 8.8 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 5.8 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 5.8 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 137.1 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 137.1 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 136.6 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 136.6 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 498.3 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 498.3 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 137.1 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 137.1 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 136.6 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 136.6 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 498.3 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 498.3 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 14.6 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 14.6 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 8.8 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 8.8 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 5.8 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 5.8 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 6.1 MiB
+inactive_split.all.current : 135.0 B
+inactive_split.all.freed : 6.1 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 3.8 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 3.8 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 2.3 MiB
+inactive_split.small_pool.current : 72.0 B
+inactive_split.small_pool.freed : 2.3 MiB
+inactive_split.small_pool.peak : 81.0 B
+inactive_split_bytes.all.allocated : 76.2 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 76.2 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 75.7 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 75.7 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 522.4 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 522.4 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 137.1 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 137.1 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 136.6 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 136.6 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 498.2 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 498.2 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 7500: train loss 2.3529167, val loss 2.4074175, mem 725.9 MiB @ 00 00:15:20.817, mean 00 00:00:00.122
+true
+active.all.allocated : 15.6 MiB
+active.all.current : 740.0 B
+active.all.freed : 15.6 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 9.4 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 9.4 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 6.2 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 6.2 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 146.7 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 146.7 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 146.2 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 146.2 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 533.8 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 533.7 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 146.7 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 146.7 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 146.2 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 146.2 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 533.8 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 533.7 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 15.6 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 15.6 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 9.4 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 9.4 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 6.2 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 6.2 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 6.5 MiB
+inactive_split.all.current : 135.0 B
+inactive_split.all.freed : 6.5 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 4.1 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 4.1 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 2.4 MiB
+inactive_split.small_pool.current : 72.0 B
+inactive_split.small_pool.freed : 2.4 MiB
+inactive_split.small_pool.peak : 81.0 B
+inactive_split_bytes.all.allocated : 81.7 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 81.7 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 81.1 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 81.1 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 560.2 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 560.2 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 146.7 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 146.7 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 146.2 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 146.2 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 533.7 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 533.6 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 8000: train loss 2.328031, val loss 2.3847246, mem 725.9 MiB @ 00 00:16:22.150, mean 00 00:00:00.122
+true
+active.all.allocated : 16.6 MiB
+active.all.current : 740.0 B
+active.all.freed : 16.6 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 10.1 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 10.1 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 6.6 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 6.6 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 156.4 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 156.4 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 155.8 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 155.8 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 569.2 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 569.2 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 156.4 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 156.4 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 155.8 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 155.8 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 569.2 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 569.2 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 16.6 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 16.6 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 10.1 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 10.1 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 6.6 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 6.6 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 7.0 MiB
+inactive_split.all.current : 134.0 B
+inactive_split.all.freed : 7.0 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 4.4 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 4.4 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 2.6 MiB
+inactive_split.small_pool.current : 71.0 B
+inactive_split.small_pool.freed : 2.6 MiB
+inactive_split.small_pool.peak : 81.0 B
+inactive_split_bytes.all.allocated : 87.1 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 87.1 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 86.5 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 86.5 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 598.0 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 598.0 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 156.4 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 156.4 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 155.8 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 155.8 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 569.1 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 569.1 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 8500: train loss 2.292856, val loss 2.351461, mem 725.9 MiB @ 00 00:17:23.474, mean 00 00:00:00.122
+true
+active.all.allocated : 17.7 MiB
+active.all.current : 740.0 B
+active.all.freed : 17.7 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 10.7 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 10.7 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 7.0 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 7.0 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 166.0 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 166.0 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 165.4 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 165.4 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 604.7 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 604.6 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 166.0 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 166.0 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 165.4 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 165.4 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 604.7 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 604.6 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 17.7 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 17.7 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 10.7 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 10.7 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 7.0 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 7.0 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 7.4 MiB
+inactive_split.all.current : 135.0 B
+inactive_split.all.freed : 7.4 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 4.6 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 4.6 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 2.8 MiB
+inactive_split.small_pool.current : 72.0 B
+inactive_split.small_pool.freed : 2.8 MiB
+inactive_split.small_pool.peak : 81.0 B
+inactive_split_bytes.all.allocated : 92.5 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 92.5 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 91.9 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 91.9 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 635.9 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 635.9 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 166.0 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 166.0 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 165.4 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 165.4 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 604.6 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 604.5 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 9000: train loss 2.2544227, val loss 2.321474, mem 725.9 MiB @ 00 00:18:24.813, mean 00 00:00:00.122
+true
+active.all.allocated : 18.7 MiB
+active.all.current : 740.0 B
+active.all.freed : 18.7 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 11.3 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 11.3 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 7.4 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 7.4 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 175.7 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 175.7 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 175.1 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 175.1 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 640.2 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 640.1 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 175.7 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 175.7 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 175.1 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 175.1 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 640.2 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 640.1 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 18.7 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 18.7 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 11.3 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 11.3 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 7.4 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 7.4 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 7.8 MiB
+inactive_split.all.current : 134.0 B
+inactive_split.all.freed : 7.8 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 4.9 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 4.9 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 2.9 MiB
+inactive_split.small_pool.current : 71.0 B
+inactive_split.small_pool.freed : 2.9 MiB
+inactive_split.small_pool.peak : 81.0 B
+inactive_split_bytes.all.allocated : 97.9 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 97.9 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 97.3 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 97.3 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 673.6 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 673.6 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 175.7 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 175.7 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 175.0 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 175.0 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 640.1 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 640.0 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 9500: train loss 2.219748, val loss 2.2897422, mem 725.9 MiB @ 00 00:19:26.146, mean 00 00:00:00.122
+true
+active.all.allocated : 19.7 MiB
+active.all.current : 740.0 B
+active.all.freed : 19.7 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 11.9 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 11.9 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 7.8 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 7.8 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 185.3 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 185.3 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 184.7 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 184.7 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 675.6 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 675.6 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 185.3 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 185.3 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 184.7 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 184.7 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 675.6 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 675.6 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 19.7 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 19.7 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 11.9 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 11.9 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 7.8 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 7.8 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 8.3 MiB
+inactive_split.all.current : 133.0 B
+inactive_split.all.freed : 8.3 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 5.2 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 5.2 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 3.1 MiB
+inactive_split.small_pool.current : 70.0 B
+inactive_split.small_pool.freed : 3.1 MiB
+inactive_split.small_pool.peak : 81.0 B
+inactive_split_bytes.all.allocated : 103.3 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 103.3 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 102.7 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 102.7 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 711.4 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 711.4 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 185.3 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 185.3 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 184.6 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 184.6 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 675.5 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 675.4 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 10000: train loss 2.1745658, val loss 2.2487366, mem 726.1 MiB @ 00 00:20:27.487, mean 00 00:00:00.122
+true
+active.all.allocated : 20.8 MiB
+active.all.current : 740.0 B
+active.all.freed : 20.8 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 12.5 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 12.5 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 8.2 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 8.2 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 195.0 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 195.0 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 194.3 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 194.3 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 711.1 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 711.0 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 195.0 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 195.0 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 194.3 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 194.3 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 711.1 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 711.0 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 20.8 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 20.8 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 12.5 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 12.5 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 8.2 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 8.2 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 8.7 MiB
+inactive_split.all.current : 134.0 B
+inactive_split.all.freed : 8.7 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 5.4 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 5.4 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 3.3 MiB
+inactive_split.small_pool.current : 71.0 B
+inactive_split.small_pool.freed : 3.3 MiB
+inactive_split.small_pool.peak : 81.0 B
+inactive_split_bytes.all.allocated : 108.8 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 108.8 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 108.0 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 108.0 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 749.2 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 749.2 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 195.0 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 195.0 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 194.3 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 194.3 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 711.0 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 710.9 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 10500: train loss 2.1545537, val loss 2.235534, mem 726.2 MiB @ 00 00:21:28.818, mean 00 00:00:00.122
+true
+active.all.allocated : 21.8 MiB
+active.all.current : 740.0 B
+active.all.freed : 21.8 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 13.2 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 13.2 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 8.6 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 8.6 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 204.6 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 204.6 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 203.9 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 203.9 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 746.6 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 746.5 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 204.6 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 204.6 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 203.9 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 203.9 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 746.6 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 746.5 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 21.8 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 21.8 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 13.2 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 13.2 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 8.6 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 8.6 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 9.2 MiB
+inactive_split.all.current : 135.0 B
+inactive_split.all.freed : 9.2 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 5.7 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 5.7 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 3.5 MiB
+inactive_split.small_pool.current : 72.0 B
+inactive_split.small_pool.freed : 3.5 MiB
+inactive_split.small_pool.peak : 81.0 B
+inactive_split_bytes.all.allocated : 114.2 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 114.2 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 113.4 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 113.4 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 786.9 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 786.9 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 204.6 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 204.6 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 203.9 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 203.9 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 746.4 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 746.4 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B
+step 11000: train loss 2.13079, val loss 2.2194557, mem 726.2 MiB @ 00 00:22:30.137, mean 00 00:00:00.122
+true
+active.all.allocated : 22.8 MiB
+active.all.current : 740.0 B
+active.all.freed : 22.8 MiB
+active.all.peak : 1.2 KiB
+active.large_pool.allocated : 13.8 MiB
+active.large_pool.current : 50.0 B
+active.large_pool.freed : 13.8 MiB
+active.large_pool.peak : 493.0 B
+active.small_pool.allocated : 9.0 MiB
+active.small_pool.current : 690.0 B
+active.small_pool.freed : 9.0 MiB
+active.small_pool.peak : 758.0 B
+active_bytes.all.allocated : 214.3 TiB
+active_bytes.all.current : 190.9 MiB
+active_bytes.all.freed : 214.3 TiB
+active_bytes.all.peak : 6.4 GiB
+active_bytes.large_pool.allocated : 213.5 TiB
+active_bytes.large_pool.current : 125.0 MiB
+active_bytes.large_pool.freed : 213.5 TiB
+active_bytes.large_pool.peak : 6.4 GiB
+active_bytes.small_pool.allocated : 782.0 GiB
+active_bytes.small_pool.current : 65.9 MiB
+active_bytes.small_pool.freed : 782.0 GiB
+active_bytes.small_pool.peak : 70.4 MiB
+allocated_bytes.all.allocated : 214.3 TiB
+allocated_bytes.all.current : 190.9 MiB
+allocated_bytes.all.freed : 214.3 TiB
+allocated_bytes.all.peak : 6.4 GiB
+allocated_bytes.large_pool.allocated : 213.5 TiB
+allocated_bytes.large_pool.current : 125.0 MiB
+allocated_bytes.large_pool.freed : 213.5 TiB
+allocated_bytes.large_pool.peak : 6.4 GiB
+allocated_bytes.small_pool.allocated : 782.0 GiB
+allocated_bytes.small_pool.current : 65.9 MiB
+allocated_bytes.small_pool.freed : 782.0 GiB
+allocated_bytes.small_pool.peak : 70.4 MiB
+allocation.all.allocated : 22.8 MiB
+allocation.all.current : 740.0 B
+allocation.all.freed : 22.8 MiB
+allocation.all.peak : 1.2 KiB
+allocation.large_pool.allocated : 13.8 MiB
+allocation.large_pool.current : 50.0 B
+allocation.large_pool.freed : 13.8 MiB
+allocation.large_pool.peak : 493.0 B
+allocation.small_pool.allocated : 9.0 MiB
+allocation.small_pool.current : 690.0 B
+allocation.small_pool.freed : 9.0 MiB
+allocation.small_pool.peak : 758.0 B
+inactive_split.all.allocated : 9.6 MiB
+inactive_split.all.current : 134.0 B
+inactive_split.all.freed : 9.6 MiB
+inactive_split.all.peak : 145.0 B
+inactive_split.large_pool.allocated : 6.0 MiB
+inactive_split.large_pool.current : 63.0 B
+inactive_split.large_pool.freed : 6.0 MiB
+inactive_split.large_pool.peak : 86.0 B
+inactive_split.small_pool.allocated : 3.6 MiB
+inactive_split.small_pool.current : 71.0 B
+inactive_split.small_pool.freed : 3.6 MiB
+inactive_split.small_pool.peak : 81.0 B
+inactive_split_bytes.all.allocated : 119.6 TiB
+inactive_split_bytes.all.current : 489.1 MiB
+inactive_split_bytes.all.freed : 119.6 TiB
+inactive_split_bytes.all.peak : 573.9 MiB
+inactive_split_bytes.large_pool.allocated : 118.8 TiB
+inactive_split_bytes.large_pool.current : 483.0 MiB
+inactive_split_bytes.large_pool.freed : 118.8 TiB
+inactive_split_bytes.large_pool.peak : 567.8 MiB
+inactive_split_bytes.small_pool.allocated : 824.7 GiB
+inactive_split_bytes.small_pool.current : 6.1 MiB
+inactive_split_bytes.small_pool.freed : 824.7 GiB
+inactive_split_bytes.small_pool.peak : 15.9 MiB
+max_split_size : -1.0 B
+num_alloc_retries : 0.0 B
+num_ooms : 0.0 B
+oversize_allocations.allocated : 0.0 B
+oversize_allocations.current : 0.0 B
+oversize_allocations.freed : 0.0 B
+oversize_allocations.peak : 0.0 B
+oversize_segments.allocated : 0.0 B
+oversize_segments.current : 0.0 B
+oversize_segments.freed : 0.0 B
+oversize_segments.peak : 0.0 B
+requested_bytes.all.allocated : 214.3 TiB
+requested_bytes.all.current : 190.1 MiB
+requested_bytes.all.freed : 214.3 TiB
+requested_bytes.all.peak : 6.4 GiB
+requested_bytes.large_pool.allocated : 213.5 TiB
+requested_bytes.large_pool.current : 124.3 MiB
+requested_bytes.large_pool.freed : 213.5 TiB
+requested_bytes.large_pool.peak : 6.4 GiB
+requested_bytes.small_pool.allocated : 781.9 GiB
+requested_bytes.small_pool.current : 65.9 MiB
+requested_bytes.small_pool.freed : 781.8 GiB
+requested_bytes.small_pool.peak : 70.4 MiB
+reserved_bytes.all.allocated : 6.7 GiB
+reserved_bytes.all.current : 6.7 GiB
+reserved_bytes.all.freed : 0.0 B
+reserved_bytes.all.peak : 6.7 GiB
+reserved_bytes.large_pool.allocated : 6.6 GiB
+reserved_bytes.large_pool.current : 6.6 GiB
+reserved_bytes.large_pool.freed : 0.0 B
+reserved_bytes.large_pool.peak : 6.6 GiB
+reserved_bytes.small_pool.allocated : 74.0 MiB
+reserved_bytes.small_pool.current : 74.0 MiB
+reserved_bytes.small_pool.freed : 0.0 B
+reserved_bytes.small_pool.peak : 74.0 MiB
+segment.all.allocated : 326.0 B
+segment.all.current : 326.0 B
+segment.all.freed : 0.0 B
+segment.all.peak : 326.0 B
+segment.large_pool.allocated : 289.0 B
+segment.large_pool.current : 289.0 B
+segment.large_pool.freed : 0.0 B
+segment.large_pool.peak : 289.0 B
+segment.small_pool.allocated : 37.0 B
+segment.small_pool.current : 37.0 B
+segment.small_pool.freed : 0.0 B
+segment.small_pool.peak : 37.0 B

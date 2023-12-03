@@ -239,7 +239,13 @@ object V2:
     l.map((a,b) => s"$a : ${humanReadableSize(b)}")
      .mkString("\n")
     
-  
+
+  // https://discuss.pytorch.org/t/memory-cached-and-memory-allocated-does-not-nvidia-smi-result/28420
+  // https://discuss.pytorch.org/t/pytorchs-torch-cuda-max-memory-allocated-showing-different-results-from-nvidia-smi/165706
+  // torch.cuda.max_memory_reserved
+  // https://github.com/pytorch/pytorch/issues/101159
+  // https://github.com/pytorch/pytorch/issues/37250
+    
   // memory_stats
   // https://pytorch.org/docs/stable/generated/torch.cuda.memory_stats.html
   def printMemoryInfo(device: Int) =
