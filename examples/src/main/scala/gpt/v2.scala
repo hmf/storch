@@ -184,23 +184,37 @@ object V2:
       statToDict(statArray.position(i), s"$name.${statTypeNames(i)}", dict)
 
 
-  def printMemoryInfo() =
-    // CUDACachingAllocator
-    // https://github.com/bytedeco/javacpp-presets/issues/1422
-    // https://github.com/bytedeco/javacpp-presets/tree/master/pytorch
-    // https://github.com/bytedeco/javacpp-presets/blob/7629ea48be0a3a368c74fe43ef70577bee091010/pytorch/src/gen/java/org/bytedeco/pytorch/cuda/DeviceStats.java#L26
-
-    // https://github.com/bytedeco/javacpp-presets/blob/master/pytorch/src/gen/java/org/bytedeco/pytorch/global/torch_cuda.java#L766
-    // https://github.com/pytorch/pytorch/blob/main/torch/cuda/memory.py#L165
+  /**
+    * Equivalent to PyTorch memory_stats. 
+    * Returns a dictionary of CUDA memory allocator statistics for a given device.
+    * The return value of this function is a dictionary of statistics, each of which is a non-negative integer.
+    * 
+    * Reference implementation
+    * @see https://pytorch.org/docs/stable/generated/torch.cuda.memory_stats.html
+    * @see https://github.com/pytorch/pytorch/blob/main/torch/csrc/cuda/Module.cpp#L1243
+    * @see https://github.com/pytorch/pytorch/blob/main/torch/cuda/memory.py#L165
+    * 
+    * JavaCPP references
+    * @see https://github.com/bytedeco/javacpp-presets/blob/master/pytorch/src/gen/java/org/bytedeco/pytorch/cuda/DeviceStats.java#L26
+    * @see https://github.com/bytedeco/javacpp-presets/blob/master/pytorch/src/gen/java/org/bytedeco/pytorch/global/torch_cuda.java#L766
+    * @see https://github.com/bytedeco/javacpp-presets/issues/1422
+    * 
+    * @param device
+    * @return
+    */
+  def memoryStats(device: Int): scala.collection.mutable.Map[String, Long] =
+    // get the device
     val cudaAllocator = torch_cuda.getAllocator()
     println( cudaAllocator.initialized() )
-    val stats = cudaAllocator.getDeviceStats(0)
+    val stats = cudaAllocator.getDeviceStats(device)
 
+    // Collect the statistics
     val result = scala.collection.mutable.Map[String, Long]()
     result("num_alloc_retries") = stats.num_alloc_retries
     result("num_ooms") = stats.num_ooms
     result("max_split_size") = stats.max_split_size
 
+    // Stat(stats.allocation) casts a Pointer to a Stats pointer. Can be an array 
     statArrayToDict(Stat(stats.allocation),           "allocation",           result)
     statArrayToDict(Stat(stats.segment),              "segment",              result)
     statArrayToDict(Stat(stats.active),               "active",               result)
@@ -213,21 +227,68 @@ object V2:
 
     statToDict(stats.oversize_allocations, "oversize_allocations", result)
     statToDict(stats.oversize_segments,    "oversize_segments",    result)
+    result
 
-    // val devAllocation: BoolPointer = stats.allocation()
-    // println(devAllocation.capacity())
-    // val statArray = Stat( devAllocation )
-    // println(statArray.capacity())
-    // println(statArray.sizeof())
-    // val c = statArray.position(4).current()
-    // val z = statArray.position(4)
-    // println(c)
-    println(result.mkString(",\n"))
-    ???
+  // TODO
+  // https://pytorch.org/docs/stable/generated/torch.cuda.memory_summary.html
+  // https://github.com/pytorch/pytorch/blob/main/torch/cuda/memory.py#L469
+  // https://discuss.pytorch.org/t/how-to-check-the-gpu-memory-being-used/131220
+  def memory_summary(device: Int, abbreviated: Boolean = false) =
+    val result = memoryStats(device)
+    val l = result.toList.sortBy(_._1)
+    l.map((a,b) => s"$a : ${humanReadableSize(b)}")
+     .mkString("\n")
+    
+  
+  // memory_stats
+  // https://pytorch.org/docs/stable/generated/torch.cuda.memory_stats.html
+  def printMemoryInfo(device: Int) =
+    println(memory_summary(device))
+//     // CUDACachingAllocator
+//     // https://github.com/bytedeco/javacpp-presets/issues/1422
+//     // https://github.com/bytedeco/javacpp-presets/tree/master/pytorch
+//     // https://github.com/bytedeco/javacpp-presets/blob/7629ea48be0a3a368c74fe43ef70577bee091010/pytorch/src/gen/java/org/bytedeco/pytorch/cuda/DeviceStats.java#L26
+// 
+//     val cudaAllocator = torch_cuda.getAllocator()
+//     println( cudaAllocator.initialized() )
+//     val stats = cudaAllocator.getDeviceStats(0)
+// 
+//     val result = scala.collection.mutable.Map[String, Long]()
+//     result("num_alloc_retries") = stats.num_alloc_retries
+//     result("num_ooms") = stats.num_ooms
+//     result("max_split_size") = stats.max_split_size
+// 
+//     statArrayToDict(Stat(stats.allocation),           "allocation",           result)
+//     statArrayToDict(Stat(stats.segment),              "segment",              result)
+//     statArrayToDict(Stat(stats.active),               "active",               result)
+//     statArrayToDict(Stat(stats.inactive_split),       "inactive_split",       result)
+//     statArrayToDict(Stat(stats.allocated_bytes),      "allocated_bytes",      result)
+//     statArrayToDict(Stat(stats.reserved_bytes),       "reserved_bytes",       result)
+//     statArrayToDict(Stat(stats.active_bytes),         "active_bytes",         result)
+//     statArrayToDict(Stat(stats.inactive_split_bytes), "inactive_split_bytes", result)
+//     statArrayToDict(Stat(stats.requested_bytes),      "requested_bytes",      result)
+// 
+//     statToDict(stats.oversize_allocations, "oversize_allocations", result)
+//     statToDict(stats.oversize_segments,    "oversize_segments",    result)
+// 
+//     // val devAllocation: BoolPointer = stats.allocation()
+//     // println(devAllocation.capacity())
+//     // val statArray = Stat( devAllocation )
+//     // println(statArray.capacity())
+//     // println(statArray.sizeof())
+//     // val c = statArray.position(4).current()
+//     // val z = statArray.position(4)
+//     // println(c)
+//     println(result.mkString(",\n"))
+//    ???
 
-    // TODO: et device properties
+    // TODO: get device properties
     // https://github.com/pytorch/pytorch/blob/main/torch/csrc/cuda/Module.cpp#L1243
     // https://stackoverflow.com/questions/58216000/get-total-amount-of-free-gpu-memory-and-available-using-pytorch
+
+    // TODO: memory_summary 
+    // https://discuss.pytorch.org/t/how-to-check-the-gpu-memory-being-used/131220
+    // https://pytorch.org/docs/stable/generated/torch.cuda.memory_summary.html
 
     // https://discuss.pytorch.org/t/how-to-check-the-gpu-memory-being-used/131220/3
     // https://stackoverflow.com/questions/58216000/get-total-amount-of-free-gpu-memory-and-available-using-pytorch
@@ -1041,7 +1102,8 @@ object V2:
           val accumulated = humanReadableDuration(total)
           val perIteration = humanReadableDuration(delta)
           println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}, mem $memoryBytes @ ${accumulated}, mean $perIteration")
-          printMemoryInfo()
+          //printMemoryInfo(device.index)
+          printMemoryInfo(0)
           delta = 0L
 
         val elapsed = elapsedOnly {
@@ -1077,7 +1139,8 @@ object V2:
     val model = GPTLanguageModel(vocabSize = vocab_size, blockSize = block_size, nEmbed = n_embed, nBlocks = n_layer, nHead = n_head, dropout= dropout)
     println(totalNuParameters(model))
     println(moduleInfoString(model))
-    printMemoryInfo()
+    //printMemoryInfo(device.index)
+    printMemoryInfo(0)
 
     /*
     # create a PyTorch optimizer
