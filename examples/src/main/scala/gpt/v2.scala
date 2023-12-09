@@ -688,7 +688,6 @@ object V2:
       val out = wei `@` v // (B, T, T) @ (B, T, H) -> (B, T, H)
       out
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
@@ -738,7 +737,6 @@ object V2:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(n_embed=$nEmbed, head_size=$headSize, block_size=$blockSize)"
   end Head_2
 
@@ -787,7 +785,6 @@ object V2:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass().getSimpleName()}(numHeads=$numHeads, nEmbed=$nEmbed, headSize=$headSize, blockSize=$blockSize)"
 
 
@@ -826,7 +823,6 @@ object V2:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass().getSimpleName()}(nEmbed = $nEmbed)"
 
   end FeedForward
@@ -879,7 +875,6 @@ object V2:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(nEmbed = $nEmbed)"
 
   end Block
@@ -965,9 +960,9 @@ object V2:
     val ln_f = register( nn.LayerNorm(Seq(nEmbed)) )
     val lm_head = register( nn.Linear(nEmbed, vocabSize) )
 
-    // TODO: _init_weights
-//     # better init, not covered in the original GPT video, but important, will cover in followup video
-//     self.apply(self._init_weights)
+    // better init, not covered in the original GPT video, but important, will cover in followup video
+    // self.apply(self._init_weights)
+    modules.foreach(init_weights)
 // 
 //     def _init_weights(self, module):
 //         if isinstance(module, nn.Linear):
@@ -976,19 +971,17 @@ object V2:
 //                 torch.nn.init.zeros_(module.bias)
 //         elif isinstance(module, nn.Embedding):
 //             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
-    private def init_weights[D <: FloatNN | ComplexNN](m: Module with HasWeight[D]): Unit = 
+    // private def init_weights[D <: FloatNN | ComplexNN](m: Module with HasWeight[D]): Unit = 
+    private def init_weights(m: Module): Unit = 
       m match
-        // case _ : nn.modules.linear.Linear[_] => 
-        //   ???
         case lm : nn.Linear[_] => 
           torch.nn.init.normal_(lm.weight, mean=0.0, std=0.02)
-          if true // lm.options.bias()
+          if lm.hasBias()
           then
             torch.nn.init.zeros_(lm.bias)
-        case _ : nn.Embedding[_] => 
-          ???
-        case _ => ???
-      ???
+        case em : nn.Embedding[_] => 
+          torch.nn.init.normal_(em.weight, mean=0.0, std=0.02)
+        case _ => ()
 
 
     def forward(idx: Tensor[Int64], targets: Option[Tensor[Int64]] = None) =
@@ -1044,7 +1037,6 @@ object V2:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end GPTLanguageModel
 
@@ -1109,7 +1101,7 @@ object V2:
           val perIteration = humanReadableDuration(delta)
           println(s"step ${iter}: train loss ${losses("train")}, val loss ${losses("val")}, mem $memoryBytes @ ${accumulated}, mean $perIteration")
           //printMemoryInfo(device.index)
-          printMemoryInfo(0)
+          //printMemoryInfo(0)
           delta = 0L
 
         val elapsed = elapsedOnly {

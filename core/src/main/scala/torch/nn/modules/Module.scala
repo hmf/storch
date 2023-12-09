@@ -105,7 +105,7 @@ abstract class Module {
   def registerBuffer[D <: DType](name: String, tensor: Tensor[D]): Tensor[D] =
     fromNative(nativeModule.register_buffer(name, tensor.native))
 
-  def hasBias(): Boolean
+  def hasBias(): Boolean = modules.exists(_.hasBias())
 
   def eval(): Unit = nativeModule.eval()
 

@@ -361,8 +361,22 @@ object StorchSitePlugin {
 
 }
 
+/*
+  Notes on use of Mill
 
-// ./millw __.prepareOffline
+  Accessing source code in the IDE
+  1. Mill does not download sources or javadocs of the Ivy dependencies
+  1. The contributed Bloop module should but does not download these artifacts
+  1. The Mill bloop module downloads the sources when used within Metals
+
+  Offline use of libraries
+  1. Use the command: ./millw __.prepareOffline
+  1. No soure or javadpc artifacts will be downloaded
+  1. Use VSCode + Metals + Mill to download these artifacts
+  1. You need to execute all modules to download all dependency artifacts
+
+ */
+
 //  nvcc --version
 // nvidia-smi
 // https://github.com/devcontainers/features/blob/main/src/nvidia-cuda/devcontainer-feature.json

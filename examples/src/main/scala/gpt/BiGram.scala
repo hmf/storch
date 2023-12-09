@@ -474,7 +474,6 @@ object BiGram:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel0
 
@@ -694,7 +693,6 @@ object BiGram:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel1
 
@@ -801,7 +799,6 @@ object BiGram:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel2
 
@@ -976,7 +973,6 @@ object BiGram:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(n_embed=$n_embed, head_size=$head_size, block_size=$block_size)"
 
 
@@ -1056,7 +1052,6 @@ object BiGram:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel3
 
@@ -1429,7 +1424,6 @@ object BiGram:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"MultiHeadAttention_1(numHeads=$numHeads, nEmbed=$nEmbed, headSize=$headSize, blockSize=$blockSize)"
 
 
@@ -1513,7 +1507,6 @@ object BiGram:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel4
 
@@ -1727,7 +1720,6 @@ object BiGram:
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"FeedFoward(nEmbed = $nEmbed)"
 
   end FeedFoward
@@ -1813,7 +1805,6 @@ object BiGram:
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel5
 
@@ -1893,7 +1884,6 @@ class Block(nn.Module):
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(nEmbed = $nEmbed)"
 
   end Block
@@ -1982,7 +1972,6 @@ class Block(nn.Module):
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel6
 
@@ -2049,7 +2038,6 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(nEmbed = $nEmbed)"
 
   end Block_2
@@ -2085,7 +2073,6 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass().getSimpleName()}(numHeads=$numHeads, nEmbed=$nEmbed, headSize=$headSize, blockSize=$blockSize)"
 
 
@@ -2117,7 +2104,6 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass().getSimpleName()}(nEmbed = $nEmbed)"
 
   end FeedFoward_2
@@ -2206,7 +2192,6 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel7
 
@@ -2277,7 +2262,6 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
     
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass().getSimpleName()}(numHeads=$numHeads, nEmbed=$nEmbed, headSize=$headSize, blockSize=$blockSize)"
 
 
@@ -2313,7 +2297,6 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(nEmbed = $nEmbed)"
 
   end Block_3
@@ -2400,7 +2383,6 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel8
 
@@ -2489,7 +2471,6 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(n_embed=$n_embed, head_size=$head_size, block_size=$block_size)"
   end Head_2
 
@@ -2520,7 +2501,6 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass().getSimpleName()}(nEmbed = $nEmbed)"
 
   end FeedFoward_3
@@ -2558,7 +2538,6 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
 
     def apply(x:Tensor[D]): Tensor[D] = forward(x)
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
     override def toString(): String = s"${getClass.getSimpleName()}(nEmbed = $nEmbed)"
 
   end Block_4
@@ -2651,7 +2630,6 @@ Caused by: java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.0
     def apply(x: Tensor[Int64]) =
       forward(x, None )
 
-    override def hasBias(): Boolean = modules.exists(_.hasBias())
 
   end BigramLanguageModel9
 
