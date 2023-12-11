@@ -469,6 +469,9 @@ object V2:
   val n_layer = 6
   val dropout = 0.2
 
+  // Initialize weights
+  val init_mean= 0.0 // 0,0
+  val init_std= 0.2 // 0.02
 
   /*
   torch.manual_seed(1337)
@@ -975,12 +978,12 @@ object V2:
     private def init_weights(m: Module): Unit = 
       m match
         case lm : nn.Linear[_] => 
-          torch.nn.init.normal_(lm.weight, mean=0.0, std=0.02)
+          torch.nn.init.normal_(lm.weight, mean=init_mean, std=init_std)
           if lm.hasBias()
           then
             torch.nn.init.zeros_(lm.bias)
         case em : nn.Embedding[_] => 
-          torch.nn.init.normal_(em.weight, mean=0.0, std=0.02)
+          torch.nn.init.normal_(em.weight, mean=init_mean, std=init_std)
         case _ => ()
 
 
@@ -1014,6 +1017,8 @@ object V2:
 
     def generate(idx: Tensor[Int64], max_new_tokens: Int) =
       var idx_ = idx.copy_(idx)
+      printMemoryInfo(0)
+
       // idx is (B, T) array of indices in the current context
       for i <- 0 until max_new_tokens
       do
@@ -1029,6 +1034,7 @@ object V2:
         val idx_next = torch.multinomial(probs, numSamples=1) // (B, 1)
         // append sampled index to the running sequence
         idx_ = torch.cat(Seq(idx_, idx_next), dim=1) // (B, T+1)
+        printMemoryInfo(0)
       idx_
 
     def apply(x: Tensor[Int64], y: Tensor[Int64]) =
@@ -1148,7 +1154,9 @@ object V2:
     */
 
     // train(model, learning_rate, 67000)
-    train(model, 1e-4, 41500)
+    // train(model, 1e-4, 41500) // No weight init
+    // train(model, 2e-4, 41500)  // with weight init 
+    train(model, 1e-4, 41500)  // with weight init 
 
     /*    
     # generate from the model

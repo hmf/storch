@@ -1,4 +1,6 @@
 nohup: ignoring input
+[info] compiling 1 Scala source to /workspaces/storch/out/examples/compile.dest/classes ...
+[info] done compiling
 File /workspaces/storch/data/input.txt already exists.
 chars = 
 ,  , !, $, &, ', ,, -, ., 3, :, ;, ?, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
@@ -697,41 +699,152 @@ dropout = 0.2
 GPU total = 24.0 GiB
 GPU used = 6.9 GiB
 13443137 parameters >= 53772548 bytes = 51.3 MiB
-step 0: train loss 4.323465, val loss 4.313903, mem 633.8 MiB @ 00 00:00:00.000, mean 00 00:00:00.000
-step 500: train loss 2.6450615, val loss 2.6477497, mem 737.0 MiB @ 00 00:01:01.511, mean 00 00:00:00.123
-step 1000: train loss 2.6040258, val loss 2.592008, mem 737.0 MiB @ 00 00:02:02.949, mean 00 00:00:00.122
-step 1500: train loss 2.6052911, val loss 2.5823283, mem 737.1 MiB @ 00 00:03:04.338, mean 00 00:00:00.122
-step 2000: train loss 2.592185, val loss 2.573713, mem 737.2 MiB @ 00 00:04:05.673, mean 00 00:00:00.122
-step 2500: train loss 2.5700061, val loss 2.5632617, mem 737.2 MiB @ 00 00:05:06.972, mean 00 00:00:00.122
-step 3000: train loss 2.5861602, val loss 2.5553243, mem 739.5 MiB @ 00 00:06:08.208, mean 00 00:00:00.122
-step 3500: train loss 2.558061, val loss 2.5490308, mem 739.5 MiB @ 00 00:07:09.408, mean 00 00:00:00.122
-step 4000: train loss 2.548742, val loss 2.5421014, mem 739.5 MiB @ 00 00:08:10.607, mean 00 00:00:00.122
-step 4500: train loss 2.5365088, val loss 2.5334082, mem 739.7 MiB @ 00 00:09:11.808, mean 00 00:00:00.122
-step 5000: train loss 2.5347583, val loss 2.5292315, mem 740.0 MiB @ 00 00:10:12.999, mean 00 00:00:00.122
-step 5500: train loss 2.530294, val loss 2.5230098, mem 740.0 MiB @ 00 00:11:14.195, mean 00 00:00:00.122
-step 6000: train loss 2.5148194, val loss 2.515789, mem 740.0 MiB @ 00 00:12:15.358, mean 00 00:00:00.122
-step 6500: train loss 2.5099423, val loss 2.5095465, mem 740.0 MiB @ 00 00:13:16.543, mean 00 00:00:00.122
-step 7000: train loss 2.5146213, val loss 2.5127692, mem 740.5 MiB @ 00 00:14:17.721, mean 00 00:00:00.122
-step 7500: train loss 2.5060015, val loss 2.504297, mem 740.5 MiB @ 00 00:15:18.875, mean 00 00:00:00.122
-step 8000: train loss 2.5189407, val loss 2.5052562, mem 740.5 MiB @ 00 00:16:20.022, mean 00 00:00:00.122
-step 8500: train loss 2.5036879, val loss 2.5054653, mem 740.5 MiB @ 00 00:17:21.178, mean 00 00:00:00.122
-step 9000: train loss 2.496351, val loss 2.4987144, mem 740.5 MiB @ 00 00:18:22.318, mean 00 00:00:00.122
-step 9500: train loss 2.4912844, val loss 2.4940393, mem 740.5 MiB @ 00 00:19:23.455, mean 00 00:00:00.122
-step 10000: train loss 2.4919074, val loss 2.4977922, mem 740.5 MiB @ 00 00:20:24.601, mean 00 00:00:00.122
-step 10500: train loss 2.4894023, val loss 2.4935718, mem 740.5 MiB @ 00 00:21:25.750, mean 00 00:00:00.122
-step 11000: train loss 2.5133002, val loss 2.5183408, mem 740.6 MiB @ 00 00:22:26.872, mean 00 00:00:00.122
-step 11500: train loss 2.5187078, val loss 2.5185654, mem 740.6 MiB @ 00 00:23:27.980, mean 00 00:00:00.122
-step 12000: train loss 2.5184162, val loss 2.5199928, mem 740.6 MiB @ 00 00:24:29.138, mean 00 00:00:00.122
-step 12500: train loss 2.5150337, val loss 2.51247, mem 740.6 MiB @ 00 00:25:30.262, mean 00 00:00:00.122
-step 13000: train loss 2.5127447, val loss 2.510491, mem 740.6 MiB @ 00 00:26:31.351, mean 00 00:00:00.122
-step 13500: train loss 2.5024757, val loss 2.5108242, mem 740.6 MiB @ 00 00:27:32.444, mean 00 00:00:00.122
-step 14000: train loss 2.498589, val loss 2.4986157, mem 740.6 MiB @ 00 00:28:33.574, mean 00 00:00:00.122
-step 14500: train loss 2.4960895, val loss 2.498068, mem 740.6 MiB @ 00 00:29:34.700, mean 00 00:00:00.122
-step 15000: train loss 2.48616, val loss 2.4938173, mem 740.6 MiB @ 00 00:30:35.814, mean 00 00:00:00.122
-step 15500: train loss 2.4823995, val loss 2.487768, mem 740.6 MiB @ 00 00:31:36.914, mean 00 00:00:00.122
-step 16000: train loss 2.4826615, val loss 2.4893112, mem 741.1 MiB @ 00 00:32:38.020, mean 00 00:00:00.122
-step 16500: train loss 2.481872, val loss 2.4945607, mem 741.1 MiB @ 00 00:33:39.129, mean 00 00:00:00.122
-step 17000: train loss 2.4820302, val loss 2.4879973, mem 741.5 MiB @ 00 00:34:40.242, mean 00 00:00:00.122
-step 17500: train loss 2.479593, val loss 2.4883258, mem 741.5 MiB @ 00 00:35:41.330, mean 00 00:00:00.122
+step 0: train loss 4.323465, val loss 4.313903, mem 681.6 MiB @ 00 00:00:00.000, mean 00 00:00:00.000
+step 500: train loss 2.6450615, val loss 2.6477497, mem 784.1 MiB @ 00 00:01:01.572, mean 00 00:00:00.123
+step 1000: train loss 2.6040258, val loss 2.592008, mem 784.1 MiB @ 00 00:02:03.200, mean 00 00:00:00.123
+step 1500: train loss 2.6052911, val loss 2.5823283, mem 784.2 MiB @ 00 00:03:04.606, mean 00 00:00:00.122
+step 2000: train loss 2.592185, val loss 2.573713, mem 784.2 MiB @ 00 00:04:05.971, mean 00 00:00:00.122
+step 2500: train loss 2.5700061, val loss 2.5632617, mem 784.2 MiB @ 00 00:05:07.307, mean 00 00:00:00.122
+step 3000: train loss 2.5861602, val loss 2.5553243, mem 786.2 MiB @ 00 00:06:08.633, mean 00 00:00:00.122
+step 3500: train loss 2.558061, val loss 2.5490308, mem 786.2 MiB @ 00 00:07:09.934, mean 00 00:00:00.122
+step 4000: train loss 2.548742, val loss 2.5421014, mem 786.5 MiB @ 00 00:08:11.226, mean 00 00:00:00.122
+step 4500: train loss 2.5365088, val loss 2.5334082, mem 786.5 MiB @ 00 00:09:12.512, mean 00 00:00:00.122
+step 5000: train loss 2.5347583, val loss 2.5292315, mem 786.5 MiB @ 00 00:10:13.786, mean 00 00:00:00.122
+step 5500: train loss 2.530294, val loss 2.5230098, mem 786.5 MiB @ 00 00:11:15.054, mean 00 00:00:00.122
+step 6000: train loss 2.5148194, val loss 2.515789, mem 786.5 MiB @ 00 00:12:16.314, mean 00 00:00:00.122
+step 6500: train loss 2.5099423, val loss 2.5095465, mem 786.7 MiB @ 00 00:13:17.573, mean 00 00:00:00.122
+step 7000: train loss 2.5146213, val loss 2.5127692, mem 786.8 MiB @ 00 00:14:18.824, mean 00 00:00:00.122
+step 7500: train loss 2.5060015, val loss 2.504297, mem 786.8 MiB @ 00 00:15:20.086, mean 00 00:00:00.122
+step 8000: train loss 2.5189407, val loss 2.5052562, mem 786.8 MiB @ 00 00:16:21.343, mean 00 00:00:00.122
+step 8500: train loss 2.5036879, val loss 2.5054653, mem 786.8 MiB @ 00 00:17:22.606, mean 00 00:00:00.122
+step 9000: train loss 2.496351, val loss 2.4987144, mem 786.8 MiB @ 00 00:18:23.865, mean 00 00:00:00.122
+step 9500: train loss 2.4912844, val loss 2.4940393, mem 786.8 MiB @ 00 00:19:25.118, mean 00 00:00:00.122
+step 10000: train loss 2.4919074, val loss 2.4977922, mem 786.8 MiB @ 00 00:20:26.364, mean 00 00:00:00.122
+step 10500: train loss 2.4894023, val loss 2.4935718, mem 786.8 MiB @ 00 00:21:27.611, mean 00 00:00:00.122
+step 11000: train loss 2.5133002, val loss 2.5183408, mem 786.8 MiB @ 00 00:22:28.843, mean 00 00:00:00.122
+step 11500: train loss 2.5187078, val loss 2.5185654, mem 786.8 MiB @ 00 00:23:30.070, mean 00 00:00:00.122
+step 12000: train loss 2.5184162, val loss 2.5199928, mem 787.2 MiB @ 00 00:24:31.299, mean 00 00:00:00.122
+step 12500: train loss 2.5150337, val loss 2.51247, mem 787.2 MiB @ 00 00:25:32.522, mean 00 00:00:00.122
+step 13000: train loss 2.5127447, val loss 2.510491, mem 787.2 MiB @ 00 00:26:33.743, mean 00 00:00:00.122
+step 13500: train loss 2.5024757, val loss 2.5108242, mem 787.2 MiB @ 00 00:27:34.967, mean 00 00:00:00.122
+step 14000: train loss 2.498589, val loss 2.4986157, mem 787.2 MiB @ 00 00:28:36.177, mean 00 00:00:00.122
+step 14500: train loss 2.4960895, val loss 2.498068, mem 787.2 MiB @ 00 00:29:37.396, mean 00 00:00:00.122
+step 15000: train loss 2.48616, val loss 2.4938173, mem 787.2 MiB @ 00 00:30:38.608, mean 00 00:00:00.122
+step 15500: train loss 2.4823995, val loss 2.487768, mem 787.2 MiB @ 00 00:31:39.825, mean 00 00:00:00.122
+step 16000: train loss 2.4826615, val loss 2.4893112, mem 787.2 MiB @ 00 00:32:41.040, mean 00 00:00:00.122
+step 16500: train loss 2.481872, val loss 2.4945607, mem 787.2 MiB @ 00 00:33:42.252, mean 00 00:00:00.122
+step 17000: train loss 2.4820302, val loss 2.4879973, mem 787.4 MiB @ 00 00:34:43.456, mean 00 00:00:00.122
+step 17500: train loss 2.479593, val loss 2.4883258, mem 787.4 MiB @ 00 00:35:44.664, mean 00 00:00:00.122
+step 18000: train loss 2.4769208, val loss 2.487423, mem 787.5 MiB @ 00 00:36:45.861, mean 00 00:00:00.122
+step 18500: train loss 2.4766474, val loss 2.486999, mem 787.5 MiB @ 00 00:37:47.050, mean 00 00:00:00.122
+step 19000: train loss 2.4738803, val loss 2.4839902, mem 787.5 MiB @ 00 00:38:48.241, mean 00 00:00:00.122
+step 19500: train loss 2.473803, val loss 2.4848185, mem 787.8 MiB @ 00 00:39:49.424, mean 00 00:00:00.122
+step 20000: train loss 2.477286, val loss 2.4849129, mem 787.8 MiB @ 00 00:40:50.620, mean 00 00:00:00.122
+step 20500: train loss 2.4696333, val loss 2.4876788, mem 787.8 MiB @ 00 00:41:51.810, mean 00 00:00:00.122
+step 21000: train loss 2.4718885, val loss 2.4849815, mem 787.8 MiB @ 00 00:42:53.002, mean 00 00:00:00.122
+step 21500: train loss 2.4755368, val loss 2.4872134, mem 788.0 MiB @ 00 00:43:54.195, mean 00 00:00:00.122
+step 22000: train loss 2.473925, val loss 2.490589, mem 788.1 MiB @ 00 00:44:55.387, mean 00 00:00:00.122
+step 22500: train loss 2.4765668, val loss 2.489681, mem 788.1 MiB @ 00 00:45:56.572, mean 00 00:00:00.122
+step 23000: train loss 2.4710932, val loss 2.485692, mem 788.4 MiB @ 00 00:46:57.758, mean 00 00:00:00.122
+step 23500: train loss 2.4713533, val loss 2.4855657, mem 788.4 MiB @ 00 00:47:58.949, mean 00 00:00:00.122
+step 24000: train loss 2.5183237, val loss 2.5333934, mem 788.4 MiB @ 00 00:49:00.142, mean 00 00:00:00.122
+step 24500: train loss 2.5801904, val loss 2.5786324, mem 788.4 MiB @ 00 00:50:01.334, mean 00 00:00:00.122
+step 25000: train loss 2.5822356, val loss 2.5921957, mem 788.4 MiB @ 00 00:51:02.522, mean 00 00:00:00.122
+step 25500: train loss 2.5760913, val loss 2.5798287, mem 788.4 MiB @ 00 00:52:03.705, mean 00 00:00:00.122
+step 26000: train loss 2.5733721, val loss 2.570365, mem 788.4 MiB @ 00 00:53:04.881, mean 00 00:00:00.122
+step 26500: train loss 2.5651577, val loss 2.5623999, mem 788.4 MiB @ 00 00:54:06.054, mean 00 00:00:00.122
+step 27000: train loss 2.5634124, val loss 2.5706756, mem 788.4 MiB @ 00 00:55:07.225, mean 00 00:00:00.122
+step 27500: train loss 2.5636797, val loss 2.5603108, mem 788.6 MiB @ 00 00:56:08.397, mean 00 00:00:00.122
+step 28000: train loss 2.6098087, val loss 2.6129193, mem 788.7 MiB @ 00 00:57:09.559, mean 00 00:00:00.122
+step 28500: train loss 2.618819, val loss 2.6239161, mem 788.7 MiB @ 00 00:58:10.714, mean 00 00:00:00.122
+step 29000: train loss 2.6117961, val loss 2.615928, mem 788.7 MiB @ 00 00:59:11.868, mean 00 00:00:00.122
+step 29500: train loss 2.6097026, val loss 2.6104064, mem 788.7 MiB @ 00 01:00:13.026, mean 00 00:00:00.122
+step 30000: train loss 2.5985773, val loss 2.6003296, mem 788.7 MiB @ 00 01:01:14.189, mean 00 00:00:00.122
+step 30500: train loss 2.5865088, val loss 2.5940638, mem 789.0 MiB @ 00 01:02:15.339, mean 00 00:00:00.122
+step 31000: train loss 2.6063125, val loss 2.615357, mem 789.0 MiB @ 00 01:03:16.488, mean 00 00:00:00.122
+step 31500: train loss 2.6071124, val loss 2.6099787, mem 789.0 MiB @ 00 01:04:17.639, mean 00 00:00:00.122
+step 32000: train loss 2.6060927, val loss 2.6165743, mem 789.0 MiB @ 00 01:05:18.782, mean 00 00:00:00.122
+step 32500: train loss 2.6219292, val loss 2.6246011, mem 789.0 MiB @ 00 01:06:19.922, mean 00 00:00:00.122
+step 33000: train loss 2.6350462, val loss 2.6343317, mem 789.0 MiB @ 00 01:07:21.056, mean 00 00:00:00.122
+step 33500: train loss 2.6487403, val loss 2.6501617, mem 789.0 MiB @ 00 01:08:22.183, mean 00 00:00:00.122
+step 34000: train loss 2.637182, val loss 2.6348271, mem 789.0 MiB @ 00 01:09:23.326, mean 00 00:00:00.122
+step 34500: train loss 2.639089, val loss 2.6296916, mem 789.0 MiB @ 00 01:10:24.468, mean 00 00:00:00.122
+step 35000: train loss 2.6400087, val loss 2.6351116, mem 789.2 MiB @ 00 01:11:25.603, mean 00 00:00:00.122
+step 35500: train loss 2.6577828, val loss 2.6577764, mem 789.2 MiB @ 00 01:12:26.740, mean 00 00:00:00.122
+step 36000: train loss 2.6721225, val loss 2.6708014, mem 789.2 MiB @ 00 01:13:27.855, mean 00 00:00:00.122
+step 36500: train loss 2.6846857, val loss 2.6851218, mem 789.2 MiB @ 00 01:14:28.981, mean 00 00:00:00.122
+step 37000: train loss 2.6869748, val loss 2.6891942, mem 789.2 MiB @ 00 01:15:30.098, mean 00 00:00:00.122
+step 37500: train loss 2.6840727, val loss 2.6849327, mem 795.1 MiB @ 00 01:16:31.193, mean 00 00:00:00.122
+step 38000: train loss 2.6867676, val loss 2.6930857, mem 795.1 MiB @ 00 01:17:32.284, mean 00 00:00:00.122
+step 38500: train loss 2.693542, val loss 2.6937194, mem 795.1 MiB @ 00 01:18:33.372, mean 00 00:00:00.122
+step 39000: train loss 2.7057776, val loss 2.708016, mem 795.1 MiB @ 00 01:19:34.452, mean 00 00:00:00.122
+step 39500: train loss 2.7452104, val loss 2.7512689, mem 795.1 MiB @ 00 01:20:35.531, mean 00 00:00:00.122
+step 40000: train loss 2.7620893, val loss 2.766192, mem 795.1 MiB @ 00 01:21:36.640, mean 00 00:00:00.122
+step 40500: train loss 2.7722986, val loss 2.779524, mem 795.1 MiB @ 00 01:22:37.733, mean 00 00:00:00.122
+step 41000: train loss 2.771662, val loss 2.7803314, mem 795.4 MiB @ 00 01:23:38.823, mean 00 00:00:00.122
+step 41499: train loss 2.7747116, val loss 2.779926, mem 795.7 MiB @ 00 01:24:39.797, mean 00 00:00:00.121
+step 41500: train loss 2.774593, val loss 2.781358, @ 00 01:24:39.921, mean 00 00:00:00.122
+Exception in thread "main" java.lang.RuntimeException: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 has a total capacty of 23.69 GiB of which 2.81 MiB is free. Process 2699454 has 23.68 GiB memory in use. Of the allocated memory 23.30 GiB is allocated by PyTorch, and 77.50 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+Exception raised from malloc at /home/runner/work/javacpp-presets/javacpp-presets/pytorch/cppbuild/linux-x86_64-gpu/pytorch/c10/cuda/CUDACachingAllocator.cpp:1438 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x6c (0x7f307525028c in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10.so)
+frame #1: <unknown function> + 0x325b0 (0x7f306e9b45b0 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10_cuda.so)
+frame #2: <unknown function> + 0x32a76 (0x7f306e9b4a76 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10_cuda.so)
+frame #3: <unknown function> + 0x32ee6 (0x7f306e9b4ee6 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libc10_cuda.so)
+frame #4: <unknown function> + 0x12f0e6c (0x7f2fb2d3fe6c in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #5: at::detail::empty_generic(c10::ArrayRef<long>, c10::Allocator*, c10::DispatchKeySet, c10::ScalarType, c10::optional<c10::MemoryFormat>) + 0x28 (0x7f2fb2d38288 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #6: at::detail::empty_cuda(c10::ArrayRef<long>, c10::ScalarType, c10::optional<c10::Device>, c10::optional<c10::MemoryFormat>) + 0x9a (0x7f2f912c7dea in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
+frame #7: at::detail::empty_cuda(c10::ArrayRef<long>, c10::optional<c10::ScalarType>, c10::optional<c10::Layout>, c10::optional<c10::Device>, c10::optional<bool>, c10::optional<c10::MemoryFormat>) + 0x45 (0x7f2f912c7f75 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
+frame #8: at::detail::empty_cuda(c10::ArrayRef<long>, c10::TensorOptions const&) + 0x123 (0x7f2f912c8103 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
+frame #9: <unknown function> + 0x2f47639 (0x7f2f93381639 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
+frame #10: <unknown function> + 0x3026149 (0x7f2f93460149 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
+frame #11: at::meta::structured_mm::meta(at::Tensor const&, at::Tensor const&) + 0x1be (0x7f2fb3250c7e in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #12: <unknown function> + 0x2fde0ca (0x7f2f934180ca in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
+frame #13: <unknown function> + 0x2fde178 (0x7f2f93418178 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cuda.so)
+frame #14: at::_ops::mm::redispatch(c10::DispatchKeySet, at::Tensor const&, at::Tensor const&) + 0x8a (0x7f2fb3f071aa in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #15: <unknown function> + 0x42dfe84 (0x7f2fb5d2ee84 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #16: <unknown function> + 0x42e0adb (0x7f2fb5d2fadb in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #17: at::_ops::mm::call(at::Tensor const&, at::Tensor const&) + 0x175 (0x7f2fb3f5ffb5 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #18: <unknown function> + 0x1806e55 (0x7f2fb3255e55 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #19: at::native::matmul(at::Tensor const&, at::Tensor const&) + 0x5d (0x7f2fb325bb4d in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #20: <unknown function> + 0x2b5e438 (0x7f2fb45ad438 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #21: at::_ops::matmul::call(at::Tensor const&, at::Tensor const&) + 0x175 (0x7f2fb40a3d85 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #22: torch::nn::LinearImpl::forward(at::Tensor const&) + 0x118 (0x7f2fb72ab5c8 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libtorch_cpu.so)
+frame #23: Java_org_bytedeco_pytorch_LinearImpl_forward + 0xc7 (0x7f2f8f1c0ea7 in /home/vscode/.javacpp/cache/pytorch-2.1.0-1.5.10-20231111.041521-6-linux-x86_64-gpu.jar/org/bytedeco/pytorch/linux-x86_64-gpu/libjnitorch.so)
+frame #24: [0x7f325d05ac8f]
+
+	at org.bytedeco.pytorch.LinearImpl.forward(Native Method)
+	at torch.nn.modules.linear.Linear.apply(Linear.scala:74)
+	at gpt.V2$Head_2.forward(v2.scala:720)
+	at gpt.V2$Head_2.apply(v2.scala:738)
+	at gpt.V2$Head_2.apply(v2.scala:738)
+	at gpt.V2$MultiHeadAttention.$anonfun$6(v2.scala:783)
+	at scala.collection.Iterator$$anon$9.next(Iterator.scala:584)
+	at scala.collection.immutable.List.prependedAll(List.scala:156)
+	at scala.collection.immutable.List$.from(List.scala:684)
+	at scala.collection.immutable.List$.from(List.scala:681)
+	at scala.collection.IterableFactory$Delegate.from(Factory.scala:288)
+	at scala.collection.immutable.Iterable$.from(Iterable.scala:35)
+	at scala.collection.immutable.Iterable$.from(Iterable.scala:32)
+	at scala.collection.IterableOps.map(Iterable.scala:682)
+	at scala.collection.IterableOps.map$(Iterable.scala:682)
+	at torch.nn.modules.container.ModuleList.map(ModuleList.scala:48)
+	at gpt.V2$MultiHeadAttention.forward(v2.scala:783)
+	at gpt.V2$MultiHeadAttention.apply(v2.scala:786)
+	at gpt.V2$Block.forward(v2.scala:872)
+	at gpt.V2$Block.apply(v2.scala:876)
+	at gpt.V2$Block.apply(v2.scala:876)
+	at torch.nn.modules.container.Sequential.apply$$anonfun$1(Sequential.scala:35)
+	at scala.collection.IterableOnceOps.foldLeft(IterableOnce.scala:643)
+	at scala.collection.IterableOnceOps.foldLeft$(IterableOnce.scala:669)
+	at scala.collection.AbstractIterable.foldLeft(Iterable.scala:933)
+	at torch.nn.modules.container.Sequential.apply(Sequential.scala:35)
+	at gpt.V2$GPTLanguageModel.forward(v2.scala:998)
+	at gpt.V2$GPTLanguageModel.apply(v2.scala:1038)
+	at gpt.V2$GPTLanguageModel.generate$$anonfun$1(v2.scala:1023)
+	at scala.runtime.java8.JFunction1$mcVI$sp.apply(JFunction1$mcVI$sp.scala:18)
+	at scala.collection.immutable.Range.foreach(Range.scala:190)
+	at gpt.V2$GPTLanguageModel.generate(v2.scala:1031)
+	at gpt.V2$.main(v2.scala:1165)
+	at gpt.V2.main(v2.scala)
 1 targets failed
 examples.runMain subprocess failed
