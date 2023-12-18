@@ -993,12 +993,12 @@ object V2:
     // https://machinelearningmastery.com/weight-initialization-for-deep-learning-neural-networks/
     private def init_weights(m: Module): Unit = 
       m match
-        case lm : nn.Linear[_] => 
+        case lm : nn.Linear[?] => 
           torch.nn.init.normal_(lm.weight, mean=init_mean, std=init_std)
           if lm.hasBias()
           then
             torch.nn.init.zeros_(lm.bias)
-        case em : nn.Embedding[_] => 
+        case em : nn.Embedding[?] => 
           torch.nn.init.normal_(em.weight, mean=init_mean, std=init_std)
         case _ => ()
 
