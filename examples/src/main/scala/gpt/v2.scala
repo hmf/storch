@@ -41,9 +41,22 @@ import torch.nn.modules.HasWeight
 
 
 /**
-  * ./mill examples.runMain gpt.V2
-  * nohup ./mill examples.runMain gpt.V2 > v2_0.txt 2>&1 &
+  * This is code translated from Andrej Karpathy's [[video https://www.youtube.com/watch?v=kCc8FmEb1nY]]
+  * titled "Let's build GPT: from scratch, in code, spelled out." The video also provides
+  * links to:
+  * * [[A Google colab for the video https://colab.research.google.com/drive/1JMLa53HDuA-i7ZBmqV7ZnA3c_fvtXnx-?usp=sharing]]
+  * * [[GitHub repo for the video https://github.com/karpathy/ng-video-lecture]]
+  * This code tries to replicate the [[original PyTorch code https://github.com/karpathy/ng-video-lecture/blob/master/gpt.py]]
   * 
+  * Unfortunately the results are not on par with the original. The code works best when 
+  * weight initialization is **not** used. The number of epochs learned must be significantly 
+  * larger (2 orders of magnitude) above the original. 
+  * As per the `gpt.py` code, weight initialization produces much worse results. 
+  * 
+  * ./mill -i examples.runMain gpt.V2
+  * nohup ./mill -i examples.runMain gpt.V2 > v2_0.txt 2>&1 &
+  *
+  *  
   * @see https://github.com/karpathy/ng-video-lecture/blob/master/gpt.py
   */
 object V2:
