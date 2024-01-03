@@ -7,8 +7,6 @@ apt-get upgrade -y
 # install Python packages
 # python3 -m pip install --upgrade pip
 # python3 -m pip install -r requirements.txt
-<<<<<<< HEAD
-=======
 
 # https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html
 # sudo apt-get update
@@ -19,4 +17,3 @@ curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89
 sudo chmod 644 /etc/apt/trusted.gpg.d/scalasbt-release.gpg
 sudo apt-get update
 sudo apt-get install sbt
->>>>>>> pytorch_2_1
